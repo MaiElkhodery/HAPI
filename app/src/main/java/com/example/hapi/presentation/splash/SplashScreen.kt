@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.main.navigateToMain
 import com.example.hapi.ui.theme.GreenAppColor
 import kotlinx.coroutines.delay
 
@@ -74,7 +75,7 @@ fun Splash(navController: NavController) {
                 }
 
                 else -> {
-                    //navController.navigateToMain()
+                    navController.navigateToMain()
                 }
             }
         }

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">hapi</string>
+    <string name="first_time">FIRST TIME USER</string>
+    <string name="signup">SIGNUP</string>
+    <string name="have_account">ALREADY HAVE AN ACCOUNT</string>
+    <string name="signin">SIGNIN</string>
+    <string name="or">OR</string>
+    <string name="detect_now">DETECT NOW AS A GUEST</string>
 </resources>

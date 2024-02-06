@@ -4,4 +4,11 @@
     <string name="are_you">ARE YOU A....</string>
     <string name="landowner">LANDOWNER?</string>
     <string name="farmer">FARMER?</string>
+    <string name="setting_up">SETTING_UP</string>
+    <string name="your_account">YOUR ACCOUNT</string>
+    <string name="phone_number">PHONE NUMBER</string>
+    <string name="user_name">USERNAME</string>
+    <string name="farm_id">FARM ID</string>
+    <string name="password">PASSWORD</string>
+    <string name="confirm_signup"><![CDATA[CONFIRM&SIGNUP]]></string>
 </resources>

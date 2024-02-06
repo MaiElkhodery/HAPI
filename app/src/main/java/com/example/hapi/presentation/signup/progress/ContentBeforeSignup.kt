@@ -178,7 +178,7 @@ private fun IdentityText(
 @Preview
 @Composable
 fun SetupMessagePreview() {
-    SetupMessage{}
+    SetupMessage {}
 }
 
 @Preview

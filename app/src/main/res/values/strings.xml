@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">hapi</string>
+    <string name="account_setup">LET US GET YOUR \nACCOUNT SETUP!</string>
+    <string name="are_you">ARE YOU A....</string>
+    <string name="landowner">LANDOWNER?</string>
+    <string name="farmer">FARMER?</string>
 </resources>

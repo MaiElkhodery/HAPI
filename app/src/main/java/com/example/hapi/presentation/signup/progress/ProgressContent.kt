@@ -34,8 +34,10 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
+
 @Composable
 fun SetupMessage(
+    message: String,
     onlClickContinue: () -> Unit
 ) {
     Column(
@@ -52,7 +54,7 @@ fun SetupMessage(
                     R.font.poppins_black
                 )
             ),
-            text = stringResource(id = R.string.account_setup),
+            text = message,
             textAlign = TextAlign.Center
         )
         Box(
@@ -178,7 +180,7 @@ private fun IdentityText(
 @Preview
 @Composable
 fun SetupMessagePreview() {
-    SetupMessage{}
+    SetupMessage(stringResource(id = R.string.account_setup)) {}
 }
 
 @Preview

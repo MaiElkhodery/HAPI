@@ -15,9 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -26,7 +26,10 @@ import com.example.hapi.presentation.signup.farmersignup.ui.navToFarmerSignup
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
-fun ProgressScreen(navController: NavController) {
+fun ProgressScreen(
+    navController: NavController,
+    isFinal: Boolean = false
+) {
 
     var continueClicked by remember {
         mutableStateOf(false)
@@ -68,21 +71,30 @@ fun ProgressScreen(navController: NavController) {
                 },
             contentAlignment = Alignment.Center
         ) {
-            if (continueClicked) {
-                IdentitySelection(
-                    onClickLandowner = {
-                        //TODO:NAV TO LANDOWNER SIGN UP
-                    },
-                    onclickFarmer = {
-                        navController.navToFarmerSignup()
-                    }
-                )
+            if (isFinal) {
+                SetupMessage(
+                    message = stringResource(id = R.string.congratulation)
+                ) {
+                    //TODO:NAV TO HOME
+                }
             } else {
-                SetupMessage {
-                    continueClicked = true
+                if (continueClicked) {
+                    IdentitySelection(
+                        onClickLandowner = {
+                            //TODO:NAV TO LANDOWNER SIGN UP
+                        },
+                        onclickFarmer = {
+                            navController.navToFarmerSignup()
+                        }
+                    )
+                } else {
+                    SetupMessage(
+                        message = stringResource(id = R.string.account_setup)
+                    ) {
+                        continueClicked = true
+                    }
                 }
             }
-
         }
         Box(
             modifier = Modifier

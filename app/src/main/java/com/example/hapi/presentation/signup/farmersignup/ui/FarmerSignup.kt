@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupEvent
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupViewModel
+import com.example.hapi.presentation.signup.progress.navigateToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -104,6 +105,7 @@ fun FarmerSignup(
             text = stringResource(id = R.string.confirm_signup)
         ) {
             //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
+            navController.navigateToProgress(isFinal = true)
         }
     }
 }

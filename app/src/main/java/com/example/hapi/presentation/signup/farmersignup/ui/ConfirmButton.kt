@@ -1,12 +1,16 @@
-package com.example.hapi.presentation.signup.farmersignup
+package com.example.hapi.presentation.signup.farmersignup.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
+import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
@@ -32,38 +37,40 @@ fun ConfirmButton(
     text: String,
     onClick: () -> Unit
 ) {
-    Row(
+    Box (
         modifier = modifier
             .height(IntrinsicSize.Max)
-            .clip(RoundedCornerShape(5.dp))
-    ) {
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ){
+        Row(
+            modifier =Modifier
+                .clip(RoundedCornerShape(5.dp)),
+        ) {
 
-        BlackGreenText(
-            text = text,
-            modifier = Modifier.weight(5f)
-        )
+            GreenText(text = text)
 
-        ContinueButton(modifier = Modifier.weight(1f)) {
-            onClick()
+            ContinueButton { onClick() }
+
         }
-
     }
+
 }
 
 @Composable
-private fun BlackGreenText(
-    text: String,
-    modifier: Modifier
+private fun GreenText(
+    text: String
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .background(YellowAppColor)
-            .fillMaxHeight(),
+            .fillMaxHeight()
+            .padding(horizontal = 24.dp, vertical = 5.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
-            color = DarkGreenAppColor,
+            color = GreenAppColor,
             fontSize = 18.sp,
             fontFamily = FontFamily(
                 Font(
@@ -77,11 +84,10 @@ private fun BlackGreenText(
 
 @Composable
 private fun ContinueButton(
-    modifier: Modifier,
     onClick: () -> Unit
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .background(DarkGreenAppColor)
             .fillMaxHeight()
             .clickable {

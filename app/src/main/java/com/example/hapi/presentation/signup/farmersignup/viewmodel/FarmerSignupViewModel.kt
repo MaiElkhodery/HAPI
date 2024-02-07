@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.farmersignup
+package com.example.hapi.presentation.signup.farmersignup.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +19,13 @@ class FarmerSignupViewModel @Inject constructor(
     private var _username = MutableStateFlow("")
     var username = _username.asStateFlow()
 
-    private var _usernameError = MutableStateFlow("")
+    private var _usernameError = MutableStateFlow("THIS USERNAME IS NOT VALID")
     var usernameError = _usernameError.asStateFlow()
 
     private var _farmId = MutableStateFlow("")
     var farmId = _farmId.asStateFlow()
 
-    private var _farmIdError = MutableStateFlow("")
+    private var _farmIdError = MutableStateFlow("Not Valid")
     var farmIdError = _farmIdError.asStateFlow()
 
     private var _phoneNumber = MutableStateFlow("")
@@ -34,4 +34,27 @@ class FarmerSignupViewModel @Inject constructor(
     private var _phoneNumberError = MutableStateFlow("")
     var phoneNumberError = _phoneNumberError.asStateFlow()
 
+    fun onEvent(event: FarmerSignupEvent) {
+        when (event) {
+            is FarmerSignupEvent.ChangeFarmId -> {
+                _farmId.value = event.farmId
+            }
+
+            is FarmerSignupEvent.ChangePassword -> {
+                _password.value = event.password
+            }
+
+            is FarmerSignupEvent.ChangePhoneNumber -> {
+                _phoneNumber.value = event.phoneNumber
+            }
+
+            is FarmerSignupEvent.ChangeUsrName -> {
+                _username.value = event.username
+            }
+        }
+    }
+
+    fun signup(){
+
+    }
 }

@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.farmersignup.ui.navToFarmerSignup
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -38,7 +39,6 @@ fun ProgressScreen(navController: NavController) {
 
         val topGuideLine = createGuidelineFromTop(.1f)
         val (logoBox, cropBox, contentBox) = createRefs()
-        createVerticalChain(logoBox,contentBox,cropBox, chainStyle = ChainStyle.Spread)
 
         Box(
             modifier = Modifier
@@ -74,7 +74,7 @@ fun ProgressScreen(navController: NavController) {
                         //TODO:NAV TO LANDOWNER SIGN UP
                     },
                     onclickFarmer = {
-                        //TODO:NAV TO FARMER SIGN UP
+                        navController.navToFarmerSignup()
                     }
                 )
             } else {

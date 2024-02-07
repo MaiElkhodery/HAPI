@@ -1,13 +1,16 @@
-package com.example.hapi.presentation.signup.farmersignup
+package com.example.hapi.presentation.signup.farmersignup.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -54,8 +57,7 @@ fun LabeledInputField(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.Start
     ) {
         when (title) {
@@ -63,7 +65,7 @@ fun LabeledInputField(
                 Label(title)
                 InputField(
                     content = content,
-                    imageId = R.drawable.phone,
+                    imageId = R.drawable.phone
                 ) { phoneNumber ->
                     onChangeContent(phoneNumber)
                 }
@@ -91,111 +93,15 @@ fun LabeledInputField(
 
             else -> {
                 Label(title)
-                PasswordInputField(
+                InputField(
                     content = content,
                     imageId = R.drawable.password,
+                    isPasswordField = true
                 ) { password ->
                     onChangeContent(password)
                 }
             }
         }
-    }
-
-}
-
-@Composable
-private fun PasswordInputField(
-    content: StateFlow<String>,
-    imageId: Int,
-    onChange: (String) -> Unit
-) {
-
-    var passwordVisible by remember { mutableStateOf(false) }
-    val text = content.collectAsState()
-    val onFocus = remember {
-        mutableStateOf(false)
-    }
-    var backgroundColor by remember {
-        mutableStateOf(YellowAppColor)
-    }
-    var textColor by remember {
-        mutableStateOf(YellowAppColor)
-    }
-    var trailingIconColor by remember {
-        mutableStateOf(YellowAppColor)
-    }
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(backgroundColor),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        if (!onFocus.value) {
-            Icon(
-                modifier = Modifier
-                    .weight(0.11f),
-                painter = painterResource(id = imageId),
-                contentDescription = null,
-                tint = GreenAppColor
-            )
-        }
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .border(
-                    width = 4.dp,
-                    color = YellowAppColor
-                )
-                .background(backgroundColor)
-                .onFocusChanged {
-                    if (it.isFocused) {
-                        backgroundColor = GreenAppColor
-                        textColor = YellowAppColor
-                        trailingIconColor = YellowAppColor
-                        onFocus.value = true
-                    } else {
-                        backgroundColor = YellowAppColor
-                        textColor = GreenAppColor
-                        trailingIconColor = GreenAppColor
-                        onFocus.value = false
-                    }
-                },
-            maxLines = 1,
-            value = text.value,
-            onValueChange = {
-                onChange(it)
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = YellowAppColor,
-                unfocusedBorderColor = YellowAppColor,
-                focusedTextColor = YellowAppColor,
-                unfocusedTextColor = GreenAppColor
-            ),
-            textStyle = TextStyle(
-                color = textColor,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
-                ),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            ),
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                val image = if (passwordVisible)
-                    Icons.Filled.Visibility
-                else Icons.Filled.VisibilityOff
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = null, tint = trailingIconColor)
-                }
-            }
-        )
     }
 
 }
@@ -220,11 +126,13 @@ private fun Label(
 private fun InputField(
     content: StateFlow<String>,
     imageId: Int,
+    isPasswordField: Boolean = false,
     onChangeText: (String) -> Unit
 ) {
     val text = content.collectAsState()
+
     val onFocus = remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     var backgroundColor by remember {
         mutableStateOf(YellowAppColor)
@@ -232,77 +140,97 @@ private fun InputField(
     var textColor by remember {
         mutableStateOf(YellowAppColor)
     }
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    var trailingIconColor by remember {
+        mutableStateOf(YellowAppColor)
+    }
+
+    val borderModifier = Modifier
+        .border(width = 4.dp, color = YellowAppColor)
+        .onFocusChanged {
+            onFocus.value = it.isFocused
+            backgroundColor = if (it.isFocused) GreenAppColor else YellowAppColor
+            textColor = if (it.isFocused) YellowAppColor else GreenAppColor
+            trailingIconColor = if (it.isFocused) YellowAppColor else GreenAppColor
+        }
+
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(6.dp))
             .fillMaxWidth()
-            .background(backgroundColor),
+            .background(backgroundColor)
+            .clickable {
+                onFocus.value = !onFocus.value
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
         if (!onFocus.value) {
             Icon(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .weight(0.11f)
+                    .size(33.dp)
+                    .padding(start = 12.dp),
                 painter = painterResource(id = imageId),
                 contentDescription = null,
                 tint = GreenAppColor
             )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = text.value,
-                color = GreenAppColor,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_bold
-                    )
-                ),
-                textAlign = TextAlign.Start
-            )
-        } else {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(GreenAppColor)
-                    .onFocusChanged {
-                        if (it.isFocused) {
-                            backgroundColor = GreenAppColor
-                            textColor = YellowAppColor
-                            onFocus.value = true
-                        } else {
-                            backgroundColor = YellowAppColor
-                            textColor = GreenAppColor
-                            onFocus.value = false
-                        }
-                    }
-                    .border(
-                        width = 4.dp,
-                        color = YellowAppColor
-                    ),
-                maxLines = 1,
-                value = text.value,
-                onValueChange = {
-                    onChangeText(it)
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = YellowAppColor,
-                    unfocusedBorderColor = YellowAppColor,
-                    focusedTextColor = YellowAppColor,
-                    unfocusedTextColor = GreenAppColor
-                ),
-                textStyle = TextStyle(
-                    color = textColor,
-                    fontFamily = FontFamily(
-                        Font(
-                            R.font.poppins_bold
-                        )
-                    ),
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Start
-                )
-            )
+
         }
 
+        val visualTransformation = if (isPasswordField) {
+            if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        } else VisualTransformation.None
+
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .wrapContentHeight(Alignment.CenterVertically)
+                .height(52.dp)
+                .then(borderModifier),
+            maxLines = 1,
+            value = text.value,
+            onValueChange = {
+                onChangeText(it)
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = YellowAppColor,
+                unfocusedBorderColor = YellowAppColor,
+                focusedTextColor = YellowAppColor,
+                unfocusedTextColor = GreenAppColor
+            ),
+            textStyle = TextStyle(
+                color = textColor,
+                fontFamily = FontFamily(
+                    Font(
+                        R.font.poppins_black
+                    )
+                ),
+                fontSize = 14.sp,
+                textAlign = TextAlign.Start,
+                lineHeight = 48.sp
+            ),
+            visualTransformation = visualTransformation,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = if (isPasswordField) KeyboardType.Password
+                else KeyboardType.Text
+            ),
+            trailingIcon = {
+                if (isPasswordField) {
+                    val image =
+                        if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = image,
+                            contentDescription = null,
+                            tint = trailingIconColor
+                        )
+                    }
+                }
+            }
+        )
     }
 }
 

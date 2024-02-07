@@ -4,13 +4,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-private const val ROUTE = "progress"
+private const val ROUTE = "progress/{isFinal}"
 fun NavGraphBuilder.progressRoute(navController: NavController) {
 
-    composable(route = ROUTE) {
-        ProgressScreen(navController)
+    composable(route = ROUTE) {backStackEntry->
+        val isFinal = backStackEntry.arguments?.getBoolean("isFinal") ?: false
+        ProgressScreen(navController, isFinal)
     }
 }
-fun NavController.navigateToProgress(){
-    navigate(ROUTE)
+fun NavController.navigateToProgress(
+    isFinal:Boolean = false
+){
+    val route = "progress/$isFinal"
+    navigate(route)
 }

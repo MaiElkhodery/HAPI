@@ -16,6 +16,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.common.ConfirmButton
+import com.example.hapi.presentation.signup.common.LabeledInputField
+import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.signup.common.WarningBox
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupViewModel
 import com.example.hapi.presentation.signup.progress.navigateToProgress
@@ -42,10 +46,12 @@ fun FarmerSignup(
         val topGuideLine = createGuidelineFromTop(.08f)
         val bottomGuideLine = createGuidelineFromBottom(.06f)
 
-        FarmerSignupHeader(
+        SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(topGuideLine)
-            }
+            },
+            topText = stringResource(id = R.string.setting_up),
+            downText = stringResource(id = R.string.your_account)
         )
 
         Column(

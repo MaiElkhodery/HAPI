@@ -1,18 +1,13 @@
 package com.example.hapi.presentation.signup.landownersignup.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,10 +16,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.signup.farmersignup.ui.ConfirmButton
-import com.example.hapi.presentation.signup.farmersignup.ui.FarmerSignupHeader
-import com.example.hapi.presentation.signup.farmersignup.ui.LabeledInputField
-import com.example.hapi.presentation.signup.farmersignup.ui.WarningBox
+import com.example.hapi.presentation.signup.common.LabeledInputField
+import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.signup.common.WarningBox
+import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -46,18 +41,21 @@ fun LandownerSignup(
     ) {
 
         val (header, content, button, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.08f)
+        val topGuideLine = createGuidelineFromTop(.06f)
         val bottomGuideLine = createGuidelineFromBottom(.06f)
 
-        FarmerSignupHeader(
+        SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(topGuideLine)
-            }
+                bottom.linkTo(content.top)
+            },
+            topText = stringResource(id = R.string.setting_up),
+            downText = stringResource(id = R.string.your_account)
         )
 
         Column(
             modifier = Modifier
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
                 .constrainAs(content) {
                     top.linkTo(header.bottom)
                     bottom.linkTo(button.top)
@@ -98,38 +96,21 @@ fun LandownerSignup(
             modifier = Modifier
                 .constrainAs(button) {
                     top.linkTo(content.bottom)
+                    bottom.linkTo(lotusRow.top)
                 },
-            text = stringResource(id = R.string.confirm_signup)
+            text = stringResource(id = R.string.confirm)
         ) {
             //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
         }
 
-        Row(
+        LotusRow(
+            highlightedLotusPos = 0,
             modifier = Modifier
-                .fillMaxWidth()
                 .constrainAs(lotusRow) {
-                    top.linkTo(button.bottom)
+                    top.linkTo(button.bottom, margin = 26.dp)
                     bottom.linkTo(bottomGuideLine)
-                },
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(1.dp)
-                    .size(30.dp),
-                painter = painterResource(id = R.drawable.top_lotus),
-                contentDescription = null,
-            )
-            repeat(3) {
-                Image(
-                    modifier = Modifier
-                        .padding(1.dp)
-                        .size(30.dp),
-                    painter = painterResource(id = R.drawable.lotus2),
-                    contentDescription = null,
-                )
-            }
-        }
+                }
+        )
     }
 }
 

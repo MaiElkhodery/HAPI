@@ -17,7 +17,7 @@ class LandownerViewModel @Inject constructor(
     private var _passwordError = MutableStateFlow("")
     var passwordError = _passwordError.asStateFlow()
 
-    private var _username = MutableStateFlow("")
+    private var _username = MutableStateFlow("mai elsayed")
     var username = _username.asStateFlow()
 
     private var _usernameError = MutableStateFlow("THIS USERNAME IS NOT VALID")
@@ -46,5 +46,9 @@ class LandownerViewModel @Inject constructor(
 
             else -> {}
         }
+    }
+
+    fun signup(){
+
     }
 }

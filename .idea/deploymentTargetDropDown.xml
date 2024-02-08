@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CropRecommendationPreview">
+        <State />
+      </entry>
       <entry key="LandownerSignupPreview">
         <State>
           <targetSelectedWithDropDown>

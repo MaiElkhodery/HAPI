@@ -12,4 +12,5 @@
     <string name="password">PASSWORD</string>
     <string name="confirm_signup">SIGNUP</string>
     <string name="congratulation">CONGRATULATIONS YOU\'RE SETUP</string>
+    <string name="confirm">CONFIRM</string>
 </resources>

@@ -1,13 +1,11 @@
-package com.example.hapi.presentation.signup.farmersignup.ui
+package com.example.hapi.presentation.signup.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -45,7 +43,7 @@ fun ConfirmButton(
     ){
         Row(
             modifier =Modifier
-                .clip(RoundedCornerShape(5.dp)),
+                .clip(RoundedCornerShape(6.dp)),
         ) {
 
             GreenText(text = text)
@@ -71,7 +69,7 @@ private fun GreenText(
         Text(
             text = text,
             color = GreenAppColor,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontFamily = FontFamily(
                 Font(
                     R.font.poppins_black

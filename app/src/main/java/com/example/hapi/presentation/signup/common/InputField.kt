@@ -1,11 +1,13 @@
-package com.example.hapi.presentation.signup.farmersignup.ui
+package com.example.hapi.presentation.signup.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -159,6 +161,7 @@ private fun InputField(
         modifier = Modifier
             .clip(RoundedCornerShape(6.dp))
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .background(backgroundColor)
             .clickable {
                 onFocus.value = !onFocus.value
@@ -186,9 +189,9 @@ private fun InputField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(48.dp)
                 .weight(1f)
                 .wrapContentHeight(Alignment.CenterVertically)
-                .height(52.dp)
                 .then(borderModifier),
             maxLines = 1,
             value = text.value,
@@ -210,7 +213,7 @@ private fun InputField(
                 ),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Start,
-                lineHeight = 48.sp
+                lineHeight = 10.sp
             ),
             visualTransformation = visualTransformation,
             keyboardOptions = KeyboardOptions(
@@ -239,6 +242,6 @@ private fun InputField(
 private fun LabeledInputFieldPreview() {
     LabeledInputField(
         title = "FARM ID",
-        content = MutableStateFlow("1000"),
+        content = MutableStateFlow("1000BFRTQZP"),
     ) {}
 }

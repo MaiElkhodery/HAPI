@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.farmersignup.ui
+package com.example.hapi.presentation.signup.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

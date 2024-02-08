@@ -10,6 +10,6 @@
     <string name="user_name">USERNAME</string>
     <string name="farm_id">FARM ID</string>
     <string name="password">PASSWORD</string>
-    <string name="confirm_signup"><![CDATA[CONFIRM&SIGNUP]]></string>
+    <string name="confirm_signup">SIGNUP</string>
     <string name="congratulation">CONGRATULATIONS YOU\'RE SETUP</string>
 </resources>

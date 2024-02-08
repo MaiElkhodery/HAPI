@@ -113,7 +113,7 @@ private fun Label(
     Text(
         text = title,
         color = YellowAppColor,
-        fontSize = 15.sp,
+        fontSize = 16.sp,
         fontFamily = FontFamily(
             Font(
                 R.font.poppins_black

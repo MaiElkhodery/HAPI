@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupEvent
+import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupViewModel
 import com.example.hapi.presentation.signup.progress.navigateToProgress
 import com.example.hapi.ui.theme.GreenAppColor
@@ -62,7 +62,7 @@ fun FarmerSignup(
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
             ) { phoneNumber ->
-                viewModel.onEvent(FarmerSignupEvent.ChangePhoneNumber(phoneNumber))
+                viewModel.onEvent(SignupEvent.ChangePhoneNumber(phoneNumber))
             }
 
             WarningBox(warningText = phoneNumberError)
@@ -71,7 +71,7 @@ fun FarmerSignup(
                 title = stringResource(id = R.string.user_name),
                 content = viewModel.username
             ) { username ->
-                viewModel.onEvent(FarmerSignupEvent.ChangeUsrName(username))
+                viewModel.onEvent(SignupEvent.ChangeUsrName(username))
             }
 
             WarningBox(warningText = usernameError)
@@ -80,7 +80,7 @@ fun FarmerSignup(
                 title = stringResource(id = R.string.password),
                 content = viewModel.password
             ) { password ->
-                viewModel.onEvent(FarmerSignupEvent.ChangePassword(password))
+                viewModel.onEvent(SignupEvent.ChangePassword(password))
             }
 
             WarningBox(warningText = passwordError)
@@ -89,7 +89,7 @@ fun FarmerSignup(
                 title = stringResource(id = R.string.farm_id),
                 content = viewModel.farmId
             ) { farmId ->
-                viewModel.onEvent(FarmerSignupEvent.ChangeFarmId(farmId))
+                viewModel.onEvent(SignupEvent.ChangeFarmId(farmId))
             }
 
             WarningBox(warningText = farmIdError)

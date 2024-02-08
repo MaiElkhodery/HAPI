@@ -34,21 +34,21 @@ class FarmerSignupViewModel @Inject constructor(
     private var _phoneNumberError = MutableStateFlow("")
     var phoneNumberError = _phoneNumberError.asStateFlow()
 
-    fun onEvent(event: FarmerSignupEvent) {
+    fun onEvent(event: SignupEvent) {
         when (event) {
-            is FarmerSignupEvent.ChangeFarmId -> {
+            is SignupEvent.ChangeFarmId -> {
                 _farmId.value = event.farmId
             }
 
-            is FarmerSignupEvent.ChangePassword -> {
+            is SignupEvent.ChangePassword -> {
                 _password.value = event.password
             }
 
-            is FarmerSignupEvent.ChangePhoneNumber -> {
+            is SignupEvent.ChangePhoneNumber -> {
                 _phoneNumber.value = event.phoneNumber
             }
 
-            is FarmerSignupEvent.ChangeUsrName -> {
+            is SignupEvent.ChangeUsrName -> {
                 _username.value = event.username
             }
         }

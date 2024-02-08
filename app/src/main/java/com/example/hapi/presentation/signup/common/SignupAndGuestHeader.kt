@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.farmersignup.ui
+package com.example.hapi.presentation.signup.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,8 +23,10 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun FarmerSignupHeader(
-    modifier: Modifier
+fun SignupAndGuestHeader(
+    modifier: Modifier,
+    topText:String,
+    downText:String
 ) {
     Row(
         modifier = modifier
@@ -44,7 +45,7 @@ fun FarmerSignupHeader(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = stringResource(id = R.string.setting_up),
+                text = topText,
                 color = YellowAppColor,
                 fontSize = 15.sp,
                 fontFamily = FontFamily(
@@ -54,7 +55,7 @@ fun FarmerSignupHeader(
                 )
             )
             Text(
-                text = stringResource(id = R.string.your_account),
+                text = downText,
                 color = YellowAppColor,
                 fontSize = 15.sp,
                 fontFamily = FontFamily(
@@ -72,5 +73,5 @@ fun FarmerSignupHeader(
 @Preview
 @Composable
 private fun FarmerSignupHeaderPreview() {
-    FarmerSignupHeader(Modifier)
+    SignupAndGuestHeader(Modifier,"set up","your account")
 }

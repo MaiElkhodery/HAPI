@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.hapi.presentation.signup.farmersignup.ui.farmerSignupRoute
+import com.example.hapi.presentation.signup.landownersignup.ui.cropRecommendationRoute
+import com.example.hapi.presentation.signup.landownersignup.ui.landownerSignupRoute
 import com.example.hapi.presentation.signup.progress.progressRoute
 import com.example.hapi.presentation.splash.splashOneRoute
 
@@ -14,5 +16,7 @@ fun NavGraph(navController: NavHostController) {
         splashOneRoute(navController)
         progressRoute(navController)
         farmerSignupRoute(navController)
+        landownerSignupRoute(navController)
+        cropRecommendationRoute(navController)
     }
 }

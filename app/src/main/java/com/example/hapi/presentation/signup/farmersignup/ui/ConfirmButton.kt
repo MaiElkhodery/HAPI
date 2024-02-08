@@ -65,7 +65,7 @@ private fun GreenText(
         modifier = Modifier
             .background(YellowAppColor)
             .fillMaxHeight()
-            .padding(horizontal = 24.dp, vertical = 5.dp),
+            .padding(horizontal = 24.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -96,7 +96,7 @@ private fun ContinueButton(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(46.dp),
+            modifier = Modifier.size(42.dp),
             imageVector = Icons.Default.PlayArrow,
             contentDescription = "next button",
             tint = YellowAppColor
@@ -107,5 +107,5 @@ private fun ContinueButton(
 @Preview
 @Composable
 private fun ConfirmButtonPreview() {
-    ConfirmButton(Modifier, "CONFIRM&SIGNUP") {}
+    ConfirmButton(Modifier, "SIGNUP") {}
 }

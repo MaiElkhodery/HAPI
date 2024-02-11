@@ -31,7 +31,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
 fun ConfirmButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit
 ) {

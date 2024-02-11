@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui
+package com.example.hapi.presentation.signup.landownersignup.ui.info
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

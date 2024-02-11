@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui
+package com.example.hapi.presentation.signup.landownersignup.ui.info
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,7 @@ import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
 import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
+import com.example.hapi.presentation.signup.landownersignup.ui.cropdetection.navToCropDetection
 import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 
@@ -101,7 +102,7 @@ fun LandownerSignup(
             text = stringResource(id = R.string.confirm)
         ) {
             //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
-            navController.navToCropRecommendation()
+            navController.navToCropDetection()
         }
 
         LotusRow(

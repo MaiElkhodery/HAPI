@@ -63,7 +63,7 @@ fun MainButton(
                 .background(DarkGreenAppColor)
                 .weight(1f)
                 .fillMaxHeight()
-                .padding(vertical = 11.dp)
+                .padding(vertical = 5.dp)
                 .height(IntrinsicSize.Min),
             contentAlignment = Alignment.Center
         ){

@@ -140,32 +140,21 @@ private fun InputField(
         mutableStateOf(YellowAppColor)
     }
     var textColor by remember {
-        mutableStateOf(YellowAppColor)
+        mutableStateOf(GreenAppColor)
     }
     var passwordVisible by remember { mutableStateOf(false) }
 
     var trailingIconColor by remember {
-        mutableStateOf(YellowAppColor)
+        mutableStateOf(GreenAppColor)
     }
 
-    val borderModifier = Modifier
-        .border(width = 4.dp, color = YellowAppColor)
-        .onFocusChanged {
-            onFocus.value = it.isFocused
-            backgroundColor = if (it.isFocused) GreenAppColor else YellowAppColor
-            textColor = if (it.isFocused) YellowAppColor else GreenAppColor
-            trailingIconColor = if (it.isFocused) YellowAppColor else GreenAppColor
-        }
 
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(6.dp))
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .background(backgroundColor)
-            .clickable {
-                onFocus.value = !onFocus.value
-            },
+            .background(backgroundColor),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -189,10 +178,17 @@ private fun InputField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(51.dp)
+                .background(backgroundColor)
                 .weight(1f)
                 .wrapContentHeight(Alignment.CenterVertically)
-                .then(borderModifier),
+                .border(width = 4.dp, color = YellowAppColor)
+                .onFocusChanged {
+                    onFocus.value = it.isFocused
+                    backgroundColor = if (it.isFocused) GreenAppColor else YellowAppColor
+                    textColor = if (it.isFocused) YellowAppColor else GreenAppColor
+                    trailingIconColor = if (it.isFocused) YellowAppColor else GreenAppColor
+                },
             maxLines = 1,
             value = text.value,
             onValueChange = {

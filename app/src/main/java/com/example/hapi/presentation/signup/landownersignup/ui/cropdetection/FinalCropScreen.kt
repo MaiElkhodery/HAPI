@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
@@ -16,12 +17,14 @@ import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.landownersignup.ui.info.LotusRow
+import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.presentation.signup.progress.navigateToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
 fun FinalCropScreen(
     navController: NavController,
+    viewModel: LandownerViewModel= hiltViewModel(),
     crop: Crop
 ) {
     ConstraintLayout(
@@ -50,7 +53,7 @@ fun FinalCropScreen(
             },
             crop = crop
         ) {
-            //TODO: COMPLETE SIGNUP
+            viewModel.signup()
             navController.navigateToProgress(isFinal = true)
         }
 
@@ -68,5 +71,5 @@ fun FinalCropScreen(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalCropScreen(rememberNavController(), crops[1])
+    FinalCropScreen(rememberNavController(), LandownerViewModel(),crops[1])
 }

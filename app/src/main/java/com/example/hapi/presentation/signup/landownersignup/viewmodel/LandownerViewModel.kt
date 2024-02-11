@@ -51,4 +51,7 @@ class LandownerViewModel @Inject constructor(
     fun signup(){
 
     }
+    fun confirm(){
+
+    }
 }

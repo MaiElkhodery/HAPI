@@ -101,7 +101,7 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-            //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
+            viewModel.confirm()
             navController.navToCropDetection()
         }
 

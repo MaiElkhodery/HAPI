@@ -10,7 +10,7 @@
     <string name="user_name">USERNAME</string>
     <string name="farm_id">FARM ID</string>
     <string name="password">PASSWORD</string>
-    <string name="confirm_signup">SIGNUP</string>
+    <string name="confirm_signup">CONFIRM&amp;SIGNUP</string>
     <string name="congratulation">CONGRATULATIONS YOU\'RE SETUP</string>
     <string name="confirm">CONFIRM</string>
     <string name="recommend_crop">WANT TO BE \n RECOMMENDED \n A CROP</string>
@@ -18,4 +18,8 @@
     <string name="do_you">DO YOU.....</string>
     <string name="have_crop">ALREADY \n HAVE \n A CROP</string>
     <string name="choose_crop">CHOOSE ONE OF THE AVAILABLE CROPS IN OUR APP (MORE COMING SOON)!</string>
+    <string name="avilable_crop">AVAILABLE CROPS.....</string>
+    <string name="tomato">TOMATO</string>
+    <string name="your_crop">YOUR CROP</string>
+    <string name="potato">POTATO</string>
 </resources>

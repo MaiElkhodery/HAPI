@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui
+package com.example.hapi.presentation.signup.landownersignup.ui.cropdetection
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,24 +27,25 @@ import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
 fun CropRecommendationContent(
-    modifier: Modifier
+    modifier: Modifier,
+    onClickRecommendation: () -> Unit,
+    onClickHaveCrop: () -> Unit
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Title(title = stringResource(id = R.string.do_you))
         RecommendationRaw(
             cardText = stringResource(id = R.string.recommend_crop),
             description = stringResource(id = R.string.use_recommendation)
         ) {
-
+            onClickRecommendation()
         }
         RecommendationRaw(
             cardText = stringResource(id = R.string.have_crop),
             description = stringResource(id = R.string.choose_crop)
         ) {
-
+            onClickHaveCrop()
         }
     }
 }
@@ -75,21 +76,26 @@ private fun RecommendationRaw(
 }
 
 @Composable
-private fun Title(
-    title: String
+fun Title(
+    title: String,
+    modifier: Modifier = Modifier
 ) {
-    Text(
-        modifier = Modifier.padding(bottom = 25.dp),
-        color = YellowAppColor,
-        fontSize = 16.sp,
-        fontFamily = FontFamily(
-            Font(
-                R.font.poppins_black
-            )
-        ),
-        text = title,
-        textAlign = TextAlign.Center
-    )
+    Box (
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ){
+        Text(
+            color = YellowAppColor,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(
+                Font(
+                    R.font.poppins_black
+                )
+            ),
+            text = title,
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Composable
@@ -156,5 +162,5 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun ContentPreview() {
-    CropRecommendationContent(Modifier)
+    CropRecommendationContent(Modifier, {}) {}
 }

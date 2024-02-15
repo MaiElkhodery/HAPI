@@ -30,3 +30,22 @@ fun YellowBlackText(
         textAlign = TextAlign.Center
     )
 }
+@Composable
+fun GreenBlackText(
+    modifier: Modifier = Modifier,
+    size: Int,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        color = GreenAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_black
+            )
+        ),
+        text = text,
+        textAlign = TextAlign.Center
+    )
+}

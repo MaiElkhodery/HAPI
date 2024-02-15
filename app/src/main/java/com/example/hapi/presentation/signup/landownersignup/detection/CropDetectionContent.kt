@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.presentation.signup.common.GreenBlackText
 import com.example.hapi.ui.theme.YellowAppColor
 
 
@@ -76,7 +76,6 @@ private fun RecommendationRaw(
 }
 
 
-
 @Composable
 private fun RecommendationCard(
     modifier: Modifier,
@@ -100,18 +99,8 @@ private fun RecommendationCard(
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                modifier = Modifier,
-                color = GreenAppColor,
-                fontSize = 15.sp,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
-                ),
-                text = text,
-                textAlign = TextAlign.Center
-            )
+            GreenBlackText(size = 15, text = text)
+
         }
     }
 }

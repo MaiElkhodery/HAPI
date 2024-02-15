@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.common.GreenBlackText
 import com.example.hapi.presentation.signup.common.YellowBlackText
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
@@ -152,7 +153,10 @@ private fun IdentityCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            IdentityText(identityText = identityName)
+            GreenBlackText(
+                size = 16, text = identityName, modifier = Modifier
+                    .padding(top = 10.dp)
+            )
             Image(
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -162,24 +166,6 @@ private fun IdentityCard(
             )
         }
     }
-}
-
-@Composable
-private fun IdentityText(
-    identityText: String
-) {
-    Text(
-        modifier = Modifier
-            .padding(top = 10.dp),
-        text = identityText,
-        color = GreenAppColor,
-        fontSize = 16.sp,
-        fontFamily = FontFamily(
-            Font(
-                R.font.poppins_black
-            )
-        )
-    )
 }
 
 

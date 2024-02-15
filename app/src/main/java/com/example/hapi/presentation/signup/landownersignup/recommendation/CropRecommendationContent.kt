@@ -13,25 +13,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.signup.common.ContinueButton
+import com.example.hapi.presentation.signup.common.GreenBlackText
 import com.example.hapi.presentation.signup.common.YellowBlackText
-import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
@@ -139,17 +134,8 @@ fun CropRow(
             modifier = Modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                color = GreenAppColor,
-                fontSize = textSize.sp,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
-                ),
-                text = crop.type.name,
-                textAlign = TextAlign.Center
-            )
+            GreenBlackText(size = textSize, text = crop.type.name)
+
         }
 
     }

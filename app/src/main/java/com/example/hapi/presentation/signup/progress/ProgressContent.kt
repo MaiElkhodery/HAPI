@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.presentation.signup.common.YellowText
+import com.example.hapi.presentation.signup.common.YellowBlackText
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
@@ -61,7 +61,7 @@ fun SetupMessage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        YellowText(size = 20, text = message, modifier = Modifier.padding(bottom = 8.dp))
+        YellowBlackText(size = 20, text = message, modifier = Modifier.padding(bottom = 8.dp))
 
         Box(
             modifier = Modifier

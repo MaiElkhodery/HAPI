@@ -8,10 +8,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
+import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun YellowText(
+fun YellowBlackText(
     modifier: Modifier = Modifier,
     size: Int,
     text: String

@@ -17,7 +17,7 @@ import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.signup.common.ConfirmButton
-import com.example.hapi.presentation.signup.common.YellowText
+import com.example.hapi.presentation.signup.common.YellowBlackText
 
 @Composable
 fun FinalCropContent(
@@ -44,7 +44,7 @@ private fun ChosenCrop(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        YellowText(text = stringResource(id = R.string.your_crop), size = 20)
+        YellowBlackText(text = stringResource(id = R.string.your_crop), size = 20)
 
         Image(
             modifier = Modifier
@@ -53,7 +53,7 @@ private fun ChosenCrop(
             painter = painterResource(id = crop.imageId),
             contentDescription = "crop image"
         )
-        YellowText(size = 20, text = crop.type.name)
+        YellowBlackText(size = 20, text = crop.type.name)
 
     }
 }

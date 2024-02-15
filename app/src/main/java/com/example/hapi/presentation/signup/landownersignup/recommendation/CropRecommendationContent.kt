@@ -30,7 +30,7 @@ import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.signup.common.ContinueButton
-import com.example.hapi.presentation.signup.common.YellowText
+import com.example.hapi.presentation.signup.common.YellowBlackText
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
@@ -45,7 +45,7 @@ fun CropRecommendationContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        YellowText(
+        YellowBlackText(
             size = 13,
             text = stringResource(id = R.string.top_recommendation),
             modifier = Modifier.padding(vertical = 9.dp)
@@ -57,7 +57,7 @@ fun CropRecommendationContent(
         ) {
             onClick(topCrops[0])
         }
-        YellowText(
+        YellowBlackText(
             size = 13,
             text = stringResource(id = R.string.other_options),
             modifier = Modifier.padding(vertical = 16.dp)

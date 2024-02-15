@@ -15,6 +15,6 @@ fun Title(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        YellowText(size = 16, text = title)
+        YellowBlackText(size = 16, text = title)
     }
 }

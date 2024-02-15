@@ -1,20 +1,13 @@
 package com.example.hapi.presentation.signup.progress
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,19 +15,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.signup.farmersignup.ui.navToFarmerSignup
-import com.example.hapi.presentation.signup.landownersignup.ui.info.navToLandownerSignup
+import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
 fun ProgressScreen(
     navController: NavController,
-    isFinal: Boolean = false
+    final: String = "false"
 ) {
-
-    var continueClicked by remember {
-        mutableStateOf(false)
-    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -44,79 +32,55 @@ fun ProgressScreen(
         val topGuideLine = createGuidelineFromTop(.1f)
         val (logoBox, cropBox, contentBox) = createRefs()
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(logoBox) {
-                    top.linkTo(topGuideLine)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.size(185.dp),
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "logo"
-            )
-        }
+        Logo(modifier = Modifier
+            .fillMaxWidth()
+            .constrainAs(logoBox) {
+                top.linkTo(topGuideLine)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
                 .constrainAs(contentBox) {
-                    top.linkTo(logoBox.bottom)
-                    bottom.linkTo(cropBox.top)
+                    top.linkTo(logoBox.bottom, margin = 10.dp)
+                    bottom.linkTo(cropBox.top, margin = 10.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
             contentAlignment = Alignment.Center
         ) {
-            if (isFinal) {
+            if (final == "true") {
                 SetupMessage(
                     message = stringResource(id = R.string.congratulation)
                 ) {
-                    //TODO:NAV TO HOME
+
                 }
             } else {
-                if (continueClicked) {
-                    IdentitySelection(
-                        onClickLandowner = {
-                            navController.navToLandownerSignup()
-                        },
-                        onclickFarmer = {
-                            navController.navToFarmerSignup()
-                        }
-                    )
-                } else {
-                    SetupMessage(
-                        message = stringResource(id = R.string.account_setup)
-                    ) {
-                        continueClicked = true
-                    }
+                SetupMessage(
+                    message = stringResource(id = R.string.account_setup)
+                ) {
+                    navController.navigateToIdentitySelection()
                 }
             }
+
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(cropBox) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.crop_profile),
-                contentDescription = "crop"
-            )
-        }
+        Crops(modifier = Modifier
+            .fillMaxWidth()
+            .constrainAs(cropBox) {
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
     }
 }
 
 @Preview
 @Composable
-fun ProgressPreview() {
-    ProgressScreen(rememberNavController())
+private fun ProgressPreview() {
+    ProgressScreen(rememberNavController(), "false")
 }

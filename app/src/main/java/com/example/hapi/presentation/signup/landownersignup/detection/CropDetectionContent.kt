@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui.cropdetection
+package com.example.hapi.presentation.signup.landownersignup.detection
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.common.YellowText
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
@@ -75,28 +76,7 @@ private fun RecommendationRaw(
     }
 }
 
-@Composable
-fun Title(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Box (
-        modifier = modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(
-            color = YellowAppColor,
-            fontSize = 16.sp,
-            fontFamily = FontFamily(
-                Font(
-                    R.font.poppins_black
-                )
-            ),
-            text = title,
-            textAlign = TextAlign.Center
-        )
-    }
-}
+
 
 @Composable
 private fun RecommendationCard(

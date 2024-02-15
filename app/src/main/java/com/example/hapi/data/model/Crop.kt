@@ -3,37 +3,41 @@ package com.example.hapi.data.model
 import com.example.hapi.R
 
 data class Crop(
-    val name: String,
-    val image: Int
+    val type: CropType,
+    val imageId: Int
 )
 
 val crops = mutableListOf(
     Crop(
-        "TOMATO",
+        CropType.TOMATO,
         R.drawable.tomato
     ),
     Crop(
-        "POTATO",
+        CropType.POTATO,
         R.drawable.potato
     ),
     Crop(
-        "ORANGE",
+        CropType.ORANGE,
         R.drawable.orange
     ),
     Crop(
-        "GRAPE",
+        CropType.GRAPE,
         R.drawable.grape
     ),
     Crop(
-        "STRAWBERRY",
+        CropType.STRAWBERRY,
         R.drawable.strawberry
     ),
     Crop(
-        "WHEAT",
+        CropType.WHEAT,
         R.drawable.wheat
     ),
     Crop(
-        "CORN",
+        CropType.CORN,
         R.drawable.corn
     )
 )
+
+enum class CropType {
+    TOMATO, POTATO, GRAPE, WHEAT, CORN, STRAWBERRY, ORANGE
+}

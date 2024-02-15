@@ -18,11 +18,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.common.LabeledInputField
+import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
-import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupViewModel
-import com.example.hapi.presentation.signup.progress.navigateToProgress
+import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
+import com.example.hapi.presentation.signup.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -42,17 +43,26 @@ fun FarmerSignup(
             .background(GreenAppColor)
             .padding(horizontal = 26.dp)
     ) {
-        val (header, content, button) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.08f)
+        val (logo,header, content, button) = createRefs()
+        val topGuideLine = createGuidelineFromTop(.02f)
         val bottomGuideLine = createGuidelineFromBottom(.06f)
 
+        Logo(
+            modifier = Modifier.constrainAs(logo) {
+                top.linkTo(topGuideLine)
+                bottom.linkTo(header.top)
+            }
+        )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(topGuideLine)
+                top.linkTo(logo.bottom)
+                bottom.linkTo(content.top)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
-        )
+        ) {
+
+        }
 
         Column(
             modifier = Modifier
@@ -111,7 +121,7 @@ fun FarmerSignup(
             text = stringResource(id = R.string.confirm_signup)
         ) {
             //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
-            navController.navigateToProgress(isFinal = true)
+            navController.navToProgress(final = "true")
         }
     }
 }

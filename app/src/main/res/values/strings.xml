@@ -22,4 +22,7 @@
     <string name="tomato">TOMATO</string>
     <string name="your_crop">YOUR CROP</string>
     <string name="potato">POTATO</string>
+    <string name="top_recommendation">TOP RECOMMENDATION!</string>
+    <string name="other_options">OTHER SUITABLE OPTIONS.....</string>
+    <string name="choose_recommedation">CHOOSE A RECOMMENDATION.....</string>
 </resources>

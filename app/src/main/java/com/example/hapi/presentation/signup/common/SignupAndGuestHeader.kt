@@ -1,6 +1,7 @@
 package com.example.hapi.presentation.signup.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
@@ -25,8 +24,9 @@ import com.example.hapi.ui.theme.YellowAppColor
 @Composable
 fun SignupAndGuestHeader(
     modifier: Modifier,
-    topText:String,
-    downText:String
+    topText: String,
+    downText: String,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -35,8 +35,10 @@ fun SignupAndGuestHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
-            modifier = Modifier.size(100.dp),
-            painter = painterResource(id = R.drawable.logo),
+            modifier = Modifier.clickable {
+                onClick()
+            },
+            painter = painterResource(id = R.drawable.nav_button),
             contentDescription = "logo"
         )
         Column(
@@ -73,5 +75,5 @@ fun SignupAndGuestHeader(
 @Preview
 @Composable
 private fun FarmerSignupHeaderPreview() {
-    SignupAndGuestHeader(Modifier,"set up","your account")
+    SignupAndGuestHeader(Modifier, "set up", "your account"){}
 }

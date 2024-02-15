@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui.cropdetection
+package com.example.hapi.presentation.signup.landownersignup.choose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.crops
+import com.example.hapi.presentation.signup.common.YellowText
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
@@ -67,8 +68,8 @@ private fun CropItem(
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CropImageCard(imageId = crop.image)
-        CropName(title = crop.name)
+        CropImageCard(imageId = crop.imageId)
+        CropName(title = crop.type.name)
     }
 }
 
@@ -99,6 +100,7 @@ private fun CropImageCard(
 private fun CropName(
     title: String
 ) {
+    
     Text(
         modifier = Modifier
             .padding(top = 12.dp),

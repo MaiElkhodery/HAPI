@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.landownersignup.ui.cropdetection
+package com.example.hapi.presentation.signup.landownersignup.detection
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

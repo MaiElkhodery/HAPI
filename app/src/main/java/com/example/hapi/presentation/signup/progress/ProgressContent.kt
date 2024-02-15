@@ -31,9 +31,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.common.YellowText
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
+@Composable
+fun Crops(
+    modifier: Modifier
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.crop_profile),
+            contentDescription = "crop"
+        )
+    }
+}
 
 @Composable
 fun SetupMessage(
@@ -45,18 +60,9 @@ fun SetupMessage(
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            color = YellowAppColor,
-            fontSize = 20.sp,
-            fontFamily = FontFamily(
-                Font(
-                    R.font.poppins_black
-                )
-            ),
-            text = message,
-            textAlign = TextAlign.Center
-        )
+
+        YellowText(size = 20, text = message, modifier = Modifier.padding(bottom = 8.dp))
+
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(5.dp))

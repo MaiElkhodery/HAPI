@@ -35,14 +35,14 @@ fun ConfirmButton(
     text: String,
     onClick: () -> Unit
 ) {
-    Box (
+    Box(
         modifier = modifier
             .height(IntrinsicSize.Max)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Row(
-            modifier =Modifier
+            modifier = Modifier
                 .clip(RoundedCornerShape(6.dp)),
         ) {
 
@@ -81,11 +81,12 @@ private fun GreenText(
 }
 
 @Composable
-private fun ContinueButton(
+fun ContinueButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(DarkGreenAppColor)
             .fillMaxHeight()
             .clickable {

@@ -1,7 +1,8 @@
-package com.example.hapi.presentation.signup.landownersignup.ui.cropdetection
+package com.example.hapi.presentation.signup.landownersignup.choose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,8 +14,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.data.model.crops
+import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
-import com.example.hapi.presentation.signup.landownersignup.ui.info.LotusRow
+import com.example.hapi.presentation.signup.common.Title
+import com.example.hapi.presentation.signup.landownersignup.finalcrop.navToFinalCropScreen
+import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -28,17 +32,28 @@ fun CropChooseScreen(
             .padding(horizontal = 26.dp)
     ) {
 
-        val (header, content, title, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.08f)
+        val (logo,header, content, title, lotusRow) = createRefs()
+        val topGuideLine = createGuidelineFromTop(.02f)
         val bottomGuideLine = createGuidelineFromBottom(.11f)
 
+        Logo(
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(logo) {
+                top.linkTo(topGuideLine)
+                bottom.linkTo(header.top)
+            }
+        )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(topGuideLine)
+                top.linkTo(logo.bottom)
+                bottom.linkTo(content.top)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
-        )
+        ) {
+
+        }
 
         Title(title = stringResource(id = R.string.avilable_crop),
             modifier = Modifier.constrainAs(title) {
@@ -58,7 +73,7 @@ fun CropChooseScreen(
         }
 
         LotusRow(
-            highlightedLotusPos = 1,
+            highlightedLotusPos = 2,
             modifier = Modifier
                 .constrainAs(lotusRow) {
                     top.linkTo(content.bottom)

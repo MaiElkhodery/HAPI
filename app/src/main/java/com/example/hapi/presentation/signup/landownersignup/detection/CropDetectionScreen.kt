@@ -4,13 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
@@ -19,13 +19,13 @@ import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.Title
 import com.example.hapi.presentation.signup.landownersignup.choose.navToCropChooseScreen
 import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
-import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun CropDetectionScreen(
     navController: NavController,
-    viewModel: LandownerViewModel = hiltViewModel()
+//    viewModel: LandownerViewModel = hiltViewModel()
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -35,12 +35,13 @@ fun CropDetectionScreen(
     ) {
 
         val (logo, header, content, title, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.11f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
             modifier = Modifier
                 .fillMaxWidth()
+                .size(70.dp)
                 .constrainAs(logo) {
                 top.linkTo(topGuideLine)
                 bottom.linkTo(header.top)
@@ -48,8 +49,8 @@ fun CropDetectionScreen(
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
-                bottom.linkTo(content.top)
+                top.linkTo(logo.bottom,margin = Dimens.header_margin)
+                bottom.linkTo(title.top,margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
@@ -60,17 +61,18 @@ fun CropDetectionScreen(
         Title(title = stringResource(id = R.string.do_you),
             modifier = Modifier.constrainAs(title) {
                 top.linkTo(header.bottom)
-                bottom.linkTo(content.top)
-            })
+                bottom.linkTo(content.top,margin = Dimens.title_bottom_margin)
+            }
+        )
 
         CropDetectionContent(
             modifier = Modifier.constrainAs(content) {
                 top.linkTo(title.bottom)
-                bottom.linkTo(lotusRow.top)
+                bottom.linkTo(lotusRow.top,margin = Dimens.content_margin)
             },
             onClickRecommendation = {
                 //TODO: RETURN OR FLOW THE RECOMMENDED CROPS
-                viewModel.cropRecommendation()
+//                viewModel.cropRecommendation()
 
             },
             onClickHaveCrop = {
@@ -82,7 +84,7 @@ fun CropDetectionScreen(
             highlightedLotusPos = 1,
             modifier = Modifier
                 .constrainAs(lotusRow) {
-                    top.linkTo(content.bottom, margin = 30.dp)
+                    top.linkTo(content.bottom)
                     bottom.linkTo(bottomGuideLine)
                 }
         )

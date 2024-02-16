@@ -71,7 +71,7 @@ fun ProgressScreen(
         Crops(modifier = Modifier
             .fillMaxWidth()
             .constrainAs(cropBox) {
-                bottom.linkTo(parent.bottom)
+                bottom.linkTo(parent.bottom, margin = 20.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }

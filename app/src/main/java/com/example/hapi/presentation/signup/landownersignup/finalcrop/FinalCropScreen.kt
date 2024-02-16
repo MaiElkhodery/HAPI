@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
@@ -20,14 +19,14 @@ import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
-import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.presentation.signup.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun FinalCropScreen(
     navController: NavController,
-    viewModel: LandownerViewModel = hiltViewModel(),
+//    viewModel: LandownerViewModel = hiltViewModel(),
     crop: Crop
 ) {
     ConstraintLayout(
@@ -38,22 +37,22 @@ fun FinalCropScreen(
     ) {
 
         val (logo, header, content, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.1f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
             modifier = Modifier
                 .fillMaxWidth()
                 .size(70.dp)
                 .constrainAs(logo) {
-                top.linkTo(topGuideLine)
-                bottom.linkTo(header.top)
-            }
+                    top.linkTo(topGuideLine)
+                    bottom.linkTo(header.top)
+                }
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
-                bottom.linkTo(content.top)
+                top.linkTo(logo.bottom, margin = Dimens.header_margin)
+                bottom.linkTo(content.top,margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
@@ -64,11 +63,10 @@ fun FinalCropScreen(
         FinalCropContent(
             modifier = Modifier.constrainAs(content) {
                 top.linkTo(header.bottom)
-                bottom.linkTo(lotusRow.top)
+                bottom.linkTo(lotusRow.top,margin = Dimens.content_margin)
             },
             crop = crop
         ) {
-            viewModel.signup()
             navController.navToProgress(final = "true")
         }
 
@@ -76,7 +74,7 @@ fun FinalCropScreen(
             highlightedLotusPos = 3,
             modifier = Modifier
                 .constrainAs(lotusRow) {
-                    top.linkTo(content.bottom, margin = 20.dp)
+                    top.linkTo(content.bottom)
                     bottom.linkTo(bottomGuideLine)
                 }
         )
@@ -86,5 +84,5 @@ fun FinalCropScreen(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalCropScreen(rememberNavController(), LandownerViewModel(), crops[1])
+    FinalCropScreen(rememberNavController(),  crops[1])
 }

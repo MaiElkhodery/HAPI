@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -24,24 +24,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 @Composable
 fun Splash(navController: NavController) {
 
     var state by remember {
-        mutableIntStateOf(1)
+        mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
-        delay(700)
-        state = 2
-        delay(700)
-        state = 3
-        delay(700)
-        state = 4
-        delay(700)
-        state = 5
+        val job = launch {
+            repeat(5 - state) { // Repeat until state reaches 5
+                delay(700)
+                state++
+            }
+        }
     }
 
     Column(
@@ -75,6 +76,7 @@ fun Splash(navController: NavController) {
 
                 else -> {
                     //navController.navigateToMain()
+                    navController.navToProgress("false")
                 }
             }
         }

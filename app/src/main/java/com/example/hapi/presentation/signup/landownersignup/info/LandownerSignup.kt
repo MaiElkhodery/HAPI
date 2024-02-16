@@ -1,16 +1,14 @@
 package com.example.hapi.presentation.signup.landownersignup.info
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.common.LabeledInputField
@@ -30,17 +27,24 @@ import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.landownersignup.detection.navToCropDetection
 import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun LandownerSignup(
     navController: NavController,
     viewModel: LandownerViewModel = hiltViewModel()
 ) {
-    Log.d("SIGNUP", "NAV TO SIGNUP SCREEN")
+
     val phoneNumberError = viewModel.phoneNumberError.collectAsState().value
     val usernameError = viewModel.usernameError.collectAsState().value
     val passwordError = viewModel.passwordError.collectAsState().value
+    val authenticated = viewModel.authenticated.collectAsState().value
 
+    LaunchedEffect(authenticated) {
+        if (authenticated) {
+            navController.navToCropDetection()
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -49,22 +53,22 @@ fun LandownerSignup(
     ) {
 
         val (logo, header, content, button, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.06f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
             modifier = Modifier
                 .fillMaxWidth()
                 .size(70.dp)
                 .constrainAs(logo) {
-                top.linkTo(topGuideLine)
-                bottom.linkTo(header.top, margin = 10.dp)
-            }
+                    top.linkTo(topGuideLine)
+                    bottom.linkTo(header.top)
+                }
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
-                bottom.linkTo(content.top)
+                top.linkTo(logo.bottom, margin = Dimens.header_margin)
+                bottom.linkTo(content.top,margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
@@ -119,8 +123,7 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-            viewModel.confirm()
-            navController.navToCropDetection()
+            viewModel.signup()
         }
 
         LotusRow(
@@ -137,5 +140,5 @@ fun LandownerSignup(
 @Preview
 @Composable
 fun LandownerSignupPreview() {
-    LandownerSignup(rememberNavController(), LandownerViewModel())
+//    LandownerSignup(rememberNavController(), LandownerViewModel())
 }

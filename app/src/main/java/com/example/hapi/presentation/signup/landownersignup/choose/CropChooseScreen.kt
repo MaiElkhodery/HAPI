@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ import com.example.hapi.presentation.signup.common.Title
 import com.example.hapi.presentation.signup.landownersignup.finalcrop.navToFinalCropScreen
 import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun CropChooseScreen(
@@ -33,12 +35,13 @@ fun CropChooseScreen(
     ) {
 
         val (logo,header, content, title, lotusRow) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.11f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
             modifier = Modifier
                 .fillMaxWidth()
+                .size(70.dp)
                 .constrainAs(logo) {
                 top.linkTo(topGuideLine)
                 bottom.linkTo(header.top)
@@ -46,8 +49,8 @@ fun CropChooseScreen(
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
-                bottom.linkTo(content.top)
+                top.linkTo(logo.bottom, margin = Dimens.header_margin)
+                bottom.linkTo(title.top,margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
@@ -58,14 +61,15 @@ fun CropChooseScreen(
         Title(title = stringResource(id = R.string.avilable_crop),
             modifier = Modifier.constrainAs(title) {
                 top.linkTo(header.bottom)
-                bottom.linkTo(content.top)
-            })
+                bottom.linkTo(content.top, margin = Dimens.title_bottom_margin)
+            }
+        )
 
         CropChooseContent(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)
-                    bottom.linkTo(lotusRow.top)
+                    bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
                 },
             crops = crops
         ) { crop ->

@@ -17,6 +17,7 @@ import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.farmersignup.ui.navToFarmerSignup
 import com.example.hapi.presentation.signup.landownersignup.info.navToLandownerSignup
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun IdentitySelectionScreen(
@@ -35,6 +36,7 @@ fun IdentitySelectionScreen(
             .fillMaxWidth()
             .constrainAs(logoBox) {
                 top.linkTo(topGuideLine)
+                bottom.linkTo(contentBox.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
@@ -45,8 +47,8 @@ fun IdentitySelectionScreen(
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
                 .constrainAs(contentBox) {
-                    top.linkTo(logoBox.bottom, margin = 15.dp)
-                    bottom.linkTo(cropBox.top, margin = 15.dp)
+                    top.linkTo(logoBox.bottom, margin = Dimens.content_margin)
+                    bottom.linkTo(cropBox.top, margin = Dimens.content_margin)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
@@ -69,6 +71,7 @@ fun IdentitySelectionScreen(
             .fillMaxWidth()
             .constrainAs(cropBox) {
                 bottom.linkTo(parent.bottom)
+                top.linkTo(contentBox.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }

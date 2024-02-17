@@ -57,12 +57,12 @@ fun CropChooseContent(
 @Composable
 private fun CropItem(
     crop: Crop,
-    onClick: () -> Unit
+    onClick: (Crop) -> Unit
 ) {
     Column(
         modifier = Modifier
             .clickable {
-                onClick()
+                onClick(crop)
             }
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally

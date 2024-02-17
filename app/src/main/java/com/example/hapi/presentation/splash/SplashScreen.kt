@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.presentation.signup.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import kotlinx.coroutines.delay
@@ -31,17 +32,23 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 @Composable
-fun Splash(navController: NavController) {
+fun Splash(
+    navController: NavController,
+) {
 
     var state by remember {
         mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
+
         val job = launch {
-            repeat(5 - state) { // Repeat until state reaches 5
-                delay(700)
+            while (isActive && state < 5) {
+                delay(800)
                 state++
             }
+        }
+        job.invokeOnCompletion {
+            navController.navToProgress("false")
         }
     }
 

@@ -1,9 +1,7 @@
 package com.example.hapi.presentation.signup.landownersignup.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.model.ErrorBody
 import com.example.hapi.data.model.State
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
@@ -72,10 +70,15 @@ class LandownerViewModel @Inject constructor(
             ).collect { state ->
                 when (state) {
                     is State.Error -> {
-                        val error = state.error as ErrorBody.LandownerSignupError
-                        _phoneNumberError.value = error.phoneNumberMsg
-                        _usernameError.value = error.usernameMsg
-                        _passwordError.value = error.passwordMsg
+                        val error = state.error
+                        error.errors.forEach { ker, list ->
+                            when (ker) {
+                                "phone_number" -> _phoneNumberError.value = list[0]
+                                "username" -> _usernameError.value = list[0]
+                                "password" -> _passwordError.value = list[0]
+                            }
+
+                        }
                     }
 
                     is State.Exception -> TODO()
@@ -84,7 +87,7 @@ class LandownerViewModel @Inject constructor(
                     }
 
                     is State.Success -> {
-                        _authenticated.value=true
+                        _authenticated.value = true
                     }
                 }
             }

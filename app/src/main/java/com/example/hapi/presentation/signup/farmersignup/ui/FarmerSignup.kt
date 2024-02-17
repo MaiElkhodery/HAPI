@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.common.LabeledInputField
@@ -23,7 +23,9 @@ import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.FarmerSignupViewModel
 import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
+import com.example.hapi.presentation.signup.landownersignup.detection.navToCropDetection
 import com.example.hapi.presentation.signup.progress.navToProgress
+import com.example.hapi.presentation.signup.progress.navigateToIdentitySelection
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -36,14 +38,20 @@ fun FarmerSignup(
     val usernameError = viewModel.usernameError.collectAsState().value
     val passwordError = viewModel.passwordError.collectAsState().value
     val farmIdError = viewModel.farmIdError.collectAsState().value
+    val authenticated = viewModel.authenticated.collectAsState().value
 
+    LaunchedEffect(authenticated) {
+        if (authenticated) {
+            navController.navToProgress("true")
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
             .padding(horizontal = 26.dp)
     ) {
-        val (logo,header, content, button) = createRefs()
+        val (logo, header, content, button) = createRefs()
         val topGuideLine = createGuidelineFromTop(.02f)
         val bottomGuideLine = createGuidelineFromBottom(.06f)
 
@@ -61,7 +69,7 @@ fun FarmerSignup(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-
+            navController.navigateToIdentitySelection()
         }
 
         Column(
@@ -103,7 +111,7 @@ fun FarmerSignup(
 
             LabeledInputField(
                 title = stringResource(id = R.string.farm_id),
-                content = viewModel.farmId
+                content = viewModel.landId
             ) { farmId ->
                 viewModel.onEvent(SignupEvent.ChangeFarmId(farmId))
             }
@@ -120,8 +128,7 @@ fun FarmerSignup(
                 },
             text = stringResource(id = R.string.confirm_signup)
         ) {
-            //TODO: SIGNUP AND IF IT IS IS SUCCESSFUL NAV TO CONGRATULATIONS SCREEN
-            navController.navToProgress(final = "true")
+            viewModel.signup()
         }
     }
 }
@@ -129,5 +136,5 @@ fun FarmerSignup(
 @Preview
 @Composable
 private fun FarmerSignupPreview() {
-    FarmerSignup(navController = rememberNavController(), FarmerSignupViewModel())
+//    FarmerSignup(navController = rememberNavController(), FarmerSignupViewModel())
 }

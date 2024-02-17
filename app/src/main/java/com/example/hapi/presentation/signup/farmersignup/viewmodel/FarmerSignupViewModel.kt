@@ -1,14 +1,18 @@
 package com.example.hapi.presentation.signup.farmersignup.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.hapi.data.model.State
+import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FarmerSignupViewModel @Inject constructor(
-
+    val signupUseCase: FarmerSignupUseCase
 ) : ViewModel() {
     private var _password = MutableStateFlow("")
     var password = _password.asStateFlow()
@@ -19,13 +23,13 @@ class FarmerSignupViewModel @Inject constructor(
     private var _username = MutableStateFlow("")
     var username = _username.asStateFlow()
 
-    private var _usernameError = MutableStateFlow("THIS USERNAME IS NOT VALID")
+    private var _usernameError = MutableStateFlow("")
     var usernameError = _usernameError.asStateFlow()
 
-    private var _farmId = MutableStateFlow("")
-    var farmId = _farmId.asStateFlow()
+    private var _landId = MutableStateFlow("")
+    var landId = _landId.asStateFlow()
 
-    private var _farmIdError = MutableStateFlow("Not Valid")
+    private var _farmIdError = MutableStateFlow("")
     var farmIdError = _farmIdError.asStateFlow()
 
     private var _phoneNumber = MutableStateFlow("")
@@ -34,10 +38,17 @@ class FarmerSignupViewModel @Inject constructor(
     private var _phoneNumberError = MutableStateFlow("")
     var phoneNumberError = _phoneNumberError.asStateFlow()
 
+
+    private var _loading = MutableStateFlow(false)
+    var loading = _loading.asStateFlow()
+
+    private var _authenticated = MutableStateFlow(false)
+    var authenticated = _authenticated.asStateFlow()
+
     fun onEvent(event: SignupEvent) {
         when (event) {
             is SignupEvent.ChangeFarmId -> {
-                _farmId.value = event.farmId
+                _landId.value = event.farmId
             }
 
             is SignupEvent.ChangePassword -> {
@@ -54,7 +65,39 @@ class FarmerSignupViewModel @Inject constructor(
         }
     }
 
-    fun signup(){
+    fun signup() {
+        viewModelScope.launch {
+            signupUseCase(
+                phoneNumber = _phoneNumber.value,
+                username = _username.value,
+                password = _password.value,
+                landId = _landId.value
+            ).collect { state ->
+                when (state) {
+                    is State.Error -> {
+                        val error = state.error
+                        error.errors.forEach { ker, list ->
+                            when (ker) {
+                                "phone_number" -> _phoneNumberError.value = list[0]
+                                "username" -> _usernameError.value = list[0]
+                                "land_id" -> _farmIdError.value = list[0]
+                                "password" -> _passwordError.value = list[0]
+                            }
 
+                        }
+
+                    }
+
+                    is State.Exception -> TODO()
+                    State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _authenticated.value = true
+                    }
+                }
+            }
+        }
     }
 }

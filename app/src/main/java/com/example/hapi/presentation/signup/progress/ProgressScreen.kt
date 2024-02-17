@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun ProgressScreen(
@@ -46,8 +47,8 @@ fun ProgressScreen(
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
                 .constrainAs(contentBox) {
-                    top.linkTo(logoBox.bottom, margin = 10.dp)
-                    bottom.linkTo(cropBox.top, margin = 10.dp)
+                    top.linkTo(logoBox.bottom, margin = Dimens.content_margin)
+                    bottom.linkTo(cropBox.top, margin = Dimens.content_margin)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
@@ -71,7 +72,7 @@ fun ProgressScreen(
         Crops(modifier = Modifier
             .fillMaxWidth()
             .constrainAs(cropBox) {
-                bottom.linkTo(parent.bottom, margin = 20.dp)
+                bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }

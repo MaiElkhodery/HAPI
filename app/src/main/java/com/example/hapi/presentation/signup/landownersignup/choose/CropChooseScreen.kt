@@ -55,7 +55,7 @@ fun CropChooseScreen(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-
+            navController.popBackStack()
         }
 
         Title(title = stringResource(id = R.string.avilable_crop),

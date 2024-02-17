@@ -73,7 +73,7 @@ fun LandownerSignup(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-
+            navController.popBackStack()
         }
 
         Column(

@@ -19,8 +19,18 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofitInstance(): Retrofit {
-        val client = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor())
+        val client = OkHttpClient.Builder().apply {
+            addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Accept", "application/json")
+                    .build()
+                chain.proceed(newRequest)
+            }
+        }
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
             .build()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

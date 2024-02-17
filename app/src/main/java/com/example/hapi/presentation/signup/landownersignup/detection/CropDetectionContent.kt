@@ -63,7 +63,7 @@ private fun RecommendationRaw(
         verticalAlignment = Alignment.CenterVertically
     ) {
         RecommendationCard(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1.2f),
             text = cardText
         ) {
             onCardClick()
@@ -95,7 +95,7 @@ private fun RecommendationCard(
     ) {
         Box(
             modifier = Modifier
-                .padding(vertical = 30.dp)
+                .padding(vertical = 30.dp, horizontal = 8.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {

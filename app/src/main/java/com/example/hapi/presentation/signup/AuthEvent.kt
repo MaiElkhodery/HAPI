@@ -1,17 +1,17 @@
-package com.example.hapi.presentation.signup.farmersignup.viewmodel
+package com.example.hapi.presentation.signup
 
-sealed class SignupEvent {
+sealed class AuthEvent {
     data class ChangePhoneNumber(
         val phoneNumber:String
-    ):SignupEvent()
+    ):AuthEvent()
 
-    data class ChangeUsrName(
+    data class ChangeUserName(
         val username:String
-    ):SignupEvent()
+    ):AuthEvent()
     data class ChangePassword(
         val password:String
-    ):SignupEvent()
+    ):AuthEvent()
     data class ChangeFarmId(
         val farmId:String
-    ):SignupEvent()
+    ):AuthEvent()
 }

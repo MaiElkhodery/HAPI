@@ -1,5 +1,6 @@
 package com.example.hapi.di
 
+import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.FarmerApiService
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.util.BASE_URL
@@ -54,5 +55,13 @@ object NetworkModule {
         retrofit: Retrofit
     ): FarmerApiService {
         return retrofit.create(FarmerApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiAuthServiceInstance(
+        retrofit: Retrofit
+    ): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
     }
 }

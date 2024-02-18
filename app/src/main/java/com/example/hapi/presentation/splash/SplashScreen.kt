@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.presentation.signup.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import kotlinx.coroutines.delay

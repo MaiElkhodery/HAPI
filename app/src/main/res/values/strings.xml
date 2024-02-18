@@ -25,4 +25,7 @@
     <string name="top_recommendation">TOP RECOMMENDATION!</string>
     <string name="other_options">OTHER SUITABLE OPTIONS.....</string>
     <string name="choose_recommedation">CHOOSE A RECOMMENDATION.....</string>
+    <string name="sign">SIGNING</string>
+    <string name="_in">IN\n</string>
+    <string name="signin">SIGNIN</string>
 </resources>

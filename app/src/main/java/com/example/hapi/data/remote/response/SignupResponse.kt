@@ -1,7 +1,7 @@
 package com.example.hapi.data.remote.response
 
-data class AuthResponse(
+data class SignupResponse(
     val token:String,
     val username:String,
-    val farm_id:String
+    val land_id:String
 )

@@ -2,22 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CropChoosePreview">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-11T14:17:19.083935500Z" />
-        </State>
-      </entry>
       <entry key="CropRecommendationPreview">
         <State>
           <targetSelectedWithDropDown>
@@ -52,6 +36,22 @@
       </entry>
       <entry key="ProgressPreview">
         <State />
+      </entry>
+      <entry key="SigninPreview">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-02-18T12:00:25.446473200Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>

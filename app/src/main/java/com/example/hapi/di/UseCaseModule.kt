@@ -1,7 +1,10 @@
 package com.example.hapi.di
 
+import com.example.hapi.data.repository.AuthRepository
 import com.example.hapi.data.repository.LandownerRepository
+import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
+import com.example.hapi.domain.usecase.SigninUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +17,18 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideLandownerSignupUseCase(
-        landownerRepository: LandownerRepository
-    ) = LandownerSignupUseCase(landownerRepository)
+        authRepository: AuthRepository
+    ) = LandownerSignupUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideSignupUseCase(
+        authRepository: AuthRepository
+    ) = FarmerSignupUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideSigninUseCase(
+        authRepository: AuthRepository
+    ) = SigninUseCase(authRepository)
 }

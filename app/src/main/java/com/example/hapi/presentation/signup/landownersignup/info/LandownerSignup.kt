@@ -18,21 +18,21 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hapi.R
+import com.example.hapi.presentation.signup.AuthEvent
+import com.example.hapi.presentation.signup.AuthViewModel
 import com.example.hapi.presentation.signup.common.ConfirmButton
 import com.example.hapi.presentation.signup.common.LabeledInputField
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
-import com.example.hapi.presentation.signup.farmersignup.viewmodel.SignupEvent
 import com.example.hapi.presentation.signup.landownersignup.detection.navToCropDetection
-import com.example.hapi.presentation.signup.landownersignup.viewmodel.LandownerViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun LandownerSignup(
     navController: NavController,
-    viewModel: LandownerViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
 
     val phoneNumberError = viewModel.phoneNumberError.collectAsState().value
@@ -68,7 +68,7 @@ fun LandownerSignup(
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
-                bottom.linkTo(content.top,margin = Dimens.header_margin)
+                bottom.linkTo(content.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
@@ -90,7 +90,7 @@ fun LandownerSignup(
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
             ) { phoneNumber ->
-                viewModel.onEvent(SignupEvent.ChangePhoneNumber(phoneNumber))
+                viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
             WarningBox(warningText = phoneNumberError)
@@ -99,7 +99,7 @@ fun LandownerSignup(
                 title = stringResource(id = R.string.user_name),
                 content = viewModel.username
             ) { username ->
-                viewModel.onEvent(SignupEvent.ChangeUsrName(username))
+                viewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
             WarningBox(warningText = usernameError)
@@ -108,7 +108,7 @@ fun LandownerSignup(
                 title = stringResource(id = R.string.password),
                 content = viewModel.password
             ) { password ->
-                viewModel.onEvent(SignupEvent.ChangePassword(password))
+                viewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
             WarningBox(warningText = passwordError)
@@ -123,7 +123,7 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-            viewModel.signup()
+            viewModel.signupLandowner()
         }
 
         LotusRow(
@@ -140,5 +140,5 @@ fun LandownerSignup(
 @Preview
 @Composable
 fun LandownerSignupPreview() {
-//    LandownerSignup(rememberNavController(), LandownerViewModel())
+//    LandownerSignup(rememberNavController(), AuthViewModel())
 }

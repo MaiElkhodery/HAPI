@@ -1,10 +1,13 @@
-package com.example.hapi.presentation.signup.farmersignup.ui
+package com.example.hapi.presentation.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.signup.AuthEvent
 import com.example.hapi.presentation.signup.AuthViewModel
@@ -23,25 +27,22 @@ import com.example.hapi.presentation.signup.common.LabeledInputField
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
-import com.example.hapi.presentation.signup.progress.navToProgress
-import com.example.hapi.presentation.signup.progress.navigateToIdentitySelection
+import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
-fun FarmerSignup(
+fun Signin(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
 
-    val phoneNumberError = viewModel.phoneNumberError.collectAsState().value
-    val usernameError = viewModel.usernameError.collectAsState().value
-    val passwordError = viewModel.passwordError.collectAsState().value
-    val farmIdError = viewModel.landIdError.collectAsState().value
+    val errorMsg = viewModel.errorMsg.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
 
     LaunchedEffect(authenticated) {
         if (authenticated) {
-            navController.navToProgress("true")
+            //TODO:NAV TO HOME
         }
     }
     ConstraintLayout(
@@ -50,30 +51,34 @@ fun FarmerSignup(
             .background(GreenAppColor)
             .padding(horizontal = 26.dp)
     ) {
-        val (logo, header, content, button) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.06f)
+
+        val (logo, header, content, button, lotusRow) = createRefs()
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
-            modifier = Modifier.constrainAs(logo) {
-                top.linkTo(topGuideLine)
-                bottom.linkTo(header.top)
-            }
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(70.dp)
+                .constrainAs(logo) {
+                    top.linkTo(topGuideLine)
+                    bottom.linkTo(header.top)
+                }
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
+                top.linkTo(logo.bottom, margin = Dimens.header_margin)
                 bottom.linkTo(content.top)
             },
-            topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            topText = stringResource(id = R.string.sign),
+            downText = stringResource(id = R.string._in)
         ) {
-            navController.navigateToIdentitySelection()
+            navController.popBackStack()
         }
 
         Column(
             modifier = Modifier
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
                 .constrainAs(content) {
                     top.linkTo(header.bottom)
                     bottom.linkTo(button.top)
@@ -81,23 +86,15 @@ fun FarmerSignup(
             verticalArrangement = Arrangement.Center
         ) {
 
+            WarningBox(warningText = errorMsg)
+
             LabeledInputField(
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
-            ) { phoneNumber ->
-                viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
+            ) { phone_number ->
+                viewModel.onEvent(AuthEvent.ChangePhoneNumber(phone_number))
             }
-
-            WarningBox(warningText = phoneNumberError)
-
-            LabeledInputField(
-                title = stringResource(id = R.string.user_name),
-                content = viewModel.username
-            ) { username ->
-                viewModel.onEvent(AuthEvent.ChangeUserName(username))
-            }
-
-            WarningBox(warningText = usernameError)
+            Spacer(modifier = Modifier.padding(12.dp))
 
             LabeledInputField(
                 title = stringResource(id = R.string.password),
@@ -106,16 +103,6 @@ fun FarmerSignup(
                 viewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
-            WarningBox(warningText = passwordError)
-
-            LabeledInputField(
-                title = stringResource(id = R.string.farm_id),
-                content = viewModel.landId
-            ) { farmId ->
-                viewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
-            }
-
-            WarningBox(warningText = farmIdError)
 
         }
 
@@ -123,17 +110,26 @@ fun FarmerSignup(
             modifier = Modifier
                 .constrainAs(button) {
                     top.linkTo(content.bottom)
-                    bottom.linkTo(bottomGuideLine)
+                    bottom.linkTo(lotusRow.top)
                 },
-            text = stringResource(id = R.string.confirm_signup)
+            text = stringResource(id = R.string.signin)
         ) {
-            viewModel.signupFarmer()
+            viewModel.signin()
         }
+
+        LotusRow(
+            highlightedLotusPos = 0,
+            modifier = Modifier
+                .constrainAs(lotusRow) {
+                    top.linkTo(button.bottom, margin = 30.dp)
+                    bottom.linkTo(bottomGuideLine)
+                }
+        )
     }
 }
 
 @Preview
 @Composable
-private fun FarmerSignupPreview() {
-//    FarmerSignup(navController = rememberNavController(), AuthViewModel())
+fun SigninPreview() {
+    Signin(rememberNavController())
 }

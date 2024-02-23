@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.hapi.presentation.signup.common.Logo
-import com.example.hapi.presentation.signup.farmersignup.ui.navToFarmerSignup
-import com.example.hapi.presentation.signup.landownersignup.info.navToLandownerSignup
+import com.example.hapi.presentation.auth.signup.common.Logo
+import com.example.hapi.presentation.auth.signup.farmersignup.ui.navToFarmerSignup
+import com.example.hapi.presentation.auth.signup.landownersignup.info.navToLandownerSignup
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 

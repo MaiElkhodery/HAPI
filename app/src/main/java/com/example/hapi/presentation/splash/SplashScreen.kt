@@ -34,12 +34,10 @@ import kotlinx.coroutines.launch
 fun Splash(
     navController: NavController,
 ) {
-
     var state by remember {
         mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
-
         val job = launch {
             while (isActive && state < 5) {
                 delay(800)

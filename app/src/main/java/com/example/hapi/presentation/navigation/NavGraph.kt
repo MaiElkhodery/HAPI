@@ -10,8 +10,8 @@ import com.example.hapi.presentation.signup.landownersignup.detection.cropDetect
 import com.example.hapi.presentation.signup.landownersignup.finalcrop.finalCropRoute
 import com.example.hapi.presentation.signup.landownersignup.info.landownerSignupRoute
 import com.example.hapi.presentation.signup.landownersignup.recommendation.cropRecommendationRoute
-import com.example.hapi.presentation.signup.progress.identitySelectionRoute
-import com.example.hapi.presentation.signup.progress.progressRoute
+import com.example.hapi.presentation.identityselection.identitySelectionRoute
+import com.example.hapi.presentation.progress.progressRoute
 import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable

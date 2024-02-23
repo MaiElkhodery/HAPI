@@ -23,8 +23,8 @@ import com.example.hapi.presentation.signup.common.LabeledInputField
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.common.WarningBox
-import com.example.hapi.presentation.signup.progress.navToProgress
-import com.example.hapi.presentation.signup.progress.navigateToIdentitySelection
+import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable

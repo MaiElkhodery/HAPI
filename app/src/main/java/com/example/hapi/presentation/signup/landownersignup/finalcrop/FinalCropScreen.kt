@@ -19,7 +19,7 @@ import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.presentation.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.signup.landownersignup.info.LotusRow
-import com.example.hapi.presentation.signup.progress.navToProgress
+import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 

@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.progress
+package com.example.hapi.presentation.identityselection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

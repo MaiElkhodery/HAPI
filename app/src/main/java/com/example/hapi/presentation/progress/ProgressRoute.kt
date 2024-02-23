@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.progress
+package com.example.hapi.presentation.progress
 
 import android.util.Log
 import androidx.navigation.NavController

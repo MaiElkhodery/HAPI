@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.signup.progress
+package com.example.hapi.presentation.progress
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,6 +15,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.identityselection.Crops
+import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.signup.common.Logo
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens

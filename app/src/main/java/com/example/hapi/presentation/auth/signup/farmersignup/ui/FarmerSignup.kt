@@ -15,7 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.data.repository.AuthRepository
+import com.example.hapi.domain.usecase.FarmerSignupUseCase
+import com.example.hapi.domain.usecase.LandownerSignupUseCase
+import com.example.hapi.domain.usecase.SigninUseCase
 import com.example.hapi.presentation.auth.signup.common.ConfirmButton
 import com.example.hapi.presentation.auth.signup.common.LabeledInputField
 import com.example.hapi.presentation.auth.signup.common.Logo
@@ -26,6 +31,7 @@ import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun FarmerSignup(
@@ -51,8 +57,8 @@ fun FarmerSignup(
             .padding(horizontal = 26.dp)
     ) {
         val (logo, header, content, button) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
-        val bottomGuideLine = createGuidelineFromBottom(.06f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
             modifier = Modifier.constrainAs(logo) {
@@ -62,8 +68,8 @@ fun FarmerSignup(
         )
         SignupAndGuestHeader(
             modifier = Modifier.constrainAs(header) {
-                top.linkTo(logo.bottom)
-                bottom.linkTo(content.top)
+                top.linkTo(logo.bottom, margin = Dimens.header_margin)
+                bottom.linkTo(content.top,margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)

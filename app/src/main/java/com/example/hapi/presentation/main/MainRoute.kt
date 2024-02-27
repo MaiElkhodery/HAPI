@@ -12,5 +12,9 @@ fun NavGraphBuilder.mainRoute(navController: NavController) {
     }
 }
 fun NavController.navigateToMain(){
-    navigate(ROUTE)
+    navigate(ROUTE){
+        popUpTo(ROUTE){
+            inclusive = true
+        }
+    }
 }

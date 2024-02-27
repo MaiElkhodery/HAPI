@@ -25,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.presentation.main.navigateToMain
+import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
@@ -60,7 +60,7 @@ fun Splash(
                     //TODO: nav to farmer home
                 }
             } else {
-                //TODO: nav to main
+                navController.navigateToMain()
             }
         }
     }
@@ -95,7 +95,8 @@ fun Splash(
                 }
 
                 else -> {
-                    navController.navigateToMain()                }
+                    navController.navigateToMain()
+                }
             }
         }
     }

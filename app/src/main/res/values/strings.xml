@@ -28,4 +28,9 @@
     <string name="sign">SIGNING</string>
     <string name="_in">IN\n</string>
     <string name="signin">SIGNIN</string>
+    <string name="first_time">FIRST TIME USER?</string>
+    <string name="signup">SIGN UP</string>
+    <string name="have_account">ALREADY HAVE AN ACCOUNT?</string>
+    <string name="or">OR</string>
+    <string name="detect_now">DETECT NOW AS GUEST</string>
 </resources>

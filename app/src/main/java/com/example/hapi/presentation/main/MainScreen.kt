@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,13 +23,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.auth.signin.navToSignin
+import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun Main(navController: NavController) {
@@ -41,7 +42,7 @@ fun Main(navController: NavController) {
             .background(GreenAppColor)
     ) {
 
-        val topGuideLine = createGuidelineFromTop(.11f)
+        val topGuideLine = createGuidelineFromTop(Dimens.bottom_guideline_sign)
         val (welcomeImage, guestRow, signup, signin, cropImage) = createRefs()
 
         Box(
@@ -59,49 +60,38 @@ fun Main(navController: NavController) {
             )
         }
 
-        Column(
+        MainScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 44.dp, vertical = 36.dp)
+                .padding(horizontal = 44.dp)
                 .constrainAs(signup) {
-                    top.linkTo(welcomeImage.bottom)
+                    top.linkTo(welcomeImage.bottom, margin = Dimens.content_margin)
+                    bottom.linkTo(signin.top)
                 },
-            horizontalAlignment = Alignment.CenterHorizontally
+            text = stringResource(id = R.string.first_time),
+            buttonText = stringResource(id = R.string.signup)
         ) {
-
-            MediumYellowText(
-                text = stringResource(id = R.string.first_time),
-                modifier = Modifier.padding(bottom = 6.dp)
-            )
-            MainButton(text = stringResource(id = R.string.signup)) {
-                //TODO: NAV TO SIGN UP
-            }
+            navController.navToProgress("false")
         }
-        Column(
+        MainScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 44.dp)
                 .constrainAs(signin) {
-                    top.linkTo(signup.bottom)
+                    top.linkTo(signup.bottom, margin = Dimens.content_margin)
+                    bottom.linkTo(guestRow.top, margin = Dimens.content_margin)
                 },
-            horizontalAlignment = Alignment.CenterHorizontally
+            text = stringResource(id = R.string.have_account),
+            buttonText = stringResource(id = R.string.signin)
         ) {
-
-            MediumYellowText(
-                text = stringResource(id = R.string.have_account),
-                modifier = Modifier.padding(bottom = 6.dp)
-            )
-            MainButton(text = stringResource(id = R.string.signin)) {
-                //TODO: NAV TO SIGN IN
-            }
+            navController.navToSignin()
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 5.dp)
                 .constrainAs(guestRow) {
-                    bottom.linkTo(cropImage.top)
+                    bottom.linkTo(cropImage.top, margin = 5.dp)
                 }
                 .clickable {
                     //TODO: NAV TO GUEST HOME SCREEN
@@ -148,23 +138,6 @@ fun Main(navController: NavController) {
 
 }
 
-@Composable
-fun MediumYellowText(
-    text: String,
-    modifier: Modifier
-) {
-    Text(
-        modifier = modifier,
-        text = text,
-        color = YellowAppColor,
-        fontSize = 15.sp,
-        fontFamily = FontFamily(
-            Font(
-                R.font.poppins_medium
-            )
-        )
-    )
-}
 
 @Preview
 @Composable

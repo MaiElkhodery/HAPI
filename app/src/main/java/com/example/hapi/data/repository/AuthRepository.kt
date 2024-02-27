@@ -1,6 +1,5 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.AuthPreference
 import com.example.hapi.data.model.SigninErrorInfo
 import com.example.hapi.data.model.SignupErrorInfo
@@ -11,6 +10,8 @@ import com.example.hapi.data.remote.request.LandownerSignupRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
+import com.example.hapi.util.FARMER
+import com.example.hapi.util.LANDOWNER
 import com.example.hapi.util.handleException
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +33,7 @@ class AuthRepository @Inject constructor(
                 if (response.isSuccessful) {
                     emit(State.Success(response.body()))
                     authPreference.saveAuthToken(response.body()!!.token)
+                    authPreference.saveRole(LANDOWNER)
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.string(),
@@ -56,6 +58,7 @@ class AuthRepository @Inject constructor(
                 if (response.isSuccessful) {
                     emit(State.Success(response.body()))
                     authPreference.saveAuthToken(response.body()!!.token)
+                    authPreference.saveRole(FARMER)
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.string(),
@@ -75,23 +78,20 @@ class AuthRepository @Inject constructor(
         return flow {
             try {
                 emit(State.Loading)
-                Log.d("SIGNIN REQUEST",signinRequest.toString())
                 val response = authApiService.signin(signinRequest)
 
                 if (response.isSuccessful) {
                     emit(State.Success(response.body()))
                     authPreference.saveAuthToken(response.body()!!.token)
-                    Log.d("SIGNIN RESPONSE", response.body()!!.token)
+                    authPreference.saveRole(response.body()!!.role)
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.string(),
                         SigninErrorInfo::class.java
                     )
-                    Log.d("SIGNIN ERROR", error.toString())
                     emit(State.Error(error))
                 }
             } catch (e: Exception) {
-                Log.d("SIGNIN EXCEPTION", e.toString())
                 handleException(e)
             }
         }

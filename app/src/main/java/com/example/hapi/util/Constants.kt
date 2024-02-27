@@ -4,3 +4,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 
 const val AUTH_PREFERENCES = "AUTH_PREF"
 val AUTH_KEY = stringSetPreferencesKey("auth_key")
+val ROLE_KEY = stringSetPreferencesKey("role_key")
+
+const val LANDOWNER = "landowner"
+const val FARMER = "farmer"

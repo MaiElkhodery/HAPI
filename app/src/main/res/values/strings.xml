@@ -33,4 +33,5 @@
     <string name="have_account">ALREADY HAVE AN ACCOUNT?</string>
     <string name="or">OR</string>
     <string name="detect_now">DETECT NOW AS GUEST</string>
+    <string name="welcome">WELCOME,\n</string>
 </resources>

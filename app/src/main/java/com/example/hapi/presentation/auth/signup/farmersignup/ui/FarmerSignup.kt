@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,12 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.data.repository.AuthRepository
-import com.example.hapi.domain.usecase.FarmerSignupUseCase
-import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.SigninUseCase
 import com.example.hapi.presentation.auth.signup.common.ConfirmButton
 import com.example.hapi.presentation.auth.signup.common.LabeledInputField
 import com.example.hapi.presentation.auth.signup.common.Logo
@@ -61,15 +58,19 @@ fun FarmerSignup(
         val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
         Logo(
-            modifier = Modifier.constrainAs(logo) {
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(70.dp)
+                .constrainAs(logo) {
                 top.linkTo(topGuideLine)
                 bottom.linkTo(header.top)
             }
         )
         SignupAndGuestHeader(
-            modifier = Modifier.constrainAs(header) {
+            modifier = Modifier
+                .constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
-                bottom.linkTo(content.top,margin = Dimens.header_margin)
+                bottom.linkTo(content.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)

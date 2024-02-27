@@ -19,6 +19,7 @@ import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.auth.signup.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.choose.navToCropChooseScreen
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.info.navToLandownerSignup
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 

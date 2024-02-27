@@ -12,5 +12,9 @@ fun NavGraphBuilder.signinRoute(navController: NavController) {
 }
 
 fun NavController.navToSignin() {
-    navigate(ROUTE)
+    navigate(ROUTE) {
+        popUpTo(ROUTE) {
+            inclusive = true
+        }
+    }
 }

@@ -12,5 +12,9 @@ fun NavGraphBuilder.cropChooseRoute(navController: NavController) {
 }
 
 fun NavController.navToCropChooseScreen() {
-    navigate(ROUTE)
+    navigate(ROUTE){
+        popUpTo(ROUTE){
+            inclusive = true
+        }
+    }
 }

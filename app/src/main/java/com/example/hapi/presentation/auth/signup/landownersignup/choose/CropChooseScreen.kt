@@ -18,6 +18,7 @@ import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.auth.signup.common.Logo
 import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
 import com.example.hapi.presentation.auth.signup.common.Title
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navToFinalCropScreen
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
@@ -55,7 +56,7 @@ fun CropChooseScreen(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-            navController.popBackStack()
+            navController.navToCropDetection()
         }
 
         Title(title = stringResource(id = R.string.avilable_crop),

@@ -13,5 +13,9 @@ fun NavGraphBuilder.landownerSignupRoute(navController: NavController) {
 }
 
 fun NavController.navToLandownerSignup() {
-    navigate(ROUTE)
+    navigate(ROUTE){
+        popUpTo(ROUTE){
+            inclusive = true
+        }
+    }
 }

@@ -12,5 +12,9 @@ fun NavGraphBuilder.cropDetectionRoute(navController: NavController) {
 }
 
 fun NavController.navToCropDetection() {
-    navigate(ROUTE)
+    navigate(ROUTE){
+        popUpTo(ROUTE){
+            inclusive = true
+        }
+    }
 }

@@ -21,11 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -33,19 +36,32 @@ import kotlinx.coroutines.launch
 @Composable
 fun Splash(
     navController: NavController,
+    viewModel: SplashViewModel = hiltViewModel()
 ) {
+
+    val role = viewModel.role
+    val token = viewModel.token
+
     var state by remember {
         mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
         val job = launch {
             while (isActive && state < 5) {
-                delay(800)
+                delay(700)
                 state++
             }
         }
         job.invokeOnCompletion {
-            navController.navToProgress("false")
+            if (token.value != null) {
+                if (role.value == LANDOWNER) {
+                    //TODO: nav to landowner home
+                } else {
+                    //TODO: nav to farmer home
+                }
+            } else {
+                //TODO: nav to main
+            }
         }
     }
 

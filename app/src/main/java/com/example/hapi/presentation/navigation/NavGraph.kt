@@ -12,6 +12,7 @@ import com.example.hapi.presentation.auth.signup.landownersignup.info.landownerS
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendation.cropRecommendationRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
 import com.example.hapi.presentation.progress.progressRoute
+import com.example.hapi.presentation.main.mainRoute
 import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable
@@ -30,5 +31,7 @@ fun NavGraph(navController: NavHostController) {
         cropRecommendationRoute(navController)
         finalCropRoute(navController)
         signinRoute(navController)
+        mainRoute(navController = navController)
+
     }
 }

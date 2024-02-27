@@ -2,7 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CropRecommendationPreview">
+      <entry key="MainPreview">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -15,10 +15,10 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-11T14:15:54.737390200Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-02-05T17:12:54.290460200Z" />
         </State>
       </entry>
-      <entry key="LandownerSignupPreview">
+      <entry key="app">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -31,11 +31,8 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-08T17:21:05.969912100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-02-04T16:22:31.672143300Z" />
         </State>
-      </entry>
-      <entry key="ProgressPreview">
-        <State />
       </entry>
       <entry key="app">
         <State>

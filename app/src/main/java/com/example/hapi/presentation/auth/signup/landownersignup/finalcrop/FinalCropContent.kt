@@ -17,7 +17,7 @@ import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.auth.signup.common.ConfirmButton
-import com.example.hapi.presentation.auth.signup.common.YellowBlackText
+import com.example.hapi.util.text.YellowBlackText
 
 @Composable
 fun FinalCropContent(

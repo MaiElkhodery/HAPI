@@ -25,8 +25,8 @@ import com.example.hapi.R
 import com.example.hapi.data.model.Crop
 import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.auth.signup.common.ContinueButton
-import com.example.hapi.presentation.auth.signup.common.GreenBlackText
-import com.example.hapi.presentation.auth.signup.common.YellowBlackText
+import com.example.hapi.util.text.GreenBlackText
+import com.example.hapi.util.text.YellowBlackText
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable

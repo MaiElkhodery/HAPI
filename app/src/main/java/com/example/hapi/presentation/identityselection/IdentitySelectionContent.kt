@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.signup.common.GreenBlackText
+import com.example.hapi.util.text.GreenBlackText
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable

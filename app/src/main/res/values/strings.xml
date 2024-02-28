@@ -34,4 +34,11 @@
     <string name="or">OR</string>
     <string name="detect_now">DETECT NOW AS GUEST</string>
     <string name="welcome">WELCOME,\n</string>
+    <string name="detection">DETECTION</string>
+    <string name="land">LAND</string>
+    <string name="last_detection">LAST DETECTION</string>
+    <string name="last_action">LAST ACTION</string>
+    <string name="land_history">LAND HISTORY</string>
+    <string name="disease_history">DISEASE HISTORY</string>
+    <string name="n_p_k">N : P : K</string>
 </resources>

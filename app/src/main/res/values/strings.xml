@@ -40,5 +40,8 @@
     <string name="last_action">LAST ACTION</string>
     <string name="land_history">LAND HISTORY</string>
     <string name="disease_history">DISEASE HISTORY</string>
-    <string name="n_p_k">N : P : K</string>
+    <string name="n_p_k">N  :  P  :  K</string>
+    <string name="warning">ARE YOU SURE\nYOU WANT TO</string>
+    <string name="delete_account_warning">DELETE YOUR\nACCOUNT?</string>
+    <string name="confirm_password">CONFIRM YOUR PASSWORD</string>
 </resources>

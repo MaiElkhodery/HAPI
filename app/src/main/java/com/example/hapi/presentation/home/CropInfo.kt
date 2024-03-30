@@ -48,7 +48,7 @@ fun CropInfo(
 fun CropNutrientInfo(n: String, p: String, k: String) {
    Column {
        YellowBlackText(text = stringResource(id = R.string.n_p_k), size = 13)
-       YellowBlackText(text = "$n : $p : $k", size = 13)
+       YellowBlackText(text = "$n  :  $p  :  $k", size = 13)
    }
 }
 

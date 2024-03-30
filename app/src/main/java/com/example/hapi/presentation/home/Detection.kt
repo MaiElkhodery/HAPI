@@ -81,15 +81,16 @@ private fun LastDetectionInfo(
 
         Box(
             modifier = modifier
+                .weight(.7f)
                 .clip(RoundedCornerShape(4.dp))
-                .weight(1.2f)
+                .padding(end=18.dp)
         ) {
             Image(
                 modifier = modifier
                     .fillMaxSize(),
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Crop
             )
         }
         DetectionInfo(

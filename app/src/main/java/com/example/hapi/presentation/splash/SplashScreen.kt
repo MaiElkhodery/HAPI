@@ -170,7 +170,7 @@ fun StateFour() {
         )
         Image(
             modifier = Modifier.weight(1f),
-            painter = painterResource(id = R.drawable.top_lotus),
+            painter = painterResource(id = R.drawable.right_lotus),
             contentDescription = "lotus"
         )
     }

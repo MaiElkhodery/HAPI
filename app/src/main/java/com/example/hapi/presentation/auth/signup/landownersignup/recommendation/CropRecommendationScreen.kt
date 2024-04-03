@@ -14,15 +14,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.auth.signup.common.NavHeader
 import com.example.hapi.presentation.auth.signup.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navToFinalCropScreen
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalCrop
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 
 @Composable
@@ -50,7 +49,7 @@ fun CropRecommendationScreen(
                     bottom.linkTo(header.top)
                 }
         )
-        SignupAndGuestHeader(
+        NavHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
                 bottom.linkTo(title.top, margin = Dimens.header_margin)
@@ -76,12 +75,12 @@ fun CropRecommendationScreen(
                 },
             //TEMPORARY
             topCrops = listOf(
-                Crop(CropType.POTATO, R.drawable.potato),
-                Crop(CropType.TOMATO, R.drawable.tomato),
-                Crop(CropType.GRAPE, R.drawable.grape),
+                Crop.POTATO,
+                Crop.TOMATO,
+                Crop.CORN
             )
         ) { crop ->
-            navController.navToFinalCropScreen(crop)
+            navController.navigateToFinalCrop(crop.name)
         }
         LotusRow(
             highlightedLotusPos = 2,

@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.auth.signup.common.ContinueButton
+import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.Crop
 import com.example.hapi.util.text.GreenBlackText
 import com.example.hapi.util.text.YellowBlackText
-import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
 fun CropRecommendationContent(
@@ -126,7 +126,7 @@ fun CropRow(
                     if (textSize == 20) 48.dp else 33.dp
                 )
                 .padding(end = 3.dp),
-            painter = painterResource(id = crop.imageId),
+            painter = painterResource(id = getCropIcon(crop)),
             contentDescription = "crop image"
         )
 
@@ -134,7 +134,7 @@ fun CropRow(
             modifier = Modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
-            GreenBlackText(size = textSize, text = crop.type.name)
+            GreenBlackText(size = textSize, text = crop.name)
 
         }
 
@@ -146,9 +146,9 @@ fun CropRow(
 private fun CropRecommendationContentPreview() {
     CropRecommendationContent(
         topCrops = listOf(
-            Crop(CropType.POTATO, R.drawable.potato),
-            Crop(CropType.TOMATO, R.drawable.tomato),
-            Crop(CropType.GRAPE, R.drawable.grape),
+            Crop.APPLE,
+            Crop.POTATO,
+            Crop.CORN
         )
     ) {
 

@@ -9,3 +9,13 @@ enum class FeatureInfo{
     TIME,
     USER
 }
+
+enum class Crop{
+    TOMATO,
+    POTATO,
+    WHEAT,
+    CORN,
+    COTTON,
+    APPLE,
+    SUGARCANE
+}

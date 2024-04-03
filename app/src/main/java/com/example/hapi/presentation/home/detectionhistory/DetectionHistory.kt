@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.data.model.Detection
-import com.example.hapi.presentation.auth.signup.common.NavHeader
+import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionHistoryCard
 import com.example.hapi.presentation.home.common.RoundedYellowBoxes
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails

@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.data.model.Detection
-import com.example.hapi.presentation.auth.signup.common.NavHeader
+import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.DetectionLowConfidence
 import com.example.hapi.presentation.home.common.DetectionResult

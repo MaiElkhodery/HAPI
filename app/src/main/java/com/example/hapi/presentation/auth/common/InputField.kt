@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.common
+package com.example.hapi.presentation.auth.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

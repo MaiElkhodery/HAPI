@@ -20,11 +20,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.signup.common.ConfirmButton
-import com.example.hapi.presentation.auth.signup.common.LabeledInputField
-import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.NavHeader
-import com.example.hapi.presentation.auth.signup.common.WarningBox
+import com.example.hapi.presentation.auth.common.ConfirmButton
+import com.example.hapi.presentation.auth.common.LabeledInputField
+import com.example.hapi.presentation.auth.common.Logo
+import com.example.hapi.presentation.auth.common.NavHeader
+import com.example.hapi.presentation.auth.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel

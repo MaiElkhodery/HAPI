@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.farmersignup.ui
+package com.example.hapi.presentation.auth.signup.farmersignup
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

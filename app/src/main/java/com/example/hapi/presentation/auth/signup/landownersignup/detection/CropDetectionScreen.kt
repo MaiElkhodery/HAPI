@@ -14,9 +14,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.NavHeader
-import com.example.hapi.presentation.auth.signup.common.Title
+import com.example.hapi.presentation.auth.common.Logo
+import com.example.hapi.presentation.auth.common.NavHeader
+import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.choose.navToCropChooseScreen
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor

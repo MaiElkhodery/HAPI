@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.hapi.presentation.auth.signin.signinRoute
-import com.example.hapi.presentation.auth.signup.farmersignup.ui.farmerSignupRoute
+import com.example.hapi.presentation.auth.signup.farmersignup.farmerSignupRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.choose.cropChooseRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.detection.cropDetectionRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.finalCropRoute

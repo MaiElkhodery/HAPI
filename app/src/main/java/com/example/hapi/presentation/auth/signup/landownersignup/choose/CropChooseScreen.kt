@@ -14,12 +14,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.auth.signup.common.NavHeader
 import com.example.hapi.presentation.auth.signup.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navToFinalCropScreen
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalCrop
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
@@ -48,7 +47,7 @@ fun CropChooseScreen(
                     bottom.linkTo(header.top)
                 }
         )
-        SignupAndGuestHeader(
+        NavHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
                 bottom.linkTo(title.top, margin = Dimens.header_margin)
@@ -71,10 +70,9 @@ fun CropChooseScreen(
                 .constrainAs(content) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
-                },
-            crops = crops
+                }
         ) { crop ->
-            navController.navToFinalCropScreen(crop)
+            navController.navigateToFinalCrop(crop.name)
         }
 
         LotusRow(

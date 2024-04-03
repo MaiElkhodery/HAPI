@@ -27,14 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.crops
+import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.Crop
 
 @Composable
 fun CropChooseContent(
     modifier: Modifier,
-    crops: List<Crop>,
     onClick: (Crop) -> Unit
 ) {
 
@@ -44,10 +43,10 @@ fun CropChooseContent(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        items(crops) { crop ->
+        items(Crop.entries) { crop ->
             CropItem(
-                crop=crop
-            ){
+                crop = crop
+            ) {
                 onClick(crop)
             }
         }
@@ -60,15 +59,15 @@ private fun CropItem(
     onClick: (Crop) -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = Modifier.padding(bottom = 8.dp)
             .clickable {
                 onClick(crop)
             }
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CropImageCard(imageId = crop.imageId)
-        CropName(title = crop.type.name)
+        CropImageCard(imageId = getCropIcon(crop))
+        CropName(title = crop.name)
     }
 }
 
@@ -99,7 +98,7 @@ private fun CropImageCard(
 private fun CropName(
     title: String
 ) {
-    
+
     Text(
         modifier = Modifier
             .padding(top = 12.dp),
@@ -118,7 +117,7 @@ private fun CropName(
 @Preview
 @Composable
 private fun CropChooseContentPreview() {
-    CropChooseContent(Modifier, crops = crops) {}
+    CropChooseContent(Modifier) {}
 }
 
 

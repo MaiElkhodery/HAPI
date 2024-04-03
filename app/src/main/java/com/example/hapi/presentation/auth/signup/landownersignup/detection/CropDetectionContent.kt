@@ -69,7 +69,7 @@ private fun RecommendationRaw(
             onCardClick()
         }
         DescriptionText(
-            modifier = Modifier.weight(1.4f),
+            modifier = Modifier.weight(1f),
             text = description
         )
     }

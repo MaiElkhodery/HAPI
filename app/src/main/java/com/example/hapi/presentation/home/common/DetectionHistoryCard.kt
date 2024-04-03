@@ -1,7 +1,8 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,17 +30,20 @@ fun DetectionHistoryCard(
     username: String,
     date: String,
     time: String,
-    imageId: Int,
+    imagePath: String,
     onClick: () -> Unit
 ) {
-    Card(
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(1.dp))
+            .clip(RoundedCornerShape(6.dp))
+            .clickable {
+                onClick()
+            }
 
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .background(YellowAppColor)
                 .height(IntrinsicSize.Max),
@@ -49,7 +52,7 @@ fun DetectionHistoryCard(
         ) {
 
             DiseaseImage(
-                imageId = imageId,
+                imagePath = imagePath,
                 modifier = Modifier
                     .weight(1f),
                 contentScale = ContentScale.FillBounds
@@ -80,7 +83,7 @@ fun DetectionHistoryCard(
 fun DiseaseImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
-    imageId: Int
+    imagePath: String
 ) {
     Box(
         modifier = modifier
@@ -88,7 +91,7 @@ fun DiseaseImage(
         Image(
             modifier = Modifier
                 .fillMaxSize(),
-            painter = painterResource(id = imageId),
+            painter = painterResource(id = R.drawable.disease_sample),
             contentDescription = null,
             contentScale = contentScale
         )
@@ -102,6 +105,6 @@ private fun DetectionHistoryCardPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00",
-        imageId = R.drawable.disease_sample
+        imagePath = ""
     ) { }
 }

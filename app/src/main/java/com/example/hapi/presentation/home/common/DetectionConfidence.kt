@@ -1,6 +1,7 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -27,8 +28,10 @@ import com.example.hapi.util.text.GreenBoldText
 
 @Composable
 fun DetectionLowConfidence(
+    modifier: Modifier = Modifier,
     name: String,
-    confidence: String
+    confidence: String,
+    infoLink: String
 ) {
 
     Row(
@@ -37,7 +40,7 @@ fun DetectionLowConfidence(
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(5.dp))
     ) {
-        DiseaseDetectionText(
+        DetectionResult(
             name = name, confidence = confidence,
             modifier = Modifier.weight(1f)
         )
@@ -46,7 +49,10 @@ fun DetectionLowConfidence(
                 .fillMaxHeight()
                 .weight(.2f)
                 .background(DarkGreenAppColor)
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable {
+                    //TODO: open info link
+                },
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -63,11 +69,11 @@ fun DetectionLowConfidence(
 }
 
 @Composable
-private fun DiseaseDetectionText(
+fun DetectionResult(
+    modifier: Modifier = Modifier,
     name: String,
     confidence: String,
     alignment: Alignment.Horizontal = Alignment.Start,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -77,7 +83,7 @@ private fun DiseaseDetectionText(
         horizontalAlignment = alignment
     ) {
         GreenBlackText(size = 20, text = name)
-        GreenBoldText(size = 20, text = confidence)
+        GreenBoldText(size = 20, text = "$confidence% CONFIDENCE")
     }
 }
 
@@ -86,6 +92,7 @@ private fun DiseaseDetectionText(
 private fun DetectionLowConfidenceCardPreview() {
     DetectionLowConfidence(
         name = "EARLY BLIGHT",
-        confidence = "50% CONFIDENCE"
+        confidence = "50",
+        infoLink = "https://www.google.com"
     )
 }

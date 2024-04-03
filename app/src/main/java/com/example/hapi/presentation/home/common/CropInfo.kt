@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.CropType
+import com.example.hapi.util.Crop
 import com.example.hapi.util.text.YellowBlackText
 
 @Composable
@@ -29,7 +28,7 @@ fun CropInfo(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 18.dp,horizontal = 36.dp),
+            .padding(vertical = 18.dp, horizontal = 36.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,10 +45,10 @@ fun CropInfo(
 
 @Composable
 fun CropNutrientInfo(n: String, p: String, k: String) {
-   Column {
-       YellowBlackText(text = stringResource(id = R.string.n_p_k), size = 13)
-       YellowBlackText(text = "$n  :  $p  :  $k", size = 13)
-   }
+    Column {
+        YellowBlackText(text = stringResource(id = R.string.n_p_k), size = 13)
+        YellowBlackText(text = "$n  :  $p  :  $k", size = 13)
+    }
 }
 
 @Composable
@@ -60,16 +59,16 @@ fun CropRow(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
-    )  {
+    ) {
 
         Image(
             modifier = Modifier
                 .size(58.dp)
                 .padding(vertical = 6.dp),
-            painter = painterResource(id = crop.imageId),
+            painter = painterResource(id = getCropIcon(crop)),
             contentDescription = "crop image"
         )
-        YellowBlackText(size = 13, text = crop.type.name)
+        YellowBlackText(size = 13, text = crop.name)
 
     }
 
@@ -79,10 +78,7 @@ fun CropRow(
 @Composable
 fun CropInfoPreview() {
     CropInfo(
-        crop = Crop(
-            type = CropType.CORN,
-            imageId = R.drawable.corn
-        ),
+        crop = Crop.CORN,
         n = "1",
         p = "2",
         k = "8"

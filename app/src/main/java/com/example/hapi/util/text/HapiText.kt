@@ -168,3 +168,21 @@ fun DarkGreenExtraBoldText(
         textAlign = TextAlign.Center
     )
 }
+@Composable
+fun YellowMediumText(
+    text: String,
+    modifier: Modifier,
+    size: Int
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        color = YellowAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_medium
+            )
+        )
+    )
+}

@@ -14,22 +14,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.CropType
 import com.example.hapi.presentation.auth.signup.common.ConfirmButton
+import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.util.Crop
 import com.example.hapi.util.text.YellowBlackText
 
 @Composable
 fun FinalCropContent(
     modifier: Modifier,
-    crop: Crop,
+    crop: String,
     onClick: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ChosenCrop(crop = crop)
+        ChosenCrop(crop = Crop.valueOf(crop.uppercase()))
         Spacer(modifier = Modifier.padding(21.dp))
         ConfirmButton(text = stringResource(id = R.string.confirm_signup)) {
             onClick()
@@ -50,10 +50,10 @@ private fun ChosenCrop(
             modifier = Modifier
                 .size(95.dp)
                 .padding(vertical = 6.dp),
-            painter = painterResource(id = crop.imageId),
+            painter = painterResource(id = getCropIcon(crop)),
             contentDescription = "crop image"
         )
-        YellowBlackText(size = 20, text = crop.type.name)
+        YellowBlackText(size = 20, text = crop.name)
 
     }
 }
@@ -62,9 +62,6 @@ private fun ChosenCrop(
 @Composable
 private fun ChosenCropPreview() {
     FinalCropContent(
-        Modifier, crop = Crop(
-            type = CropType.TOMATO,
-            imageId = R.drawable.tomato
-        )
+        Modifier, "WHEAT"
     ) {}
 }

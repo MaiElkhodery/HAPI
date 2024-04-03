@@ -14,10 +14,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.crops
 import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.auth.signup.common.NavHeader
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
@@ -27,7 +25,7 @@ import com.example.hapi.util.Dimens
 fun FinalCropScreen(
     navController: NavController,
 //    viewModel: LandownerViewModel = hiltViewModel(),
-    crop: Crop
+    crop: String
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -49,7 +47,7 @@ fun FinalCropScreen(
                     bottom.linkTo(header.top)
                 }
         )
-        SignupAndGuestHeader(
+        NavHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
                 bottom.linkTo(content.top, margin = Dimens.header_margin)
@@ -84,5 +82,5 @@ fun FinalCropScreen(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalCropScreen(rememberNavController(), crops[1])
+    FinalCropScreen(rememberNavController(), "WHEAT")
 }

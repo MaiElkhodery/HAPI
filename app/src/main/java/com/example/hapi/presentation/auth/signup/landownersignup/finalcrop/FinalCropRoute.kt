@@ -3,21 +3,21 @@ package com.example.hapi.presentation.auth.signup.landownersignup.finalcrop
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.hapi.data.model.Crop
-import com.example.hapi.data.model.CropType
 
-private const val ROUTE = "final_crop/{crop_name}/{crop_imageId}"
+private const val ROUTE = "final_crop/{crop}"
 fun NavGraphBuilder.finalCropRoute(navController: NavController) {
     composable(route = ROUTE) { backEntryStack ->
         FinalCropScreen(
-            navController = navController, crop = Crop(
-                type = CropType.valueOf(backEntryStack.arguments?.getString("cropName") ?: ""),
-                imageId = backEntryStack.arguments?.getInt("cropId") ?: 0
-            )
+            navController = navController, crop = backEntryStack.arguments?.getString("crop")!!
         )
     }
 }
 
-fun NavController.navToFinalCropScreen(crop: Crop) {
-    navigate("$ROUTE/${crop.type.name}/${crop.imageId}")
+fun NavController.navigateToFinalCrop(crop: String) {
+    val route = "final_crop/$crop"
+    navigate(route) {
+        popUpTo(route) {
+            inclusive = true
+        }
+    }
 }

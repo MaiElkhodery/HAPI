@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.progress
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.common.Logo
+import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.identityselection.Crops
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.ui.theme.GreenAppColor
@@ -60,7 +62,7 @@ fun ProgressScreen(
                 SetupMessage(
                     message = stringResource(id = R.string.congratulation)
                 ) {
-
+                    navController.navigateToLandownerHome()
                 }
             } else {
                 SetupMessage(

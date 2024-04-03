@@ -22,10 +22,11 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun SignupAndGuestHeader(
+fun NavHeader(
     modifier: Modifier,
     topText: String,
     downText: String,
+    imageId: Int = R.drawable.back_btn,
     onClick: () -> Unit
 ) {
     Row(
@@ -38,7 +39,7 @@ fun SignupAndGuestHeader(
             modifier = Modifier.clickable {
                 onClick()
             },
-            painter = painterResource(id = R.drawable.nav_button),
+            painter = painterResource(id = imageId),
             contentDescription = "logo"
         )
         Column(
@@ -75,5 +76,5 @@ fun SignupAndGuestHeader(
 @Preview
 @Composable
 private fun FarmerSignupHeaderPreview() {
-    SignupAndGuestHeader(Modifier, "set up", "your account"){}
+    NavHeader(Modifier, "set up", "your account") {}
 }

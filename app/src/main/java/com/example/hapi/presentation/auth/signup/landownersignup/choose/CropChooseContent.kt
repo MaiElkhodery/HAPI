@@ -32,7 +32,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
 
 @Composable
-fun CropChooseContent(
+fun CropList(
     modifier: Modifier,
     onClick: (Crop) -> Unit
 ) {
@@ -41,7 +41,8 @@ fun CropChooseContent(
         columns = GridCells.Fixed(4),
         userScrollEnabled = true,
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         items(Crop.entries) { crop ->
             CropItem(
@@ -59,7 +60,7 @@ private fun CropItem(
     onClick: (Crop) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(bottom = 8.dp)
+        modifier = Modifier.padding(bottom = 21.dp)
             .clickable {
                 onClick(crop)
             }
@@ -117,7 +118,7 @@ private fun CropName(
 @Preview
 @Composable
 private fun CropChooseContentPreview() {
-    CropChooseContent(Modifier) {}
+    CropList(Modifier) {}
 }
 
 

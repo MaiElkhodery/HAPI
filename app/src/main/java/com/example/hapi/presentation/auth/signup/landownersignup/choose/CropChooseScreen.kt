@@ -65,7 +65,7 @@ fun CropChooseScreen(
             }
         )
 
-        CropChooseContent(
+        CropList(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)

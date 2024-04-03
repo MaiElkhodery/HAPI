@@ -32,6 +32,8 @@ import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.text.YellowBlackText
+import com.example.hapi.util.text.YellowMediumText
 
 @Composable
 fun Main(navController: NavController) {
@@ -98,24 +100,15 @@ fun Main(navController: NavController) {
                 },
             horizontalArrangement = Arrangement.Center
         ) {
-            MediumYellowText(
+            YellowMediumText(
                 text = stringResource(id = R.string.or),
-                modifier = Modifier.padding(end = 3.dp)
+                modifier = Modifier.padding(end = 3.dp),
+                size = 15
             )
-            Text(
-                modifier = Modifier,
-                text = stringResource(id = R.string.detect_now),
-                color = YellowAppColor,
-                fontSize = 15.sp,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
-                )
-            )
+            YellowBlackText(size = 15, text = stringResource(id = R.string.detect_now))
             Icon(
                 imageVector = Icons.Default.PlayArrow,
-                contentDescription = "go to guest home",
+                contentDescription = "go to guest",
                 tint = YellowAppColor
             )
         }

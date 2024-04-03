@@ -10,6 +10,9 @@ import com.example.hapi.presentation.auth.signup.landownersignup.detection.cropD
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.finalCropRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.info.landownerSignupRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendation.cropRecommendationRoute
+import com.example.hapi.presentation.home.detectiondetails.detectionDetailsRoute
+import com.example.hapi.presentation.home.detectionhistory.detectionHistoryRoute
+import com.example.hapi.presentation.home.landowner.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
 import com.example.hapi.presentation.progress.progressRoute
 import com.example.hapi.presentation.main.mainRoute
@@ -30,7 +33,9 @@ fun NavGraph(navController: NavHostController) {
         cropRecommendationRoute(navController)
         finalCropRoute(navController)
         signinRoute(navController)
-        mainRoute(navController = navController)
-
+        mainRoute(navController)
+        landownerHomeRoute(navController)
+        detectionHistoryRoute(navController)
+        detectionDetailsRoute(navController)
     }
 }

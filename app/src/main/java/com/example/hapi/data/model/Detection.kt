@@ -4,8 +4,10 @@ data class Detection (
     val id: Int? = null,
     val username: String,
     val crop: String,
-    val image_path: String,
+    val imagePath: String,
     val date: String,
     val time: String,
-    val possible_diseases: List<Disease>
+    val possibleDiseases: List<Disease>?,
+    val isHealthy: Boolean = false,
+    val confidence: Float = 0.0f
 )

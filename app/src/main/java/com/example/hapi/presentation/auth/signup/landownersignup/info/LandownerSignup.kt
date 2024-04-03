@@ -21,7 +21,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.common.ConfirmButton
 import com.example.hapi.presentation.auth.signup.common.LabeledInputField
 import com.example.hapi.presentation.auth.signup.common.Logo
-import com.example.hapi.presentation.auth.signup.common.SignupAndGuestHeader
+import com.example.hapi.presentation.auth.signup.common.NavHeader
 import com.example.hapi.presentation.auth.signup.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
@@ -66,7 +66,7 @@ fun LandownerSignup(
                     bottom.linkTo(header.top)
                 }
         )
-        SignupAndGuestHeader(
+        NavHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
                 bottom.linkTo(content.top, margin = Dimens.header_margin)
@@ -124,7 +124,8 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-            viewModel.signupLandowner()
+//            viewModel.signupLandowner()
+            navController.navToCropDetection()
         }
 
         LotusRow(

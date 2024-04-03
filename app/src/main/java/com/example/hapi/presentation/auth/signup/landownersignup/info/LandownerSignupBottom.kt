@@ -34,7 +34,7 @@ fun LotusRow(
 private fun LotusImage(
     isHighlighted: Boolean
 ) {
-    val imageId = if (isHighlighted) R.drawable.top_lotus else R.drawable.lotus2
+    val imageId = if (isHighlighted) R.drawable.top_lotus else R.drawable.progress_lotus
 
     Image(
         modifier = Modifier

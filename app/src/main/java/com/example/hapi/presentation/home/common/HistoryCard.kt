@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.GreenBlackText
+import com.example.hapi.util.text.DarkGreenBlackText
 
 @Composable
 fun HistoryCard(
@@ -29,7 +29,7 @@ fun HistoryCard(
 ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 7.dp)
+            .padding(horizontal = 8.dp)
             .clickable {
                 onClick()
             },
@@ -45,8 +45,8 @@ fun HistoryCard(
         ) {
             Image(
                 modifier = Modifier
-                    .padding(top = 10.dp)
-                    .size(95.dp),
+                    .padding(top = 5.dp)
+                    .size(85.dp),
                 painter = painterResource(
                     id = if (type == "land") {
                         R.drawable.land_history
@@ -57,11 +57,11 @@ fun HistoryCard(
                 contentDescription = null
             )
 
-            GreenBlackText(
-                size = 16,
+            DarkGreenBlackText(
+                size = 15,
                 text = if (type == "land") stringResource(id = R.string.land_history)
                 else stringResource(id = R.string.disease_history),
-                modifier = Modifier.padding(bottom = 10.dp)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         }
     }

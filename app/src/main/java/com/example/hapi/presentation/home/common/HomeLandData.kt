@@ -1,12 +1,14 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,7 +35,7 @@ import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun DetectionAndLandFeatureRow(
+fun LandData(
     modifier: Modifier = Modifier,
     lastLandAction: LandAction,
     lastDetection: Detection,
@@ -40,53 +44,64 @@ fun DetectionAndLandFeatureRow(
         mutableStateOf(false)
     }
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
+        Image(
             modifier = Modifier
-                .fillMaxWidth()
-                .shadow(
-                    elevation = 29.dp,
-                    clip = false,
-                    shape = RoundedCornerShape(10.dp),
-                    spotColor = PurpleGrey40
-                )
-        ) {
-            FeatureBox(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        detectionIsSelected = true
-                    },
-                text = stringResource(id = R.string.detection),
-                isSelected = detectionIsSelected
-            )
-            FeatureBox(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        detectionIsSelected = false
-                    },
-                text = stringResource(id = R.string.land),
-                isSelected = !detectionIsSelected
-            )
-        }
+                .size(100.dp),
+            painter = painterResource(id = R.drawable.crop_profile),
+            contentDescription = "home crop image"
+        )
+        Column {
 
-        if (detectionIsSelected) {
-            LastDetectionContent(
-                username = "John Doe",
-                date = "12/12/2021",
-                time = "12:00",
-                imageId = R.drawable.disease_sample
-            ) {}
-        } else {
-            LastLandActionContent(
-                action = com.example.hapi.util.LandAction.FERTILIZATION,
-                date = "12/12/2021",
-                time = "12:00"
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(
+                        elevation = 29.dp,
+                        clip = false,
+                        shape = RoundedCornerShape(10.dp),
+                        spotColor = PurpleGrey40
+                    )
+            ) {
+                FeatureBox(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            detectionIsSelected = true
+                        },
+                    text = stringResource(id = R.string.detection),
+                    isSelected = detectionIsSelected
+                )
+                FeatureBox(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            detectionIsSelected = false
+                        },
+                    text = stringResource(id = R.string.land),
+                    isSelected = !detectionIsSelected
+                )
+            }
+
+            // TODO: the image will be modified
+            if (detectionIsSelected) {
+                LastDetectionContent(
+                    username = lastDetection.username,
+                    date = lastDetection.date,
+                    time = lastDetection.time,
+                    imageId = R.drawable.disease_sample
+                ) {}
+            } else {
+                LastLandActionContent(
+                    action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
+                    date = lastLandAction.date,
+                    time = lastLandAction.time
+                )
+            }
         }
 
     }
@@ -99,14 +114,14 @@ private fun FeatureBox(
     isSelected: Boolean
 ) {
 
-    Row(
+    Box(
         modifier = modifier
             .background(
                 color = if (isSelected) YellowAppColor else DarkGreenAppColor
             )
             .fillMaxWidth()
             .padding(3.dp),
-        horizontalArrangement = Arrangement.Center
+        contentAlignment = Alignment.Center
     ) {
         Text(
             color = if (isSelected) DarkGreenAppColor else YellowAppColor,
@@ -126,7 +141,7 @@ private fun FeatureBox(
 @Preview
 @Composable
 private fun HomeOperationsDisplayPreview() {
-    DetectionAndLandFeatureRow(
+    LandData(
         lastLandAction = LandAction(
             name = com.example.hapi.util.LandAction.FERTILIZATION.name,
             date = "12/12/2021",
@@ -136,11 +151,10 @@ private fun HomeOperationsDisplayPreview() {
             id = 1,
             username = "John Doe",
             crop = "Wheat",
-            image_path = "path",
+            imagePath = "path",
             date = "12/12/2021",
             time = "12:00 PM",
-            status = "status",
-            possible_diseases = emptyList()
+            possibleDiseases = emptyList()
         )
     )
 }

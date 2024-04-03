@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,20 +9,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.LandAction
 import com.example.hapi.util.text.DarkGreenBlackText
-import com.example.hapi.util.text.DarkGreenExtraBoldText
 
 @Composable
 fun LastLandActionContent(
@@ -80,16 +85,16 @@ fun LandAction(
             text = action.name
         )
         Row {
-            LastLandActionInfo(
+            ActionInfo(
                 data = date,
-                actionTime = FeatureInfo.DATE,
+                action = FeatureInfo.DATE,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
             )
-            LastLandActionInfo(
+            ActionInfo(
                 data = time,
-                actionTime = FeatureInfo.TIME,
+                action = FeatureInfo.TIME,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
@@ -99,10 +104,12 @@ fun LandAction(
 }
 
 @Composable
-fun LastLandActionInfo(
+fun ActionInfo(
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    actionTime: FeatureInfo,
+    color: Color = DarkGreenAppColor,
+    fontSize: Int = 12,
+    action: FeatureInfo,
     data: String
 ) {
     Row(
@@ -111,21 +118,29 @@ fun LastLandActionInfo(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(if (fontSize <= 12) 20.dp else 26.dp),
             painter = painterResource(
                 id =
-                when (actionTime) {
+                when (action) {
                     FeatureInfo.TIME -> R.drawable.time
                     FeatureInfo.USER -> R.drawable.user
                     else -> R.drawable.date
                 }
             ),
             contentDescription = "date",
-            tint = DarkGreenAppColor
+            tint = color
         )
-        DarkGreenExtraBoldText(
+        Text(
             modifier = Modifier.padding(start = 5.dp),
-            size = 12, text = data
+            color = color,
+            fontSize = fontSize.sp,
+            fontFamily = FontFamily(
+                Font(
+                    R.font.poppins_extrabold
+                )
+            ),
+            text = data,
+            textAlign = TextAlign.Center
         )
     }
 }

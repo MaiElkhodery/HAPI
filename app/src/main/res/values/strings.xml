@@ -54,4 +54,6 @@
     <string name="select_crop">SELECT A CROP\nTO PROCEED\n</string>
     <string name="please_wait">PLEASE WAIT</string>
     <string name="processing">PROCESSING</string>
+    <string name="now_detecting">NOW DETECTION</string>
+    <string name="choose_from_photos">CHOOSE FROM PHOTOS</string>
 </resources>

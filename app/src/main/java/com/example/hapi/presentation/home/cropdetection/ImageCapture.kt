@@ -1,6 +1,9 @@
 package com.example.hapi.presentation.home.cropdetection
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -30,6 +33,7 @@ import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
+import java.io.ByteArrayOutputStream
 
 @Composable
 fun ImageCapture(
@@ -38,6 +42,7 @@ fun ImageCapture(
 ) {
 
     val context = LocalContext.current
+
     val cameraController = remember {
         LifecycleCameraController(context).apply {
             setEnabledUseCases(
@@ -46,7 +51,6 @@ fun ImageCapture(
         }
     }
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
     fun takePhoto() {
         cameraController.takePicture(
             ContextCompat.getMainExecutor(context),
@@ -56,8 +60,7 @@ fun ImageCapture(
                     val imageData = ByteArray(buffer.remaining())
                     buffer.get(imageData)
 
-                    // Call the callback function with the image data
-                    //onPhotoTaken(imageData)
+                    //TODO: SEND IT TO BACKEND
 
                     Log.d("ImageCaptured", "${image.format} , ${image.height} , ${image.width}")
                     image.close()
@@ -70,6 +73,26 @@ fun ImageCapture(
             }
         )
     }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { selectedImageUri ->
+                Log.d("Selected Image Uri", selectedImageUri.toString())
+                val inputStream =
+                    context.contentResolver.openInputStream(selectedImageUri)
+                val byteArrayOutputStream = ByteArrayOutputStream()
+
+                inputStream?.use { input ->
+                    byteArrayOutputStream.use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                val byteArray = byteArrayOutputStream.toByteArray()
+            }
+        }
+
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -117,7 +140,7 @@ fun ImageCapture(
             text = stringResource(id = R.string.choose_from_photos),
             icon = Icons.Default.PhotoLibrary
         ) {
-
+            galleryLauncher.launch("image/*")
         }
     }
 }

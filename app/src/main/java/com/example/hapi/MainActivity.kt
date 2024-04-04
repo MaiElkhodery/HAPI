@@ -1,9 +1,11 @@
 package com.example.hapi
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,13 +16,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             if (!hasRequiredPermissions()) {
                 ActivityCompat.requestPermissions(
                     this,
-                    CAMERA_PERMISSIONS,
+                    PERMISSIONS,
                     0
                 )
             }
@@ -34,13 +37,16 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        val CAMERA_PERMISSIONS = arrayOf(
-            android.Manifest.permission.CAMERA
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        val PERMISSIONS = arrayOf(
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.READ_MEDIA_IMAGES
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun hasRequiredPermissions(): Boolean {
-        return CAMERA_PERMISSIONS.all { permission ->
+        return PERMISSIONS.all { permission ->
             ContextCompat.checkSelfPermission(
                 applicationContext,
                 permission

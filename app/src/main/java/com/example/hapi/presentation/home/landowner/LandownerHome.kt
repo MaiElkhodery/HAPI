@@ -20,6 +20,7 @@ import com.example.hapi.presentation.home.common.CustomNavigationBottomBackgroun
 import com.example.hapi.presentation.home.common.HistoryCard
 import com.example.hapi.presentation.home.common.HomeHeader
 import com.example.hapi.presentation.home.common.LandData
+import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LandAction
@@ -34,14 +35,13 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
 
-        val (header, content, historyCards, navBottom,bottomBackground) = createRefs()
+        val (header, content, historyCards, navBottom, bottomBackground) = createRefs()
         val topGuideLine = createGuidelineFromTop(.07f)
 
         HomeHeader(
             modifier = Modifier
                 .constrainAs(header) {
                     top.linkTo(topGuideLine)
-                    bottom.linkTo(content.top)
                 },
             imageId = R.drawable.user_img,
             username = "khaled"
@@ -52,7 +52,7 @@ fun LandownerHome(
                 .padding(horizontal = 32.dp)
                 .constrainAs(content) {
                     top.linkTo(header.bottom, margin = 21.dp)
-                    bottom.linkTo(historyCards.top, margin = 22.dp)
+                    bottom.linkTo(historyCards.top)
                 },
             lastLandAction = com.example.hapi.data.model.LandAction(
                 LandAction.FERTILIZATION.name,
@@ -74,8 +74,8 @@ fun LandownerHome(
                 .fillMaxWidth()
                 .padding(horizontal = 26.dp)
                 .constrainAs(historyCards) {
-                    top.linkTo(content.bottom)
-                    bottom.linkTo(navBottom.top, margin = 26.dp)
+                    top.linkTo(content.bottom, margin = 12.dp)
+                    bottom.linkTo(navBottom.top, margin = 28.dp)
                 },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -103,12 +103,14 @@ fun LandownerHome(
         )
         CustomNavigationBottom(
             modifier = Modifier
-                .padding(top = 16.dp)
+                .padding(top = 12.dp)
                 .constrainAs(navBottom) {
                     bottom.linkTo(parent.bottom)
                 },
             onHomeClick = { },
-            onCameraClick = { },
+            onCameraClick = {
+                navController.navigateToCropSelection()
+            },
             onSettingsClick = { }
         )
 

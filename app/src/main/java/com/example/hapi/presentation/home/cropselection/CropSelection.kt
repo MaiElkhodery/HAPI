@@ -15,8 +15,8 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.choose.CropList
+import com.example.hapi.presentation.home.cropdetection.navigateToImageCapture
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.Dimens
 
 @Composable
 fun CropSelection(
@@ -57,6 +57,7 @@ fun CropSelection(
                 bottom.linkTo(bottomGuideLine)
             }
         ) { crop ->
+            navController.navigateToImageCapture(crop = crop.name)
         }
     }
 }

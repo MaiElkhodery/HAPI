@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -80,7 +81,7 @@ fun CustomNavigationBottom(
             isHomeSelected = false
             onSettingsClick()
         }
-        CameraBox(
+        CameraIcon(
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .constrainAs(camera) {
@@ -164,14 +165,15 @@ fun CustomNavigationBottomBackground(
 }
 
 @Composable
-private fun CameraBox(
+fun CameraIcon(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    iconColor: Color = YellowAppColor,
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .background(DarkGreenAppColor)
+            .background(if (iconColor == YellowAppColor) DarkGreenAppColor else YellowAppColor)
             .clickable {
                 onClick()
             },
@@ -179,12 +181,12 @@ private fun CameraBox(
     ) {
         Icon(
             modifier = Modifier
-                .size(87.dp)
+                .size(83.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,
             contentDescription = "camera icon",
-            tint = YellowAppColor
+            tint = iconColor
         )
     }
 }

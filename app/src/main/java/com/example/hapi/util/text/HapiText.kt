@@ -186,3 +186,22 @@ fun YellowMediumText(
         )
     )
 }
+
+@Composable
+fun YellowBoldText(
+    text: String,
+    modifier: Modifier=Modifier,
+    size: Int
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        color = YellowAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_bold
+            )
+        )
+    )
+}

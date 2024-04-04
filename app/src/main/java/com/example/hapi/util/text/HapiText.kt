@@ -171,7 +171,7 @@ fun DarkGreenExtraBoldText(
 @Composable
 fun YellowMediumText(
     text: String,
-    modifier: Modifier,
+    modifier: Modifier=Modifier,
     size: Int
 ) {
     Text(

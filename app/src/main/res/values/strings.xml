@@ -52,4 +52,6 @@
     <string name="settings">SETTINGS</string>
     <string name="disease">DISEASE</string>
     <string name="select_crop">SELECT A CROP\nTO PROCEED\n</string>
+    <string name="please_wait">PLEASE WAIT</string>
+    <string name="processing">PROCESSING</string>
 </resources>

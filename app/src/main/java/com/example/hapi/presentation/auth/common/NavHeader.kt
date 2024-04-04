@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.text.YellowBlackText
 
 @Composable
 fun NavHeader(
@@ -47,6 +48,7 @@ fun NavHeader(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.End
         ) {
+
             Text(
                 text = topText,
                 color = YellowAppColor,
@@ -57,16 +59,7 @@ fun NavHeader(
                     )
                 )
             )
-            Text(
-                text = downText,
-                color = YellowAppColor,
-                fontSize = 15.sp,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
-                )
-            )
+            YellowBlackText(size = 15, text = downText)
         }
 
 

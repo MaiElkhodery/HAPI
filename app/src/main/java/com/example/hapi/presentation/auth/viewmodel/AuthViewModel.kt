@@ -1,12 +1,16 @@
 package com.example.hapi.presentation.auth.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.model.SignupErrorInfo
 import com.example.hapi.data.model.State
+import com.example.hapi.domain.usecase.CropRecommendationUseCase
 import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
 import com.example.hapi.domain.usecase.SigninUseCase
+import com.example.hapi.domain.usecase.UploadSelectedCropUseCase
+import com.example.hapi.util.Crop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +21,9 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val signupFarmerUseCase: FarmerSignupUseCase,
     private val signupLandownerUseCase: LandownerSignupUseCase,
-    private val signinUseCase: SigninUseCase
+    private val signinUseCase: SigninUseCase,
+    private val cropRecommendationUseCase: CropRecommendationUseCase,
+    private val uploadSelectedCropUseCase: UploadSelectedCropUseCase
 ) : ViewModel() {
 
     private var _errorMsg = MutableStateFlow("")
@@ -56,6 +62,9 @@ class AuthViewModel @Inject constructor(
 
     private var _isLandowner = MutableStateFlow(false)
     var isLandowner = _isLandowner.asStateFlow()
+
+    private val _recommendedCrops = MutableStateFlow(emptyList<Crop>())
+    var recommendedCrops = _recommendedCrops.asStateFlow()
 
     fun onEvent(event: AuthEvent) {
         when (event) {
@@ -157,6 +166,58 @@ class AuthViewModel @Inject constructor(
                         if (state.result!!.role == "landowner") {
                             _isLandowner.value = true
                         }
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun getRecommendedCrops() {
+        viewModelScope.launch {
+            _errorMsg.value = ""
+            cropRecommendationUseCase().collect { state ->
+                when (state) {
+                    is State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _loading.value = false
+                        _recommendedCrops.value = state.result!!
+                        Log.d("viewmodel", "Crops: ${state.result}")
+                    }
+
+                    is State.Error -> {
+                        _loading.value = false
+                        _errorMsg.value = state.error.message
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun uploadSelectedCrop(
+        crop: String
+    ) {
+        viewModelScope.launch {
+            _errorMsg.value = ""
+            uploadSelectedCropUseCase(crop).collect { state ->
+                when (state) {
+                    is State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _loading.value = false
+                    }
+
+                    is State.Error -> {
+                        _loading.value = false
+                        _errorMsg.value = state.error.message
                     }
 
                     else -> {}

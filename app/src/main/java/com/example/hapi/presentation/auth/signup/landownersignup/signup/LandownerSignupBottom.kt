@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.info
+package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -25,7 +25,7 @@ import com.example.hapi.presentation.auth.common.LabeledInputField
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.WarningBox
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.ui.theme.GreenAppColor

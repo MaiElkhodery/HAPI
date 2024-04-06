@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.choose
+package com.example.hapi.presentation.auth.signup.landownersignup.cropselection
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -32,7 +32,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
 
 @Composable
-fun CropChooseContent(
+fun CropsList(
     modifier: Modifier,
     onClick: (Crop) -> Unit
 ) {
@@ -117,7 +117,7 @@ private fun CropName(
 @Preview
 @Composable
 private fun CropChooseContentPreview() {
-    CropChooseContent(Modifier) {}
+    CropsList(Modifier) {}
 }
 
 

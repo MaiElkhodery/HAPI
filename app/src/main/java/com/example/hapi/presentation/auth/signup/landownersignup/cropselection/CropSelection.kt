@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.choose
+package com.example.hapi.presentation.auth.signup.landownersignup.cropselection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,14 +17,14 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalCrop
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
-fun CropChooseScreen(
+fun SignupCropSelection(
     navController: NavController
 ) {
     ConstraintLayout(
@@ -55,7 +55,7 @@ fun CropChooseScreen(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-            navController.navToCropDetection()
+            navController.navigateToCropSelectionStrategy()
         }
 
         Title(title = stringResource(id = R.string.avilable_crop),
@@ -65,14 +65,14 @@ fun CropChooseScreen(
             }
         )
 
-        CropChooseContent(
+        CropsList(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
                 }
         ) { crop ->
-            navController.navigateToFinalCrop(crop.name)
+            navController.navigateToFinalSelectedCrop(crop.name)
         }
 
         LotusRow(
@@ -89,5 +89,5 @@ fun CropChooseScreen(
 @Preview
 @Composable
 private fun CropChoosePreview() {
-    CropChooseScreen(rememberNavController())
+    SignupCropSelection(rememberNavController())
 }

@@ -6,27 +6,37 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
-fun FinalCropScreen(
+fun FinalSelectedCrop(
     navController: NavController,
-//    viewModel: LandownerViewModel = hiltViewModel(),
-    crop: String
+    crop: String,
+    viewModel: AuthViewModel = hiltViewModel(),
 ) {
+    val error = viewModel.errorMsg.collectAsState().value
+    LaunchedEffect(error) {
+        if (error.isNotEmpty()) {
+            //TODO: handle error
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -58,14 +68,15 @@ fun FinalCropScreen(
             navController.popBackStack()
         }
 
-        FinalCropContent(
+        FinalSelectedCropContent(
             modifier = Modifier.constrainAs(content) {
                 top.linkTo(header.bottom)
                 bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
             },
             crop = crop
         ) {
-            navController.navToProgress(final = "true")
+            viewModel.uploadSelectedCrop(crop)
+            if (error.isEmpty()) navController.navToProgress(final = "true")
         }
 
         LotusRow(
@@ -76,11 +87,12 @@ fun FinalCropScreen(
                     bottom.linkTo(bottomGuideLine)
                 }
         )
+
     }
 }
 
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalCropScreen(rememberNavController(), "WHEAT")
+    FinalSelectedCrop(rememberNavController(), viewModel = hiltViewModel(),crop="WHEAT")
 }

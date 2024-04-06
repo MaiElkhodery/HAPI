@@ -25,6 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.main.navigateToMain
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -41,6 +43,7 @@ fun Splash(
 
     val role = viewModel.role
     val token = viewModel.token
+    val isCropSelected = viewModel.isCropSelected
 
     var state by remember {
         mutableStateOf(1)
@@ -53,14 +56,19 @@ fun Splash(
             }
         }
         job.invokeOnCompletion {
-            if (token.value != null) {
-                if (role.value == LANDOWNER) {
-                    //TODO: nav to landowner home
-                } else {
-                    //TODO: nav to farmer home
+            when {
+                token.value != null -> {
+                    if (role.value == LANDOWNER) {
+                        if (isCropSelected.value) {
+                            navController.navigateToLandownerHome()
+                        } else {
+                            navController.navigateToCropSelectionStrategy()
+                        }
+                    } else {
+                        //TODO: Navigate to farmer home
+                    }
                 }
-            } else {
-                navController.navigateToMain()
+                else -> navController.navigateToMain()
             }
         }
     }

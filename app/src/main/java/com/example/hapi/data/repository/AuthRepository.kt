@@ -34,6 +34,7 @@ class AuthRepository @Inject constructor(
                     emit(State.Success(response.body()))
                     authPreference.saveAuthToken(response.body()!!.token)
                     authPreference.saveRole(LANDOWNER)
+                    authPreference.saveHaveSelectedCrop(false)
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.string(),

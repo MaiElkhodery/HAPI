@@ -1,5 +1,6 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.finalcrop
+package com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,22 +12,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
-import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.auth.common.Title
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 
 @Composable
-fun FinalCropScreen(
+fun RecommendedCrops(
     navController: NavController,
-//    viewModel: LandownerViewModel = hiltViewModel(),
-    crop: String
+    crops: String,
 ) {
+
+    val topRecommendedCropsList = crops.split(",").map { Crop.valueOf(it) }
+    Log.d("CropSelectionStrategy", "Crops: $topRecommendedCropsList")
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -34,7 +43,7 @@ fun FinalCropScreen(
             .padding(horizontal = 26.dp)
     ) {
 
-        val (logo, header, content, lotusRow) = createRefs()
+        val (logo, header, title, content, lotusRow) = createRefs()
         val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
         val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
 
@@ -50,26 +59,33 @@ fun FinalCropScreen(
         NavHeader(
             modifier = Modifier.constrainAs(header) {
                 top.linkTo(logo.bottom, margin = Dimens.header_margin)
-                bottom.linkTo(content.top, margin = Dimens.header_margin)
+                bottom.linkTo(title.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-            navController.popBackStack()
+            navController.navigateToCropSelectionStrategy()
         }
 
-        FinalCropContent(
-            modifier = Modifier.constrainAs(content) {
+        Title(title = stringResource(id = R.string.choose_recommedation),
+            modifier = Modifier.constrainAs(title) {
                 top.linkTo(header.bottom)
-                bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
-            },
-            crop = crop
-        ) {
-            navController.navToProgress(final = "true")
-        }
+                bottom.linkTo(content.top, margin = Dimens.title_bottom_margin)
+            }
+        )
 
+        RecommendedCropsList(
+            modifier = Modifier
+                .constrainAs(content) {
+                    top.linkTo(title.bottom)
+                    bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
+                },
+            topCrops = topRecommendedCropsList
+        ) { crop ->
+            navController.navigateToFinalSelectedCrop(crop.name)
+        }
         LotusRow(
-            highlightedLotusPos = 3,
+            highlightedLotusPos = 2,
             modifier = Modifier
                 .constrainAs(lotusRow) {
                     top.linkTo(content.bottom)
@@ -82,5 +98,8 @@ fun FinalCropScreen(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalCropScreen(rememberNavController(), "WHEAT")
+    RecommendedCrops(
+        rememberNavController(),
+        "Crops"
+    )
 }

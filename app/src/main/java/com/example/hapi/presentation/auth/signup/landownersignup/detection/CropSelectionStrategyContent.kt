@@ -26,7 +26,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 
 
 @Composable
-fun CropDetectionContent(
+fun CropSelectionStrategyContent(
     modifier: Modifier,
     onClickRecommendation: () -> Unit,
     onClickHaveCrop: () -> Unit
@@ -130,5 +130,5 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun ContentPreview() {
-    CropDetectionContent(Modifier, {}) {}
+    CropSelectionStrategyContent(Modifier, {}) {}
 }

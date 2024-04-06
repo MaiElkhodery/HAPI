@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.info
+package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import com.example.hapi.presentation.auth.common.LabeledInputField
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.WarningBox
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
@@ -43,7 +43,7 @@ fun LandownerSignup(
 
     LaunchedEffect(authenticated) {
         if (authenticated) {
-            navController.navToCropDetection()
+            navController.navigateToCropSelectionStrategy()
         }
     }
     ConstraintLayout(
@@ -124,8 +124,7 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-//            viewModel.signupLandowner()
-            navController.navToCropDetection()
+            viewModel.signupLandowner()
         }
 
         LotusRow(

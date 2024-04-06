@@ -5,15 +5,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 private const val ROUTE = "final_crop/{crop}"
-fun NavGraphBuilder.finalCropRoute(navController: NavController) {
+fun NavGraphBuilder.FinalSelectedCropRoute(navController: NavController) {
     composable(route = ROUTE) { backEntryStack ->
-        FinalCropScreen(
+        FinalSelectedCrop(
             navController = navController, crop = backEntryStack.arguments?.getString("crop")!!
         )
     }
 }
 
-fun NavController.navigateToFinalCrop(crop: String) {
+fun NavController.navigateToFinalSelectedCrop(crop: String) {
     val route = "final_crop/$crop"
     navigate(route) {
         popUpTo(route) {

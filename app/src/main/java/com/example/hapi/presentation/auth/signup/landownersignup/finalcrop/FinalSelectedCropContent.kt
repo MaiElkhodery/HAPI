@@ -20,7 +20,7 @@ import com.example.hapi.util.Crop
 import com.example.hapi.util.text.YellowBlackText
 
 @Composable
-fun FinalCropContent(
+fun FinalSelectedCropContent(
     modifier: Modifier,
     crop: String,
     onClick: () -> Unit
@@ -61,7 +61,7 @@ private fun ChosenCrop(
 @Preview
 @Composable
 private fun ChosenCropPreview() {
-    FinalCropContent(
+    FinalSelectedCropContent(
         Modifier, "WHEAT"
     ) {}
 }

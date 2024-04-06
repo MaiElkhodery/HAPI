@@ -5,11 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.hapi.presentation.auth.signin.signinRoute
 import com.example.hapi.presentation.auth.signup.farmersignup.farmerSignupRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.choose.cropChooseRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.cropDetectionRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.finalCropRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.info.landownerSignupRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.recommendation.cropRecommendationRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.signupCropSelectionRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.cropSelectionStrategyRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.FinalSelectedCropRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.landownerSignupRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.recommendedCropsRoute
 import com.example.hapi.presentation.home.detectiondetails.detectionDetailsRoute
 import com.example.hapi.presentation.home.detectionhistory.detectionHistoryRoute
 import com.example.hapi.presentation.home.landowner.landownerHomeRoute
@@ -28,10 +28,10 @@ fun NavGraph(navController: NavHostController) {
         identitySelectionRoute(navController)
         farmerSignupRoute(navController)
         landownerSignupRoute(navController)
-        cropDetectionRoute(navController)
-        cropChooseRoute(navController)
-        cropRecommendationRoute(navController)
-        finalCropRoute(navController)
+        cropSelectionStrategyRoute(navController)
+        signupCropSelectionRoute(navController)
+        recommendedCropsRoute(navController)
+        FinalSelectedCropRoute(navController)
         signinRoute(navController)
         mainRoute(navController)
         landownerHomeRoute(navController)

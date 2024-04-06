@@ -1,32 +1,54 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.detection
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.choose.navToCropChooseScreen
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.navigateToSignupCropSelection
+import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.navigateToRecommendedCrops
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
-fun CropDetectionScreen(
+fun CropSelectionStrategy(
     navController: NavController,
-//    viewModel: LandownerViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.loading.collectAsState().value
+    val crops = viewModel.recommendedCrops.collectAsState().value
+    val error = viewModel.errorMsg.collectAsState().value
+
+    LaunchedEffect(crops) {
+//        if (isLoading) {
+//            //TODO: ADD LOADING SCREEN
+//        }
+        if (crops.isNotEmpty()) {
+            Log.d("CropSelectionStrategy", "Crops: $crops")
+            navController.navigateToRecommendedCrops(crops.joinToString(","))
+        }
+//        if (error.isNotEmpty()) {
+//            //TODO: Handle error
+//        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +76,7 @@ fun CropDetectionScreen(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-
+            navController.popBackStack()
         }
 
         Title(title = stringResource(id = R.string.do_you),
@@ -63,17 +85,15 @@ fun CropDetectionScreen(
             }
         )
 
-        CropDetectionContent(
+        CropSelectionStrategyContent(
             modifier = Modifier.constrainAs(content) {
                 top.linkTo(title.bottom, margin = Dimens.header_margin)
             },
             onClickRecommendation = {
-                //TODO: RETURN OR FLOW THE RECOMMENDED CROPS
-//                viewModel.cropRecommendation()
-
+                viewModel.getRecommendedCrops()
             },
             onClickHaveCrop = {
-                navController.navToCropChooseScreen()
+                navController.navigateToSignupCropSelection()
             }
         )
 
@@ -86,11 +106,12 @@ fun CropDetectionScreen(
                     bottom.linkTo(bottomGuideLine)
                 }
         )
+
     }
 }
 
 @Preview
 @Composable
 private fun CropRecommendationPreview() {
-    CropDetectionScreen(rememberNavController())
+    CropSelectionStrategy(rememberNavController())
 }

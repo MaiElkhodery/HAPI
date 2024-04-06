@@ -1,6 +1,5 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.info
+package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

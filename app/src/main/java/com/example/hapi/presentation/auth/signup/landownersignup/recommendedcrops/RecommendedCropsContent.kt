@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.recommendation
+package com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import com.example.hapi.util.text.GreenBlackText
 import com.example.hapi.util.text.YellowBlackText
 
 @Composable
-fun CropRecommendationContent(
+fun RecommendedCropsList(
     modifier: Modifier = Modifier,
     topCrops: List<Crop>,
     onClick: (Crop) -> Unit
@@ -144,7 +144,7 @@ fun CropRow(
 @Preview
 @Composable
 private fun CropRecommendationContentPreview() {
-    CropRecommendationContent(
+    RecommendedCropsList(
         topCrops = listOf(
             Crop.APPLE,
             Crop.POTATO,

@@ -19,6 +19,9 @@ class SplashViewModel @Inject constructor(
 
     private val _token = MutableStateFlow<String?>(null)
     val token = _token.asStateFlow()
+
+    private val _isCropSelected = MutableStateFlow(false)
+    val isCropSelected = _isCropSelected.asStateFlow()
     fun getRole() {
         viewModelScope.launch {
             _role.value = authPreference.getToken()
@@ -28,6 +31,12 @@ class SplashViewModel @Inject constructor(
     fun getToken() {
         viewModelScope.launch {
             _token.value = authPreference.getRole()
+        }
+    }
+
+    fun getIsCropSelected() {
+        viewModelScope.launch {
+            _isCropSelected.value = authPreference.getIsCropSelected()
         }
     }
 }

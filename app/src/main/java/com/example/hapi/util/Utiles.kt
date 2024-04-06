@@ -8,12 +8,12 @@ import java.io.IOException
 fun handleException(e: Exception): State<Any> {
     return when (e) {
         is IOException ->
-            State.Exception("Network error occurred during signup. Please check your internet connection.")
+            State.Exception("Network error occurred. Please check your internet connection.")
 
         is HttpException ->
-            State.Exception("Server error occurred during signup. Please try again.")
+            State.Exception("Server error occurred. Please try again.")
 
         else ->
-            State.Exception("Unknown error occurred during signup.")
+            State.Exception("Unknown error occurred.")
     }
 }

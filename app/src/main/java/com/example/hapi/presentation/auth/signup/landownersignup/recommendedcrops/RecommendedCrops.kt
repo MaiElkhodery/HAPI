@@ -1,5 +1,6 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.recommendation
+package com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,24 +12,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.navToCropDetection
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalCrop
-import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
+import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
+import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 
 @Composable
-fun CropRecommendationScreen(
+fun RecommendedCrops(
     navController: NavController,
-//    viewModel: LandownerViewModel = hiltViewModel()
+    crops: String,
 ) {
+
+    val topRecommendedCropsList = crops.split(",").map { Crop.valueOf(it) }
+    Log.d("CropSelectionStrategy", "Crops: $topRecommendedCropsList")
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +64,7 @@ fun CropRecommendationScreen(
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
-            navController.navToCropDetection()
+            navController.navigateToCropSelectionStrategy()
         }
 
         Title(title = stringResource(id = R.string.choose_recommedation),
@@ -67,20 +74,15 @@ fun CropRecommendationScreen(
             }
         )
 
-        CropRecommendationContent(
+        RecommendedCropsList(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(lotusRow.top, margin = Dimens.content_margin)
                 },
-            //TEMPORARY
-            topCrops = listOf(
-                Crop.POTATO,
-                Crop.TOMATO,
-                Crop.CORN
-            )
+            topCrops = topRecommendedCropsList
         ) { crop ->
-            navController.navigateToFinalCrop(crop.name)
+            navController.navigateToFinalSelectedCrop(crop.name)
         }
         LotusRow(
             highlightedLotusPos = 2,
@@ -96,7 +98,8 @@ fun CropRecommendationScreen(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    CropRecommendationScreen(
-        rememberNavController()
+    RecommendedCrops(
+        rememberNavController(),
+        "Crops"
     )
 }

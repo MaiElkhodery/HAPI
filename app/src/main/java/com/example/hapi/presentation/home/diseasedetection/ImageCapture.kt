@@ -1,5 +1,7 @@
-package com.example.hapi.presentation.home.cropdetection
+package com.example.hapi.presentation.home.diseasedetection
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,7 +17,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -25,21 +29,31 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
+import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
+import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
+import com.example.hapi.util.uriToByteArray
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 @Composable
 fun ImageCapture(
     navController: NavController,
     crop: Crop,
+    viewModel: DiseaseDetectionViewModel = hiltViewModel()
 ) {
+
+    val isLoading = viewModel.loading.collectAsState().value
+    val errorMsg = viewModel.errorMsg.collectAsState().value
+    val detectionId = viewModel.detectionId.collectAsState().value
 
     val context = LocalContext.current
 
@@ -50,24 +64,28 @@ fun ImageCapture(
             )
         }
     }
+    val coroutineScope = rememberCoroutineScope()
+
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-    fun takePhoto() {
+    fun takePhotoAndDetectDisease() {
         cameraController.takePicture(
             ContextCompat.getMainExecutor(context),
             object : ImageCapture.OnImageCapturedCallback() {
+
                 override fun onCaptureSuccess(image: ImageProxy) {
-                    val buffer = image.planes[0].buffer
-                    val imageData = ByteArray(buffer.remaining())
-                    buffer.get(imageData)
-
-                    //TODO: SEND IT TO BACKEND
-
-                    Log.d("ImageCaptured", "${image.format} , ${image.height} , ${image.width}")
+                    val byteBuffer = image.planes[0].buffer
+                    val bytes = ByteArray(byteBuffer.remaining())
+                    byteBuffer.get(bytes)
+                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    val outputStream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
                     image.close()
+                    Log.d("GetPhoto", "onCaptureSuccess: ${bytes.size}")
+                    viewModel.detectDisease(crop.name, bytes)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Log.d("Take Photo", exception.toString())
+                    Log.d("Save Photo", exception.toString())
                 }
 
             }
@@ -77,18 +95,14 @@ fun ImageCapture(
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { selectedImageUri ->
-                Log.d("Selected Image Uri", selectedImageUri.toString())
-                val inputStream =
-                    context.contentResolver.openInputStream(selectedImageUri)
-                val byteArrayOutputStream = ByteArrayOutputStream()
-
-                inputStream?.use { input ->
-                    byteArrayOutputStream.use { output ->
-                        input.copyTo(output)
-                    }
+                coroutineScope.launch {
+                    val byteArray = uriToByteArray(context.contentResolver, selectedImageUri)!!
+                    Log.d("GetPhoto", "onCaptureSuccess: ${byteArray.size}")
+                    viewModel.detectDisease(
+                        crop.name,
+                        byteArray
+                    )
                 }
-
-                val byteArray = byteArrayOutputStream.toByteArray()
             }
         }
 
@@ -129,7 +143,7 @@ fun ImageCapture(
             cameraController = cameraController,
             lifecycleOwner = LocalLifecycleOwner.current
         ) {
-            takePhoto()
+            takePhotoAndDetectDisease()
         }
 
         ORTextRow(
@@ -142,7 +156,20 @@ fun ImageCapture(
         ) {
             galleryLauncher.launch("image/*")
         }
+        if (isLoading) {
+            Loading()
+        }
+        if (errorMsg != null) {
+            //TODO: handle error msg
+        }
+        if (detectionId != null) {
+            navController.navigateToDetectionDetails(
+                detectionId = detectionId.toInt().toString(),
+                isLocal = "true"
+            )
+        }
     }
+
 }
 
 

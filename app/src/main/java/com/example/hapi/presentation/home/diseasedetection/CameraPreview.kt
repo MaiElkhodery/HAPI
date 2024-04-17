@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home.cropdetection
+package com.example.hapi.presentation.home.diseasedetection
 
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView

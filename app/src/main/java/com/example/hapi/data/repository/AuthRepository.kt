@@ -1,99 +1,76 @@
 package com.example.hapi.data.repository
 
-import com.example.hapi.data.local.AuthPreference
-import com.example.hapi.data.model.SigninErrorInfo
-import com.example.hapi.data.model.SignupErrorInfo
-import com.example.hapi.data.model.State
+import android.util.Log
+import com.example.hapi.data.local.datastore.AuthPreference
+import com.example.hapi.data.local.room.dao.landowner.LandownerDao
+import com.example.hapi.data.local.room.entities.landowner.Landowner
+import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.request.FarmerSignupRequest
 import com.example.hapi.data.remote.request.LandownerSignupRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
+import com.example.hapi.domain.model.State
 import com.example.hapi.util.FARMER
 import com.example.hapi.util.LANDOWNER
-import com.example.hapi.util.handleException
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val authPreference: AuthPreference
-) {
+    private val authPreference: AuthPreference,
+    private val landownerDao: LandownerDao
+) : ApiHandler() {
     suspend fun signupLandowner(
         landownerSignupRequest: LandownerSignupRequest
     ): Flow<State<SignupResponse?>> {
-        return flow {
-            try {
-                emit(State.Loading)
-                val response = authApiService.signupLandowner(landownerSignupRequest)
 
-                if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
-                    authPreference.saveAuthToken(response.body()!!.token)
-                    authPreference.saveRole(LANDOWNER)
-                } else {
-                    val error = Gson().fromJson(
-                        response.errorBody()?.string(),
-                        SignupErrorInfo::class.java
+        return ApiHandler().makeRequest(
+            execute = { authApiService.signupLandowner(landownerSignupRequest) },
+            onSuccess = { response ->
+                authPreference.saveAuthToken(response.token)
+                authPreference.saveRole(LANDOWNER)
+                landownerDao.insertOrUpdateLandowner(
+                    Landowner(
+                        name = response.username,
+                        landId = response.land_id
                     )
-                    emit(State.Error(error))
-                }
-            } catch (e: Exception) {
-                handleException(e)
+                )
             }
-        }
+        )
     }
 
     suspend fun signupFarmer(
         farmerSignupRequest: FarmerSignupRequest
     ): Flow<State<SignupResponse?>> {
-        return flow {
-            try {
-                emit(State.Loading)
-                val response = authApiService.signupFarmer(farmerSignupRequest)
-
-                if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
-                    authPreference.saveAuthToken(response.body()!!.token)
-                    authPreference.saveRole(FARMER)
-                } else {
-                    val error = Gson().fromJson(
-                        response.errorBody()?.string(),
-                        SignupErrorInfo::class.java
-                    )
-                    emit(State.Error(error))
-                }
-            } catch (e: Exception) {
-                handleException(e)
+        return ApiHandler().makeRequest(
+            execute = { authApiService.signupFarmer(farmerSignupRequest) },
+            onSuccess = { response ->
+                authPreference.saveAuthToken(response.token)
+                authPreference.saveRole(FARMER)
             }
-        }
+        )
     }
 
     suspend fun signin(
         signinRequest: SigninRequest
     ): Flow<State<SigninResponse?>> {
-        return flow {
-            try {
-                emit(State.Loading)
-                val response = authApiService.signin(signinRequest)
-
-                if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
-                    authPreference.saveAuthToken(response.body()!!.token)
-                    authPreference.saveRole(response.body()!!.role)
-                } else {
-                    val error = Gson().fromJson(
-                        response.errorBody()?.string(),
-                        SigninErrorInfo::class.java
-                    )
-                    emit(State.Error(error))
-                }
-            } catch (e: Exception) {
-                handleException(e)
+        return ApiHandler().makeRequest(
+            execute = { authApiService.signin(signinRequest) },
+            onSuccess = { response ->
+                authPreference.saveAuthToken(response.token)
+                authPreference.saveRole(response.role)
+                Log.d("SIGNIN","repo: $response")
+//                if (response.role == LANDOWNER) {
+//                    landownerDao.insertOrUpdateLandowner(
+//                        Landowner(
+//                            name = response.username,
+//                            landId = response.landId
+//                        )
+//                    )
+//                }
             }
-        }
+        )
     }
 }

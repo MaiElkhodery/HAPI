@@ -1,4 +1,4 @@
-package com.example.hapi.data.local
+package com.example.hapi.data.local.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

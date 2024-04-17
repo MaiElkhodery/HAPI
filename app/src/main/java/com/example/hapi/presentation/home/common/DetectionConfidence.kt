@@ -35,7 +35,7 @@ fun DetectionLowConfidence(
 ) {
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(5.dp))

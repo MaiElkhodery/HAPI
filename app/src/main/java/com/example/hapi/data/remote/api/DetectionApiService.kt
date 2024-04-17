@@ -1,8 +1,8 @@
 package com.example.hapi.data.remote.api
 
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
-import com.example.hapi.data.remote.response.DetectionItemResponse
 import com.example.hapi.data.remote.response.DetectionResponse
+import com.example.hapi.data.remote.response.DiseaseDetectionResponse
 import com.example.hapi.util.DETECTION
 import com.example.hapi.util.DETECTION_ITEM
 import com.example.hapi.util.LANDOWNER_DETECTION_HISTORY
@@ -24,17 +24,17 @@ interface DetectionApiService {
     suspend fun detectDisease(
         @Part image: MultipartBody.Part,
         @Part("crop") crop: RequestBody
-    ): Response<DetectionResponse>
+    ): Response<DiseaseDetectionResponse>
 
     @GET(LANDOWNER_DETECTION_HISTORY)
     suspend fun getDetectionHistory(): Response<List<DetectionHistoryResponse>>
 
     @GET("$DETECTION_ITEM/{id}")
-    suspend fun getDetection(@Path("id") id: Int): Response<DetectionItemResponse>
+    suspend fun getDetection(@Path("id") id: Int): Response<DetectionResponse>
 
     @GET(LAST_DETECTION)
     suspend fun getLastDetection(): Response<DetectionHistoryResponse>
 
     @GET(LAST_Five_DETECTION)
-    suspend fun getLastFiveDetections(): Response<List<DetectionItemResponse>>
+    suspend fun getLastFiveDetections(): Response<List<DetectionResponse>>
 }

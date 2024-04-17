@@ -6,7 +6,7 @@ import com.example.hapi.domain.model.State
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class DetectionHistoryUseCase @Inject constructor(
+class GetDetectionHistoryListUseCase @Inject constructor(
     private val detectionHistoryRepository: DetectionHistoryRepository
 ) {
     suspend operator fun invoke(): Flow<State<List<DetectionHistoryResponse>>> {

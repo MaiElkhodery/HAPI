@@ -3,13 +3,11 @@ package com.example.hapi.presentation.home.landowner
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryItem
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryWithDiseases
+import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
-import com.example.hapi.domain.model.Detection
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.LastDetectionUseCase
-import com.example.hapi.domain.usecase.LocalDetectionsUseCase
+import com.example.hapi.domain.usecase.GetRemoteLastDetectionUseCase
+import com.example.hapi.domain.usecase.GetSavedLastFiveDetectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandownerHomeViewModel @Inject constructor(
-    private val getLastDetectionUseCase: LastDetectionUseCase,
-    private val localDetectionsUseCase: LocalDetectionsUseCase
+    private val getLastDetectionUseCase: GetRemoteLastDetectionUseCase,
+    private val localDetectionsUseCase: GetSavedLastFiveDetectionsUseCase
 ) : ViewModel() {
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -32,7 +30,7 @@ class LandownerHomeViewModel @Inject constructor(
     )
     val lastDetection = _lastDetection.asStateFlow()
 
-    private val _lastLocalDetection = MutableStateFlow<DetectionHistoryWithDiseases?>(null)
+    private val _lastLocalDetection = MutableStateFlow<DetectionWithDiseases?>(null)
     val lastLocalDetection = _lastLocalDetection.asStateFlow()
 
     fun getLastDetection() {

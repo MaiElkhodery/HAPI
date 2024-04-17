@@ -32,7 +32,7 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
 import com.example.hapi.util.FeatureInfo
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 import com.example.hapi.util.toBitmap
 
 @Composable

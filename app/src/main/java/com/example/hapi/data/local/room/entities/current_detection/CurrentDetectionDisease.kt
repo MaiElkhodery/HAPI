@@ -1,12 +1,12 @@
-package com.example.hapi.data.local.room.entities.details
+package com.example.hapi.data.local.room.entities.current_detection
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class DetectionDiseaseDetails(
+data class CurrentDetectionDisease(
     @PrimaryKey(autoGenerate = true)
-    val diseaseId: Int = 0,
+    val detectionDiseaseId: Int = 0,
     val name: String,
     val confidence: Double,
     val infoLink: String,

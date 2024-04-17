@@ -3,12 +3,12 @@ package com.example.hapi.presentation.home.detectionhistory
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryWithDiseases
+import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.DetectionHistoryUseCase
-import com.example.hapi.domain.usecase.LastFiveDetectionsUseCase
-import com.example.hapi.domain.usecase.LocalDetectionsUseCase
+import com.example.hapi.domain.usecase.GetDetectionHistoryListUseCase
+import com.example.hapi.domain.usecase.FetchLastFiveDetectionsUseCase
+import com.example.hapi.domain.usecase.GetSavedLastFiveDetectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,15 +17,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetectionHistoryViewModel @Inject constructor(
-    private val detectionHistoryUseCase: DetectionHistoryUseCase,
-    private val lastFiveDetectionsUseCase: LastFiveDetectionsUseCase,
-    private val localDetectionsUseCase: LocalDetectionsUseCase
+    private val detectionHistoryUseCase: GetDetectionHistoryListUseCase,
+    private val lastFiveDetectionsUseCase: FetchLastFiveDetectionsUseCase,
+    private val localDetectionsUseCase: GetSavedLastFiveDetectionsUseCase
 ) : ViewModel() {
 
     private val _detectionList = MutableStateFlow(emptyList<DetectionHistoryResponse>())
     val detectionList = _detectionList.asStateFlow()
 
-    private val _localDetections = MutableStateFlow(emptyList<DetectionHistoryWithDiseases>())
+    private val _localDetections = MutableStateFlow(emptyList<DetectionWithDiseases>())
     val localDetections = _localDetections.asStateFlow()
 
     private val _loading = MutableStateFlow(false)

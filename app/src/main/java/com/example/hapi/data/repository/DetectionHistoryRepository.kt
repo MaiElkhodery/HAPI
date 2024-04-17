@@ -1,15 +1,15 @@
 package com.example.hapi.data.repository
 
 import android.util.Log
-import com.example.hapi.data.local.room.dao.history.DetectionHistoryItemDao
-import com.example.hapi.data.local.room.dao.history.DiseaseHistoryDao
-import com.example.hapi.data.local.room.entities.history.DetectionDiseaseHistory
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryItem
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryWithDiseases
+import com.example.hapi.data.local.room.dao.history.DetectionDao
+import com.example.hapi.data.local.room.dao.history.DiseaseDao
+import com.example.hapi.data.local.room.entities.history.Disease
+import com.example.hapi.data.local.room.entities.history.Detection
+import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
-import com.example.hapi.data.remote.response.DetectionItemResponse
+import com.example.hapi.data.remote.response.DetectionResponse
 import com.example.hapi.domain.model.State
 import com.example.hapi.util.downloadImage
 import com.example.hapi.util.toByteArray
@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 
 class DetectionHistoryRepository @Inject constructor(
-    private val detectionHistoryDao: DetectionHistoryItemDao,
-    private val diseaseHistoryDao: DiseaseHistoryDao,
+    private val detectionDao: DetectionDao,
+    private val diseaseDao: DiseaseDao,
     private val detectionApiService: DetectionApiService
 ) : ApiHandler() {
     suspend fun getDetectionHistory(): Flow<State<List<DetectionHistoryResponse>>> {
@@ -39,7 +39,7 @@ class DetectionHistoryRepository @Inject constructor(
         return try {
             val response = detectionApiService.getLastFiveDetections()
             if (response.isSuccessful) {
-                saveDetections(response.body()!!)
+                saveLastFiveDetections(response.body()!!)
                 true
             } else {
                 false
@@ -50,9 +50,9 @@ class DetectionHistoryRepository @Inject constructor(
 
     }
 
-    suspend fun getDetection(
+    suspend fun getRemoteDetectionById(
         id: Int
-    ): Flow<State<DetectionItemResponse>> {
+    ): Flow<State<DetectionResponse>> {
 
         return ApiHandler().makeRequest(
             execute = {
@@ -65,7 +65,7 @@ class DetectionHistoryRepository @Inject constructor(
 
     }
 
-    suspend fun getLastDetection(): Flow<State<DetectionHistoryResponse>> {
+    suspend fun getRemoteLastDetection(): Flow<State<DetectionHistoryResponse>> {
 
         return ApiHandler().makeRequest(
             execute = {
@@ -77,16 +77,16 @@ class DetectionHistoryRepository @Inject constructor(
         )
     }
 
-    private suspend fun saveDetections(
-        listOfDetections: List<DetectionItemResponse>
+    private suspend fun saveLastFiveDetections(
+        listOfDetections: List<DetectionResponse>
     ) {
         deleteAllDetections()
         withContext(Dispatchers.IO) {
             listOfDetections.forEach { detectionResponse ->
                 val imageByteArray = downloadImage(detectionResponse.image_url)?.toByteArray()!!
 
-                val detectionId = detectionHistoryDao.insertDetectionList(
-                    DetectionHistoryItem(
+                val detectionId = detectionDao.insertDetectionList(
+                    Detection(
                         name = detectionResponse.username,
                         date = detectionResponse.date,
                         time = detectionResponse.time,
@@ -96,8 +96,8 @@ class DetectionHistoryRepository @Inject constructor(
                     )
                 )
                 detectionResponse.detection.diseases.forEach { disease ->
-                    diseaseHistoryDao.insertDisease(
-                        DetectionDiseaseHistory(
+                    diseaseDao.insertDisease(
+                        Disease(
                             detectionId = detectionId.toInt(),
                             name = disease.name,
                             confidence = disease.confidence,
@@ -110,16 +110,16 @@ class DetectionHistoryRepository @Inject constructor(
         }
     }
 
-    suspend fun getLocalDetections():List<DetectionHistoryWithDiseases>{
+    suspend fun getSavedLastFiveDetections():List<DetectionWithDiseases>{
        return withContext(Dispatchers.IO){
-            detectionHistoryDao.getALlDetectionWithDiseases()
+            detectionDao.getALlDetectionWithDiseases()
         }
     }
 
     private suspend fun deleteAllDetections(){
         withContext(Dispatchers.IO){
-            detectionHistoryDao.deleteAll()
-            diseaseHistoryDao.deleteAll()
+            detectionDao.deleteAll()
+            diseaseDao.deleteAll()
         }
     }
 }

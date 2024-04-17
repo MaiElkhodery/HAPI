@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.util.Crop
-import com.example.hapi.util.text.YellowBlackText
+import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun CropInfo(

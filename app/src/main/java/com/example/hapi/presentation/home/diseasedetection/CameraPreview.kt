@@ -29,7 +29,7 @@ import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
-import com.example.hapi.util.text.YellowBoldText
+import com.example.hapi.util.YellowBoldText
 
 @Composable
 fun CameraPreview(

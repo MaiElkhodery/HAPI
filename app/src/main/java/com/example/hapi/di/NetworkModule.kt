@@ -1,6 +1,6 @@
 package com.example.hapi.di
 
-import com.example.hapi.data.local.datastore.AuthPreference
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.api.FarmerApiService
@@ -24,7 +24,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideRetrofitInstance(authPreference: AuthPreference): Retrofit {
+    fun provideRetrofitInstance(authPreference: UserDataPreference): Retrofit {
         val client = OkHttpClient.Builder().apply {
             addInterceptor { chain ->
                 val token = runBlocking { authPreference.getToken() }

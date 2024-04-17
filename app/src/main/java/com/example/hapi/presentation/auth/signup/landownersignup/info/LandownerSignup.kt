@@ -124,7 +124,7 @@ fun LandownerSignup(
                 },
             text = stringResource(id = R.string.confirm)
         ) {
-//            viewModel.signupLandowner()
+            viewModel.signupLandowner()
             navController.navToCropDetection()
         }
 

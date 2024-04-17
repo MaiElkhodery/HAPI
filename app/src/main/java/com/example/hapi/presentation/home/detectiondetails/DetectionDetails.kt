@@ -50,9 +50,8 @@ import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
 import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
-import com.example.hapi.util.text.YellowBlackText
+import com.example.hapi.util.YellowBlackText
 import com.example.hapi.util.toBitmap
-import kotlin.math.absoluteValue
 
 @Composable
 fun DetectionDetails(

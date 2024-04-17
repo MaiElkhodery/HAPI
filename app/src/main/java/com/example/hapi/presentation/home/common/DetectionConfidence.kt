@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.GreenBlackText
-import com.example.hapi.util.text.GreenBoldText
+import com.example.hapi.util.GreenBlackText
+import com.example.hapi.util.GreenBoldText
 
 @Composable
 fun DetectionLowConfidence(

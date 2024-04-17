@@ -3,10 +3,10 @@ package com.example.hapi.presentation.home.detectiondetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetectionWithDiseases
-import com.example.hapi.data.remote.response.DetectionItemResponse
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionWithDisease
+import com.example.hapi.data.remote.response.DetectionResponse
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.DetectionItemUseCase
+import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.GetDetectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,13 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionUseCase: GetDetectionUseCase,
-    private val getDetectionItemUseCase: DetectionItemUseCase
+    private val getDetectionItemUseCase: GetRemoteDetectionUseCase
 ) : ViewModel() {
 
-    private val _localDetection = MutableStateFlow<LandownerDetectionWithDiseases?>(null)
+    private val _localDetection = MutableStateFlow<CurrentDetectionWithDisease?>(null)
     val localDetection = _localDetection.asStateFlow()
 
-    private val _remoteDetectionItem = MutableStateFlow<DetectionItemResponse?>(null)
+    private val _remoteDetectionItem = MutableStateFlow<DetectionResponse?>(null)
     val remoteDetectionItem = _remoteDetectionItem.asStateFlow()
 
     private val _loading = MutableStateFlow(false)

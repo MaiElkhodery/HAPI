@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryWithDiseases
+import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionHistoryCard
@@ -129,7 +129,7 @@ fun DetectionHistory(
                             }
                         } else {
                             val detectionResult =
-                                detectionHistoryList[index] as DetectionHistoryWithDiseases
+                                detectionHistoryList[index] as DetectionWithDiseases
                             Log.d("DetectionHistory", "DetectionHistory: $detectionResult")
                             DetectionHistoryCard(
                                 modifier = Modifier.padding(vertical = 8.dp),

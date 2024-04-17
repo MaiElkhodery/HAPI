@@ -4,43 +4,31 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.hapi.data.local.room.dao.details.DetectionDetailsDao
-import com.example.hapi.data.local.room.dao.details.DiseaseDetailsDao
-import com.example.hapi.data.local.room.dao.history.DetectionHistoryItemDao
-import com.example.hapi.data.local.room.dao.history.DiseaseHistoryDao
-import com.example.hapi.data.local.room.dao.landowner.LandownerDao
-import com.example.hapi.data.local.room.dao.landowner.LandownerDetectionDao
-import com.example.hapi.data.local.room.dao.landowner.LandownerDiseaseDao
-import com.example.hapi.data.local.room.entities.details.DetectionDetails
-import com.example.hapi.data.local.room.entities.details.DetectionDiseaseDetails
-import com.example.hapi.data.local.room.entities.history.DetectionDiseaseHistory
-import com.example.hapi.data.local.room.entities.history.DetectionHistoryItem
-import com.example.hapi.data.local.room.entities.landowner.Landowner
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetection
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetectionDisease
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
+import com.example.hapi.data.local.room.dao.current_detection.CurrrentDetectionDao
+import com.example.hapi.data.local.room.dao.history.DetectionDao
+import com.example.hapi.data.local.room.dao.history.DiseaseDao
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionDisease
+import com.example.hapi.data.local.room.entities.history.Detection
+import com.example.hapi.data.local.room.entities.history.Disease
 import javax.inject.Singleton
 
 @Singleton
 @Database(
-    entities = [(Landowner::class), (LandownerDetection::class), (LandownerDetectionDisease::class),
-         (DetectionDiseaseDetails::class), (DetectionDetails::class),
-        (DetectionHistoryItem::class), (DetectionDiseaseHistory::class)],
+    entities = [(CurrentDetection::class), (CurrentDetectionDisease::class),
+        (Detection::class), (Disease::class)],
     version = 1,
     exportSchema = false
 )
 abstract class HapiDatabase : RoomDatabase() {
-    abstract fun landownerDao(): LandownerDao
-    abstract fun landownerDetectionDao(): LandownerDetectionDao
+    abstract fun currentDetectionDao(): CurrrentDetectionDao
 
-    abstract fun landownerDiseaseDao(): LandownerDiseaseDao
+    abstract fun currentDiseaseDao(): CurrentDiseaseDao
 
-    abstract fun diseaseDetailsDao(): DiseaseDetailsDao
+    abstract fun detectionDao(): DetectionDao
 
-    abstract fun detectionDetailsDao(): DetectionDetailsDao
-
-    abstract fun detectionHistoryItemDao(): DetectionHistoryItemDao
-
-    abstract fun diseaseHistoryDao(): DiseaseHistoryDao
+    abstract fun diseaseDao(): DiseaseDao
 
     companion object {
         @Volatile

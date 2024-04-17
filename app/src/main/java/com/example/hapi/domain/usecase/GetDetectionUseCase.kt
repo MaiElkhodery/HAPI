@@ -1,6 +1,6 @@
 package com.example.hapi.domain.usecase
 
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetectionWithDiseases
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionWithDisease
 import com.example.hapi.data.repository.DetectionRepository
 import javax.inject.Inject
 
@@ -9,7 +9,7 @@ class GetDetectionUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         id: Int
-    ): LandownerDetectionWithDiseases {
+    ): CurrentDetectionWithDisease {
         return detectionRepository.getDetectionWithDiseasesById(id)
     }
 

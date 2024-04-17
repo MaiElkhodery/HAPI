@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.auth.signin
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +28,7 @@ import com.example.hapi.presentation.auth.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.info.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
@@ -41,15 +42,6 @@ fun Signin(
     val authenticated = viewModel.authenticated.collectAsState().value
     val isLandowner = viewModel.isLandowner.collectAsState().value
 
-    LaunchedEffect(authenticated) {
-        if (authenticated) {
-            if (isLandowner) {
-                //TODO: nav to landowner home
-            } else {
-                //TODO: nav to farmer home
-            }
-        }
-    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -119,7 +111,9 @@ fun Signin(
                 },
             text = stringResource(id = R.string.signin)
         ) {
+            Log.d("SIGNIN", "SIGNIN")
             viewModel.signin()
+            navController.navigateToLandownerHome()
         }
 
         LotusRow(
@@ -130,6 +124,13 @@ fun Signin(
                     bottom.linkTo(bottomGuideLine)
                 }
         )
+    }
+    if (authenticated) {
+        if (isLandowner) {
+            navController.navigateToLandownerHome()
+        } else {
+            //TODO: nav to farmer home
+        }
     }
 }
 

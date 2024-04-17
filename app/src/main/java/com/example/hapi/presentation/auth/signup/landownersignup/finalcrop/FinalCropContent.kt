@@ -17,7 +17,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.ConfirmButton
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.util.Crop
-import com.example.hapi.util.text.YellowBlackText
+import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun FinalCropContent(

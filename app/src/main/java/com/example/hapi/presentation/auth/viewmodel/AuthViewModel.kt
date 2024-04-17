@@ -18,7 +18,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val signupFarmerUseCase: FarmerSignupUseCase,
     private val signupLandownerUseCase: LandownerSignupUseCase,
-    private val signinUseCase: SigninUseCase
+    private val signinUseCase: SigninUseCase,
 ) : ViewModel() {
 
     private var _errorMsg = MutableStateFlow("")
@@ -142,7 +142,7 @@ class AuthViewModel @Inject constructor(
                 phoneNumber = _phoneNumber.value,
                 password = _password.value
             ).collect { state ->
-                Log.d("SIGNIN",toString())
+                Log.d("SIGNIN", toString())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
@@ -159,7 +159,7 @@ class AuthViewModel @Inject constructor(
                         if (state.result!!.role == "landowner") {
                             _isLandowner.value = true
                         }
-                        Log.d("SIGNIN","done")
+                        Log.d("SIGNIN", "done")
 
                     }
 

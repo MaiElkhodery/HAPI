@@ -36,7 +36,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun CustomNavigationBottom(

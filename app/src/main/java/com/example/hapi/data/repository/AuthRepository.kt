@@ -1,9 +1,6 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
-import com.example.hapi.data.local.datastore.AuthPreference
-import com.example.hapi.data.local.room.dao.landowner.LandownerDao
-import com.example.hapi.data.local.room.entities.landowner.Landowner
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.request.FarmerSignupRequest
@@ -19,8 +16,7 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val authPreference: AuthPreference,
-    private val landownerDao: LandownerDao
+    private val userDataPreference: UserDataPreference
 ) : ApiHandler() {
     suspend fun signupLandowner(
         landownerSignupRequest: LandownerSignupRequest
@@ -29,14 +25,10 @@ class AuthRepository @Inject constructor(
         return ApiHandler().makeRequest(
             execute = { authApiService.signupLandowner(landownerSignupRequest) },
             onSuccess = { response ->
-                authPreference.saveAuthToken(response.token)
-                authPreference.saveRole(LANDOWNER)
-                landownerDao.insertOrUpdateLandowner(
-                    Landowner(
-                        name = response.username,
-                        landId = response.land_id
-                    )
-                )
+                userDataPreference.saveAuthToken(response.token)
+                userDataPreference.saveRole(LANDOWNER)
+                userDataPreference.saveUsername(response.username)
+                userDataPreference.saveLandId(response.landId)
             }
         )
     }
@@ -47,8 +39,10 @@ class AuthRepository @Inject constructor(
         return ApiHandler().makeRequest(
             execute = { authApiService.signupFarmer(farmerSignupRequest) },
             onSuccess = { response ->
-                authPreference.saveAuthToken(response.token)
-                authPreference.saveRole(FARMER)
+                userDataPreference.saveAuthToken(response.token)
+                userDataPreference.saveRole(FARMER)
+                userDataPreference.saveUsername(response.username)
+                userDataPreference.saveLandId(response.landId)
             }
         )
     }
@@ -59,17 +53,13 @@ class AuthRepository @Inject constructor(
         return ApiHandler().makeRequest(
             execute = { authApiService.signin(signinRequest) },
             onSuccess = { response ->
-                authPreference.saveAuthToken(response.token)
-                authPreference.saveRole(response.role)
-                Log.d("SIGNIN","repo: $response")
-//                if (response.role == LANDOWNER) {
-//                    landownerDao.insertOrUpdateLandowner(
-//                        Landowner(
-//                            name = response.username,
-//                            landId = response.landId
-//                        )
-//                    )
-//                }
+                userDataPreference.saveAuthToken(response.token)
+                userDataPreference.saveRole(response.role)
+                userDataPreference.saveUsername(response.username)
+                userDataPreference.saveLandId(response.landId)
+                if (response.crop != null) {
+                    userDataPreference.saveCrop(response.crop)
+                }
             }
         )
     }

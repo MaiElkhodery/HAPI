@@ -3,15 +3,15 @@ package com.example.hapi.di
 import com.example.hapi.data.repository.AuthRepository
 import com.example.hapi.data.repository.DetectionHistoryRepository
 import com.example.hapi.data.repository.DetectionRepository
-import com.example.hapi.domain.usecase.DetectionHistoryUseCase
-import com.example.hapi.domain.usecase.DetectionItemUseCase
+import com.example.hapi.domain.usecase.GetDetectionHistoryListUseCase
+import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.DiseaseDetectionUseCase
 import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.GetDetectionUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.LastDetectionUseCase
-import com.example.hapi.domain.usecase.LastFiveDetectionsUseCase
-import com.example.hapi.domain.usecase.LocalDetectionsUseCase
+import com.example.hapi.domain.usecase.GetRemoteLastDetectionUseCase
+import com.example.hapi.domain.usecase.FetchLastFiveDetectionsUseCase
+import com.example.hapi.domain.usecase.GetSavedLastFiveDetectionsUseCase
 import com.example.hapi.domain.usecase.SigninUseCase
 import dagger.Module
 import dagger.Provides
@@ -57,29 +57,29 @@ object UseCaseModule {
     @Singleton
     fun provideGetDetectionItemUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = DetectionItemUseCase(detectionHistoryRepository)
+    ) = GetRemoteDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideDetectionHistoryUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = DetectionHistoryUseCase(detectionHistoryRepository)
+    ) = GetDetectionHistoryListUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideLastDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = LastDetectionUseCase(detectionHistoryRepository)
+    ) = GetRemoteLastDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideLastFiveDetectionsUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = LastFiveDetectionsUseCase(detectionHistoryRepository)
+    ) = FetchLastFiveDetectionsUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideLocalDetectionsUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = LocalDetectionsUseCase(detectionHistoryRepository)
+    ) = GetSavedLastFiveDetectionsUseCase(detectionHistoryRepository)
 }

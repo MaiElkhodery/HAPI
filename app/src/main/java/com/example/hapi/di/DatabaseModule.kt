@@ -25,30 +25,18 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideLandownerDao(database: HapiDatabase) = database.landownerDao()
+    fun provideCurrentDiseaseDao(database: HapiDatabase) = database.currentDiseaseDao()
 
     @Singleton
     @Provides
-    fun provideLandownerDiseaseDao(database: HapiDatabase) = database.landownerDiseaseDao()
+    fun provideCurrentDetectionDao(database: HapiDatabase) = database.currentDetectionDao()
 
     @Singleton
     @Provides
-    fun provideLandownerDetectionDao(database: HapiDatabase) = database.landownerDetectionDao()
+    fun provideDetectionDao(database: HapiDatabase) = database.detectionDao()
 
     @Singleton
     @Provides
-    fun provideDetectionDetailsDao(database: HapiDatabase) = database.detectionDetailsDao()
-
-    @Singleton
-    @Provides
-    fun provideDiseaseDetailsDao(database: HapiDatabase) = database.diseaseDetailsDao()
-
-    @Singleton
-    @Provides
-    fun provideDetectionHistoryItemDao(database: HapiDatabase) = database.detectionHistoryItemDao()
-
-    @Singleton
-    @Provides
-    fun provideDiseaseHistoryDao(database: HapiDatabase) = database.diseaseHistoryDao()
+    fun provideDiseaseDao(database: HapiDatabase) = database.diseaseDao()
 
 }

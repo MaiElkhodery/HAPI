@@ -1,12 +1,11 @@
 package com.example.hapi.data.repository
 
 import android.util.Log
-import com.example.hapi.data.local.room.dao.landowner.LandownerDao
-import com.example.hapi.data.local.room.dao.landowner.LandownerDetectionDao
-import com.example.hapi.data.local.room.dao.landowner.LandownerDiseaseDao
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetection
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetectionDisease
-import com.example.hapi.data.local.room.entities.landowner.LandownerDetectionWithDiseases
+import com.example.hapi.data.local.room.dao.current_detection.CurrrentDetectionDao
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionDisease
+import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionWithDisease
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.domain.model.Disease
@@ -26,11 +25,10 @@ import javax.inject.Inject
 
 class DetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
-    private val detectionDao: LandownerDetectionDao,
-    private val diseaseDao: LandownerDiseaseDao,
-    private val landownerDao: LandownerDao
+    private val detectionDao: CurrrentDetectionDao,
+    private val diseaseDao: CurrentDiseaseDao,
 
-) : ApiHandler() {
+    ) : ApiHandler() {
     suspend fun detectDisease(
         crop: String,
         byteArrayImage: ByteArray
@@ -38,15 +36,10 @@ class DetectionRepository @Inject constructor(
         return flow {
             try {
                 val image = createMultiPartBody(byteArrayImage)
-                Log.d("DetectRequest", "crop: $crop, image: $image")
                 emit(State.Loading)
                 val response = detectionApiService.detectDisease(
                     crop = crop.lowercase().toRequestBody("text/plain".toMediaTypeOrNull()),
                     image = image
-                )
-                Log.d(
-                    "DetectResponse",
-                    "response body: ${response.body()}, response code: ${response.code()}"
                 )
 
                 if (response.isSuccessful) {
@@ -84,7 +77,7 @@ class DetectionRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             diseaseDao.deleteAll()
             val diseaseList = diseases.map { disease ->
-                LandownerDetectionDisease(
+                CurrentDetectionDisease(
                     name = disease.name,
                     confidence = disease.confidence,
                     infoLink = disease.infoLink,
@@ -107,7 +100,7 @@ class DetectionRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             detectionDao.deleteAll()
             detectionDao.insertDetection(
-                LandownerDetection(
+                CurrentDetection(
                     detectionMaker = username,
                     date = date,
                     time = time,
@@ -120,7 +113,12 @@ class DetectionRepository @Inject constructor(
         }
     }
 
-    suspend fun getDetectionWithDiseasesById(detectionId: Int): LandownerDetectionWithDiseases {
-        return detectionDao.getDetectionWithDiseasesById(detectionId)
+    suspend fun getDetectionWithDiseasesById(detectionId: Int): CurrentDetectionWithDisease {
+        return detectionDao.getDetectionWithDiseasesById(detectionId).apply {
+            Log.d(
+                "DetectionRepository",
+                "getDetectionWithDiseasesById: ${this.detection}, ${this.diseases}"
+            )
+        }
     }
 }

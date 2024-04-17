@@ -15,7 +15,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.choose.CropList
-import com.example.hapi.presentation.home.cropdetection.navigateToImageCapture
+import com.example.hapi.presentation.home.detection.navigateToImageCapture
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable

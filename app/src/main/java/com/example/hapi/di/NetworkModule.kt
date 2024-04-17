@@ -1,6 +1,8 @@
 package com.example.hapi.di
 
+import com.example.hapi.data.local.datastore.AuthPreference
 import com.example.hapi.data.remote.api.AuthApiService
+import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.api.FarmerApiService
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.util.BASE_URL
@@ -8,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,20 +23,24 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideRetrofitInstance(): Retrofit {
+    fun provideRetrofitInstance(authPreference: AuthPreference): Retrofit {
         val client = OkHttpClient.Builder().apply {
             addInterceptor { chain ->
+                val token = runBlocking { authPreference.getToken() }
                 val newRequest = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")
+                    .apply {
+//                        if (token != null)
+                            addHeader("Authorization", "Bearer 1|q3JPEgFvl1QdPAQZi7JCZSt3AGx480loMZ2BCRIK29c76fc4")
+                    }
                     .build()
                 chain.proceed(newRequest)
             }
-        }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .build()
+        }.addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }).build()
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -64,4 +71,13 @@ object NetworkModule {
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideApiDetectionServiceInstance(
+        retrofit: Retrofit
+    ): DetectionApiService {
+        return retrofit.create(DetectionApiService::class.java)
+    }
 }
+

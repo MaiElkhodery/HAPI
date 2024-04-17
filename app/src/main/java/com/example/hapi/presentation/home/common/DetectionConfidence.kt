@@ -31,7 +31,7 @@ fun DetectionLowConfidence(
     modifier: Modifier = Modifier,
     name: String,
     confidence: String,
-    infoLink: String
+    onClickOnMore: () -> Unit
 ) {
 
     Row(
@@ -39,6 +39,7 @@ fun DetectionLowConfidence(
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(5.dp))
+            .padding(bottom = 8.dp)
     ) {
         DetectionResult(
             name = name, confidence = confidence,
@@ -51,7 +52,7 @@ fun DetectionLowConfidence(
                 .background(DarkGreenAppColor)
                 .padding(8.dp)
                 .clickable {
-                    //TODO: open info link
+                   onClickOnMore()
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -92,7 +93,6 @@ fun DetectionResult(
 private fun DetectionLowConfidenceCardPreview() {
     DetectionLowConfidence(
         name = "EARLY BLIGHT",
-        confidence = "50",
-        infoLink = "https://www.google.com"
-    )
+        confidence = "50"
+    ){}
 }

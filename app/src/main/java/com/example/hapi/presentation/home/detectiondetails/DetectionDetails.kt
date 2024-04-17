@@ -52,6 +52,7 @@ import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.text.YellowBlackText
 import com.example.hapi.util.toBitmap
+import kotlin.math.absoluteValue
 
 @Composable
 fun DetectionDetails(
@@ -112,7 +113,7 @@ fun DetectionDetails(
                         .border(width = 3.dp, color = YellowAppColor)
                         .fillMaxWidth()
                         .height(IntrinsicSize.Max)
-                        .weight(1.5f)
+                        .weight(1.2f)
 
                 ) {
                     if (!isLocal) {
@@ -211,13 +212,13 @@ fun DetectionDetails(
                             val disease = diseases[index]
                             DetectionLowConfidence(
                                 modifier = Modifier.padding(vertical = 8.dp),
-                                confidence = disease.confidence.toString(),
+                                confidence = (disease.confidence * 100).toInt().toString(),
                                 name = disease.name,
                             ) {
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(disease.infoLink))
                                 startActivity(context, intent, null)
                             }
-
+                            Log.d("DetectionDetails", "confidence: ${disease.confidence.toInt()}")
                         }
                     } else {
 
@@ -226,14 +227,16 @@ fun DetectionDetails(
                             val disease = diseases[index]
                             DetectionLowConfidence(
                                 modifier = Modifier.padding(vertical = 8.dp),
-                                confidence = disease.confidence.toString(),
+                                confidence = (disease.confidence * 100).toInt().toString(),
                                 name = disease.name,
                             ) {
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(disease.infoLink))
                                 startActivity(context, intent, null)
                             }
 
+                            Log.d("DetectionDetails", "confidence: ${disease.confidence.toInt()}")
                         }
+
                     }
                 }
 

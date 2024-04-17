@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -32,14 +33,19 @@ object NetworkModule {
                     .addHeader("Accept", "application/json")
                     .apply {
 //                        if (token != null)
-                            addHeader("Authorization", "Bearer 1|q3JPEgFvl1QdPAQZi7JCZSt3AGx480loMZ2BCRIK29c76fc4")
+                        addHeader(
+                            "Authorization",
+                            "Bearer 1|q3JPEgFvl1QdPAQZi7JCZSt3AGx480loMZ2BCRIK29c76fc4"
+                        )
                     }
                     .build()
                 chain.proceed(newRequest)
             }
         }.addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }).build()
+        }).connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS).build()
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

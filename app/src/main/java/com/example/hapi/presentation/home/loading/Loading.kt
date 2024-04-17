@@ -24,34 +24,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.crossFadeAnimation
 import com.example.hapi.util.text.YellowBlackText
 import com.example.hapi.util.text.YellowMediumText
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 @Composable
 fun Loading(
-    navController: NavController,
+    isLoading: Boolean = true,
 ) {
-
-    //TODO: CHANGE BASED ON THE BACKEND
-    val getResponse = false
     var state by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
-        val job = launch {
-            while (!getResponse) {
-                delay(700)
-                state = (state + 1) % 4
-            }
-        }
-        job.invokeOnCompletion {
-            //TODO: nav to detection result screen
+
+        while (isLoading) {
+            delay(720)
+            state = (state + 1) % 4
         }
     }
 
@@ -81,7 +71,8 @@ fun Loading(
                     centerHorizontallyTo(parent)
                 },
             targetState = state,
-            label = "state"
+            label = "state",
+            animationSpec = crossFadeAnimation(state)
         ) { state ->
             Log.d("Loading", "State: $state")
             when (state) {
@@ -111,6 +102,7 @@ fun Loading(
                 }
         )
     }
+
 
 }
 
@@ -152,5 +144,5 @@ fun LoadingIcon(
 @Preview
 @Composable
 fun LoadingPreview() {
-    Loading(rememberNavController())
+    Loading(isLoading = true)
 }

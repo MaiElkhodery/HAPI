@@ -12,9 +12,5 @@ fun NavGraphBuilder.detectionHistoryRoute(navController: NavController) {
     }
 }
 fun NavController.navigateToDetectionHistory(){
-    navigate(ROUTE){
-        popUpTo(ROUTE){
-            inclusive = true
-        }
-    }
+    navigate(ROUTE)
 }

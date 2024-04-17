@@ -106,7 +106,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 16.dp)
+            .padding(bottom = 12.dp)
             .clickable {
                 onClick()
             },
@@ -181,7 +181,7 @@ fun CameraIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(83.dp)
+                .size(80.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,

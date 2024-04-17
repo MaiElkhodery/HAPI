@@ -17,12 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hapi.R
+import coil.compose.AsyncImage
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.BASE_URL
+import com.example.hapi.util.toBitmap
 
 @Composable
 fun DetectionHistoryCard(
@@ -31,6 +33,7 @@ fun DetectionHistoryCard(
     date: String,
     time: String,
     imagePath: String,
+    byteArray: ByteArray? = null,
     onClick: () -> Unit
 ) {
     Box(
@@ -50,9 +53,9 @@ fun DetectionHistoryCard(
             horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             DiseaseImage(
                 imagePath = imagePath,
+                byteArrayImage = byteArray,
                 modifier = Modifier
                     .weight(1f),
                 contentScale = ContentScale.FillBounds
@@ -83,18 +86,30 @@ fun DetectionHistoryCard(
 fun DiseaseImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
-    imagePath: String
+    imagePath: String,
+    byteArrayImage: ByteArray?
 ) {
     Box(
         modifier = modifier
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize(),
-            painter = painterResource(id = R.drawable.disease_sample),
-            contentDescription = null,
-            contentScale = contentScale
-        )
+        if (byteArrayImage != null) {
+            Image(
+                modifier = Modifier
+                    .fillMaxSize(),
+                bitmap = byteArrayImage.toBitmap().asImageBitmap(),
+                contentDescription = null,
+                contentScale = contentScale
+            )
+        } else {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                model = BASE_URL + imagePath,
+
+                contentDescription = null,
+                contentScale = contentScale
+            )
+        }
     }
 }
 
@@ -105,6 +120,8 @@ private fun DetectionHistoryCardPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00",
-        imagePath = ""
-    ) { }
+        imagePath = "",
+    ) {
+
+    }
 }

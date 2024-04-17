@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home.cropdetection
+package com.example.hapi.presentation.home.diseasedetection
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,9 +17,5 @@ fun NavController.navigateToImageCapture(
     crop: String
 ) {
     val route = "image_capture/$crop"
-    navigate(route) {
-        popUpTo(route) {
-            inclusive = true
-        }
-    }
+    navigate(route)
 }

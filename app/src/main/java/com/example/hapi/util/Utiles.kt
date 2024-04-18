@@ -3,7 +3,9 @@ package com.example.hapi.util
 import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.Image
 import android.net.Uri
+import androidx.camera.core.ImageProxy
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
@@ -81,6 +83,21 @@ fun Bitmap.toByteArray(): ByteArray {
 
 fun ByteArray.toBitmap(): Bitmap {
     return BitmapFactory.decodeByteArray(this, 0, size)
+}
+
+//fun ImageProxy.toBitmap(): Bitmap? {
+//    val byteBuffer = planes[0].buffer
+//    val bytes = ByteArray(byteBuffer.remaining())
+//    byteBuffer.get(bytes)
+//    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+//}
+
+fun Bitmap.toCompressedByteArray(
+    quality: Int = 90
+): ByteArray? {
+    val outputStream = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+    return outputStream.toByteArray()
 }
 
 suspend fun downloadImage(

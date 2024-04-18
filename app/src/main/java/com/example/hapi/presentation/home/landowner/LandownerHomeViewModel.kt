@@ -3,11 +3,10 @@ package com.example.hapi.presentation.home.landowner
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
-import com.example.hapi.data.remote.response.DetectionHistoryResponse
-import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.GetRemoteLastDetectionUseCase
-import com.example.hapi.domain.usecase.GetSavedLastFiveDetectionsUseCase
+import com.example.hapi.data.local.datastore.UserDataPreference
+import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
+import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
+import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,52 +15,60 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandownerHomeViewModel @Inject constructor(
-    private val getLastDetectionUseCase: GetRemoteLastDetectionUseCase,
-    private val localDetectionsUseCase: GetSavedLastFiveDetectionsUseCase
+    private val getDetectionHistoryListUseCase: GetAndSaveDetectionHistoryUseCase,
+    private val getNewestDetectionUseCase: FetchNewestDetectionUseCase,
+    private val userDataPreference: UserDataPreference
 ) : ViewModel() {
-    private val _loading = MutableStateFlow(false)
-    val loading = _loading.asStateFlow()
 
     private val _errorMsg = MutableStateFlow("")
     val errorMsg = _errorMsg.asStateFlow()
 
-    private val _lastDetection = MutableStateFlow(
-        DetectionHistoryResponse(0, "", "", "", "")
-    )
+    private val _lastDetection = MutableStateFlow<DetectionOfHistory?>(null)
     val lastDetection = _lastDetection.asStateFlow()
 
-    private val _lastLocalDetection = MutableStateFlow<DetectionWithDiseases?>(null)
-    val lastLocalDetection = _lastLocalDetection.asStateFlow()
+    private val _id = MutableStateFlow(0)
+    val id = _id.asStateFlow()
 
-    fun getLastDetection() {
+
+    fun getDetectionHistory(
+        id: Int
+    ) {
         viewModelScope.launch {
-            getLastDetectionUseCase().collect { state ->
+            getDetectionHistoryListUseCase(id).collect { state ->
                 Log.d("LAST DETECTION", "viewmodel, $state")
                 when (state) {
-                    is State.Error -> {
-                        _loading.value = false
-                        _errorMsg.value = state.error.message
-
+                    true -> {
+                        Log.d("LAST DETECTION", "viewmodel, true")
                     }
 
-                    is State.Loading -> {
-                        _loading.value = true
+                    false -> {
+                        Log.d("LAST DETECTION", "viewmodel, false")
                     }
-
-                    is State.Success -> {
-                        _loading.value = false
-                        _lastDetection.value = state.result!!
-                    }
-
-                    else -> TODO()
                 }
             }
         }
     }
 
-    suspend fun getLastLocalDetection() {
+    suspend fun getLastDetection() {
         viewModelScope.launch {
-            _lastLocalDetection.value = localDetectionsUseCase().first()
+            _lastDetection.value = getNewestDetectionUseCase()
+            setId(_lastDetection.value!!.remoteId.toString())
         }
+    }
+
+    private fun getId() {
+        viewModelScope.launch {
+            _id.value = userDataPreference.getLastHistoryId()!!.toInt()
+        }
+    }
+
+    private fun setId(lastId: String) {
+        viewModelScope.launch {
+            userDataPreference.saveLastHistoryId(lastId)
+        }
+    }
+
+    init {
+        getId()
     }
 }

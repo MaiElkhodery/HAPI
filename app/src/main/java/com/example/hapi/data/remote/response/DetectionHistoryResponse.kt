@@ -5,5 +5,5 @@ data class DetectionHistoryResponse(
     val username: String,
     val image_url: String,
     val time: String,
-    val date: String,
+    val date: String
 )

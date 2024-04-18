@@ -31,7 +31,6 @@ class DiseaseDetectionViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             detectionUseCase(selectedCrop, byteArrayImage).collect { state ->
-                Log.d("DetectionViewModel","make request")
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true

@@ -1,7 +1,5 @@
 package com.example.hapi.presentation.home.diseasedetection
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -40,9 +38,9 @@ import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDe
 import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
+import com.example.hapi.util.toCompressedByteArray
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 @Composable
 fun ImageCapture(
@@ -73,15 +71,11 @@ fun ImageCapture(
             object : ImageCapture.OnImageCapturedCallback() {
 
                 override fun onCaptureSuccess(image: ImageProxy) {
-                    val byteBuffer = image.planes[0].buffer
-                    val bytes = ByteArray(byteBuffer.remaining())
-                    byteBuffer.get(bytes)
-                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    val outputStream = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+                    viewModel.detectDisease(
+                        crop.name,
+                        image.toBitmap().toCompressedByteArray()!!
+                    )
                     image.close()
-                    Log.d("GetPhoto", "onCaptureSuccess: ${bytes.size}")
-                    viewModel.detectDisease(crop.name, bytes)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -164,8 +158,7 @@ fun ImageCapture(
         }
         if (detectionId != null) {
             navController.navigateToDetectionDetails(
-                detectionId = detectionId.toInt().toString(),
-                isLocal = "true"
+                localId = detectionId.toInt().toString()
             )
         }
     }

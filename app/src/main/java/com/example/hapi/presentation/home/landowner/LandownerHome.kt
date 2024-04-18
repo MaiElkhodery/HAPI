@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,18 +34,13 @@ fun LandownerHome(
     navController: NavController,
     viewModel: LandownerHomeViewModel = hiltViewModel()
 ) {
-    var isNetworkConnected by remember {
-        mutableStateOf(false)
-    }
+    val id = viewModel.id.collectAsState().value
     LaunchedEffect(true) {
-        isNetworkConnected = isNetworkConnected()
-        if (isNetworkConnected) {
-            viewModel.getLastDetection()
-        } else {
-            viewModel.getLastLocalDetection()
-        }
+        if (isNetworkConnected())
+            viewModel.getDetectionHistory(id)
+        viewModel.getLastDetection()
     }
-
+    val lastDetection = viewModel.lastDetection.collectAsState().value
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -69,59 +60,32 @@ fun LandownerHome(
             username = "khaled"
         )
 
-        if (isNetworkConnected) {
-            val lastDetection =
-                viewModel.lastDetection.collectAsState().value
-            if (lastDetection != null) {
-                HomeLandData(
-                    modifier = Modifier
-                        .padding(horizontal = 32.dp)
-                        .constrainAs(content) {
-                            top.linkTo(header.bottom, margin = 21.dp)
-                            bottom.linkTo(historyCards.top)
-                        },
-                    lastLandAction = com.example.hapi.domain.model.LandAction(
-                        LandAction.FERTILIZATION.name,
-                        "2021-09-01",
-                        "12:00"
-                    ),
-                    username = lastDetection.username,
-                    date = lastDetection.date,
-                    time = lastDetection.time,
-                    image_url = lastDetection.image_url
-                ) {
-                    navController.navigateToDetectionDetails(lastDetection.id.toString())
-                }
-            }
+        if (lastDetection != null) {
 
-        } else {
-            val lastDetection = viewModel.lastLocalDetection.collectAsState().value
-            if (lastDetection != null) {
-
-                HomeLandData(
-                    modifier = Modifier
-                        .padding(horizontal = 32.dp)
-                        .constrainAs(content) {
-                            top.linkTo(header.bottom, margin = 21.dp)
-                            bottom.linkTo(historyCards.top)
-                        },
-                    lastLandAction = com.example.hapi.domain.model.LandAction(
-                        LandAction.FERTILIZATION.name,
-                        "2021-09-01",
-                        "12:00"
-                    ),
-                    username = lastDetection.detection.name,
-                    date = lastDetection.detection.date,
-                    time = lastDetection.detection.time,
-                    image_url = "",
-                    byteArray = lastDetection.detection.imageByteArray
-                ) {
-                    navController.navigateToDetectionDetails(lastDetection.detection.detectionId.toString())
-                }
+            HomeLandData(
+                modifier = Modifier
+                    .padding(horizontal = 32.dp)
+                    .constrainAs(content) {
+                        top.linkTo(header.bottom, margin = 21.dp)
+                        bottom.linkTo(historyCards.top)
+                    },
+                lastLandAction = com.example.hapi.domain.model.LandAction(
+                    LandAction.FERTILIZATION.name,
+                    "2021-09-01",
+                    "12:00"
+                ),
+                username = lastDetection.username,
+                date = lastDetection.date,
+                time = lastDetection.time,
+                image_url = "",
+                byteArray = lastDetection.imageByteArray
+            ) {
+                navController.navigateToDetectionDetails(
+                    remoteId = lastDetection.remoteId.toString(),
+                    localId = lastDetection.id.toString()
+                )
             }
         }
-
-
 
         Row(
             modifier = Modifier
@@ -167,10 +131,9 @@ fun LandownerHome(
             },
             onSettingsClick = { }
         )
-
     }
-
 }
+
 
 @Preview
 @Composable

@@ -1,7 +1,7 @@
 package com.example.hapi.data.repository
 
 import android.util.Log
-import com.example.hapi.data.local.room.dao.current_detection.CurrrentDetectionDao
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionDisease
@@ -15,18 +15,16 @@ import com.example.hapi.util.createMultiPartBody
 import com.example.hapi.util.getCurrentDateAsString
 import com.example.hapi.util.getCurrentTimeAsString
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class DetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
-    private val detectionDao: CurrrentDetectionDao,
-    private val diseaseDao: CurrentDiseaseDao,
+    private val currentDetectionDao: CurrentDetectionDao,
+    private val currentDiseaseDao: CurrentDiseaseDao,
 
     ) : ApiHandler() {
     suspend fun detectDisease(
@@ -43,6 +41,8 @@ class DetectionRepository @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
+
+                    deleteCurrentCachedDetection()
                     val detectionId = saveDetection(
 //                    username = landownerDao.getLandowner()!!.name,
                         username = "landowner",
@@ -74,18 +74,17 @@ class DetectionRepository @Inject constructor(
         diseases: List<Disease>,
         detectionId: Int
     ) {
-        withContext(Dispatchers.IO) {
-            diseaseDao.deleteAll()
-            val diseaseList = diseases.map { disease ->
-                CurrentDetectionDisease(
-                    name = disease.name,
-                    confidence = disease.confidence,
-                    infoLink = disease.infoLink,
-                    detectionId = detectionId
-                )
-            }
-            diseaseDao.insertListOfDiseases(diseaseList)
+        Log.d("DetectionRepository", "saveDisease")
+        val diseaseList = diseases.map { disease ->
+            CurrentDetectionDisease(
+                name = disease.name,
+                confidence = disease.confidence,
+                infoLink = disease.infoLink,
+                detectionId = detectionId
+            )
         }
+        currentDiseaseDao.insertListOfDiseases(diseaseList)
+
     }
 
     private suspend fun saveDetection(
@@ -97,28 +96,34 @@ class DetectionRepository @Inject constructor(
         crop: String,
         byteArrayImage: ByteArray
     ): Long {
-        return withContext(Dispatchers.IO) {
-            detectionDao.deleteAll()
-            detectionDao.insertDetection(
-                CurrentDetection(
-                    detectionMaker = username,
-                    date = date,
-                    time = time,
-                    confidence = confidence,
-                    isHealthy = isHealthy,
-                    crop = crop,
-                    image = byteArrayImage
-                )
+        Log.d("DetectionRepository", "saveDetection")
+        return currentDetectionDao.insertDetection(
+            CurrentDetection(
+                detectionMaker = username,
+                date = date,
+                time = time,
+                confidence = confidence,
+                isHealthy = isHealthy,
+                crop = crop,
+                image = byteArrayImage
             )
+        ).apply {
+            Log.d("DetectionRepository", "saveDetection: $this")
         }
+
     }
 
-    suspend fun getDetectionWithDiseasesById(detectionId: Int): CurrentDetectionWithDisease {
-        return detectionDao.getDetectionWithDiseasesById(detectionId).apply {
+    suspend fun getLocalCurrentDetectionById(detectionId: Int): CurrentDetectionWithDisease {
+        return currentDetectionDao.getDetectionWithDiseasesById(detectionId).apply {
             Log.d(
                 "DetectionRepository",
                 "getDetectionWithDiseasesById: ${this.detection}, ${this.diseases}"
             )
         }
+    }
+
+    private suspend fun deleteCurrentCachedDetection() {
+        currentDetectionDao.deleteAll()
+        currentDiseaseDao.deleteAll()
     }
 }

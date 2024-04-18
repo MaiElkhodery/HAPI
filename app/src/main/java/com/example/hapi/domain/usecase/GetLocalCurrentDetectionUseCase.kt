@@ -4,13 +4,13 @@ import com.example.hapi.data.local.room.entities.current_detection.CurrentDetect
 import com.example.hapi.data.repository.DetectionRepository
 import javax.inject.Inject
 
-class GetDetectionUseCase @Inject constructor(
+class GetLocalCurrentDetectionUseCase @Inject constructor(
     private val detectionRepository: DetectionRepository
 ) {
     suspend operator fun invoke(
         id: Int
     ): CurrentDetectionWithDisease {
-        return detectionRepository.getDetectionWithDiseasesById(id)
+        return detectionRepository.getLocalCurrentDetectionById(id)
     }
 
 }

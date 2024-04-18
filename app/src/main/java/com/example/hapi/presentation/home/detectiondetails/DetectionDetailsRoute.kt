@@ -5,25 +5,24 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-private const val ROUTE = "detection_details/{detectionId}/{isLocal}"
+private const val ROUTE = "detection_details/{localId}/{remoteId}"
 fun NavGraphBuilder.detectionDetailsRoute(navController: NavController) {
 
     composable(route = ROUTE) { backStackEntry ->
-        val detectionId = backStackEntry.arguments?.getString("detectionId")!!.toInt()
-        val isLocal = backStackEntry.arguments?.getString("isLocal")!!.toBoolean()
-        Log.d("DetectionDetailsRoute", backStackEntry.arguments.toString())
+        val localId = backStackEntry.arguments?.getString("localId")!!
+        val remoteId = backStackEntry.arguments?.getString("remoteId")!!
         DetectionDetails(
             navController = navController,
-            detectionId = detectionId,
-            local = isLocal
+            localId = localId,
+            remoteId = remoteId
         )
     }
 }
 
 fun NavController.navigateToDetectionDetails(
-    detectionId: String,
-    isLocal: String = "false"
+    localId: String,
+    remoteId: String = ""
 ) {
-    val route = "detection_details/$detectionId/$isLocal"
+    val route = "detection_details/$localId/$remoteId"
     navigate(route)
 }

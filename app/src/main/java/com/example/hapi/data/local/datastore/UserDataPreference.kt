@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import com.example.hapi.util.AUTH_KEY
 import com.example.hapi.util.CROP_KEY
 import com.example.hapi.util.LAND_ID_KEY
+import com.example.hapi.util.LAST_HISTORY_ID_KEY
 import com.example.hapi.util.ROLE_KEY
 import com.example.hapi.util.USERNAME_KEY
 import kotlinx.coroutines.flow.first
@@ -44,6 +45,12 @@ class UserDataPreference @Inject constructor(
         }
     }
 
+    suspend fun saveLastHistoryId(lastHistoryId: String) {
+        dataStore.edit { pref ->
+            pref[LAST_HISTORY_ID_KEY] = setOf(lastHistoryId)
+        }
+    }
+
     suspend fun getToken(): String? {
         val preferences = dataStore.data.first()
         return preferences[AUTH_KEY]?.first()
@@ -67,5 +74,10 @@ class UserDataPreference @Inject constructor(
     suspend fun getLandId(): String? {
         val preferences = dataStore.data.first()
         return preferences[LAND_ID_KEY]?.first()
+    }
+
+    suspend fun getLastHistoryId(): String {
+        val preferences = dataStore.data.first()
+        return preferences[LAST_HISTORY_ID_KEY]?.first() ?: "0"
     }
 }

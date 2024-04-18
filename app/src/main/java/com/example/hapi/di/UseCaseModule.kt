@@ -3,15 +3,15 @@ package com.example.hapi.di
 import com.example.hapi.data.repository.AuthRepository
 import com.example.hapi.data.repository.DetectionHistoryRepository
 import com.example.hapi.data.repository.DetectionRepository
-import com.example.hapi.domain.usecase.GetDetectionHistoryListUseCase
-import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.DiseaseDetectionUseCase
 import com.example.hapi.domain.usecase.FarmerSignupUseCase
-import com.example.hapi.domain.usecase.GetDetectionUseCase
+import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
+import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
+import com.example.hapi.domain.usecase.GetLocalDetectionUseCase
+import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.GetRemoteLastDetectionUseCase
-import com.example.hapi.domain.usecase.FetchLastFiveDetectionsUseCase
-import com.example.hapi.domain.usecase.GetSavedLastFiveDetectionsUseCase
 import com.example.hapi.domain.usecase.SigninUseCase
 import dagger.Module
 import dagger.Provides
@@ -43,7 +43,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideDetectionUseCase(
+    fun provideDiseaseDetectionUseCase(
         detectionRepository: DetectionRepository
     ) = DiseaseDetectionUseCase(detectionRepository)
 
@@ -51,35 +51,35 @@ object UseCaseModule {
     @Singleton
     fun provideGetDetectionUseCase(
         detectionRepository: DetectionRepository
-    ) = GetDetectionUseCase(detectionRepository)
+    ) = GetLocalCurrentDetectionUseCase(detectionRepository)
 
     @Provides
     @Singleton
-    fun provideGetDetectionItemUseCase(
+    fun provideGetRemoteDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
     ) = GetRemoteDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideDetectionHistoryUseCase(
+    fun provideGetAndSaveDetectionHistoryUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetDetectionHistoryListUseCase(detectionHistoryRepository)
+    ) = GetAndSaveDetectionHistoryUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideLastDetectionUseCase(
+    fun provideFetchDetectionHistoryUseCase (
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetRemoteLastDetectionUseCase(detectionHistoryRepository)
+    ) = FetchDetectionHistoryUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideLastFiveDetectionsUseCase(
+    fun provideFetchNewestDetectionUseCase (
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = FetchLastFiveDetectionsUseCase(detectionHistoryRepository)
+    ) = FetchNewestDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideLocalDetectionsUseCase(
+    fun provideLocalDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetSavedLastFiveDetectionsUseCase(detectionHistoryRepository)
+    ) = GetLocalDetectionUseCase(detectionHistoryRepository)
 }

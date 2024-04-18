@@ -33,10 +33,6 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDetectionDao(database: HapiDatabase) = database.detectionDao()
-
-    @Singleton
-    @Provides
-    fun provideDiseaseDao(database: HapiDatabase) = database.diseaseDao()
+    fun provideDetectionOfHistoryDao(database: HapiDatabase) = database.detectionOfHistoryDao()
 
 }

@@ -1,10 +1,9 @@
 package com.example.hapi.di
 
 import com.example.hapi.data.local.datastore.UserDataPreference
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
-import com.example.hapi.data.local.room.dao.current_detection.CurrrentDetectionDao
-import com.example.hapi.data.local.room.dao.history.DetectionDao
-import com.example.hapi.data.local.room.dao.history.DiseaseDao
+import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.repository.AuthRepository
@@ -34,7 +33,7 @@ object RepositoryModule {
     @Singleton
     fun provideDetectionRepository(
         detectionApiService: DetectionApiService,
-        detectionDao: CurrrentDetectionDao,
+        detectionDao: CurrentDetectionDao,
         diseaseDao: CurrentDiseaseDao,
     ) = DetectionRepository(
         detectionApiService,
@@ -45,12 +44,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideDetectionHistoryRepository(
-        detectionHistoryDao: DetectionDao,
-        diseaseHistoryDao: DiseaseDao,
+        detectionOfHistoryDao: DetectionOfHistoryDao,
         detectionApiService: DetectionApiService
     ) = DetectionHistoryRepository(
-        detectionHistoryDao,
-        diseaseHistoryDao,
-        detectionApiService
+        detectionApiService,
+        detectionOfHistoryDao
     )
 }

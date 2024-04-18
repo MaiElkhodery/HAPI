@@ -1,56 +1,55 @@
 package com.example.hapi.data.repository
 
 import android.util.Log
-import com.example.hapi.data.local.room.dao.history.DetectionDao
-import com.example.hapi.data.local.room.dao.history.DiseaseDao
-import com.example.hapi.data.local.room.entities.history.Disease
-import com.example.hapi.data.local.room.entities.history.Detection
-import com.example.hapi.data.local.room.entities.history.DetectionWithDiseases
+import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
+import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
+import com.example.hapi.data.remote.request.DetectionHistoryRequest
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.data.remote.response.DetectionResponse
+import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.example.hapi.util.downloadImage
 import com.example.hapi.util.toByteArray
-import kotlinx.coroutines.Dispatchers
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
 class DetectionHistoryRepository @Inject constructor(
-    private val detectionDao: DetectionDao,
-    private val diseaseDao: DiseaseDao,
-    private val detectionApiService: DetectionApiService
+    private val detectionApiService: DetectionApiService,
+    private val detectionOfHistoryDao: DetectionOfHistoryDao
 ) : ApiHandler() {
-    suspend fun getDetectionHistory(): Flow<State<List<DetectionHistoryResponse>>> {
-        return ApiHandler().makeRequest(
-            execute = {
-                detectionApiService.getDetectionHistory()
-            },
-            onSuccess = {
-                Log.d("DetectionHistoryRepository", "getDetectionHistory: $it")
+    suspend fun getAndSaveDetectionHistory(
+        id: Int
+    ): Flow<Boolean> {
+        return flow {
+            try {
+                val response = detectionApiService.getDetectionHistory(
+                    DetectionHistoryRequest(id)
+                )
+                if (response.isSuccessful) {
+                    saveDetectionHistory(response.body()!!)
+                    emit(true)
+                } else {
+                    val error = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        SignupErrorInfo::class.java
+                    )
+                    emit(false)
+                    Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $error")
+                }
+            } catch (e: Exception) {
+                emit(false)
+                Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $e")
             }
-        )
-    }
-
-    suspend fun getAndSaveLastFiveDetections(): Boolean {
-        return try {
-            val response = detectionApiService.getLastFiveDetections()
-            if (response.isSuccessful) {
-                saveLastFiveDetections(response.body()!!)
-                true
-            } else {
-                false
-            }
-        } catch (e: Exception) {
-            false
         }
-
     }
 
-    suspend fun getRemoteDetectionById(
+
+    suspend fun getRemoteDetectionDetailsById(
         id: Int
     ): Flow<State<DetectionResponse>> {
 
@@ -59,67 +58,38 @@ class DetectionHistoryRepository @Inject constructor(
                 detectionApiService.getDetection(id)
             },
             onSuccess = {
-               Log.d("DetectionHistoryRepository", "getDetection: $it")
+                Log.d("DetectionHistoryRepository", "getDetection: $it")
             }
         )
 
     }
 
-    suspend fun getRemoteLastDetection(): Flow<State<DetectionHistoryResponse>> {
-
-        return ApiHandler().makeRequest(
-            execute = {
-                detectionApiService.getLastDetection()
-            },
-            onSuccess = {
-                Log.d("DetectionHistoryRepository", "getLastDetection: $it")
-            }
-        )
+    suspend fun getDetectionByIdFromLocal(id: Int): DetectionOfHistory {
+        return detectionOfHistoryDao.getDetectionById(id)
     }
 
-    private suspend fun saveLastFiveDetections(
-        listOfDetections: List<DetectionResponse>
-    ) {
-        deleteAllDetections()
-        withContext(Dispatchers.IO) {
-            listOfDetections.forEach { detectionResponse ->
-                val imageByteArray = downloadImage(detectionResponse.image_url)?.toByteArray()!!
 
-                val detectionId = detectionDao.insertDetectionList(
-                    Detection(
-                        name = detectionResponse.username,
-                        date = detectionResponse.date,
-                        time = detectionResponse.time,
-                        imageByteArray = imageByteArray,
-                        isHealthy = detectionResponse.detection.isHealthy,
-                        confidence = detectionResponse.detection.confidence
-                    )
+    private suspend fun saveDetectionHistory(detectionHistoryList: List<DetectionHistoryResponse>) {
+
+        detectionOfHistoryDao.insertDetectionList(
+            detectionHistoryList.map {
+                DetectionOfHistory(
+                    remoteId = it.id,
+                    username = it.username,
+                    imageByteArray = downloadImage(it.image_url)!!.toByteArray(),
+                    time = it.time,
+                    date = it.date
                 )
-                detectionResponse.detection.diseases.forEach { disease ->
-                    diseaseDao.insertDisease(
-                        Disease(
-                            detectionId = detectionId.toInt(),
-                            name = disease.name,
-                            confidence = disease.confidence,
-                            infoLink = disease.infoLink
-                        )
-
-                    )
-                }
             }
-        }
+        )
     }
 
-    suspend fun getSavedLastFiveDetections():List<DetectionWithDiseases>{
-       return withContext(Dispatchers.IO){
-            detectionDao.getALlDetectionWithDiseases()
-        }
+    suspend fun getDetectionHistoryFromLocal(): List<DetectionOfHistory> {
+        return detectionOfHistoryDao.getAllDetectionHistory()
     }
 
-    private suspend fun deleteAllDetections(){
-        withContext(Dispatchers.IO){
-            detectionDao.deleteAll()
-            diseaseDao.deleteAll()
-        }
+    suspend fun getNewestDetection(): DetectionOfHistory {
+        return detectionOfHistoryDao.getNewestDetection()
     }
+
 }

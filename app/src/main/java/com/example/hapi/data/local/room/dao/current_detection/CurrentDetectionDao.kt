@@ -8,7 +8,7 @@ import com.example.hapi.data.local.room.entities.current_detection.CurrentDetect
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
 
 @Dao
-interface CurrrentDetectionDao {
+interface CurrentDetectionDao {
     @Upsert
     suspend fun insertDetection(detection: CurrentDetection): Long
 

@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionInfo
@@ -42,6 +43,7 @@ import com.example.hapi.presentation.home.common.DetectionResult
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.BASE_URL
 import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.YellowBlackText
@@ -51,15 +53,14 @@ import com.example.hapi.util.toBitmap
 fun DetectionDetails(
     navController: NavController,
     viewModel: DetectionDetailsViewModel = hiltViewModel(),
-    localId: String,
-    remoteId: String,
+    id: Int,
+    isCurrentDetection: Boolean
 ) {
     LaunchedEffect(true) {
-        if (remoteId.isNotBlank()) {
-            viewModel.getLocalDetection(localId.toInt())
-            viewModel.getRemoteDetectionDetailsById(remoteId.toInt())
+        if (!isCurrentDetection) {
+            viewModel.getRemoteDetectionDetailsById(id)
         } else {
-            viewModel.getCachedDiseaseDetectionResult(localId.toInt())
+            viewModel.getCachedDiseaseDetectionResult(id)
         }
     }
 
@@ -70,6 +71,7 @@ fun DetectionDetails(
     val crop = viewModel.crop.collectAsState().value
     val confidence = viewModel.confidence.collectAsState().value
     val diseaseList = viewModel.diseaseList.collectAsState().value
+    val imageUrl = viewModel.imageUrl.collectAsState().value
 
     val context = LocalContext.current
 
@@ -92,109 +94,121 @@ fun DetectionDetails(
         ) {
             navController.popBackStack()
         }
-        Row(
-            modifier = Modifier
-                .constrainAs(imageAndData) {
-                    top.linkTo(header.bottom, margin = 37.dp)
-                    bottom.linkTo(text.top)
-                }
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
+        if (crop.isNotBlank()) {
+            Row(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .border(width = 3.dp, color = YellowAppColor)
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Max)
-                    .weight(1.2f)
+                    .constrainAs(imageAndData) {
+                        top.linkTo(header.bottom, margin = 37.dp)
+                        bottom.linkTo(text.top)
+                    }
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(width = 3.dp, color = YellowAppColor)
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Max)
+                        .weight(1.2f)
 
+                ) {
+                    if (imageUrl.isNotBlank()) {
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .height(200.dp),
+                            model = BASE_URL + imageUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds
+                        )
+                    } else {
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .height(200.dp),
+                            bitmap = image.toBitmap().asImageBitmap(),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
+
+                }
+
+                DetectionInfo(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp)
+                        .weight(1f),
+                    username = username,
+                    date = date,
+                    time = time,
+                    color = YellowAppColor,
+                    fontSize = 15
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .constrainAs(text) {
+                        top.linkTo(imageAndData.bottom, margin = 22.dp)
+                        bottom.linkTo(boxes.top, margin = 22.dp)
+                    }
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
                 Image(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .height(200.dp),
-                    bitmap = image.toBitmap().asImageBitmap(),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds
+                        .padding(end = 8.dp)
+                        .size(31.dp),
+                    painter = painterResource(
+                        id = getCropIcon(
+                            Crop.valueOf(crop.uppercase())
+                        )
+                    ),
+                    contentDescription = "crop icon"
+                )
+                YellowBlackText(size = 24, text = crop.uppercase())
+            }
+            if (diseaseList.isEmpty()) {
+                DetectionResult(
+                    name = stringResource(id = R.string.healthy),
+                    confidence = (confidence * 100).toInt().toString(),
+                    modifier = Modifier
+                        .constrainAs(boxes) {
+
+                            top.linkTo(text.bottom, margin = Dimens.content_margin)
+                            bottom.linkTo(bottomGuideLine)
+
+                        }
+                        .padding(horizontal = 12.dp)
+                        .clip(RoundedCornerShape(5.dp)),
+                    alignment = Alignment.CenterHorizontally
                 )
 
-            }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .constrainAs(boxes) {
 
-            DetectionInfo(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp)
-                    .weight(1f),
-                username = username,
-                date = date,
-                time = time,
-                color = YellowAppColor,
-                fontSize = 15
-            )
-        }
+                            top.linkTo(text.bottom, margin = Dimens.content_margin)
+                            bottom.linkTo(bottomGuideLine)
 
-        Row(
-            modifier = Modifier
-                .constrainAs(text) {
-                    top.linkTo(imageAndData.bottom, margin = 22.dp)
-                    bottom.linkTo(boxes.top, margin = 22.dp)
-                }
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(31.dp),
-                painter = painterResource(
-                    id = getCropIcon(
-                        Crop.valueOf(crop.uppercase())
-                    )
-                ),
-                contentDescription = "crop icon"
-            )
-            YellowBlackText(size = 24, text = crop.uppercase())
-        }
-        if (diseaseList.isEmpty()) {
-            DetectionResult(
-                name = stringResource(id = R.string.healthy),
-                confidence = (confidence * 100).toInt().toString(),
-                modifier = Modifier
-                    .constrainAs(boxes) {
-
-                        top.linkTo(text.bottom, margin = Dimens.content_margin)
-                        bottom.linkTo(bottomGuideLine)
-
-                    }
-                    .padding(horizontal = 12.dp)
-                    .clip(RoundedCornerShape(5.dp)),
-                alignment = Alignment.CenterHorizontally
-            )
-
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .constrainAs(boxes) {
-
-                        top.linkTo(text.bottom, margin = Dimens.content_margin)
-                        bottom.linkTo(bottomGuideLine)
-
-                    },
-            ) {
-                items(diseaseList.size) { index ->
-                    val disease = diseaseList[index]
-                    DetectionLowConfidence(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        confidence = (disease.confidence * 100).toInt().toString(),
-                        name = disease.name,
-                    ) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(disease.infoLink))
-                        startActivity(context, intent, null)
+                        },
+                ) {
+                    items(diseaseList.size) { index ->
+                        val disease = diseaseList[index]
+                        DetectionLowConfidence(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            confidence = (disease.confidence * 100).toInt().toString(),
+                            name = disease.name,
+                        ) {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(disease.infoLink))
+                            startActivity(context, intent, null)
+                        }
                     }
                 }
             }
-
 
         }
     }
@@ -205,7 +219,7 @@ fun DetectionDetails(
 fun DetectionDetailsPreview() {
     DetectionDetails(
         rememberNavController(),
-        localId = "0",
-        remoteId = "0"
+        id = 1,
+        isCurrentDetection = false
     )
 }

@@ -1,12 +1,10 @@
 package com.example.hapi.presentation.home.detectiondetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.Disease
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
-import com.example.hapi.domain.usecase.GetLocalDetectionUseCase
 import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +15,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionDetailsUseCase: GetRemoteDetectionUseCase,
-    private val getLocalDetectionUseCase: GetLocalDetectionUseCase,
     private val getLocalCurrentDetectionUseCase: GetLocalCurrentDetectionUseCase
 
 ) : ViewModel() {
@@ -49,18 +46,18 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _diseaseList = MutableStateFlow(emptyList<Disease>())
     val diseaseList = _diseaseList.asStateFlow()
 
+    private val _imageUrl = MutableStateFlow("")
+    val imageUrl = _imageUrl.asStateFlow()
+
     fun getRemoteDetectionDetailsById(
         remoteId: Int
     ) {
         viewModelScope.launch {
-            Log.d("DetectionDetailsViewModel", "make request with $remoteId")
             getDetectionDetailsUseCase(remoteId).collect { state ->
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
                         _errorMsg.value = state.error.message
-                        Log.d("DetectionDetailsViewModel", "getDetection: ${state.error.message}")
-
                     }
 
                     is State.Loading -> {
@@ -69,9 +66,13 @@ class DetectionDetailsViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
-                        _crop.value = state.result!!.crop
+                        _crop.value = state.result!!.crop.uppercase()
                         _confidence.value = state.result.detection.confidence
                         _diseaseList.value = state.result.detection.diseases
+                        _date.value = state.result.date
+                        _time.value = state.result.time
+                        _username.value = state.result.username
+                        _imageUrl.value = state.result.image_url
                     }
 
                     else -> {
@@ -82,22 +83,12 @@ class DetectionDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getLocalDetection(id: Int) {
-        viewModelScope.launch {
-            val detection = getLocalDetectionUseCase(id)
-            _date.value = detection.date
-            _time.value = detection.time
-            _username.value = detection.username
-            _byteArrayImage.value = detection.imageByteArray
-        }
-    }
-
     fun getCachedDiseaseDetectionResult(
         id: Int
-    ){
+    ) {
         viewModelScope.launch {
             val result = getLocalCurrentDetectionUseCase(id)
-            _crop.value = result.detection.crop
+            _crop.value = result.detection.crop.uppercase()
             _confidence.value = result.detection.confidence
             _diseaseList.value = result.diseases.map {
                 Disease(

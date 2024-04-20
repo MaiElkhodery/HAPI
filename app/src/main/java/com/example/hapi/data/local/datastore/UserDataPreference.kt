@@ -78,6 +78,6 @@ class UserDataPreference @Inject constructor(
 
     suspend fun getLastHistoryId(): String {
         val preferences = dataStore.data.first()
-        return preferences[LAST_HISTORY_ID_KEY]?.first() ?: "0"
+        return preferences[LAST_HISTORY_ID_KEY]?.first() ?: "1"
     }
 }

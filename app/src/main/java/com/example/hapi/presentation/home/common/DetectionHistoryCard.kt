@@ -32,7 +32,7 @@ fun DetectionHistoryCard(
     username: String,
     date: String,
     time: String,
-    imagePath: String,
+    imageUrl: String,
     byteArray: ByteArray? = null,
     onClick: () -> Unit
 ) {
@@ -54,7 +54,7 @@ fun DetectionHistoryCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             DiseaseImage(
-                imagePath = imagePath,
+                imagePath = imageUrl,
                 byteArrayImage = byteArray,
                 modifier = Modifier
                     .weight(1f),
@@ -92,7 +92,7 @@ fun DiseaseImage(
     Box(
         modifier = modifier
     ) {
-        if (byteArrayImage != null) {
+        if (byteArrayImage != null && byteArrayImage.isNotEmpty()) {
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -100,7 +100,7 @@ fun DiseaseImage(
                 contentDescription = null,
                 contentScale = contentScale
             )
-        } else {
+        } else if (imagePath.isNotBlank()) {
             AsyncImage(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -120,7 +120,7 @@ private fun DetectionHistoryCardPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00",
-        imagePath = "",
+        imageUrl = "",
     ) {
 
     }

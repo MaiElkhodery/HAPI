@@ -23,6 +23,6 @@ interface DetectionOfHistoryDao {
     @Query("SELECT * FROM DetectionOfHistory")
     suspend fun getAllDetectionHistory(): List<DetectionOfHistory>
 
-    @Query("SELECT * FROM DetectionOfHistory ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM DetectionOfHistory ORDER BY remoteId DESC LIMIT 1")
     suspend fun getNewestDetection(): DetectionOfHistory
 }

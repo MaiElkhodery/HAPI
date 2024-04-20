@@ -1,6 +1,6 @@
 package com.example.hapi.domain.usecase
 
-import com.example.hapi.data.model.State
+import com.example.hapi.domain.model.State
 import com.example.hapi.data.remote.request.LandownerSignupRequest
 import com.example.hapi.data.remote.response.SignupResponse
 import com.example.hapi.data.repository.AuthRepository

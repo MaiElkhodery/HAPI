@@ -2,8 +2,46 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CropSelectionPreview">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-03T22:10:57.253879100Z" />
+        </State>
+      </entry>
+      <entry key="ImageCapturePreview">
+        <State />
+      </entry>
+      <entry key="ImageCapturePreview (1)">
+        <State />
+      </entry>
       <entry key="LandownerHomePreview">
         <State />
+      </entry>
+      <entry key="LoadingPreview">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-04T12:06:12.235174300Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>
@@ -18,7 +56,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-03T13:32:04.975352600Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-17T20:20:04.902275600Z" />
         </State>
       </entry>
     </value>

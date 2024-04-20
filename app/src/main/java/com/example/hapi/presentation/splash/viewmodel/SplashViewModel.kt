@@ -2,7 +2,7 @@ package com.example.hapi.presentation.splash.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.AuthPreference
+import com.example.hapi.data.local.datastore.UserDataPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val authPreference: AuthPreference
+    private val authPreference: UserDataPreference
 ) : ViewModel() {
 
     private val _role = MutableStateFlow<String?>(null)
@@ -36,7 +36,7 @@ class SplashViewModel @Inject constructor(
 
     fun getIsCropSelected() {
         viewModelScope.launch {
-            _isCropSelected.value = authPreference.getIsCropSelected()
+//            _isCropSelected.value = authPreference.getIsCropSelected()
         }
     }
 }

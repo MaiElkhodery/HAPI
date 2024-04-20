@@ -2,38 +2,26 @@ package com.example.hapi.presentation.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signin.navToSignin
+import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Dimens
-import com.example.hapi.util.text.YellowBlackText
-import com.example.hapi.util.text.YellowMediumText
 
 @Composable
 fun Main(navController: NavController) {
@@ -89,28 +77,14 @@ fun Main(navController: NavController) {
             navController.navToSignin()
         }
 
-        Row(
+        ORTextRow(
             modifier = Modifier
-                .fillMaxWidth()
                 .constrainAs(guestRow) {
                     bottom.linkTo(cropImage.top, margin = 5.dp)
-                }
-                .clickable {
-                    //TODO: NAV TO GUEST HOME SCREEN
                 },
-            horizontalArrangement = Arrangement.Center
+            text = stringResource(id = R.string.detect_now)
         ) {
-            YellowMediumText(
-                text = stringResource(id = R.string.or),
-                modifier = Modifier.padding(end = 3.dp),
-                size = 15
-            )
-            YellowBlackText(size = 15, text = stringResource(id = R.string.detect_now))
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "go to guest",
-                tint = YellowAppColor
-            )
+            //TODO: NAV TO GUEST HOME SCREEN
         }
 
         Box(

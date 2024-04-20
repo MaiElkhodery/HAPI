@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun HistoryCard(
@@ -29,7 +29,7 @@ fun HistoryCard(
 ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 8.dp)
+            .padding(horizontal = 12.dp)
             .clickable {
                 onClick()
             },
@@ -45,8 +45,8 @@ fun HistoryCard(
         ) {
             Image(
                 modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(85.dp),
+                    .padding(top = 3.dp)
+                    .size(75.dp),
                 painter = painterResource(
                     id = if (type == "land") {
                         R.drawable.land_history

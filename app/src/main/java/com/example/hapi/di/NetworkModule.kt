@@ -1,7 +1,8 @@
 package com.example.hapi.di
 
-import com.example.hapi.data.local.AuthPreference
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.AuthApiService
+import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.api.FarmerApiService
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.util.BASE_URL
@@ -14,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -22,7 +24,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideRetrofitInstance(authPreference: AuthPreference): Retrofit {
+    fun provideRetrofitInstance(authPreference: UserDataPreference): Retrofit {
         val client = OkHttpClient.Builder().apply {
             addInterceptor { chain ->
                 val token = runBlocking { authPreference.getToken() }
@@ -37,8 +39,10 @@ object NetworkModule {
             }
         }.addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }).build()
 
+        }).connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS).build()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -69,4 +73,13 @@ object NetworkModule {
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideApiDetectionServiceInstance(
+        retrofit: Retrofit
+    ): DetectionApiService {
+        return retrofit.create(DetectionApiService::class.java)
+    }
 }
+

@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -35,7 +36,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun CustomNavigationBottom(
@@ -80,7 +81,7 @@ fun CustomNavigationBottom(
             isHomeSelected = false
             onSettingsClick()
         }
-        CameraBox(
+        CameraIcon(
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .constrainAs(camera) {
@@ -105,7 +106,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 16.dp)
+            .padding(bottom = 8.dp)
             .clickable {
                 onClick()
             },
@@ -113,7 +114,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(44.dp),
+                .size(40.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -121,7 +122,7 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .size(20.dp),
+                    .size(18.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor
@@ -144,7 +145,7 @@ fun CustomNavigationBottomBackground(
             rotate(degrees = 79F) {
                 drawRect(
                     color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .75F, y = size.height / 3.1F),
+                    topLeft = Offset(x = size.width / .73F, y = size.height / 3.1F),
                     size = size / 2F
                 )
             }
@@ -154,7 +155,7 @@ fun CustomNavigationBottomBackground(
             rotate(degrees = 99F) {
                 drawRect(
                     color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .751F, y = size.height / 2.8F),
+                    topLeft = Offset(x = size.width / .73F, y = size.height / 2.8F),
                     size = size / 3F
                 )
             }
@@ -164,14 +165,15 @@ fun CustomNavigationBottomBackground(
 }
 
 @Composable
-private fun CameraBox(
+fun CameraIcon(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    iconColor: Color = YellowAppColor,
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .background(DarkGreenAppColor)
+            .background(if (iconColor == YellowAppColor) DarkGreenAppColor else YellowAppColor)
             .clickable {
                 onClick()
             },
@@ -179,12 +181,12 @@ private fun CameraBox(
     ) {
         Icon(
             modifier = Modifier
-                .size(87.dp)
+                .size(75.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,
             contentDescription = "camera icon",
-            tint = YellowAppColor
+            tint = iconColor
         )
     }
 }

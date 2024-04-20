@@ -1,7 +1,7 @@
 package com.example.hapi.data.remote.api
 
-import com.example.hapi.data.model.SignupErrorInfo
-import com.example.hapi.data.model.State
+import com.example.hapi.domain.model.SignupErrorInfo
+import com.example.hapi.domain.model.State
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,14 +12,14 @@ import java.io.IOException
 open class ApiHandler {
     suspend fun <T : Any> makeRequest(
         execute: suspend () -> Response<T>,
-        onSuccess: suspend () -> Unit = {}
+        onSuccess: suspend (responseBody: T) -> Unit = {}
     ): Flow<State<T>> {
         return flow {
             try {
                 emit(State.Loading)
                 val response = execute()
                 if (response.isSuccessful) {
-                    onSuccess()
+                    onSuccess(response.body()!!)
                     emit(State.Success(response.body()!!))
                 } else {
                     val error = Gson().fromJson(
@@ -34,7 +34,8 @@ open class ApiHandler {
         }
     }
 
-    private fun <T : Any> handleException(e: Exception): State<T> {
+
+    fun <T : Any> handleException(e: Exception): State<T> {
         return when (e) {
             is IOException ->
                 State.Exception("Network error occurred. Please check your internet connection.")

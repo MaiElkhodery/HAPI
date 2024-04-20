@@ -125,6 +125,7 @@ fun LandownerSignup(
             text = stringResource(id = R.string.confirm)
         ) {
             viewModel.signupLandowner()
+//            navController.navToCropDetection()
         }
 
         LotusRow(

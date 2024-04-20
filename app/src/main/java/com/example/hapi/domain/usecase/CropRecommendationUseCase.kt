@@ -1,7 +1,7 @@
 package com.example.hapi.domain.usecase
 
 import android.util.Log
-import com.example.hapi.data.model.State
+import com.example.hapi.domain.model.State
 import com.example.hapi.data.repository.LandownerRepository
 import com.example.hapi.util.Crop
 import kotlinx.coroutines.flow.Flow

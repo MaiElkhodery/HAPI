@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun MainButton(

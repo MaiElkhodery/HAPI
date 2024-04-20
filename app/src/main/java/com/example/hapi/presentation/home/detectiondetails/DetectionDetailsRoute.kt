@@ -1,25 +1,30 @@
 package com.example.hapi.presentation.home.detectiondetails
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-private const val ROUTE = "detection_details/{detectionId}"
+private const val ROUTE = "detection_details/{id}/{isCurrentDetection}"
 fun NavGraphBuilder.detectionDetailsRoute(navController: NavController) {
 
-    composable(route = ROUTE) {
-        val detectionId = it.arguments?.getInt("detectionId")
-        DetectionDetails(navController, detectionId!!)
+    composable(route = ROUTE) { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")!!.toInt()
+        val isCurrentDetection = backStackEntry.arguments?.getString("isCurrentDetection").toBoolean()
+        Log.d("DetectionDetailsRoute", "id: $id, isCurrentDetection: $isCurrentDetection")
+        Log.d("DetectionDetailsRoute", backStackEntry.arguments.toString())
+        DetectionDetails(
+            navController = navController,
+            id=id,
+            isCurrentDetection = isCurrentDetection
+        )
     }
 }
 
 fun NavController.navigateToDetectionDetails(
-    detectionId: Int
+    id:String,
+    isCurrentDetection: String = "false"
 ) {
-    val route = "detection_details/$detectionId"
-    navigate(route) {
-        popUpTo(ROUTE) {
-            inclusive = true
-        }
-    }
+    val route = "detection_details/$id/$isCurrentDetection"
+    navigate(route)
 }

@@ -1,4 +1,4 @@
-package com.example.hapi.util.text
+package com.example.hapi.util
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -171,7 +171,7 @@ fun DarkGreenExtraBoldText(
 @Composable
 fun YellowMediumText(
     text: String,
-    modifier: Modifier,
+    modifier: Modifier=Modifier,
     size: Int
 ) {
     Text(
@@ -182,6 +182,25 @@ fun YellowMediumText(
         fontFamily = FontFamily(
             Font(
                 R.font.poppins_medium
+            )
+        )
+    )
+}
+
+@Composable
+fun YellowBoldText(
+    text: String,
+    modifier: Modifier=Modifier,
+    size: Int
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        color = YellowAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_bold
             )
         )
     )

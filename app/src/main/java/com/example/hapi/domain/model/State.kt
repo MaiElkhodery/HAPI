@@ -1,4 +1,4 @@
-package com.example.hapi.data.model
+package com.example.hapi.domain.model
 
 sealed class State<out R: Any?> {
     data class Success<out R: Any>(val result: R?) : State<R>()

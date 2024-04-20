@@ -20,30 +20,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.BASE_URL
+import com.example.hapi.util.DarkGreenBlackText
 import com.example.hapi.util.FeatureInfo
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.toBitmap
 
 @Composable
 fun LastDetectionContent(
     username: String,
     date: String,
     time: String,
-    imageId: Int,
+    byteArray: ByteArray? = null,
+    imageUrl: String = "",
     onClick: () -> Unit
 ) {
 
     Column(
         modifier = Modifier
             .background(YellowAppColor)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 12.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -55,7 +60,8 @@ fun LastDetectionContent(
             username = username,
             date = date,
             time = time,
-            imageId = imageId,
+            byteArray = byteArray,
+            imageUrl = imageUrl
         ) {
             onClick()
         }
@@ -69,14 +75,15 @@ private fun LastDetectionInfo(
     username: String,
     date: String,
     time: String,
-    imageId: Int,
+    byteArray: ByteArray? = null,
+    imageUrl: String = "",
     onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(vertical = 16.dp, horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -85,15 +92,24 @@ private fun LastDetectionInfo(
             modifier = modifier
                 .weight(.7f)
                 .clip(RoundedCornerShape(4.dp))
-                .padding(end=18.dp)
+                .padding(end = 12.dp)
         ) {
-            Image(
-                modifier = modifier
-                    .fillMaxSize(),
-                painter = painterResource(id = imageId),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
+            if (byteArray != null && byteArray.isNotEmpty()) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    bitmap = byteArray.toBitmap().asImageBitmap(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            } else if (imageUrl.isNotBlank()) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(), model = BASE_URL + imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
         DetectionInfo(
             modifier = Modifier.weight(1f),
@@ -102,7 +118,9 @@ private fun LastDetectionInfo(
             time = time
         )
         DetectionDetailsIcon(
-            modifier = Modifier.weight(0.3f).clip(RoundedCornerShape(6.dp)),
+            modifier = Modifier
+                .weight(0.3f)
+                .clip(RoundedCornerShape(6.dp)),
         ) {
             onClick()
         }
@@ -183,7 +201,6 @@ private fun HomeOperationsDisplayPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00",
-        imageId = R.drawable.disease_sample
     ) {
 
     }

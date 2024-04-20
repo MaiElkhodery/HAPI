@@ -1,4 +1,4 @@
-package com.example.hapi.data.model
+package com.example.hapi.domain.model
 
 data class LandAction(
     val name:String,

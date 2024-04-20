@@ -28,20 +28,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.data.model.Detection
-import com.example.hapi.data.model.LandAction
+import com.example.hapi.domain.model.LandAction
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun LandData(
+fun HomeLandData(
     modifier: Modifier = Modifier,
+    username: String,
+    date: String,
+    time: String,
+    byteArray: ByteArray? = null,
+    imageUrl: String = "",
     lastLandAction: LandAction,
-    lastDetection: Detection,
+    onClickDetectionDetailsIcon: () -> Unit
 ) {
     var detectionIsSelected by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     Column(
         modifier = modifier
@@ -51,7 +55,7 @@ fun LandData(
 
         Image(
             modifier = Modifier
-                .size(100.dp),
+                .size(88.dp),
             painter = painterResource(id = R.drawable.crop_profile),
             contentDescription = "home crop image"
         )
@@ -87,14 +91,16 @@ fun LandData(
                 )
             }
 
-            // TODO: the image will be modified
             if (detectionIsSelected) {
                 LastDetectionContent(
-                    username = lastDetection.username,
-                    date = lastDetection.date,
-                    time = lastDetection.time,
-                    imageId = R.drawable.disease_sample
-                ) {}
+                    username = username,
+                    date = date,
+                    time = time,
+                    byteArray = byteArray,
+                    imageUrl = imageUrl,
+                ) {
+                    onClickDetectionDetailsIcon()
+                }
             } else {
                 LastLandActionContent(
                     action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
@@ -141,20 +147,14 @@ private fun FeatureBox(
 @Preview
 @Composable
 private fun HomeOperationsDisplayPreview() {
-    LandData(
+    HomeLandData(
         lastLandAction = LandAction(
             name = com.example.hapi.util.LandAction.FERTILIZATION.name,
             date = "12/12/2021",
             time = "12:00 PM"
         ),
-        lastDetection = Detection(
-            id = 1,
-            username = "John Doe",
-            crop = "Wheat",
-            imagePath = "path",
-            date = "12/12/2021",
-            time = "12:00 PM",
-            possibleDiseases = emptyList()
-        )
-    )
+        username = "John Doe",
+        date = "12/12/2021",
+        time = "12:00 PM",
+    ) {}
 }

@@ -3,8 +3,8 @@ package com.example.hapi.presentation.auth.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.model.SignupErrorInfo
-import com.example.hapi.data.model.State
+import com.example.hapi.domain.model.SignupErrorInfo
+import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.CropRecommendationUseCase
 import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
@@ -150,6 +150,7 @@ class AuthViewModel @Inject constructor(
                 phoneNumber = _phoneNumber.value,
                 password = _password.value
             ).collect { state ->
+                Log.d("SIGNIN", toString())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
@@ -166,6 +167,8 @@ class AuthViewModel @Inject constructor(
                         if (state.result!!.role == "landowner") {
                             _isLandowner.value = true
                         }
+                        Log.d("SIGNIN", "done")
+
                     }
 
                     else -> {}

@@ -1,12 +1,14 @@
 package com.example.hapi.di
 
-import com.example.hapi.data.local.AuthPreference
+import com.example.hapi.data.local.datastore.UserDataPreference
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
+import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
+import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.remote.api.AuthApiService
-import com.example.hapi.data.remote.api.FarmerApiService
-import com.example.hapi.data.remote.api.LandownerApiService
+import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.repository.AuthRepository
-import com.example.hapi.data.repository.FarmerRepository
-import com.example.hapi.data.repository.LandownerRepository
+import com.example.hapi.data.repository.DetectionHistoryRepository
+import com.example.hapi.data.repository.DetectionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,31 +21,33 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLandownerRepository(
-        landownerApiService: LandownerApiService,
-        authPreference: AuthPreference
-    ) = LandownerRepository(
-        landownerApiService,
-        authPreference
-    )
-
-    @Provides
-    @Singleton
-    fun provideFarmerRepository(
-        farmerApiService: FarmerApiService,
-        authPreference: AuthPreference
-    ) = FarmerRepository(
-        farmerApiService,
-        authPreference
-    )
-
-    @Provides
-    @Singleton
     fun provideAuthRepository(
         authApiService: AuthApiService,
-        authPreference: AuthPreference
+        authPreference: UserDataPreference,
     ) = AuthRepository(
         authApiService,
-        authPreference
+        authPreference,
+    )
+
+    @Provides
+    @Singleton
+    fun provideDetectionRepository(
+        detectionApiService: DetectionApiService,
+        detectionDao: CurrentDetectionDao,
+        diseaseDao: CurrentDiseaseDao,
+    ) = DetectionRepository(
+        detectionApiService,
+        detectionDao,
+        diseaseDao
+    )
+
+    @Provides
+    @Singleton
+    fun provideDetectionHistoryRepository(
+        detectionOfHistoryDao: DetectionOfHistoryDao,
+        detectionApiService: DetectionApiService,
+    ) = DetectionHistoryRepository(
+        detectionApiService,
+        detectionOfHistoryDao
     )
 }

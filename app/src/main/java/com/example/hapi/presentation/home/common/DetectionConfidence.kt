@@ -23,22 +23,23 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.text.GreenBlackText
-import com.example.hapi.util.text.GreenBoldText
+import com.example.hapi.util.GreenBlackText
+import com.example.hapi.util.GreenBoldText
 
 @Composable
 fun DetectionLowConfidence(
     modifier: Modifier = Modifier,
     name: String,
     confidence: String,
-    infoLink: String
+    onClickOnMore: () -> Unit
 ) {
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(5.dp))
+            .padding(bottom = 8.dp)
     ) {
         DetectionResult(
             name = name, confidence = confidence,
@@ -51,7 +52,7 @@ fun DetectionLowConfidence(
                 .background(DarkGreenAppColor)
                 .padding(8.dp)
                 .clickable {
-                    //TODO: open info link
+                   onClickOnMore()
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -92,7 +93,6 @@ fun DetectionResult(
 private fun DetectionLowConfidenceCardPreview() {
     DetectionLowConfidence(
         name = "EARLY BLIGHT",
-        confidence = "50",
-        infoLink = "https://www.google.com"
-    )
+        confidence = "50"
+    ){}
 }

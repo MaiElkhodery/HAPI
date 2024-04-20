@@ -65,7 +65,7 @@ fun SignupCropSelection(
             }
         )
 
-        CropsList(
+        SignupCropSelectionContent(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)

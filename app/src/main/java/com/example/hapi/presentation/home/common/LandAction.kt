@@ -27,7 +27,7 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.LandAction
-import com.example.hapi.util.text.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun LastLandActionContent(

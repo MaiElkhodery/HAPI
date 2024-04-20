@@ -23,7 +23,9 @@ class DetectionHistoryViewModel @Inject constructor(
 
     fun getDetectionHistory() {
         viewModelScope.launch {
-            _detectionList.value = detectionHistoryUseCase()
+            val detectionList = detectionHistoryUseCase()
+            _detectionList.value = detectionList
         }
     }
+
 }

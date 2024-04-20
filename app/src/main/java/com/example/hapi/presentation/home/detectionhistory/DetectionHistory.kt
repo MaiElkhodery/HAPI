@@ -10,6 +10,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,14 +29,18 @@ import com.example.hapi.presentation.home.common.RoundedYellowBoxes
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.isNetworkConnected
 
 @Composable
 fun DetectionHistory(
     navController: NavController,
     viewmodel: DetectionHistoryViewModel = hiltViewModel()
 ) {
-
-    LaunchedEffect(true) {
+    var isNetworkConnected by remember {
+        mutableStateOf(true)
+    }
+    LaunchedEffect(Unit) {
+        isNetworkConnected = isNetworkConnected()
         viewmodel.getDetectionHistory()
     }
 
@@ -87,12 +95,10 @@ fun DetectionHistory(
                         username = detection.username,
                         date = detection.date,
                         time = detection.time,
-                        imagePath = "",
-                        byteArray = detection.imageByteArray
+                        imageUrl = if (isNetworkConnected) detection.imageUrl else ""
                     ) {
                         navController.navigateToDetectionDetails(
-                            remoteId = detection.remoteId.toString(),
-                            localId = detection.id.toString()
+                            id = detection.remoteId.toString()
                         )
                     }
                 }

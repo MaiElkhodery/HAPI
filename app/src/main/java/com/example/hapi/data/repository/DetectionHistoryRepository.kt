@@ -1,49 +1,49 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
-import com.example.hapi.data.remote.request.DetectionHistoryRequest
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.data.remote.response.DetectionResponse
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
-import com.example.hapi.util.downloadImage
-import com.example.hapi.util.toByteArray
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 class DetectionHistoryRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
-    private val detectionOfHistoryDao: DetectionOfHistoryDao
+    private val detectionOfHistoryDao: DetectionOfHistoryDao,
 ) : ApiHandler() {
     suspend fun getAndSaveDetectionHistory(
         id: Int
-    ): Flow<Boolean> {
-        return flow {
-            try {
-                val response = detectionApiService.getDetectionHistory(
-                    DetectionHistoryRequest(id)
-                )
-                if (response.isSuccessful) {
-                    saveDetectionHistory(response.body()!!)
-                    emit(true)
-                } else {
-                    val error = Gson().fromJson(
-                        response.errorBody()?.string(),
-                        SignupErrorInfo::class.java
+    ): Flow<State<Boolean>> {
+        return withContext(Dispatchers.IO) {
+            flow {
+                try {
+                    emit(State.Loading)
+                    val response = detectionApiService.getDetectionHistory(
+                        id
                     )
-                    emit(false)
-                    Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $error")
+                    if (response.isSuccessful) {
+                        if (!response.body().isNullOrEmpty())
+                            saveDetectionHistory(response.body()!!)
+                        emit(State.Success(true))
+                    } else {
+                        val error = Gson().fromJson(
+                            response.errorBody()?.string(),
+                            SignupErrorInfo::class.java
+                        )
+                        emit(State.Error(error))
+                    }
+                } catch (e: Exception) {
+                    emit(State.Exception(e.message.toString()))
                 }
-            } catch (e: Exception) {
-                emit(false)
-                Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $e")
             }
         }
     }
@@ -53,43 +53,45 @@ class DetectionHistoryRepository @Inject constructor(
         id: Int
     ): Flow<State<DetectionResponse>> {
 
-        return ApiHandler().makeRequest(
-            execute = {
-                detectionApiService.getDetection(id)
-            },
-            onSuccess = {
-                Log.d("DetectionHistoryRepository", "getDetection: $it")
-            }
-        )
-
-    }
-
-    suspend fun getDetectionByIdFromLocal(id: Int): DetectionOfHistory {
-        return detectionOfHistoryDao.getDetectionById(id)
+        return withContext(Dispatchers.IO) {
+            ApiHandler().makeRequest(
+                execute = {
+                    detectionApiService.getDetection(id)
+                }
+            )
+        }
     }
 
 
     private suspend fun saveDetectionHistory(detectionHistoryList: List<DetectionHistoryResponse>) {
 
-        detectionOfHistoryDao.insertDetectionList(
-            detectionHistoryList.map {
-                DetectionOfHistory(
-                    remoteId = it.id,
-                    username = it.username,
-                    imageByteArray = downloadImage(it.image_url)!!.toByteArray(),
-                    time = it.time,
-                    date = it.date
+        withContext(Dispatchers.IO) {
+            detectionHistoryList.forEach { detectionHistory ->
+                detectionOfHistoryDao.insertDetection(
+                    DetectionOfHistory(
+                        remoteId = detectionHistory.id,
+                        username = detectionHistory.username,
+                        imageUrl = detectionHistory.image_url,
+                        time = detectionHistory.time,
+                        date = detectionHistory.date
+                    )
                 )
+
             }
-        )
+        }
     }
 
     suspend fun getDetectionHistoryFromLocal(): List<DetectionOfHistory> {
-        return detectionOfHistoryDao.getAllDetectionHistory()
+        return withContext(Dispatchers.IO) {
+            detectionOfHistoryDao.getAllDetectionHistory()
+        }
     }
 
     suspend fun getNewestDetection(): DetectionOfHistory {
-        return detectionOfHistoryDao.getNewestDetection()
+        return withContext(Dispatchers.IO) {
+            detectionOfHistoryDao.getNewestDetection()
+        }
+
     }
 
 }

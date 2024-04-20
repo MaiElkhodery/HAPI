@@ -39,8 +39,8 @@ fun HomeLandData(
     username: String,
     date: String,
     time: String,
-    image_url: String,
     byteArray: ByteArray? = null,
+    imageUrl: String = "",
     lastLandAction: LandAction,
     onClickDetectionDetailsIcon: () -> Unit
 ) {
@@ -55,7 +55,7 @@ fun HomeLandData(
 
         Image(
             modifier = Modifier
-                .size(100.dp),
+                .size(88.dp),
             painter = painterResource(id = R.drawable.crop_profile),
             contentDescription = "home crop image"
         )
@@ -96,8 +96,8 @@ fun HomeLandData(
                     username = username,
                     date = date,
                     time = time,
-                    image_url = image_url,
-                    byteArray = byteArray
+                    byteArray = byteArray,
+                    imageUrl = imageUrl,
                 ) {
                     onClickDetectionDetailsIcon()
                 }
@@ -156,6 +156,5 @@ private fun HomeOperationsDisplayPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00 PM",
-        image_url = "",
     ) {}
 }

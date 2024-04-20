@@ -31,8 +31,8 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.toBitmap
 
 @Composable
@@ -40,15 +40,15 @@ fun LastDetectionContent(
     username: String,
     date: String,
     time: String,
-    image_url: String,
     byteArray: ByteArray? = null,
+    imageUrl: String = "",
     onClick: () -> Unit
 ) {
 
     Column(
         modifier = Modifier
             .background(YellowAppColor)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 12.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -60,8 +60,8 @@ fun LastDetectionContent(
             username = username,
             date = date,
             time = time,
-            image_url = image_url,
-            byteArray = byteArray
+            byteArray = byteArray,
+            imageUrl = imageUrl
         ) {
             onClick()
         }
@@ -75,15 +75,15 @@ private fun LastDetectionInfo(
     username: String,
     date: String,
     time: String,
-    image_url: String,
     byteArray: ByteArray? = null,
+    imageUrl: String = "",
     onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(vertical = 16.dp, horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -92,9 +92,9 @@ private fun LastDetectionInfo(
             modifier = modifier
                 .weight(.7f)
                 .clip(RoundedCornerShape(4.dp))
-                .padding(end = 18.dp)
+                .padding(end = 12.dp)
         ) {
-            if (byteArray != null) {
+            if (byteArray != null && byteArray.isNotEmpty()) {
                 Image(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -102,11 +102,10 @@ private fun LastDetectionInfo(
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
-            } else {
+            } else if (imageUrl.isNotBlank()) {
                 AsyncImage(
-                    modifier = modifier
-                        .fillMaxSize(),
-                    model = BASE_URL + image_url,
+                    modifier = Modifier
+                        .fillMaxSize(), model = BASE_URL + imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -202,7 +201,6 @@ private fun HomeOperationsDisplayPreview() {
         username = "John Doe",
         date = "12/12/2021",
         time = "12:00",
-        image_url = "",
     ) {
 
     }

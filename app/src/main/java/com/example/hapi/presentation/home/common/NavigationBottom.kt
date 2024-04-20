@@ -106,7 +106,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 12.dp)
+            .padding(bottom = 8.dp)
             .clickable {
                 onClick()
             },
@@ -114,7 +114,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(44.dp),
+                .size(40.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -122,7 +122,7 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .size(20.dp),
+                    .size(18.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor
@@ -145,7 +145,7 @@ fun CustomNavigationBottomBackground(
             rotate(degrees = 79F) {
                 drawRect(
                     color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .75F, y = size.height / 3.1F),
+                    topLeft = Offset(x = size.width / .73F, y = size.height / 3.1F),
                     size = size / 2F
                 )
             }
@@ -155,7 +155,7 @@ fun CustomNavigationBottomBackground(
             rotate(degrees = 99F) {
                 drawRect(
                     color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .751F, y = size.height / 2.8F),
+                    topLeft = Offset(x = size.width / .73F, y = size.height / 2.8F),
                     size = size / 3F
                 )
             }
@@ -181,7 +181,7 @@ fun CameraIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(80.dp)
+                .size(75.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,

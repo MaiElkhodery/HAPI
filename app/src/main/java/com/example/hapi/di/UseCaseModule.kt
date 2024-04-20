@@ -9,7 +9,6 @@ import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
 import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
-import com.example.hapi.domain.usecase.GetLocalDetectionUseCase
 import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
 import com.example.hapi.domain.usecase.SigninUseCase
@@ -67,19 +66,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideFetchDetectionHistoryUseCase (
+    fun provideFetchDetectionHistoryUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
     ) = FetchDetectionHistoryUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideFetchNewestDetectionUseCase (
+    fun provideFetchNewestDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
     ) = FetchNewestDetectionUseCase(detectionHistoryRepository)
-
-    @Provides
-    @Singleton
-    fun provideLocalDetectionUseCase(
-        detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetLocalDetectionUseCase(detectionHistoryRepository)
 }

@@ -11,5 +11,5 @@ data class DetectionOfHistory(
     val username: String,
     val date: String,
     val time: String,
-    val imageByteArray: ByteArray
+    val imageUrl: String
 )

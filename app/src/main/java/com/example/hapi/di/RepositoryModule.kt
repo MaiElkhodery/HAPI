@@ -45,7 +45,7 @@ object RepositoryModule {
     @Singleton
     fun provideDetectionHistoryRepository(
         detectionOfHistoryDao: DetectionOfHistoryDao,
-        detectionApiService: DetectionApiService
+        detectionApiService: DetectionApiService,
     ) = DetectionHistoryRepository(
         detectionApiService,
         detectionOfHistoryDao

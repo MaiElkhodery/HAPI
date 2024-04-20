@@ -30,4 +30,5 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserDataPreference(dataStore: DataStore<Preferences>) = UserDataPreference(dataStore)
+
 }

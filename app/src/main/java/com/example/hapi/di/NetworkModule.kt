@@ -35,7 +35,7 @@ object NetworkModule {
 //                        if (token != null)
                         addHeader(
                             "Authorization",
-                            "Bearer 1|q3JPEgFvl1QdPAQZi7JCZSt3AGx480loMZ2BCRIK29c76fc4"
+                            "Bearer 42|Kzed1PCnSqCN4Su5sSo9QgeMdCbHR1TFPuXoltSU92bb9251"
                         )
                     }
                     .build()

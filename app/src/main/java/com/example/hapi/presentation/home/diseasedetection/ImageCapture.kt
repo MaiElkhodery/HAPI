@@ -158,7 +158,8 @@ fun ImageCapture(
         }
         if (detectionId != null) {
             navController.navigateToDetectionDetails(
-                localId = detectionId.toInt().toString()
+                id = detectionId.toString(),
+                isCurrentDetection = "true"
             )
         }
     }

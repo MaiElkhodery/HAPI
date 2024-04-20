@@ -3,9 +3,7 @@ package com.example.hapi.util
 import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
 import android.net.Uri
-import androidx.camera.core.ImageProxy
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
@@ -85,13 +83,6 @@ fun ByteArray.toBitmap(): Bitmap {
     return BitmapFactory.decodeByteArray(this, 0, size)
 }
 
-//fun ImageProxy.toBitmap(): Bitmap? {
-//    val byteBuffer = planes[0].buffer
-//    val bytes = ByteArray(byteBuffer.remaining())
-//    byteBuffer.get(bytes)
-//    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-//}
-
 fun Bitmap.toCompressedByteArray(
     quality: Int = 90
 ): ByteArray? {
@@ -100,36 +91,12 @@ fun Bitmap.toCompressedByteArray(
     return outputStream.toByteArray()
 }
 
-suspend fun downloadImage(
-    imageUrl: String
-): Bitmap? {
-    return withContext(Dispatchers.IO) {
-        var connection: HttpURLConnection? = null
-        var inputStream: InputStream? = null
-        try {
-            val url = URL(imageUrl)
-            connection = url.openConnection() as HttpURLConnection
-            connection.connect()
-            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                inputStream = connection.inputStream
-                return@withContext BitmapFactory.decodeStream(inputStream)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            connection?.disconnect()
-            inputStream?.close()
-        }
-        return@withContext null
-    }
-}
-
 suspend fun isNetworkConnected(): Boolean {
     return withContext(Dispatchers.IO) {
         try {
             val url = URL("https://www.google.com")
             val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.connectTimeout = 3000
+            urlConnection.connectTimeout = 100
             urlConnection.connect()
             urlConnection.disconnect()
             true

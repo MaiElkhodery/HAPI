@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,11 +41,6 @@ fun LandownerSignup(
     val passwordError = viewModel.passwordError.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
 
-    LaunchedEffect(authenticated) {
-        if (authenticated) {
-            navController.navigateToCropSelectionStrategy()
-        }
-    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -125,7 +120,6 @@ fun LandownerSignup(
             text = stringResource(id = R.string.confirm)
         ) {
             viewModel.signupLandowner()
-//            navController.navToCropDetection()
         }
 
         LotusRow(
@@ -136,6 +130,10 @@ fun LandownerSignup(
                     bottom.linkTo(bottomGuideLine)
                 }
         )
+    }
+    if (authenticated) {
+        Log.d("LandownerSignup", "authenticated")
+        navController.navigateToCropSelectionStrategy()
     }
 }
 

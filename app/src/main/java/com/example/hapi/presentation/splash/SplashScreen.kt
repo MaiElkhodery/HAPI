@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.splash
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,7 +41,6 @@ fun Splash(
     navController: NavController,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
-
     val role = viewModel.role
     val token = viewModel.token
     val isCropSelected = viewModel.isCropSelected
@@ -56,22 +56,28 @@ fun Splash(
             }
         }
         job.invokeOnCompletion {
-            when {
-                token.value != null -> {
-                    if (role.value == LANDOWNER) {
-                        if (isCropSelected.value) {
-                            navController.navigateToLandownerHome()
-                        } else {
-                            navController.navigateToCropSelectionStrategy()
-                        }
+            viewModel.getRole()
+            viewModel.getToken()
+            viewModel.getIsCropSelected()
+            Log.d("SPLASH", "Job completed")
+            if (token.value != null) {
+                if (role.value == LANDOWNER) {
+                    if (isCropSelected.value) {
+                        Log.d("SPLASH", "Navigate to landowner home")
+                        navController.navigateToLandownerHome()
                     } else {
-                        //TODO: Navigate to farmer home
+                        Log.d("SPLASH", "Navigate to crop selection")
+                        navController.navigateToCropSelectionStrategy()
                     }
+                } else {
+                    //TODO: Navigate to farmer home
                 }
-                else -> navController.navigateToMain()
-            }
+            } else navController.navigateToMain()
         }
+        Log.d("SPLASH", "Navigate to main")
     }
+
+
 
     Column(
         modifier = Modifier

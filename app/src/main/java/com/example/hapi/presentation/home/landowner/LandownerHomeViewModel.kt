@@ -61,14 +61,15 @@ class LandownerHomeViewModel @Inject constructor(
                     }
 
                     is State.Success -> {
-                        val detection = getNewestDetectionUseCase()
-                        userDataPreference.saveLastHistoryId(detection.remoteId.toString())
-                        _imageUrl.value = detection.imageUrl
-                        _username.value = detection.username
-                        _date.value = detection.date
-                        _time.value = detection.time
-                        _remoteId.value = detection.remoteId
-                        _localId.value = detection.id
+                        getNewestDetectionUseCase()?.let { detection ->
+                            userDataPreference.saveLastHistoryId(detection.remoteId.toString())
+                            _imageUrl.value = detection.imageUrl
+                            _username.value = detection.username
+                            _date.value = detection.date
+                            _time.value = detection.time
+                            _remoteId.value = detection.remoteId
+                            _localId.value = detection.id
+                        }
                     }
 
                 }
@@ -78,13 +79,21 @@ class LandownerHomeViewModel @Inject constructor(
 
     suspend fun getLastDetectionAndSetLastId() {
         viewModelScope.launch {
-            val detection = getNewestDetectionUseCase()
-            _imageUrl.value = detection.imageUrl
-            _username.value = detection.username
-            _date.value = detection.date
-            _time.value = detection.time
-            _remoteId.value = detection.remoteId
-            _localId.value = detection.id
+            getNewestDetectionUseCase()?.let { detection ->
+                userDataPreference.saveLastHistoryId(detection.remoteId.toString())
+                _imageUrl.value = detection.imageUrl
+                _username.value = detection.username
+                _date.value = detection.date
+                _time.value = detection.time
+                _remoteId.value = detection.remoteId
+                _localId.value = detection.id
+            }
+        }
+    }
+
+    fun getUsername() {
+        viewModelScope.launch {
+            _username.value = userDataPreference.getUsername()!!
         }
     }
 }

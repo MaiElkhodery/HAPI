@@ -15,14 +15,14 @@ interface DetectionOfHistoryDao {
     suspend fun insertDetectionList(detection: List<DetectionOfHistory>)
 
     @Query("SELECT * FROM DetectionOfHistory WHERE id = :id")
-    suspend fun getDetectionById(id: Int): DetectionOfHistory
+    suspend fun getDetectionById(id: Int): DetectionOfHistory?
 
     @Query("DELETE FROM DetectionOfHistory")
     suspend fun deleteAll()
 
     @Query("SELECT * FROM DetectionOfHistory")
-    suspend fun getAllDetectionHistory(): List<DetectionOfHistory>
+    suspend fun getAllDetectionHistory(): List<DetectionOfHistory>?
 
     @Query("SELECT * FROM DetectionOfHistory ORDER BY remoteId DESC LIMIT 1")
-    suspend fun getNewestDetection(): DetectionOfHistory
+    suspend fun getNewestDetection(): DetectionOfHistory?
 }

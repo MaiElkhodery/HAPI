@@ -8,7 +8,7 @@ class FetchNewestDetectionUseCase @Inject constructor(
     private val detectionHistoryRepository: DetectionHistoryRepository
 ) {
     suspend operator fun invoke(
-    ): DetectionOfHistory {
+    ): DetectionOfHistory? {
         return detectionHistoryRepository.getNewestDetection()
     }
 

@@ -8,7 +8,7 @@ class FetchDetectionHistoryUseCase @Inject constructor(
     private val detectionHistoryRepository: DetectionHistoryRepository
 ) {
     suspend operator fun invoke(
-    ): List<DetectionOfHistory> {
+    ): List<DetectionOfHistory>? {
         return detectionHistoryRepository.getDetectionHistoryFromLocal()
     }
 

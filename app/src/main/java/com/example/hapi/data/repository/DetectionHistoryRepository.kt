@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.remote.api.ApiHandler
@@ -27,12 +28,12 @@ class DetectionHistoryRepository @Inject constructor(
             flow {
                 try {
                     emit(State.Loading)
-                    val response = detectionApiService.getDetectionHistory(
-                        id
-                    )
+                    val response = detectionApiService.getDetectionHistory(id)
                     if (response.isSuccessful) {
-                        if (!response.body().isNullOrEmpty())
+                        if (!response.body().isNullOrEmpty()) {
                             saveDetectionHistory(response.body()!!)
+                            Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: ${response.body()}")
+                        }
                         emit(State.Success(true))
                     } else {
                         val error = Gson().fromJson(
@@ -81,13 +82,13 @@ class DetectionHistoryRepository @Inject constructor(
         }
     }
 
-    suspend fun getDetectionHistoryFromLocal(): List<DetectionOfHistory> {
+    suspend fun getDetectionHistoryFromLocal(): List<DetectionOfHistory>? {
         return withContext(Dispatchers.IO) {
             detectionOfHistoryDao.getAllDetectionHistory()
         }
     }
 
-    suspend fun getNewestDetection(): DetectionOfHistory {
+    suspend fun getNewestDetection(): DetectionOfHistory? {
         return withContext(Dispatchers.IO) {
             detectionOfHistoryDao.getNewestDetection()
         }

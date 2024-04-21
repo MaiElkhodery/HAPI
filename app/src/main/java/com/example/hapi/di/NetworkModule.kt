@@ -24,10 +24,10 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideRetrofitInstance(authPreference: UserDataPreference): Retrofit {
+    fun provideRetrofitInstance(userDataPreference: UserDataPreference): Retrofit {
         val client = OkHttpClient.Builder().apply {
             addInterceptor { chain ->
-                val token = runBlocking { authPreference.getToken() }
+                val token = runBlocking { userDataPreference.getToken() }
                 val newRequest = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")

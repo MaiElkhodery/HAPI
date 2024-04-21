@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
@@ -25,10 +26,11 @@ class AuthRepository @Inject constructor(
         return ApiHandler().makeRequest(
             execute = { authApiService.signupLandowner(landownerSignupRequest) },
             onSuccess = { response ->
+                Log.d("AuthRepository", "signupLandowner: $response")
                 userDataPreference.saveAuthToken(response.token)
                 userDataPreference.saveRole(LANDOWNER)
                 userDataPreference.saveUsername(response.username)
-                userDataPreference.saveLandId(response.landId)
+                userDataPreference.saveLandId(response.land_id)
             }
         )
     }
@@ -42,7 +44,7 @@ class AuthRepository @Inject constructor(
                 userDataPreference.saveAuthToken(response.token)
                 userDataPreference.saveRole(FARMER)
                 userDataPreference.saveUsername(response.username)
-                userDataPreference.saveLandId(response.landId)
+                userDataPreference.saveLandId(response.land_id)
             }
         )
     }

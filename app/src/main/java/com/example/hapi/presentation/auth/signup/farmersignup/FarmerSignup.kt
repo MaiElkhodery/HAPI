@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -42,11 +41,6 @@ fun FarmerSignup(
     val farmIdError = viewModel.landIdError.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
 
-    LaunchedEffect(authenticated) {
-        if (authenticated) {
-            navController.navToProgress("true")
-        }
-    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -62,16 +56,16 @@ fun FarmerSignup(
                 .fillMaxWidth()
                 .size(70.dp)
                 .constrainAs(logo) {
-                top.linkTo(topGuideLine)
-                bottom.linkTo(header.top)
-            }
+                    top.linkTo(topGuideLine)
+                    bottom.linkTo(header.top)
+                }
         )
         NavHeader(
             modifier = Modifier
                 .constrainAs(header) {
-                top.linkTo(logo.bottom, margin = Dimens.header_margin)
-                bottom.linkTo(content.top, margin = Dimens.header_margin)
-            },
+                    top.linkTo(logo.bottom, margin = Dimens.header_margin)
+                    bottom.linkTo(content.top, margin = Dimens.header_margin)
+                },
             topText = stringResource(id = R.string.setting_up),
             downText = stringResource(id = R.string.your_account)
         ) {
@@ -136,6 +130,9 @@ fun FarmerSignup(
         ) {
             viewModel.signupFarmer()
         }
+    }
+    if (authenticated) {
+        navController.navToProgress("true")
     }
 }
 

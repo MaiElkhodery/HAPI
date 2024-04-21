@@ -22,8 +22,8 @@ import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-//    val startRoute = "splash"
-    val startRoute = "landowner_home"
+    val startRoute = "splash"
+//    val startRoute = "landowner_home"
     NavHost(navController = navController, startDestination = startRoute) {
         progressRoute(navController)
         splashOneRoute(navController)

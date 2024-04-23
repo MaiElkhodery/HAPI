@@ -13,5 +13,4 @@ fun NavGraphBuilder.signinRoute(navController: NavController) {
 
 fun NavController.navToSignin() {
     navigate( ROUTE)
-    popBackStack()
 }

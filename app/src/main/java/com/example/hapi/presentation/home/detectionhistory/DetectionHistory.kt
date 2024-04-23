@@ -77,7 +77,7 @@ fun DetectionHistory(
         )
         Box(
             modifier = Modifier
-                .padding(horizontal = 26.dp)
+                .padding(horizontal = 28.dp)
                 .constrainAs(list) {
                     top.linkTo(boxes.bottom, margin = 22.dp)
                 }

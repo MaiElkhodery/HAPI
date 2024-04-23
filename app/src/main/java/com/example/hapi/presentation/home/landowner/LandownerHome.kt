@@ -30,8 +30,8 @@ import com.example.hapi.presentation.home.common.HomeLandData
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
+import com.example.hapi.presentation.home.landhistory.navigateToLandHistory
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.LandAction
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
@@ -42,21 +42,27 @@ fun LandownerHome(
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         isNetworkConnected = isNetworkConnected()
         Log.d("LANDOWNER HOME", "isNetworkConnected: $isNetworkConnected")
         if (isNetworkConnected) {
             viewModel.getDetectionHistory()
+            viewModel.getLandDataHistory()
         } else {
             viewModel.getLastDetectionAndSetLastId()
+            viewModel.getLastLandData()
         }
     }
 
     val username = viewModel.username.collectAsState().value
-    val date = viewModel.date.collectAsState().value
-    val time = viewModel.time.collectAsState().value
-    val remoteId = viewModel.remoteId.collectAsState().value
+    val detectionDate = viewModel.detectionDate.collectAsState().value
+    val detectionTime = viewModel.detectionTime.collectAsState().value
+    val detectionRemoteId = viewModel.detectionRemoteId.collectAsState().value
     val imageUrl = viewModel.imageUrl.collectAsState().value
+    val landActionType = viewModel.landActionType.collectAsState().value
+    val landActionDate = viewModel.landActionDate.collectAsState().value
+    val landActionTime = viewModel.landActionTime.collectAsState().value
+    val isLoading = viewModel.loading.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -74,28 +80,30 @@ fun LandownerHome(
                     bottom.linkTo(content.top)
                 },
             imageId = R.drawable.user_img,
-            username = "khaled"
+            username = username
         )
-        HomeLandData(
-            modifier = Modifier
-                .padding(horizontal = 35.dp)
-                .constrainAs(content) {
-                    top.linkTo(header.bottom, margin = 21.dp)
-                    bottom.linkTo(historyCards.top)
-                },
-            lastLandAction = com.example.hapi.domain.model.LandAction(
-                LandAction.FERTILIZATION.name,
-                "2021-09-01",
-                "12:00"
-            ),
-            username = username,
-            date = date,
-            time = time,
-            imageUrl = if (isNetworkConnected) imageUrl else ""
-        ) {
-            navController.navigateToDetectionDetails(
-                id = remoteId.toString()
-            )
+        if (!isLoading) {
+            HomeLandData(
+                modifier = Modifier
+                    .padding(horizontal = 35.dp)
+                    .constrainAs(content) {
+                        top.linkTo(header.bottom, margin = 21.dp)
+                        bottom.linkTo(historyCards.top)
+                    },
+                lastLandAction = com.example.hapi.domain.model.LandAction(
+                    name = landActionType.uppercase(),
+                    date = landActionDate,
+                    time = landActionTime
+                ),
+                username = username,
+                date = detectionDate,
+                time = detectionTime,
+                imageUrl = if (isNetworkConnected) imageUrl else ""
+            ) {
+                navController.navigateToDetectionDetails(
+                    id = detectionRemoteId.toString()
+                )
+            }
         }
 
         Row(
@@ -113,7 +121,7 @@ fun LandownerHome(
                 modifier = Modifier.weight(1f)
 
             ) {
-
+                navController.navigateToLandHistory()
             }
             HistoryCard(
                 type = "detection",

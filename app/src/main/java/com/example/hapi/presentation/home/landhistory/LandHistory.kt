@@ -1,6 +1,5 @@
-package com.example.hapi.presentation.home.detectionhistory
+package com.example.hapi.presentation.home.landhistory
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,33 +23,33 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.home.common.DetectionHistoryCard
+import com.example.hapi.presentation.home.common.LastLandActionContent
 import com.example.hapi.presentation.home.common.RoundedYellowBoxes
-import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.LandAction
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
-fun DetectionHistory(
+fun LandHistory(
     navController: NavController,
-    viewmodel: DetectionHistoryViewModel = hiltViewModel()
+    viewmodel: LandHistoryViewModel = hiltViewModel()
 ) {
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
     LaunchedEffect(Unit) {
         isNetworkConnected = isNetworkConnected()
-        viewmodel.getDetectionHistory()
+        viewmodel.getLandHistory()
     }
 
-    val detectionHistoryList = viewmodel.detectionList.collectAsState().value
+    val landHistoryList = viewmodel.landDataList.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 28.dp)
     ) {
         val (header, boxes, list) = createRefs()
         val topGuideLine = createGuidelineFromTop(.02f)
@@ -77,7 +76,7 @@ fun DetectionHistory(
         )
         Box(
             modifier = Modifier
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 26.dp)
                 .constrainAs(list) {
                     top.linkTo(boxes.bottom, margin = 22.dp)
                 }
@@ -87,20 +86,14 @@ fun DetectionHistory(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                items(detectionHistoryList.size) { index ->
-                    val detection = detectionHistoryList[index]
-                    Log.d("DetectionHistory", "DetectionHistory: $detection")
-                    DetectionHistoryCard(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        username = detection.username,
-                        date = detection.date,
-                        time = detection.time,
-                        imageUrl = if (isNetworkConnected) detection.imageUrl else ""
-                    ) {
-                        navController.navigateToDetectionDetails(
-                            id = detection.remoteId.toString()
-                        )
-                    }
+                items(landHistoryList.size) { index ->
+                    val landData = landHistoryList[index]
+                    LastLandActionContent(
+                        modifier = Modifier.padding(vertical = 11.dp),
+                        action = LandAction.valueOf(landData.action_type.uppercase()),
+                        date = landData.date,
+                        time = landData.time
+                    )
                 }
             }
 
@@ -111,5 +104,5 @@ fun DetectionHistory(
 @Preview
 @Composable
 fun DetectionHistoryPreview() {
-    DetectionHistory(rememberNavController())
+    LandHistory(rememberNavController())
 }

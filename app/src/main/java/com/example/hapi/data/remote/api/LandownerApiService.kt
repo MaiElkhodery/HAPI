@@ -2,11 +2,15 @@ package com.example.hapi.data.remote.api
 
 import com.example.hapi.data.remote.request.SelectCropRequest
 import com.example.hapi.data.remote.response.CropRecommendationResponse
+import com.example.hapi.data.remote.response.LandDataResponse
+import com.example.hapi.util.LAND_DATA
 import com.example.hapi.util.RECOMMENDATIONS
 import com.example.hapi.util.SELECTED_CROP
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface LandownerApiService {
     @POST(RECOMMENDATIONS)
@@ -17,4 +21,9 @@ interface LandownerApiService {
     suspend fun uploadSelectedCrop(
         @Body crop: SelectCropRequest
     ): Response<Unit>
+
+    @GET(LAND_DATA)
+    suspend fun getLandData(
+        @Query("id") id: Int
+    ): Response<List<LandDataResponse>>
 }

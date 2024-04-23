@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
@@ -26,8 +27,9 @@ class DetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val currentDetectionDao: CurrentDetectionDao,
     private val currentDiseaseDao: CurrentDiseaseDao,
+    private val userDataPreference: UserDataPreference
 
-    ) : ApiHandler() {
+) : ApiHandler() {
     suspend fun detectDisease(
         crop: String,
         byteArrayImage: ByteArray
@@ -45,8 +47,7 @@ class DetectionRepository @Inject constructor(
 
                     deleteCurrentCachedDetection()
                     val detectionId = saveDetection(
-//                    username = landownerDao.getLandowner()!!.name,
-                        username = "landowner",
+                        username = userDataPreference.getUsername()!!,
                         date = getCurrentDateAsString(),
                         time = getCurrentTimeAsString(),
                         confidence = response.body()!!.confidence,

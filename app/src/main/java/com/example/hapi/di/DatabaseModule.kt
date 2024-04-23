@@ -35,4 +35,8 @@ object DatabaseModule {
     @Provides
     fun provideDetectionOfHistoryDao(database: HapiDatabase) = database.detectionOfHistoryDao()
 
+    @Singleton
+    @Provides
+    fun provideLandDataDao(database: HapiDatabase) = database.landDataDao()
+
 }

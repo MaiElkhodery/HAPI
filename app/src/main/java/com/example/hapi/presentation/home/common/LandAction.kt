@@ -31,14 +31,15 @@ import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun LastLandActionContent(
+    modifier: Modifier = Modifier,
     action: LandAction,
     date: String,
     time: String
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(YellowAppColor)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 12.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -67,11 +68,11 @@ fun LandAction(
         modifier = Modifier
             .fillMaxWidth()
             .background(YellowAppColor)
-            .padding(horizontal = 8.dp, vertical = 5.dp),
+            .padding(horizontal = 8.dp, vertical = 3.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.size(44.dp),
+            modifier = Modifier.size(42.dp),
             painter = painterResource(
                 id =
                 if (action == LandAction.FERTILIZATION) R.drawable.fertilization
@@ -80,7 +81,7 @@ fun LandAction(
             contentDescription = null
         )
         DarkGreenBlackText(
-            modifier = Modifier.padding(vertical = 7.dp),
+            modifier = Modifier.padding(vertical = 6.dp),
             size = 12,
             text = action.name
         )

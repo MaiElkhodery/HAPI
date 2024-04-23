@@ -14,6 +14,7 @@ import com.example.hapi.presentation.home.cropselection.cropSelectionRoute
 import com.example.hapi.presentation.home.detectiondetails.detectionDetailsRoute
 import com.example.hapi.presentation.home.detectionhistory.detectionHistoryRoute
 import com.example.hapi.presentation.home.diseasedetection.imageCaptureRoute
+import com.example.hapi.presentation.home.landhistory.landHistoryRoute
 import com.example.hapi.presentation.home.landowner.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
 import com.example.hapi.presentation.main.mainRoute
@@ -42,5 +43,6 @@ fun NavGraph(navController: NavHostController) {
         detectionDetailsRoute(navController)
         cropSelectionRoute(navController)
         imageCaptureRoute(navController)
+        landHistoryRoute(navController)
     }
 }

@@ -1,7 +1,7 @@
 package com.example.hapi.util
 
 
-const val BASE_URL = "https://ce65-41-199-11-63.ngrok-free.app"
+const val BASE_URL = "https://0a86-156-197-12-32.ngrok-free.app"
 const val LANDOWNER_SIGNUP = "$BASE_URL/api/signup/landowner"
 const val FARMER_SIGNUP = "$BASE_URL/api/signup/farmer"
 const val SIGNIN = "$BASE_URL/api/login"
@@ -10,3 +10,4 @@ const val SELECTED_CROP = "$BASE_URL/api/crop/selecting-manual"
 const val DETECTION = "$BASE_URL/api/detect"
 const val DETECTION_HISTORY = "$BASE_URL/api/detections"
 const val DETECTION_ITEM = "$BASE_URL/api/detections/{id}"
+const val LAND_DATA = "$BASE_URL/api/land/history"

@@ -41,6 +41,7 @@ import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.DetectionLowConfidence
 import com.example.hapi.presentation.home.common.DetectionResult
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
@@ -92,7 +93,10 @@ fun DetectionDetails(
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.result)
         ) {
-            navController.popBackStack()
+            if (isCurrentDetection)
+                navController.navigateToCropSelection()
+            else
+                navController.popBackStack()
         }
         if (crop.isNotBlank()) {
             Row(

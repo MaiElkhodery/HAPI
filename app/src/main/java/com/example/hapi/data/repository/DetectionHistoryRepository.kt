@@ -27,12 +27,12 @@ class DetectionHistoryRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             flow {
                 try {
+                    Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $id")
                     emit(State.Loading)
                     val response = detectionApiService.getDetectionHistory(id)
                     if (response.isSuccessful) {
                         if (!response.body().isNullOrEmpty()) {
                             saveDetectionHistory(response.body()!!)
-                            Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: ${response.body()}")
                         }
                         emit(State.Success(true))
                     } else {

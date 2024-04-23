@@ -90,24 +90,27 @@ private fun LastDetectionInfo(
 
         Box(
             modifier = modifier
-                .weight(.7f)
-                .clip(RoundedCornerShape(4.dp))
+                .weight(.82f)
+                .clip(RoundedCornerShape(5.dp))
                 .padding(end = 12.dp)
         ) {
             if (byteArray != null && byteArray.isNotEmpty()) {
                 Image(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(5.dp)),
                     bitmap = byteArray.toBitmap().asImageBitmap(),
                     contentDescription = null,
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.FillBounds
                 )
             } else if (imageUrl.isNotBlank()) {
                 AsyncImage(
                     modifier = Modifier
-                        .fillMaxSize(), model = BASE_URL + imageUrl,
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(5.dp)),
+                    model = BASE_URL + imageUrl,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.FillBounds
                 )
             }
         }
@@ -138,11 +141,11 @@ fun DetectionDetailsIcon(
                 onClick()
             }
             .background(DarkGreenAppColor)
-            .padding(horizontal = 8.dp, vertical = 12.dp),
+            .padding(horizontal = 4.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(27.dp),
             painter = painterResource(id = R.drawable.details),
             contentDescription = "Details",
             tint = YellowAppColor

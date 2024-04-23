@@ -10,6 +10,9 @@ import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
 import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
+import com.example.hapi.domain.usecase.GetLandDataUseCase
+import com.example.hapi.domain.usecase.GetLastLandDataUseCase
 import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
 import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
@@ -90,4 +93,22 @@ object UseCaseModule {
     fun provideFetchNewestDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
     ) = FetchNewestDetectionUseCase(detectionHistoryRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetAndSaveLandDataUseCase(
+        landownerRepository: LandownerRepository
+    ) = GetAndSaveLandDataUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetLastLandDataUseCase(
+        landownerRepository: LandownerRepository
+    ) = GetLastLandDataUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetLandData(
+        landownerRepository: LandownerRepository
+    ) = GetLandDataUseCase(landownerRepository)
 }

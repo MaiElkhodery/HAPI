@@ -3,7 +3,7 @@ package com.example.hapi.presentation.home.landhistory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.room.entities.land_history.LandData
-import com.example.hapi.domain.usecase.GetLandDataUseCase
+import com.example.hapi.domain.usecase.GetAllSavedLandHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandHistoryViewModel @Inject constructor(
-    private val getLandDataUseCase: GetLandDataUseCase
+    private val getLandDataUseCase: GetAllSavedLandHistoryUseCase
 ) : ViewModel() {
 
     private val _landDataList = MutableStateFlow(emptyList<LandData>())

@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.detection
+package com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy
 
 import android.util.Log
 import androidx.compose.foundation.background

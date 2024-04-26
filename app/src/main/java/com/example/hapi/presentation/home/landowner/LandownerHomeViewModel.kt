@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
+import com.example.hapi.domain.usecase.FetchLastDetectionUseCase
+import com.example.hapi.domain.usecase.GetAndSaveAllLandHistoryUseCase
 import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
-import com.example.hapi.domain.usecase.GetLastLandDataUseCase
+import com.example.hapi.domain.usecase.GetLastFarmerUseCase
+import com.example.hapi.domain.usecase.GetLastLandHistoryItemUseCase
+import com.example.hapi.util.isNetworkConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,17 +20,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandownerHomeViewModel @Inject constructor(
-    private val getDetectionHistoryListUseCase: GetAndSaveDetectionHistoryUseCase,
-    private val getNewestDetectionUseCase: FetchNewestDetectionUseCase,
+    private val getAndSaveDetectionHistoryListUseCase: GetAndSaveDetectionHistoryUseCase,
+    private val getLastDetectionUseCase: FetchLastDetectionUseCase,
     private val userDataPreference: UserDataPreference,
-    private val getLandDataHistoryUseCase: GetAndSaveLandDataUseCase,
-    private val getLastLandDataUseCase: GetLastLandDataUseCase
+    private val getAndSaveAllLandHistoryUseCase: GetAndSaveAllLandHistoryUseCase,
+    private val getLastLandHistoryItemUseCase: GetLastLandHistoryItemUseCase,
+    private val getAndSaveLandDataUseCase: GetAndSaveLandDataUseCase,
+    private val getLastFarmerUseCase: GetLastFarmerUseCase
 ) : ViewModel() {
 
     private val _errorMsg = MutableStateFlow("")
     val errorMsg = _errorMsg.asStateFlow()
 
-    private val _loading = MutableStateFlow(false)
+    private val _loading = MutableStateFlow(true)
     val loading = _loading.asStateFlow()
 
     private val _imageUrl = MutableStateFlow("")
@@ -54,10 +59,25 @@ class LandownerHomeViewModel @Inject constructor(
     private val _landActionTime = MutableStateFlow("")
     val landActionTime = _landActionTime.asStateFlow()
 
+    private val _waterLevel = MutableStateFlow(0)
+    val waterLevel = _waterLevel.asStateFlow()
 
-    fun getDetectionHistory() {
+    private var _npk = MutableStateFlow("")
+    val npk = _npk.asStateFlow()
+
+    private var _crop = MutableStateFlow("")
+    val crop = _crop.asStateFlow()
+
+    private val _lastFarmerUsername = MutableStateFlow("")
+    val lastFarmerUsername = _lastFarmerUsername.asStateFlow()
+    private val _lastFarmerDate = MutableStateFlow("")
+    val lastFarmerDate = _lastFarmerDate.asStateFlow()
+    private val _lastFarmerTime = MutableStateFlow("")
+    val lastFarmerTime = _lastFarmerTime.asStateFlow()
+
+    fun getAndSaveRemoteDetectionHistory() {
         viewModelScope.launch {
-            getDetectionHistoryListUseCase(
+            getAndSaveDetectionHistoryListUseCase(
                 userDataPreference.getLastDetectionHistoryId().toInt()
             ).collect { state ->
                 when (state) {
@@ -78,7 +98,7 @@ class LandownerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
-                        getNewestDetectionUseCase()?.let { detection ->
+                        getLastDetectionUseCase()?.let { detection ->
                             userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
                             _imageUrl.value = detection.imageUrl
                             _username.value = detection.username
@@ -93,9 +113,9 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLandDataHistory() {
+    suspend fun getAndSaveRemoteLandHistory() {
         viewModelScope.launch {
-            getLandDataHistoryUseCase(
+            getAndSaveAllLandHistoryUseCase(
                 userDataPreference.getLastLandDataHistoryId().toInt()
             ).collect { state ->
                 Log.d("LAST LAND ID", userDataPreference.getLastLandDataHistoryId())
@@ -111,14 +131,15 @@ class LandownerHomeViewModel @Inject constructor(
                     }
 
                     State.Loading -> {
-                        _loading.value = false
+                        _loading.value = true
                         Log.d("LANDOWNER HOME", "LAND:LOADING")
                     }
 
                     is State.Success -> {
+                        _loading.value = false
                         Log.d("LANDOWNER HOME", "LAND:LOADING")
-                        getLastLandDataUseCase()?.let { landData ->
-                            Log.d("LAST LAND DATA RESULT",landData.toString())
+                        getLastLandHistoryItemUseCase()?.let { landData ->
+                            Log.d("LAST LAND DATA RESULT", landData.toString())
                             userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
                             _landActionType.value = landData.action_type
                             _landActionDate.value = landData.date
@@ -132,9 +153,38 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLastLandData() {
+    fun getAndSaveRemoteLandData() {
         viewModelScope.launch {
-            getLastLandDataUseCase()?.let { landData ->
+            getAndSaveLandDataUseCase().collect { state ->
+                when (state) {
+                    is State.Error -> {
+                        _loading.value = false
+                        Log.d("LANDOWNER HOME", "LAND DATA:ERROR")
+                    }
+
+                    is State.Exception -> {
+                        _loading.value = false
+                        Log.d("LANDOWNER HOME", "LAND DATA:EXCEPTION")
+                    }
+
+                    State.Loading -> {
+                        _loading.value = true
+                        Log.d("LANDOWNER HOME", "LAND DATA:LOADING")
+                    }
+
+                    is State.Success -> {
+                        _loading.value = false
+                        _waterLevel.value = userDataPreference.getWaterLevel()!!.toInt()
+                        _npk.value = userDataPreference.getNPK() ?: ""
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun getLastLandHistoryItem() {
+        viewModelScope.launch {
+            getLastLandHistoryItemUseCase()?.let { landData ->
                 userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
                 _landActionType.value = landData.action_type
                 _landActionDate.value = landData.date
@@ -145,7 +195,7 @@ class LandownerHomeViewModel @Inject constructor(
 
     suspend fun getLastDetectionAndSetLastId() {
         viewModelScope.launch {
-            getNewestDetectionUseCase()?.let { detection ->
+            getLastDetectionUseCase()?.let { detection ->
                 userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
                 _imageUrl.value = detection.imageUrl
                 _username.value = detection.username
@@ -156,10 +206,70 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-
     fun getUsername() {
         viewModelScope.launch {
             _username.value = userDataPreference.getUsername()!!
         }
+    }
+
+
+    fun getSavedLandData() {
+        viewModelScope.launch {
+            _waterLevel.value = userDataPreference.getWaterLevel()!!.toInt()
+            _npk.value = userDataPreference.getNPK() ?: ""
+        }
+    }
+
+
+    fun getCrop() {
+        viewModelScope.launch {
+            Log.d("LANDOWNER HOME", "CROP Preference: ${userDataPreference.getCrop()}")
+            _crop.value = userDataPreference.getCrop()?.uppercase() ?: ""
+        }
+    }
+
+    fun getLastFarmer() {
+        viewModelScope.launch {
+            getLastFarmerUseCase().collect { state ->
+                when (state) {
+                    is State.Error -> {
+                        _loading.value = false
+                    }
+
+                    is State.Exception -> {
+                        _loading.value = false
+                    }
+
+                    State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _loading.value = false
+                        _lastFarmerDate.value = state.result!!.date
+                        _lastFarmerTime.value = state.result.time
+                        _lastFarmerUsername.value = state.result.username
+                    }
+                }
+            }
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            if (isNetworkConnected()) {
+                getAndSaveRemoteDetectionHistory()
+                getAndSaveRemoteLandHistory()
+                getAndSaveRemoteLandData()
+                getLastFarmer()
+            } else {
+                getLastDetectionAndSetLastId()
+                getLastLandHistoryItem()
+                getSavedLandData()
+            }
+            getCrop()
+            getUsername()
+        }
+        Log.d("LANDOWNER HOME", "CORP: $crop")
     }
 }

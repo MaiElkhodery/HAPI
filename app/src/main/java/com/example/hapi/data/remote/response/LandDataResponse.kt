@@ -1,8 +1,8 @@
 package com.example.hapi.data.remote.response
 
+import com.example.hapi.domain.model.NPK
+
 data class LandDataResponse(
-    val id: Int,
-    val action_type: String,
-    val date: String,
-    val time: String,
+    val water_level:Int,
+    val npk:NPK
 )

@@ -75,8 +75,7 @@ fun FinalSelectedCrop(
             },
             crop = crop
         ) {
-            viewModel.uploadSelectedCrop(crop)
-            if (error.isEmpty()) navController.navToProgress(final = "true")
+            viewModel.uploadSelectedCrop(crop.lowercase())
         }
 
         LotusRow(
@@ -87,12 +86,14 @@ fun FinalSelectedCrop(
                     bottom.linkTo(bottomGuideLine)
                 }
         )
-
+        if (viewModel.cropIsUploaded.collectAsState().value) {
+            navController.navToProgress(final = "true")
+        }
     }
 }
 
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalSelectedCrop(rememberNavController(), viewModel = hiltViewModel(),crop="WHEAT")
+    FinalSelectedCrop(rememberNavController(), crop = "WHEAT")
 }

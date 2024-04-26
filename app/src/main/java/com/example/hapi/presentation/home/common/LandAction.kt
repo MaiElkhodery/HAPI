@@ -39,7 +39,7 @@ fun LastLandActionContent(
     Column(
         modifier = modifier
             .background(YellowAppColor)
-            .padding(vertical = 12.dp)
+            .padding(vertical = 10.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -72,7 +72,7 @@ fun LandAction(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.size(42.dp),
+            modifier = Modifier.size(40.dp),
             painter = painterResource(
                 id =
                 if (action == LandAction.FERTILIZATION) R.drawable.fertilization
@@ -81,7 +81,7 @@ fun LandAction(
             contentDescription = null
         )
         DarkGreenBlackText(
-            modifier = Modifier.padding(vertical = 6.dp),
+            modifier = Modifier.padding(vertical = 4.dp),
             size = 12,
             text = action.name
         )

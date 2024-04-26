@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
@@ -28,7 +30,8 @@ fun NavHeader(
     topText: String,
     downText: String,
     imageId: Int = R.drawable.back_btn,
-    onClick: () -> Unit
+    imageSize: Int = 88,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -37,7 +40,7 @@ fun NavHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
-            modifier = Modifier.clickable {
+            modifier = Modifier.size(imageSize.dp).clickable {
                 onClick()
             },
             painter = painterResource(id = imageId),

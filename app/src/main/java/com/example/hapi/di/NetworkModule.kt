@@ -32,7 +32,8 @@ object NetworkModule {
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")
                     .apply {
-                        if (token != null) addHeader("Authorization", "Bearer $token")
+//                        if (token != null) addHeader("Authorization", "Bearer $token")
+                        addHeader("Authorization", "Bearer 91|6oJyfNcBxKRwEHShCkjiwQBBa4hpcCrqRGs4MHcm596dada2")
                     }
                     .build()
                 chain.proceed(newRequest)

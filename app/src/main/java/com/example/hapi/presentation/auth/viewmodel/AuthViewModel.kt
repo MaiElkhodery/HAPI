@@ -66,6 +66,9 @@ class AuthViewModel @Inject constructor(
     private val _recommendedCrops = MutableStateFlow(emptyList<Crop>())
     var recommendedCrops = _recommendedCrops.asStateFlow()
 
+    private val _cropIsUploaded = MutableStateFlow(false)
+    var cropIsUploaded = _cropIsUploaded.asStateFlow()
+
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.ChangeFarmId -> {
@@ -125,14 +128,17 @@ class AuthViewModel @Inject constructor(
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true
+                        Log.d("SIGNUP", "loading")
                     }
 
                     is State.Success -> {
+                        Log.d("SIGNUP", "done")
                         _loading.value = false
                         _authenticated.value = true
                     }
 
                     is State.Error -> {
+                        Log.d("SIGNUP", "error")
                         _loading.value = false
                         resetErrors(state.error as SignupErrorInfo)
                     }
@@ -150,7 +156,7 @@ class AuthViewModel @Inject constructor(
                 phoneNumber = _phoneNumber.value,
                 password = _password.value
             ).collect { state ->
-                Log.d("SIGNIN", toString())
+                Log.d("SIGNIN",state.toString())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
@@ -209,12 +215,14 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _errorMsg.value = ""
             uploadSelectedCropUseCase(crop).collect { state ->
+                Log.d("UPLOAD", "$state")
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true
                     }
 
                     is State.Success -> {
+                        _cropIsUploaded.value = true
                         _loading.value = false
                     }
 

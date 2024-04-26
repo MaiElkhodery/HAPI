@@ -4,7 +4,7 @@ import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHi
 import com.example.hapi.data.repository.DetectionHistoryRepository
 import javax.inject.Inject
 
-class FetchNewestDetectionUseCase @Inject constructor(
+class FetchLastDetectionUseCase @Inject constructor(
     private val detectionHistoryRepository: DetectionHistoryRepository
 ) {
     suspend operator fun invoke(

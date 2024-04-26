@@ -8,11 +8,13 @@ import com.example.hapi.domain.usecase.CropRecommendationUseCase
 import com.example.hapi.domain.usecase.DiseaseDetectionUseCase
 import com.example.hapi.domain.usecase.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
-import com.example.hapi.domain.usecase.FetchNewestDetectionUseCase
+import com.example.hapi.domain.usecase.FetchLastDetectionUseCase
 import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.GetAndSaveAllLandHistoryUseCase
 import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
-import com.example.hapi.domain.usecase.GetLandDataUseCase
-import com.example.hapi.domain.usecase.GetLastLandDataUseCase
+import com.example.hapi.domain.usecase.GetAllSavedLandHistoryUseCase
+import com.example.hapi.domain.usecase.GetLastFarmerUseCase
+import com.example.hapi.domain.usecase.GetLastLandHistoryItemUseCase
 import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
 import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
 import com.example.hapi.domain.usecase.LandownerSignupUseCase
@@ -92,23 +94,35 @@ object UseCaseModule {
     @Singleton
     fun provideFetchNewestDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = FetchNewestDetectionUseCase(detectionHistoryRepository)
+    ) = FetchLastDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideGetAndSaveLandDataUseCase(
         landownerRepository: LandownerRepository
-    ) = GetAndSaveLandDataUseCase(landownerRepository)
+    ) = GetAndSaveAllLandHistoryUseCase(landownerRepository)
 
     @Provides
     @Singleton
     fun provideGetLastLandDataUseCase(
         landownerRepository: LandownerRepository
-    ) = GetLastLandDataUseCase(landownerRepository)
+    ) = GetLastLandHistoryItemUseCase(landownerRepository)
 
     @Provides
     @Singleton
-    fun provideGetLandData(
+    fun provideGetLandHistoryUseCase(
         landownerRepository: LandownerRepository
-    ) = GetLandDataUseCase(landownerRepository)
+    ) = GetAllSavedLandHistoryUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetLandDataUseCase(
+        landownerRepository: LandownerRepository
+    ) = GetAndSaveLandDataUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetLastFarmerUseCase(
+        landownerRepository: LandownerRepository
+    ) = GetLastFarmerUseCase(landownerRepository)
 }

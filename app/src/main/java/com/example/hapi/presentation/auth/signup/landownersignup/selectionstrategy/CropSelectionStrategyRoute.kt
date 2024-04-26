@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.detection
+package com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

@@ -83,7 +83,7 @@ fun CustomNavigationBottom(
         }
         CameraIcon(
             modifier = Modifier
-                .padding(bottom = 30.dp)
+                .padding(bottom = 25.dp)
                 .constrainAs(camera) {
                     bottom.linkTo(parent.bottom)
                     top.linkTo(parent.top)

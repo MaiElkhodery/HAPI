@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.landowner
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -22,10 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
+import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.CustomNavigationBottom
 import com.example.hapi.presentation.home.common.CustomNavigationBottomBackground
 import com.example.hapi.presentation.home.common.HistoryCard
-import com.example.hapi.presentation.home.common.HomeHeader
 import com.example.hapi.presentation.home.common.HomeLandData
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
@@ -44,14 +44,6 @@ fun LandownerHome(
     }
     LaunchedEffect(true) {
         isNetworkConnected = isNetworkConnected()
-        Log.d("LANDOWNER HOME", "isNetworkConnected: $isNetworkConnected")
-        if (isNetworkConnected) {
-            viewModel.getDetectionHistory()
-            viewModel.getLandDataHistory()
-        } else {
-            viewModel.getLastDetectionAndSetLastId()
-            viewModel.getLastLandData()
-        }
     }
 
     val username = viewModel.username.collectAsState().value
@@ -63,6 +55,9 @@ fun LandownerHome(
     val landActionDate = viewModel.landActionDate.collectAsState().value
     val landActionTime = viewModel.landActionTime.collectAsState().value
     val isLoading = viewModel.loading.collectAsState().value
+    val waterLevel = viewModel.waterLevel.collectAsState().value
+    val npk = viewModel.npk.collectAsState().value
+    val crop = viewModel.crop.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -70,41 +65,56 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
 
-        val (header, content, historyCards, navBottom, bottomBackground) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.07f)
+        val (welcomeHeader, dataHeader, content, historyCards, navBottom, bottomBackground) = createRefs()
+        val topGuideLine = createGuidelineFromTop(.08f)
 
-        HomeHeader(
+
+        NavHeader(
             modifier = Modifier
-                .constrainAs(header) {
+                .padding(horizontal = 26.dp)
+                .constrainAs(welcomeHeader) {
                     top.linkTo(topGuideLine)
-                    bottom.linkTo(content.top)
+                    bottom.linkTo(dataHeader.top)
                 },
-            imageId = R.drawable.user_img,
-            username = username
+            imageId = R.drawable.logo,
+            topText = stringResource(id = R.string.welcome),
+            downText = username,
         )
-        if (!isLoading) {
-            HomeLandData(
-                modifier = Modifier
-                    .padding(horizontal = 35.dp)
-                    .constrainAs(content) {
-                        top.linkTo(header.bottom, margin = 21.dp)
-                        bottom.linkTo(historyCards.top)
-                    },
-                lastLandAction = com.example.hapi.domain.model.LandAction(
-                    name = landActionType.uppercase(),
-                    date = landActionDate,
-                    time = landActionTime
-                ),
-                username = username,
-                date = detectionDate,
-                time = detectionTime,
-                imageUrl = if (isNetworkConnected) imageUrl else ""
-            ) {
-                navController.navigateToDetectionDetails(
-                    id = detectionRemoteId.toString()
-                )
-            }
+        LandData(
+            modifier = Modifier.constrainAs(dataHeader) {
+                top.linkTo(welcomeHeader.bottom, margin = 21.dp)
+                bottom.linkTo(content.top)
+            },
+            crop = crop,
+            waterLevel = waterLevel,
+            npk = npk
+        )
+
+        HomeLandData(
+            modifier = Modifier
+                .padding(horizontal = 35.dp)
+                .constrainAs(content) {
+                    top.linkTo(dataHeader.bottom, margin = 21.dp)
+                    bottom.linkTo(historyCards.top)
+                },
+            lastLandAction = com.example.hapi.domain.model.LandAction(
+                name = landActionType.uppercase(),
+                date = landActionDate,
+                time = landActionTime
+            ),
+            detectionUsername = username,
+            detectionDate = detectionDate,
+            detectionTime = detectionTime,
+            imageUrl = if (isNetworkConnected) imageUrl else "",
+            lastFarmerDate = "",
+            lastFarmerTime = "",
+            lastFarmerUsername = "",
+        ) {
+            navController.navigateToDetectionDetails(
+                id = detectionRemoteId.toString()
+            )
         }
+
 
         Row(
             modifier = Modifier
@@ -131,6 +141,7 @@ fun LandownerHome(
                 navController.navigateToDetectionHistory()
             }
         }
+
         CustomNavigationBottomBackground(
             modifier = Modifier
                 .fillMaxWidth()
@@ -142,6 +153,7 @@ fun LandownerHome(
             modifier = Modifier
                 .padding(top = 12.dp)
                 .constrainAs(navBottom) {
+//                    top.linkTo(historyCards.bottom)
                     bottom.linkTo(parent.bottom)
                 },
             onHomeClick = {

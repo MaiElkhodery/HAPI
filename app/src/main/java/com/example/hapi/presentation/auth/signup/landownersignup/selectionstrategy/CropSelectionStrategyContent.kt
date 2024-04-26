@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.detection
+package com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

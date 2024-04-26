@@ -48,7 +48,7 @@ fun LastDetectionContent(
     Column(
         modifier = Modifier
             .background(YellowAppColor)
-            .padding(vertical = 12.dp)
+            .padding(vertical = 10.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -83,7 +83,7 @@ private fun LastDetectionInfo(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(vertical = 8.dp, horizontal = 12.dp),
+            .padding(vertical = 6.dp, horizontal = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

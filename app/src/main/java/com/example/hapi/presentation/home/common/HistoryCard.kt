@@ -46,7 +46,7 @@ fun HistoryCard(
             Image(
                 modifier = Modifier
                     .padding(top = 3.dp)
-                    .size(75.dp),
+                    .size(55.dp),
                 painter = painterResource(
                     id = if (type == "land") {
                         R.drawable.land_history

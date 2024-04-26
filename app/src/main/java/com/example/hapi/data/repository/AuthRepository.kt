@@ -53,8 +53,12 @@ class AuthRepository @Inject constructor(
         signinRequest: SigninRequest
     ): Flow<State<SigninResponse?>> {
         return ApiHandler().makeRequest(
-            execute = { authApiService.signin(signinRequest) },
+            execute = { authApiService.signin(signinRequest).apply {
+                Log.d("AuthRepository", "signin: $this")
+
+            } },
             onSuccess = { response ->
+                Log.d("AuthRepository", "signin: $response")
                 userDataPreference.saveAuthToken(response.token)
                 userDataPreference.saveRole(response.role)
                 userDataPreference.saveUsername(response.username)

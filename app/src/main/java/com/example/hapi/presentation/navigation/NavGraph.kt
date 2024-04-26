@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.example.hapi.presentation.auth.signin.signinRoute
 import com.example.hapi.presentation.auth.signup.farmersignup.farmerSignupRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.signupCropSelectionRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.cropSelectionStrategyRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.cropSelectionStrategyRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.FinalSelectedCropRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.recommendedCropsRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.landownerSignupRoute
@@ -23,8 +23,8 @@ import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    val startRoute = "splash"
-//    val startRoute = "landowner_home"
+//    val startRoute = "splash"
+    val startRoute = "landowner_home"
     NavHost(navController = navController, startDestination = startRoute) {
         progressRoute(navController)
         splashOneRoute(navController)

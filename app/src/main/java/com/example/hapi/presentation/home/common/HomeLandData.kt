@@ -3,6 +3,7 @@ package com.example.hapi.presentation.home.common
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,19 +34,31 @@ import com.example.hapi.domain.model.LandAction
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.util.DarkGreenExtraBoldText
+import com.example.hapi.util.FeatureInfo
 
 @Composable
 fun HomeLandData(
     modifier: Modifier = Modifier,
-    username: String,
-    date: String,
-    time: String,
+    detectionUsername: String,
+    detectionDate: String,
+    detectionTime: String,
     byteArray: ByteArray? = null,
     imageUrl: String = "",
     lastLandAction: LandAction,
+    lastFarmerUsername: String,
+    lastFarmerDate: String,
+    lastFarmerTime: String,
     onClickDetectionDetailsIcon: () -> Unit
 ) {
-    var detectionIsSelected by remember {
+    var isDetectionSelected by remember {
+        mutableStateOf(false)
+    }
+    var isLandSelected by remember {
+        mutableStateOf(false)
+    }
+    var isFarmerSelected by remember {
         mutableStateOf(true)
     }
     Column(
@@ -55,7 +69,7 @@ fun HomeLandData(
 
         Image(
             modifier = Modifier
-                .size(88.dp),
+                .size(70.dp),
             painter = painterResource(id = R.drawable.crop_profile),
             contentDescription = "home crop image"
         )
@@ -75,41 +89,91 @@ fun HomeLandData(
                     modifier = Modifier
                         .weight(1f)
                         .clickable {
-                            detectionIsSelected = true
+                            isDetectionSelected = true
+                            isLandSelected = false
+                            isFarmerSelected = false
                         },
                     text = stringResource(id = R.string.detection),
-                    isSelected = detectionIsSelected
+                    isSelected = isDetectionSelected
                 )
                 FeatureBox(
                     modifier = Modifier
                         .weight(1f)
                         .clickable {
-                            detectionIsSelected = false
+                            isLandSelected = true
+                            isDetectionSelected = false
+                            isFarmerSelected = false
                         },
                     text = stringResource(id = R.string.land),
-                    isSelected = !detectionIsSelected
+                    isSelected = isLandSelected
+                )
+                FeatureBox(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            isLandSelected = false
+                            isDetectionSelected = false
+                            isFarmerSelected = true
+                        },
+                    text = stringResource(id = R.string.connected_farmer),
+                    isSelected = isFarmerSelected
                 )
             }
 
-            if (detectionIsSelected) {
-                LastDetectionContent(
-                    username = username,
-                    date = date,
-                    time = time,
-                    byteArray = byteArray,
-                    imageUrl = imageUrl,
-                ) {
-                    onClickDetectionDetailsIcon()
+            when {
+                isDetectionSelected -> {
+
+                    if (detectionDate.isNotBlank()) {
+
+                        LastDetectionContent(
+                            username = detectionUsername,
+                            date = detectionDate,
+                            time = detectionTime,
+                            byteArray = byteArray,
+                            imageUrl = imageUrl,
+                        ) {
+                            onClickDetectionDetailsIcon()
+                        }
+                    } else {
+                        EmptyBox(
+                            warning = stringResource(id = R.string.no_detection),
+                            warningDetails = stringResource(id = R.string.no_detection_details)
+                        )
+                    }
                 }
-            } else {
-                LastLandActionContent(
-                    action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
-                    date = lastLandAction.date,
-                    time = lastLandAction.time
-                )
+
+                isLandSelected -> {
+                    if (lastLandAction.name.isNotBlank()) {
+                        LastLandActionContent(
+                            action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
+                            date = lastLandAction.date,
+                            time = lastLandAction.time
+                        )
+                    } else {
+                        EmptyBox(
+                            warning = stringResource(id = R.string.no_land),
+                            warningDetails = stringResource(id = R.string.no_land_details)
+                        )
+                    }
+                }
+
+                isFarmerSelected -> {
+                    if (lastFarmerDate.isNotBlank()) {
+                        LastFarmerContent(
+                            date = lastFarmerDate,
+                            time = lastFarmerTime,
+                            farmerName = lastFarmerUsername
+                        )
+                    } else {
+                        EmptyBox(
+                            warning = stringResource(id = R.string.no_farmer),
+                            warningDetails = stringResource(id = R.string.no_farmer_details)
+                        )
+
+                    }
+                }
             }
         }
-
     }
 }
 
@@ -143,6 +207,103 @@ private fun FeatureBox(
     }
 }
 
+@Composable
+fun LastFarmerContent(
+    modifier: Modifier = Modifier,
+    date: String,
+    time: String,
+    farmerName: String
+) {
+    Column(
+        modifier = modifier
+            .background(YellowAppColor)
+            .padding(vertical = 12.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DarkGreenBlackText(
+            modifier = Modifier.padding(bottom = 5.dp),
+            size = 15,
+            text = stringResource(id = R.string.last_connected_farmer)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 18.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.farmer),
+                contentDescription = "farmer",
+                modifier = Modifier.size(42.dp)
+            )
+            DarkGreenBlackText(
+                size = 15, text = farmerName,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+        }
+        Row {
+            ActionInfo(
+                data = date,
+                action = FeatureInfo.DATE,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            )
+            ActionInfo(
+                data = time,
+                action = FeatureInfo.TIME,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+fun EmptyBox(
+    warning: String,
+    warningDetails: String
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(YellowAppColor)
+            .padding(vertical = 18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        Box(
+            modifier = Modifier
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.warning),
+                contentDescription = null,
+                tint = DarkGreenAppColor,
+            )
+        }
+        DarkGreenExtraBoldText(
+            size = 15,
+            text = warning,
+            modifier = Modifier.padding(vertical = 5.dp)
+        )
+        Text(
+            color = DarkGreenAppColor,
+            fontSize = 10.sp,
+            fontFamily = FontFamily(
+                Font(
+                    R.font.poppins_semibold
+                )
+            ),
+            text = warningDetails,
+            textAlign = TextAlign.Center,
+            lineHeight = 12.sp
+        )
+    }
+}
 
 @Preview
 @Composable
@@ -153,8 +314,11 @@ private fun HomeOperationsDisplayPreview() {
             date = "12/12/2021",
             time = "12:00 PM"
         ),
-        username = "John Doe",
-        date = "12/12/2021",
-        time = "12:00 PM",
+        lastFarmerUsername = "John Doe",
+        lastFarmerDate = "",
+        lastFarmerTime = "12:00 PM",
+        detectionUsername = "John Doe",
+        detectionDate = "12/12/2021",
+        detectionTime = "12:00 PM"
     ) {}
 }

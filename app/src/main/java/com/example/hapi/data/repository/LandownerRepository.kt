@@ -8,7 +8,8 @@ import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.data.remote.request.SelectCropRequest
 import com.example.hapi.data.remote.response.CropRecommendationResponse
-import com.example.hapi.data.remote.response.LandDataResponse
+import com.example.hapi.data.remote.response.LandHistoryResponse
+import com.example.hapi.data.remote.response.LastFarmerResponse
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.google.gson.Gson
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 class LandownerRepository @Inject constructor(
     private val landownerApiService: LandownerApiService,
-    private val authPreference: UserDataPreference,
+    private val userDataPreference: UserDataPreference,
     private val landDataDao: LandDataDao
 ) : ApiHandler() {
     suspend fun cropRecommendation(): Flow<State<CropRecommendationResponse?>> {
@@ -29,31 +30,31 @@ class LandownerRepository @Inject constructor(
         )
     }
 
-    suspend fun uploadSelectedCrop(crop: String): Flow<State<Unit?>> {
+    suspend fun uploadSelectedCrop(crop: String): Flow<State<Unit>> {
         return ApiHandler().makeRequest(
-            execute = { landownerApiService.uploadSelectedCrop(SelectCropRequest(crop = crop)) },
-            onSuccess = { authPreference.saveHaveSelectedCrop(true) }
+            execute = {
+                landownerApiService.uploadSelectedCrop(SelectCropRequest(crop = crop)).apply {
+                    Log.d("LandownerRepository", "uploadSelectedCrop: $this")
+                }
+            },
+            onSuccess = {
+                userDataPreference.saveCrop(crop)
+            }
         )
+
     }
 
-    suspend fun getAndSaveLandDataHistory(
-        id: Int
+    suspend fun getAndSaveAllLandHistory(
+        lastSavedId: Int,
     ): Flow<State<Boolean>> {
         return withContext(Dispatchers.IO) {
             flow {
                 try {
                     emit(State.Loading)
-                    Log.d("LandownerRepository", "getAndSaveLandDataHistory: $id")
-                    val response = landownerApiService.getLandData(id).apply {
-                        Log.d("LandownerRepository", "getAndSaveLandDataHistory: $this")
-                    }
+                    val response = landownerApiService.getLandHistory(lastSavedId)
                     if (response.isSuccessful) {
                         if (!response.body().isNullOrEmpty()) {
-                            saveLandDataHistory(response.body()!!)
-                            Log.d(
-                                "LandownerRepository",
-                                "getAndSaveLandDataHistory: ${response.body()}"
-                            )
+                            saveLandHistory(response.body()!!)
                         }
                         emit(State.Success(true))
                     } else {
@@ -65,14 +66,13 @@ class LandownerRepository @Inject constructor(
                     }
                 } catch (e: Exception) {
                     emit(State.Exception(e.message.toString()))
-                    Log.d("LandownerRepository", "getAndSaveLandDataHistory: ${e.message}")
                     e.printStackTrace()
                 }
             }
         }
     }
 
-    private suspend fun saveLandDataHistory(landData: List<LandDataResponse>) {
+    private suspend fun saveLandHistory(landData: List<LandHistoryResponse>) {
         withContext(Dispatchers.IO) {
             landData.forEach { landData ->
                 landDataDao.upsert(
@@ -87,15 +87,55 @@ class LandownerRepository @Inject constructor(
         }
     }
 
-    suspend fun getLastLandDataHistory(): LandData? {
+    suspend fun getLastLandHistoryItem(): LandData? {
         return withContext(Dispatchers.IO) {
             landDataDao.getLastLandDataByRemoteId()
         }
     }
 
-    suspend fun getLandDataHistory(): List<LandData>? {
+    suspend fun getAllSavedLandHistory(): List<LandData>? {
         return withContext(Dispatchers.IO) {
             landDataDao.getAllLandData()
         }
     }
+
+    suspend fun getAndSaveLandData(): Flow<State<Boolean>> {
+        return withContext(Dispatchers.IO) {
+            flow {
+                try {
+                    emit(State.Loading)
+                    val response = landownerApiService.getLandData()
+                    if (response.isSuccessful) {
+                        userDataPreference.saveWaterLevel(response.body()!!.water_level)
+                        userDataPreference.saveNPK(
+                            "${response.body()!!.npk.N}-${response.body()!!.npk.P}-${response.body()!!.npk.K}"
+                        )
+                        emit(State.Success(true))
+                    } else {
+                        val error = Gson().fromJson(
+                            response.errorBody()?.string(),
+                            SignupErrorInfo::class.java
+                        )
+                        emit(State.Error(error))
+                    }
+                } catch (e: Exception) {
+                    emit(State.Exception(e.message.toString()))
+                    e.printStackTrace()
+                }
+            }
+        }
+
+    }
+
+    suspend fun getLastFarmer(): Flow<State<LastFarmerResponse>> {
+        return withContext(Dispatchers.IO) {
+            ApiHandler().makeRequest(
+                execute = {
+                    landownerApiService.getLastFarmer()
+                }
+            )
+        }
+    }
+
+
 }

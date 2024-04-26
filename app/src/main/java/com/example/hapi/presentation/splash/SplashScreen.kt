@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.signup.landownersignup.detection.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.main.navigateToMain
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
@@ -41,9 +42,9 @@ fun Splash(
     navController: NavController,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
-    val role = viewModel.role
-    val token = viewModel.token
-    val isCropSelected = viewModel.isCropSelected
+    val role = viewModel.role.collectAsState().value
+    val token = viewModel.token.collectAsState().value
+    val isCropSelected = viewModel.isCropSelected.collectAsState().value
 
     var state by remember {
         mutableStateOf(1)
@@ -56,13 +57,10 @@ fun Splash(
             }
         }
         job.invokeOnCompletion {
-            viewModel.getRole()
-            viewModel.getToken()
-            viewModel.getIsCropSelected()
-            Log.d("SPLASH", "Job completed")
-            if (token.value != null) {
-                if (role.value == LANDOWNER) {
-                    if (isCropSelected.value) {
+            Log.d("SPLASH", "$role $token $isCropSelected")
+            if (token != null) {
+                if (role == LANDOWNER) {
+                    if (isCropSelected) {
                         Log.d("SPLASH", "Navigate to landowner home")
                         navController.navigateToLandownerHome()
                     } else {
@@ -112,6 +110,22 @@ fun Splash(
                     navController.navigateToMain()
                 }
             }
+        }
+
+        if (state>=5){
+            if (token != null) {
+                if (role == LANDOWNER) {
+                    if (isCropSelected) {
+                        Log.d("SPLASH", "Navigate to landowner home")
+                        navController.navigateToLandownerHome()
+                    } else {
+                        Log.d("SPLASH", "Navigate to crop selection")
+                        navController.navigateToCropSelectionStrategy()
+                    }
+                } else {
+                    //TODO: Navigate to farmer home
+                }
+            } else navController.navigateToMain()
         }
     }
 }

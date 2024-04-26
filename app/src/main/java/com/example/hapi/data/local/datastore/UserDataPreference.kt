@@ -5,12 +5,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.example.hapi.util.AUTH_KEY
 import com.example.hapi.util.CROP_KEY
-import com.example.hapi.util.CropSelection_KEY
 import com.example.hapi.util.LAND_ID_KEY
 import com.example.hapi.util.LAST_DETECTION_HISTORY_ID_KEY
 import com.example.hapi.util.LAST_LAND_DATA_HISTORY_ID_KEY
+import com.example.hapi.util.NPK
 import com.example.hapi.util.ROLE_KEY
 import com.example.hapi.util.USERNAME_KEY
+import com.example.hapi.util.WATER_LEVEL
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -59,11 +60,15 @@ class UserDataPreference @Inject constructor(
         }
     }
 
-    suspend fun saveHaveSelectedCrop(
-        isCropSelected: Boolean
-    ) {
+    suspend fun saveWaterLevel(waterLevel: Int) {
         dataStore.edit { pref ->
-            pref[CropSelection_KEY] = setOf(isCropSelected.toString())
+            pref[WATER_LEVEL] = setOf(waterLevel.toString())
+        }
+    }
+
+    suspend fun saveNPK(npk: String) {
+        dataStore.edit { pref ->
+            pref[NPK] = setOf(npk)
         }
     }
 
@@ -77,14 +82,14 @@ class UserDataPreference @Inject constructor(
         return preferences[ROLE_KEY]?.first()
     }
 
-    suspend fun getUsername(): String? {
+    suspend fun getUsername(): String {
         val preferences = dataStore.data.first()
-        return preferences[USERNAME_KEY]?.first()
+        return preferences[USERNAME_KEY]?.first() ?: ""
     }
 
-    suspend fun getCrop(): String? {
+    suspend fun getCrop(): String {
         val preferences = dataStore.data.first()
-        return preferences[CROP_KEY]?.first()
+        return preferences[CROP_KEY]?.first() ?: ""
     }
 
     suspend fun getLandId(): String? {
@@ -102,8 +107,14 @@ class UserDataPreference @Inject constructor(
         return preferences[LAST_LAND_DATA_HISTORY_ID_KEY]?.first() ?: "1"
     }
 
-    suspend fun getIsCropSelected(): Boolean {
+
+    suspend fun getWaterLevel(): String? {
         val preferences = dataStore.data.first()
-        return preferences[CropSelection_KEY]?.first().toBoolean()
+        return preferences[WATER_LEVEL]?.first()
+    }
+
+    suspend fun getNPK(): String? {
+        val preferences = dataStore.data.first()
+        return preferences[NPK]?.first()
     }
 }

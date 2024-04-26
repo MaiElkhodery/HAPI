@@ -3,7 +3,11 @@ package com.example.hapi.data.remote.api
 import com.example.hapi.data.remote.request.SelectCropRequest
 import com.example.hapi.data.remote.response.CropRecommendationResponse
 import com.example.hapi.data.remote.response.LandDataResponse
+import com.example.hapi.data.remote.response.LandHistoryResponse
+import com.example.hapi.data.remote.response.LastFarmerResponse
 import com.example.hapi.util.LAND_DATA
+import com.example.hapi.util.LAND_HISTORY
+import com.example.hapi.util.LAST_FARMER
 import com.example.hapi.util.RECOMMENDATIONS
 import com.example.hapi.util.SELECTED_CROP
 import retrofit2.Response
@@ -22,8 +26,14 @@ interface LandownerApiService {
         @Body crop: SelectCropRequest
     ): Response<Unit>
 
-    @GET(LAND_DATA)
-    suspend fun getLandData(
+    @GET(LAND_HISTORY)
+    suspend fun getLandHistory(
         @Query("id") id: Int
-    ): Response<List<LandDataResponse>>
+    ): Response<List<LandHistoryResponse>>
+
+    @GET(LAND_DATA)
+    suspend fun getLandData(): Response<LandDataResponse>
+
+    @GET(LAST_FARMER)
+    suspend fun getLastFarmer():Response<LastFarmerResponse>
 }

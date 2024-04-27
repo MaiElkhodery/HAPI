@@ -131,7 +131,9 @@ class LandownerRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             ApiHandler().makeRequest(
                 execute = {
-                    landownerApiService.getLastFarmer()
+                    landownerApiService.getLastFarmer().apply {
+                        Log.d("LandownerRepository", "getLastFarmer: ${this.body()}")
+                    }
                 }
             )
         }

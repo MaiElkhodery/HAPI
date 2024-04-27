@@ -58,6 +58,9 @@ fun LandownerHome(
     val waterLevel = viewModel.waterLevel.collectAsState().value
     val npk = viewModel.npk.collectAsState().value
     val crop = viewModel.crop.collectAsState().value
+    val lastFarmerUsername = viewModel.lastFarmerUsername.collectAsState().value
+    val lastFarmerDate = viewModel.lastFarmerDate.collectAsState().value
+    val lastFarmerTime = viewModel.lastFarmerTime.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -106,9 +109,9 @@ fun LandownerHome(
             detectionDate = detectionDate,
             detectionTime = detectionTime,
             imageUrl = if (isNetworkConnected) imageUrl else "",
-            lastFarmerDate = "",
-            lastFarmerTime = "",
-            lastFarmerUsername = "",
+            lastFarmerDate = lastFarmerDate,
+            lastFarmerTime = lastFarmerTime,
+            lastFarmerUsername = lastFarmerUsername,
         ) {
             navController.navigateToDetectionDetails(
                 id = detectionRemoteId.toString()
@@ -153,7 +156,6 @@ fun LandownerHome(
             modifier = Modifier
                 .padding(top = 12.dp)
                 .constrainAs(navBottom) {
-//                    top.linkTo(historyCards.bottom)
                     bottom.linkTo(parent.bottom)
                 },
             onHomeClick = {

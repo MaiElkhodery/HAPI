@@ -57,7 +57,7 @@
     <string name="now_detecting">NOW DETECTION</string>
     <string name="choose_from_photos">CHOOSE FROM PHOTOS</string>
     <string name="water_level">WATER\nLEVELS</string>
-    <string name="npk_ratio">NPK\nRATIO</string>
+    <string name="npk_ratio">N P K</string>
     <string name="connected_farmer">FARMER</string>
     <string name="last_connected_farmer">LAST CONNECTED FARMER</string>
     <string name="no_detection">NO DETECTIONS YET</string>
@@ -66,4 +66,6 @@
     <string name="no_land_details">WAIT FOR THE DEVICES\nTO START TO SEE RESULTS</string>
     <string name="no_farmer">NO FARMERS YET</string>
     <string name="no_farmer_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
+    <string name="welcome_home">WELCOME</string>
+    <string name="disease_history_horizontal">DISEASE HISTORY</string>
 </resources>

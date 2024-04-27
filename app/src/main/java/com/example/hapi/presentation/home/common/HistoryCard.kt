@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +23,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
-fun HistoryCard(
+fun VerticalHistoryCard(
     type: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -38,6 +39,7 @@ fun HistoryCard(
             containerColor = YellowAppColor
         )
     ) {
+
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,7 +58,6 @@ fun HistoryCard(
                 ),
                 contentDescription = null
             )
-
             DarkGreenBlackText(
                 size = 15,
                 text = if (type == "land") stringResource(id = R.string.land_history)
@@ -67,11 +68,56 @@ fun HistoryCard(
     }
 }
 
+@Composable
+fun HorizontalHistoryCard(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = modifier
+            .clickable {
+                onClick()
+            },
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = YellowAppColor
+        )
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .size(55.dp),
+                painter = painterResource(
+                    id = R.drawable.disease_history
+                ),
+                contentDescription = null
+            )
+            DarkGreenBlackText(
+                size = 15,
+                text = stringResource(id = R.string.disease_history_horizontal),
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+    }
+}
+
+
 @Preview
 @Composable
 fun HistoryCardPreview() {
-    HistoryCard(
+    VerticalHistoryCard(
         type = "land",
+        onClick = {}
+    )
+    HorizontalHistoryCard(
         onClick = {}
     )
 }

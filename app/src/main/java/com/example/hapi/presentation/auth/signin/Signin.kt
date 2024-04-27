@@ -28,6 +28,7 @@ import com.example.hapi.presentation.auth.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
@@ -113,7 +114,6 @@ fun Signin(
         ) {
             Log.d("SIGNIN", "SIGNIN")
             viewModel.signin()
-            navController.navigateToLandownerHome()
         }
 
         LotusRow(
@@ -129,7 +129,7 @@ fun Signin(
         if (isLandowner) {
             navController.navigateToLandownerHome()
         } else {
-            //TODO: nav to farmer home
+            navController.navigateToFarmerHome()
         }
     }
 }

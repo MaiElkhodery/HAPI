@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.landowner
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +38,10 @@ fun LandData(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        LandDataItem(data = crop, text = stringResource(id = R.string.crop), isCrop = true)
+        LandDataItem(
+            data = crop,
+            text = stringResource(id = R.string.crop), isCrop = true
+        )
         LandDataItem(
             data = "$waterLevel%",
             text = stringResource(id = R.string.water_level),
@@ -58,6 +62,7 @@ fun LandDataItem(
     text: String,
     isCrop: Boolean = false
 ) {
+    Log.d("LandDataItem", "data: $data")
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {

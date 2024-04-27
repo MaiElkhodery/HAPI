@@ -264,6 +264,7 @@ fun LastFarmerContent(
 
 @Composable
 fun EmptyBox(
+    modifier: Modifier = Modifier,
     warning: String,
     warningDetails: String
 ) {

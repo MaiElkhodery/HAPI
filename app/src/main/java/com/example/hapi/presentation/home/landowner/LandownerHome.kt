@@ -24,9 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.CustomNavigationBottom
-import com.example.hapi.presentation.home.common.CustomNavigationBottomBackground
-import com.example.hapi.presentation.home.common.HistoryCard
 import com.example.hapi.presentation.home.common.HomeLandData
+import com.example.hapi.presentation.home.common.VerticalHistoryCard
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
@@ -50,6 +49,7 @@ fun LandownerHome(
     val detectionDate = viewModel.detectionDate.collectAsState().value
     val detectionTime = viewModel.detectionTime.collectAsState().value
     val detectionRemoteId = viewModel.detectionRemoteId.collectAsState().value
+    val detectionUsername = viewModel.detectionUsername.collectAsState().value
     val imageUrl = viewModel.imageUrl.collectAsState().value
     val landActionType = viewModel.landActionType.collectAsState().value
     val landActionDate = viewModel.landActionDate.collectAsState().value
@@ -68,7 +68,7 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
 
-        val (welcomeHeader, dataHeader, content, historyCards, navBottom, bottomBackground) = createRefs()
+        val (welcomeHeader, dataHeader, content, historyCards, navBottom) = createRefs()
         val topGuideLine = createGuidelineFromTop(.08f)
 
 
@@ -80,7 +80,7 @@ fun LandownerHome(
                     bottom.linkTo(dataHeader.top)
                 },
             imageId = R.drawable.logo,
-            topText = stringResource(id = R.string.welcome),
+            topText = stringResource(id = R.string.welcome_home),
             downText = username,
         )
         LandData(
@@ -105,7 +105,7 @@ fun LandownerHome(
                 date = landActionDate,
                 time = landActionTime
             ),
-            detectionUsername = username,
+            detectionUsername = detectionUsername,
             detectionDate = detectionDate,
             detectionTime = detectionTime,
             imageUrl = if (isNetworkConnected) imageUrl else "",
@@ -129,14 +129,14 @@ fun LandownerHome(
                 },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            HistoryCard(
+            VerticalHistoryCard(
                 type = "land",
                 modifier = Modifier.weight(1f)
 
             ) {
                 navController.navigateToLandHistory()
             }
-            HistoryCard(
+            VerticalHistoryCard(
                 type = "detection",
                 modifier = Modifier.weight(1f)
 
@@ -145,13 +145,6 @@ fun LandownerHome(
             }
         }
 
-        CustomNavigationBottomBackground(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(bottomBackground) {
-                    bottom.linkTo(parent.bottom)
-                }
-        )
         CustomNavigationBottom(
             modifier = Modifier
                 .padding(top = 12.dp)

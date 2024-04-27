@@ -14,6 +14,7 @@ import com.example.hapi.presentation.home.cropselection.cropSelectionRoute
 import com.example.hapi.presentation.home.detectiondetails.detectionDetailsRoute
 import com.example.hapi.presentation.home.detectionhistory.detectionHistoryRoute
 import com.example.hapi.presentation.home.diseasedetection.imageCaptureRoute
+import com.example.hapi.presentation.home.farmer.farmerHomeRoute
 import com.example.hapi.presentation.home.landhistory.landHistoryRoute
 import com.example.hapi.presentation.home.landowner.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
@@ -23,8 +24,8 @@ import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-//    val startRoute = "splash"
-    val startRoute = "landowner_home"
+    val startRoute = "splash"
+//    val startRoute = "landowner_home"
     NavHost(navController = navController, startDestination = startRoute) {
         progressRoute(navController)
         splashOneRoute(navController)
@@ -39,6 +40,7 @@ fun NavGraph(navController: NavHostController) {
         signinRoute(navController)
         mainRoute(navController)
         landownerHomeRoute(navController)
+        farmerHomeRoute(navController)
         detectionHistoryRoute(navController)
         detectionDetailsRoute(navController)
         cropSelectionRoute(navController)

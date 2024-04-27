@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.splash.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -24,13 +25,13 @@ class SplashViewModel @Inject constructor(
     val isCropSelected = _isCropSelected.asStateFlow()
     fun getRole() {
         viewModelScope.launch {
-            _role.value = authPreference.getToken()
+            _role.value = authPreference.getRole()
         }
     }
 
     fun getToken() {
         viewModelScope.launch {
-            _token.value = authPreference.getRole()
+            _token.value = authPreference.getToken()
         }
     }
 
@@ -43,5 +44,6 @@ class SplashViewModel @Inject constructor(
         getRole()
         getToken()
         getIsCropSelected()
+        Log.d("SPLASH", "role: ${role.value}, token: ${token.value}, isCropSelected: ${isCropSelected.value}")
     }
 }

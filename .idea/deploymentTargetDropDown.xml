@@ -2,7 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CropSelectionPreview">
+      <entry key="FarmerHomePreview">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -15,7 +15,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-03T22:10:57.253879100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-27T07:21:03.215549Z" />
         </State>
       </entry>
       <entry key="ImageCapturePreview">
@@ -51,12 +51,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-17T20:20:04.902275600Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-27T18:41:51.762232100Z" />
         </State>
       </entry>
     </value>

@@ -47,6 +47,9 @@ class LandownerHomeViewModel @Inject constructor(
     private val _detectionTime = MutableStateFlow("")
     val detectionTime = _detectionTime.asStateFlow()
 
+    private val _detectionUsername = MutableStateFlow("")
+    val detectionUsername = _detectionUsername.asStateFlow()
+
     private val _detectionRemoteId = MutableStateFlow(0)
     val detectionRemoteId = _detectionRemoteId.asStateFlow()
 
@@ -101,7 +104,7 @@ class LandownerHomeViewModel @Inject constructor(
                         getLastDetectionUseCase()?.let { detection ->
                             userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
                             _imageUrl.value = detection.imageUrl
-                            _username.value = detection.username
+                            _detectionUsername.value = detection.username
                             _detectionDate.value = detection.date
                             _detectionTime.value = detection.time
                             _detectionRemoteId.value = detection.remoteId
@@ -198,7 +201,7 @@ class LandownerHomeViewModel @Inject constructor(
             getLastDetectionUseCase()?.let { detection ->
                 userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
                 _imageUrl.value = detection.imageUrl
-                _username.value = detection.username
+                _detectionUsername.value = detection.username
                 _detectionDate.value = detection.date
                 _detectionTime.value = detection.time
                 _detectionRemoteId.value = detection.remoteId
@@ -224,7 +227,7 @@ class LandownerHomeViewModel @Inject constructor(
     fun getCrop() {
         viewModelScope.launch {
             Log.d("LANDOWNER HOME", "CROP Preference: ${userDataPreference.getCrop()}")
-            _crop.value = userDataPreference.getCrop()?.uppercase() ?: ""
+            _crop.value = userDataPreference.getCrop()
         }
     }
 

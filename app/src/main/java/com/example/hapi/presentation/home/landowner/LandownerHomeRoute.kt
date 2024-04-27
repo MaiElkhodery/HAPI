@@ -13,8 +13,9 @@ fun NavGraphBuilder.landownerHomeRoute(navController: NavController) {
 }
 fun NavController.navigateToLandownerHome(){
     navigate(ROUTE){
+//        popBackStack()
         popUpTo(ROUTE){
-            inclusive = true
+            inclusive = false
         }
     }
 }

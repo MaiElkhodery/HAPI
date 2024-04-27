@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.main.navigateToMain
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
@@ -56,23 +57,23 @@ fun Splash(
                 state++
             }
         }
-        job.invokeOnCompletion {
-            Log.d("SPLASH", "$role $token $isCropSelected")
-            if (token != null) {
-                if (role == LANDOWNER) {
-                    if (isCropSelected) {
-                        Log.d("SPLASH", "Navigate to landowner home")
-                        navController.navigateToLandownerHome()
-                    } else {
-                        Log.d("SPLASH", "Navigate to crop selection")
-                        navController.navigateToCropSelectionStrategy()
-                    }
-                } else {
-                    //TODO: Navigate to farmer home
-                }
-            } else navController.navigateToMain()
-        }
-        Log.d("SPLASH", "Navigate to main")
+//        job.invokeOnCompletion {
+//            Log.d("SPLASH", "$role $token $isCropSelected")
+//            if (token != null) {
+//                if (role == LANDOWNER) {
+//                    if (isCropSelected) {
+//                        Log.d("SPLASH", "Navigate to landowner home")
+//                        navController.navigateToLandownerHome()
+//                    } else {
+//                        Log.d("SPLASH", "Navigate to crop selection")
+//                        navController.navigateToCropSelectionStrategy()
+//                    }
+//                } else {
+//                    //TODO: Navigate to farmer home
+//                }
+//            } else navController.navigateToMain()
+//        }
+//        Log.d("SPLASH", "Navigate to main")
     }
 
 
@@ -111,22 +112,21 @@ fun Splash(
                 }
             }
         }
-
-        if (state>=5){
-            if (token != null) {
-                if (role == LANDOWNER) {
-                    if (isCropSelected) {
-                        Log.d("SPLASH", "Navigate to landowner home")
-                        navController.navigateToLandownerHome()
-                    } else {
-                        Log.d("SPLASH", "Navigate to crop selection")
-                        navController.navigateToCropSelectionStrategy()
-                    }
+    }
+    if (state>=5){
+        if (token != null) {
+            if (role == LANDOWNER) {
+                if (isCropSelected) {
+                    Log.d("SPLASH", "Navigate to landowner home")
+                    navController.navigateToLandownerHome()
                 } else {
-                    //TODO: Navigate to farmer home
+                    Log.d("SPLASH", "Navigate to crop selection")
+                    navController.navigateToCropSelectionStrategy()
                 }
-            } else navController.navigateToMain()
-        }
+            } else {
+                navController.navigateToFarmerHome()
+            }
+        } else navController.navigateToMain()
     }
 }
 

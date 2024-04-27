@@ -1,6 +1,6 @@
 package com.example.hapi.presentation.home.common
 
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,10 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,52 +46,65 @@ fun CustomNavigationBottom(
     onSettingsClick: () -> Unit
 ) {
     var isHomeSelected by remember { mutableStateOf(true) }
-    ConstraintLayout(
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 37.dp)
     ) {
-        val (home, camera, settings) = createRefs()
-
-        createHorizontalChain(
-            home, camera, settings,
-            chainStyle = ChainStyle.SpreadInside
-        )
-
-        NavigationIcon(
-            modifier = Modifier.constrainAs(home) {
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-            },
-            isSelected = isHomeSelected,
-            text = stringResource(id = R.string.home),
-            icon = Icons.Default.Home
-        ) {
-            isHomeSelected = true
-            onHomeClick()
-        }
-        NavigationIcon(
-            modifier = Modifier.constrainAs(settings) {
-                bottom.linkTo(parent.bottom)
-                end.linkTo(parent.end)
-            },
-            isSelected = !isHomeSelected, text = stringResource(id = R.string.settings),
-            icon = Icons.Default.Settings
-        ) {
-            isHomeSelected = false
-            onSettingsClick()
-        }
-        CameraIcon(
+        Image(
+            painter = painterResource(id = R.drawable.nav_bottom_background),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .padding(bottom = 25.dp)
-                .constrainAs(camera) {
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(parent.top)
-                    start.linkTo(home.end, margin = 20.dp)
-                    end.linkTo(settings.start, margin = 20.dp)
-                },
+                .fillMaxWidth()
+                .padding(top = 18.dp)
+        )
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 37.dp)
         ) {
-            onCameraClick()
+            val (home, camera, settings) = createRefs()
+
+            createHorizontalChain(
+                home, camera, settings,
+                chainStyle = ChainStyle.SpreadInside
+            )
+
+            NavigationIcon(
+                modifier = Modifier.constrainAs(home) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                },
+                isSelected = isHomeSelected,
+                text = stringResource(id = R.string.home),
+                icon = Icons.Default.Home
+            ) {
+                isHomeSelected = true
+                onHomeClick()
+            }
+            NavigationIcon(
+                modifier = Modifier.constrainAs(settings) {
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                },
+                isSelected = !isHomeSelected, text = stringResource(id = R.string.settings),
+                icon = Icons.Default.Settings
+            ) {
+                isHomeSelected = false
+                onSettingsClick()
+            }
+            CameraIcon(
+                modifier = Modifier
+                    .padding(bottom = 25.dp)
+                    .constrainAs(camera) {
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        start.linkTo(home.end, margin = 23.dp)
+                        end.linkTo(settings.start, margin = 23.dp)
+                    },
+            ) {
+                onCameraClick()
+            }
         }
     }
 }
@@ -106,7 +119,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 5.dp)
+            .padding(bottom = 6.dp)
             .clickable {
                 onClick()
             },
@@ -131,37 +144,6 @@ private fun NavigationIcon(
             DarkGreenBlackText(size = 12, text = text)
         }
     }
-}
-
-@Composable
-fun CustomNavigationBottomBackground(
-    modifier: Modifier = Modifier,
-) {
-
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            rotate(degrees = 79F) {
-                drawRect(
-                    color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .73F, y = size.height / 3.1F),
-                    size = size / 2F
-                )
-            }
-        }
-
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            rotate(degrees = 99F) {
-                drawRect(
-                    color = YellowAppColor,
-                    topLeft = Offset(x = size.width / .73F, y = size.height / 2.8F),
-                    size = size / 3F
-                )
-            }
-        }
-    }
-
 }
 
 @Composable
@@ -194,6 +176,5 @@ fun CameraIcon(
 @Preview
 @Composable
 private fun CustomNavigationBottomPreview() {
-    CustomNavigationBottomBackground()
     CustomNavigationBottom(Modifier, {}, {}) {}
 }

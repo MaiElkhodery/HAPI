@@ -108,7 +108,7 @@ class LandownerRepository @Inject constructor(
                     if (response.isSuccessful) {
                         userDataPreference.saveWaterLevel(response.body()!!.water_level)
                         userDataPreference.saveNPK(
-                            "${response.body()!!.npk.N}-${response.body()!!.npk.P}-${response.body()!!.npk.K}"
+                            "${response.body()!!.npk.N}% -${response.body()!!.npk.P}% -${response.body()!!.npk.K}%"
                         )
                         emit(State.Success(true))
                     } else {

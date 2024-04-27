@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.ConfirmButton
 import com.example.hapi.presentation.auth.common.LabeledInputField
@@ -132,12 +133,12 @@ fun FarmerSignup(
         }
     }
     if (authenticated) {
-        navController.navToProgress("true")
+        navController.navToProgress("true",isFarmer = "true")
     }
 }
 
 @Preview
 @Composable
 private fun FarmerSignupPreview() {
-//    FarmerSignup(navController = rememberNavController(), AuthViewModel())
+    FarmerSignup(navController = rememberNavController())
 }

@@ -69,14 +69,14 @@ class FarmerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
-//                        getLastDetectionUseCase()?.let { detection ->
-//                            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-//                            _detectionImageUrl.value = detection.imageUrl
-//                            _username.value = detection.username
-//                            _detectionDate.value = detection.date
-//                            _detectionTime.value = detection.time
-//                            _detectionRemoteId.value = detection.remoteId.toString()
-//                        }
+                        getLastDetectionUseCase()?.let { detection ->
+                            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
+                            _detectionImageUrl.value = detection.imageUrl
+                            _detectionUsername.value = detection.username
+                            _detectionDate.value = detection.date
+                            _detectionTime.value = detection.time
+                            _detectionRemoteId.value = detection.remoteId.toString()
+                        }
                     }
 
                 }

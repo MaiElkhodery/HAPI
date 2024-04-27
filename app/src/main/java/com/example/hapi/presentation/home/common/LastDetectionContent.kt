@@ -37,6 +37,7 @@ import com.example.hapi.util.toBitmap
 
 @Composable
 fun LastDetectionContent(
+    modifier: Modifier = Modifier,
     username: String,
     date: String,
     time: String,
@@ -46,7 +47,7 @@ fun LastDetectionContent(
 ) {
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(YellowAppColor)
             .padding(vertical = 10.dp)
             .fillMaxWidth(),

@@ -169,6 +169,25 @@ fun DarkGreenExtraBoldText(
     )
 }
 @Composable
+fun YellowExtraBoldText(
+    modifier: Modifier = Modifier,
+    size: Int,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        color = YellowAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_extrabold
+            )
+        ),
+        text = text,
+        textAlign = TextAlign.Center
+    )
+}
+@Composable
 fun YellowMediumText(
     text: String,
     modifier: Modifier=Modifier,

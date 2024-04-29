@@ -68,4 +68,15 @@
     <string name="no_farmer_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
     <string name="welcome_home">WELCOME</string>
     <string name="disease_history_horizontal">DISEASE HISTORY</string>
+    <string name="your">YOUR</string>
+    <string name="app_settings">APP SETTINGS</string>
+    <string name="language">LANGUAGE</string>
+    <string name="list_of_farmers">LIST OF FARMERS</string>
+    <string name="data_and_storage"><![CDATA[DATA & STORAGE]]></string>
+    <string name="more">MORE</string>
+    <string name="help_and_support"><![CDATA[HELP & SUPPORT]]></string>
+    <string name="about_us">ABOUT US</string>
+    <string name="account_settings">ACCOUNT SETTINGS</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="logout">LOGOUT</string>
 </resources>

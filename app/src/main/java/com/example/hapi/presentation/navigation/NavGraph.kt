@@ -19,7 +19,9 @@ import com.example.hapi.presentation.home.landhistory.landHistoryRoute
 import com.example.hapi.presentation.home.landowner.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
 import com.example.hapi.presentation.main.mainRoute
+import com.example.hapi.presentation.welcome.welcomeRoute
 import com.example.hapi.presentation.progress.progressRoute
+import com.example.hapi.presentation.settings.landowner.landownerSettingsRoute
 import com.example.hapi.presentation.splash.splashOneRoute
 
 @Composable
@@ -38,7 +40,7 @@ fun NavGraph(navController: NavHostController) {
         recommendedCropsRoute(navController)
         FinalSelectedCropRoute(navController)
         signinRoute(navController)
-        mainRoute(navController)
+        welcomeRoute(navController)
         landownerHomeRoute(navController)
         farmerHomeRoute(navController)
         detectionHistoryRoute(navController)
@@ -46,5 +48,7 @@ fun NavGraph(navController: NavHostController) {
         cropSelectionRoute(navController)
         imageCaptureRoute(navController)
         landHistoryRoute(navController)
+        mainRoute(navController)
+        landownerSettingsRoute(navController)
     }
 }

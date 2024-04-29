@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.main
+package com.example.hapi.presentation.welcome
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.util.YellowMediumText
 
 @Composable
-fun MainScreenContent(
+fun WelcomeScreenContent(
     modifier: Modifier = Modifier,
     text: String,
     buttonText: String,
@@ -25,7 +25,7 @@ fun MainScreenContent(
             modifier = Modifier.padding(bottom = 12.dp),
             size = 15
         )
-        MainButton(text = buttonText) {
+        SignButton(text = buttonText) {
             onClick()
         }
     }

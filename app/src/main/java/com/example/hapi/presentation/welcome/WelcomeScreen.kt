@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.main
+package com.example.hapi.presentation.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,13 +20,12 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.signin.navToSignin
 import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
-import com.example.hapi.presentation.home.diseasedetection.navigateToImageCapture
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
-fun Main(navController: NavController) {
+fun WelcomeScreen(navController: NavController) {
 
     ConstraintLayout(
         modifier = Modifier
@@ -52,7 +51,7 @@ fun Main(navController: NavController) {
             )
         }
 
-        MainScreenContent(
+        WelcomeScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 44.dp)
@@ -65,7 +64,7 @@ fun Main(navController: NavController) {
         ) {
             navController.navToProgress("false")
         }
-        MainScreenContent(
+        WelcomeScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 44.dp)
@@ -111,5 +110,5 @@ fun Main(navController: NavController) {
 @Preview
 @Composable
 fun MainPreview() {
-    Main(navController = rememberNavController())
+    WelcomeScreen(navController = rememberNavController())
 }

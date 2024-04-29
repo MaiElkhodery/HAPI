@@ -172,7 +172,6 @@ fun CameraIcon(
         )
     }
 }
-
 @Preview
 @Composable
 private fun CustomNavigationBottomPreview() {

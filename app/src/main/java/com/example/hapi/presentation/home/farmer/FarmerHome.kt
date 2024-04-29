@@ -101,22 +101,22 @@ fun FarmerHome(
             }
         }
 
-        CustomNavigationBottom(
-            modifier = Modifier
-                .padding(top = 12.dp)
-                .constrainAs(navBottom) {
-                    bottom.linkTo(parent.bottom)
-                },
-            onHomeClick = {
-                navController.navigateToFarmerHome()
-            },
-            onCameraClick = {
-                navController.navigateToCropSelection()
-            },
-            onSettingsClick = {
-
-            }
-        )
+//        CustomNavigationBottom(
+//            modifier = Modifier
+//                .padding(top = 12.dp)
+//                .constrainAs(navBottom) {
+//                    bottom.linkTo(parent.bottom)
+//                },
+//            onHomeClick = {
+//                navController.navigateToFarmerHome()
+//            },
+//            onCameraClick = {
+//                navController.navigateToCropSelection()
+//            },
+//            onSettingsClick = {
+//
+//            }
+//        )
     }
 }
 

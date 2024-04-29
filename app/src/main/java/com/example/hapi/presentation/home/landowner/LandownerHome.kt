@@ -145,22 +145,22 @@ fun LandownerHome(
             }
         }
 
-        CustomNavigationBottom(
-            modifier = Modifier
-                .padding(top = 12.dp)
-                .constrainAs(navBottom) {
-                    bottom.linkTo(parent.bottom)
-                },
-            onHomeClick = {
-                navController.navigateToLandownerHome()
-            },
-            onCameraClick = {
-                navController.navigateToCropSelection()
-            },
-            onSettingsClick = {
-
-            }
-        )
+//        CustomNavigationBottom(
+//            modifier = Modifier
+//                .padding(top = 12.dp)
+//                .constrainAs(navBottom) {
+//                    bottom.linkTo(parent.bottom)
+//                },
+//            onHomeClick = {
+//                navController.navigateToLandownerHome()
+//            },
+//            onCameraClick = {
+//                navController.navigateToCropSelection()
+//            },
+//            onSettingsClick = {
+//
+//            }
+//        )
     }
 }
 

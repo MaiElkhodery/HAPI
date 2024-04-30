@@ -11,7 +11,6 @@ import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
 import com.example.hapi.domain.usecase.GetLastFarmerUseCase
 import com.example.hapi.domain.usecase.GetLastLandHistoryItemUseCase
-import com.example.hapi.util.isNetworkConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -101,14 +100,6 @@ class LandownerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
-                        getLastDetectionUseCase()?.let { detection ->
-                            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-                            _imageUrl.value = detection.imageUrl
-                            _detectionUsername.value = detection.username
-                            _detectionDate.value = detection.date
-                            _detectionTime.value = detection.time
-                            _detectionRemoteId.value = detection.remoteId
-                        }
                     }
 
                 }
@@ -141,14 +132,6 @@ class LandownerHomeViewModel @Inject constructor(
                     is State.Success -> {
                         _loading.value = false
                         Log.d("LANDOWNER HOME", "LAND:LOADING")
-                        getLastLandHistoryItemUseCase()?.let { landData ->
-                            Log.d("LAST LAND DATA RESULT", landData.toString())
-                            userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
-                            _landActionType.value = landData.action_type
-                            _landActionDate.value = landData.date
-                            _landActionTime.value = landData.time
-                        }
-
                     }
 
                 }
@@ -185,7 +168,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLastLandHistoryItem() {
+    suspend fun getSavedLastLandHistoryItem() {
         viewModelScope.launch {
             getLastLandHistoryItemUseCase()?.let { landData ->
                 userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
@@ -196,7 +179,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLastDetectionAndSetLastId() {
+    suspend fun getSavedLastDetection() {
         viewModelScope.launch {
             getLastDetectionUseCase()?.let { detection ->
                 userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
@@ -211,7 +194,7 @@ class LandownerHomeViewModel @Inject constructor(
 
     fun getUsername() {
         viewModelScope.launch {
-            _username.value = userDataPreference.getUsername()!!
+            _username.value = userDataPreference.getUsername()
         }
     }
 
@@ -231,7 +214,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    fun getLastFarmer() {
+    fun getRemoteLastFarmer() {
         viewModelScope.launch {
             getLastFarmerUseCase().collect { state ->
                 when (state) {
@@ -256,23 +239,5 @@ class LandownerHomeViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    init {
-        viewModelScope.launch {
-            if (isNetworkConnected()) {
-                getAndSaveRemoteDetectionHistory()
-                getAndSaveRemoteLandHistory()
-                getAndSaveRemoteLandData()
-                getLastFarmer()
-            } else {
-                getLastDetectionAndSetLastId()
-                getLastLandHistoryItem()
-                getSavedLandData()
-            }
-            getCrop()
-            getUsername()
-        }
-        Log.d("LANDOWNER HOME", "CORP: $crop")
     }
 }

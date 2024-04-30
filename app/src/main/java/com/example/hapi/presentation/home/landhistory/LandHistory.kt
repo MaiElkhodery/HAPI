@@ -64,7 +64,7 @@ fun LandHistory(
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.history)
         ) {
-            navController.navigateToLandownerHome()
+            navController.popBackStack()
         }
 
         RoundedYellowBoxes(

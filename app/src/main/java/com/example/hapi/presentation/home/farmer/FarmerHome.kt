@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,14 +20,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.home.common.CustomNavigationBottom
 import com.example.hapi.presentation.home.common.EmptyBox
 import com.example.hapi.presentation.home.common.FarmerLastDetection
 import com.example.hapi.presentation.home.common.HorizontalHistoryCard
-import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.isNetworkConnected
 
 @Composable
 fun FarmerHome(
@@ -42,14 +42,20 @@ fun FarmerHome(
     val detectionRemoteId = viewmodel.detectionRemoteId.collectAsState().value
     val isLoading = viewmodel.loading.collectAsState().value
 
-
+    LaunchedEffect(key1 = Unit) {
+        if (isNetworkConnected()) {
+            viewmodel.getAndSaveRemoteDetectionHistory()
+        }
+        viewmodel.getSavedLastDetection()
+        viewmodel.getUsername()
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
     ) {
 
-        val (welcomeHeader, content, historyCard, navBottom) = createRefs()
+        val (welcomeHeader, content) = createRefs()
         val topGuideLine = createGuidelineFromTop(.05f)
 
         NavHeader(
@@ -69,7 +75,6 @@ fun FarmerHome(
                 .padding(horizontal = 33.dp)
                 .constrainAs(content) {
                     top.linkTo(welcomeHeader.bottom, margin = 21.dp)
-                    bottom.linkTo(historyCard.top, margin = 21.dp)
                     centerVerticallyTo(parent)
                 },
             verticalArrangement = Arrangement.Center,
@@ -100,23 +105,6 @@ fun FarmerHome(
                 navController.navigateToDetectionHistory()
             }
         }
-
-//        CustomNavigationBottom(
-//            modifier = Modifier
-//                .padding(top = 12.dp)
-//                .constrainAs(navBottom) {
-//                    bottom.linkTo(parent.bottom)
-//                },
-//            onHomeClick = {
-//                navController.navigateToFarmerHome()
-//            },
-//            onCameraClick = {
-//                navController.navigateToCropSelection()
-//            },
-//            onSettingsClick = {
-//
-//            }
-//        )
     }
 }
 

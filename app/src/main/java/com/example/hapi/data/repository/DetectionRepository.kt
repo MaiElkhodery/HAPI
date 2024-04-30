@@ -47,7 +47,7 @@ class DetectionRepository @Inject constructor(
 
                     deleteCurrentCachedDetection()
                     val detectionId = saveDetection(
-                        username = userDataPreference.getUsername()!!,
+                        username = userDataPreference.getUsername(),
                         date = getCurrentDateAsString(),
                         time = getCurrentTimeAsString(),
                         confidence = response.body()!!.confidence,

@@ -16,10 +16,11 @@ import com.example.hapi.presentation.home.common.CustomNavigationBottom
 import com.example.hapi.presentation.home.cropselection.CropSelection
 import com.example.hapi.presentation.home.farmer.FarmerHome
 import com.example.hapi.presentation.home.landowner.LandownerHome
+import com.example.hapi.presentation.settings.landowner.LandownerSettings
 import com.example.hapi.util.LANDOWNER
 
 @Composable
-fun MainScreen(
+fun HapiMainScreen(
     navController: NavController,
     role: String
 ) {
@@ -50,7 +51,10 @@ fun MainScreen(
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
+        Box(
+            modifier = Modifier
+                .padding(padding)
+        ) {
             when {
                 isHomeSelected -> {
                     if (role == LANDOWNER)
@@ -64,7 +68,9 @@ fun MainScreen(
                 }
 
                 isSettingsSelected -> {
-                    //TODO:ADD FARMER AND LANDOWNER SETTINGS SCREENS
+                    if (role == LANDOWNER)
+                        LandownerSettings(navController = navController)
+                    //TODO: DISPLAY FARMER SETTINGS
                 }
             }
         }
@@ -75,5 +81,5 @@ fun MainScreen(
 @Preview
 @Composable
 private fun HapiMainScreenPreview() {
-    MainScreen(navController = rememberNavController(), role = "landowner")
+    HapiMainScreen(navController = rememberNavController(), role = "landowner")
 }

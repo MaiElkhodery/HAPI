@@ -9,12 +9,12 @@ fun NavGraphBuilder.mainRoute(navController: NavController) {
 
     composable(route = ROUTE) {
         val role = it.arguments?.getString("role")
-        MainScreen(navController = navController, role = role!!)
+        HapiMainScreen(navController = navController, role = role!!)
     }
 }
 
 fun NavController.navigateToMainScreen(
-    role: String
+    role: String = ""
 ) {
     val route = "main/$role"
     navigate(route)

@@ -96,7 +96,7 @@ suspend fun isNetworkConnected(): Boolean {
         try {
             val url = URL("https://www.google.com")
             val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.connectTimeout = 800
+            urlConnection.connectTimeout = 500
             urlConnection.connect()
             urlConnection.disconnect()
             true

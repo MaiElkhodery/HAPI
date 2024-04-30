@@ -23,10 +23,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.home.common.CustomNavigationBottom
 import com.example.hapi.presentation.home.common.HomeLandData
 import com.example.hapi.presentation.home.common.VerticalHistoryCard
-import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
 import com.example.hapi.presentation.home.landhistory.navigateToLandHistory
@@ -41,8 +39,20 @@ fun LandownerHome(
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
-    LaunchedEffect(true) {
+
+    LaunchedEffect(Unit) {
         isNetworkConnected = isNetworkConnected()
+        if (isNetworkConnected()) {
+            viewModel.getAndSaveRemoteDetectionHistory()
+            viewModel.getAndSaveRemoteLandHistory()
+            viewModel.getAndSaveRemoteLandData()
+            viewModel.getRemoteLastFarmer()
+        }
+        viewModel.getSavedLastDetection()
+        viewModel.getSavedLastLandHistoryItem()
+        viewModel.getSavedLandData()
+        viewModel.getCrop()
+        viewModel.getUsername()
     }
 
     val username = viewModel.username.collectAsState().value
@@ -68,7 +78,7 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
 
-        val (welcomeHeader, dataHeader, content, historyCards, navBottom) = createRefs()
+        val (welcomeHeader, dataHeader, content, historyCards) = createRefs()
         val topGuideLine = createGuidelineFromTop(.08f)
 
 
@@ -125,7 +135,7 @@ fun LandownerHome(
                 .padding(horizontal = 26.dp)
                 .constrainAs(historyCards) {
                     top.linkTo(content.bottom, margin = 12.dp)
-                    bottom.linkTo(navBottom.top, margin = 33.dp)
+                    bottom.linkTo(parent.bottom, margin = 33.dp)
                 },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -144,23 +154,6 @@ fun LandownerHome(
                 navController.navigateToDetectionHistory()
             }
         }
-
-//        CustomNavigationBottom(
-//            modifier = Modifier
-//                .padding(top = 12.dp)
-//                .constrainAs(navBottom) {
-//                    bottom.linkTo(parent.bottom)
-//                },
-//            onHomeClick = {
-//                navController.navigateToLandownerHome()
-//            },
-//            onCameraClick = {
-//                navController.navigateToCropSelection()
-//            },
-//            onSettingsClick = {
-//
-//            }
-//        )
     }
 }
 

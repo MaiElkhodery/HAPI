@@ -120,7 +120,7 @@ fun ImageCapture(
             topText = stringResource(id = R.string.disease),
             downText = stringResource(id = R.string.detection)
         ) {
-            navController.navigateToCropSelection()
+            navController.popBackStack()
         }
 
         CameraPreview(
@@ -158,7 +158,7 @@ fun ImageCapture(
         }
         if (detectionId != null) {
             navController.navigateToDetectionDetails(
-                id = detectionId.toString(),
+                id = detectionId.toInt().toString(),
                 isCurrentDetection = "true"
             )
         }

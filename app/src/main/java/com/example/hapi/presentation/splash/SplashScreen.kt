@@ -28,11 +28,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
-import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
-import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.main.navigateToMainScreen
-import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
+import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
@@ -52,7 +50,10 @@ fun Splash(
         mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
-        val job = launch {
+        launch {
+            viewModel.getIsCropSelected()
+            viewModel.getRole()
+            viewModel.getToken()
             while (isActive && state < 5) {
                 delay(700)
                 state++
@@ -97,19 +98,18 @@ fun Splash(
             }
         }
     }
-    if (state >= 5) {
+    if (state == 5) {
+        Log.d("SPLASH", "role: ${role}, token: ${token}, isCropSelected: ${isCropSelected}")
         if (token != null) {
             if (role == LANDOWNER) {
                 if (isCropSelected) {
                     Log.d("SPLASH", "Navigate to landowner home")
-//                    navController.navigateToLandownerHome()
                     navController.navigateToMainScreen(role)
                 } else {
                     Log.d("SPLASH", "Navigate to crop selection")
                     navController.navigateToCropSelectionStrategy()
                 }
             } else {
-//                navController.navigateToFarmerHome()
                 navController.navigateToMainScreen(role!!)
             }
         } else navController.navigateToWelcomeScreen()

@@ -35,6 +35,7 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
+import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBlackText
 
@@ -49,6 +50,7 @@ fun CustomNavigationBottom(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .background(GreenAppColor)
     ) {
         Image(
             painter = painterResource(id = R.drawable.nav_bottom_background),

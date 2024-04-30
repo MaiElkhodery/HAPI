@@ -40,10 +40,9 @@ class SplashViewModel @Inject constructor(
             _isCropSelected.value = authPreference.getCrop().isNotBlank()
         }
     }
-    init {
-        getRole()
-        getToken()
-        getIsCropSelected()
-        Log.d("SPLASH", "role: ${role.value}, token: ${token.value}, isCropSelected: ${isCropSelected.value}")
-    }
+//    init {
+//        getRole()
+//        getToken()
+//        getIsCropSelected()
+//    }
 }

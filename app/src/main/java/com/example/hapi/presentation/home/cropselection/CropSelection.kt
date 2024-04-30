@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.cropselection
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.SignupCropSelectionContent
 import com.example.hapi.presentation.home.diseasedetection.navigateToImageCapture
+import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
@@ -39,7 +41,9 @@ fun CropSelection(
             topText = stringResource(id = R.string.disease),
             downText = stringResource(id = R.string.detection)
         ) {
-            navController.popBackStack()
+            navController.popBackStack().apply {
+                Log.d("CropSelection", "Back to main screen")
+            }
         }
 
 

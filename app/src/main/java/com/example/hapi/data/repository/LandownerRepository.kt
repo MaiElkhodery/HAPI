@@ -104,7 +104,9 @@ class LandownerRepository @Inject constructor(
             flow {
                 try {
                     emit(State.Loading)
-                    val response = landownerApiService.getLandData()
+                    val response = landownerApiService.getLandData().apply {
+                        Log.d("LandownerRepository", "getAndSaveLandData: $this")
+                    }
                     if (response.isSuccessful) {
                         userDataPreference.saveWaterLevel(response.body()!!.water_level)
                         userDataPreference.saveNPK(

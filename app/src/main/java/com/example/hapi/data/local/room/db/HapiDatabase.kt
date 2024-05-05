@@ -6,16 +6,18 @@ import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDa
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
 import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.dao.land_history.LandDataDao
+import com.example.hapi.data.local.room.dao.farmer.FarmerDao
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionDisease
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.local.room.entities.land_history.LandData
+import com.example.hapi.data.local.room.entities.farmer.Farmer
 import javax.inject.Singleton
 
 @Singleton
 @Database(
     entities = [(CurrentDetection::class), (CurrentDetectionDisease::class), (DetectionOfHistory::class),
-        (LandData::class)],
+        (LandData::class), (Farmer::class)],
     version = 1,
     exportSchema = false
 )
@@ -27,5 +29,7 @@ abstract class HapiDatabase : RoomDatabase() {
     abstract fun detectionOfHistoryDao(): DetectionOfHistoryDao
 
     abstract fun landDataDao(): LandDataDao
+
+    abstract fun farmerDao(): FarmerDao
 
 }

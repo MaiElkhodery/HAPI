@@ -39,4 +39,8 @@ object DatabaseModule {
     @Provides
     fun provideLandDataDao(database: HapiDatabase) = database.landDataDao()
 
+    @Singleton
+    @Provides
+    fun provideFarmerDao(database: HapiDatabase) = database.farmerDao()
+
 }

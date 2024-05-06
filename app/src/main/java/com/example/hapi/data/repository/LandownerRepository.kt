@@ -1,14 +1,12 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.land_history.LandDataDao
-import com.example.hapi.data.local.room.entities.land_history.LandData
+import com.example.hapi.data.local.room.dao.farmer.FarmerDao
+import com.example.hapi.data.local.room.entities.farmer.Farmer
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.data.remote.request.SelectCropRequest
 import com.example.hapi.data.remote.response.CropRecommendationResponse
-import com.example.hapi.data.remote.response.LandHistoryResponse
 import com.example.hapi.data.remote.response.LastFarmerResponse
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
@@ -22,8 +20,9 @@ import javax.inject.Inject
 class LandownerRepository @Inject constructor(
     private val landownerApiService: LandownerApiService,
     private val userDataPreference: UserDataPreference,
-    private val landDataDao: LandDataDao
+    private val farmerDao: FarmerDao
 ) : ApiHandler() {
+
     suspend fun cropRecommendation(): Flow<State<CropRecommendationResponse?>> {
         return ApiHandler().makeRequest(
             execute = { landownerApiService.getRecommendedCrops() },
@@ -33,9 +32,7 @@ class LandownerRepository @Inject constructor(
     suspend fun uploadSelectedCrop(crop: String): Flow<State<Unit>> {
         return ApiHandler().makeRequest(
             execute = {
-                landownerApiService.uploadSelectedCrop(SelectCropRequest(crop = crop)).apply {
-                    Log.d("LandownerRepository", "uploadSelectedCrop: $this")
-                }
+                landownerApiService.uploadSelectedCrop(SelectCropRequest(crop = crop))
             },
             onSuccess = {
                 userDataPreference.saveCrop(crop)
@@ -44,69 +41,12 @@ class LandownerRepository @Inject constructor(
 
     }
 
-    suspend fun getAndSaveAllLandHistory(
-        lastSavedId: Int,
-    ): Flow<State<Boolean>> {
+    suspend fun fetchTanksData(): Flow<State<Boolean>> {
         return withContext(Dispatchers.IO) {
             flow {
                 try {
                     emit(State.Loading)
-                    val response = landownerApiService.getLandHistory(lastSavedId)
-                    if (response.isSuccessful) {
-                        if (!response.body().isNullOrEmpty()) {
-                            saveLandHistory(response.body()!!)
-                        }
-                        emit(State.Success(true))
-                    } else {
-                        val error = Gson().fromJson(
-                            response.errorBody()?.string(),
-                            SignupErrorInfo::class.java
-                        )
-                        emit(State.Error(error))
-                    }
-                } catch (e: Exception) {
-                    emit(State.Exception(e.message.toString()))
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    private suspend fun saveLandHistory(landData: List<LandHistoryResponse>) {
-        withContext(Dispatchers.IO) {
-            landData.forEach { landData ->
-                landDataDao.upsert(
-                    LandData(
-                        remote_id = landData.id,
-                        date = landData.date,
-                        time = landData.time,
-                        action_type = landData.action_type
-                    )
-                )
-            }
-        }
-    }
-
-    suspend fun getLastLandHistoryItem(): LandData? {
-        return withContext(Dispatchers.IO) {
-            landDataDao.getLastLandDataByRemoteId()
-        }
-    }
-
-    suspend fun getAllSavedLandHistory(): List<LandData>? {
-        return withContext(Dispatchers.IO) {
-            landDataDao.getAllLandData()
-        }
-    }
-
-    suspend fun getAndSaveLandData(): Flow<State<Boolean>> {
-        return withContext(Dispatchers.IO) {
-            flow {
-                try {
-                    emit(State.Loading)
-                    val response = landownerApiService.getLandData().apply {
-                        Log.d("LandownerRepository", "getAndSaveLandData: $this")
-                    }
+                    val response = landownerApiService.getTanksData()
                     if (response.isSuccessful) {
                         userDataPreference.saveWaterLevel(response.body()!!.water_level)
                         userDataPreference.saveNPK(
@@ -133,13 +73,42 @@ class LandownerRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             ApiHandler().makeRequest(
                 execute = {
-                    landownerApiService.getLastFarmer().apply {
-                        Log.d("LandownerRepository", "getLastFarmer: ${this.body()}")
-                    }
+                    landownerApiService.getLastFarmer()
                 }
             )
         }
     }
 
+    suspend fun fetchFarmers(): Flow<State<List<String>>> {
+        return withContext(Dispatchers.IO) {
+            ApiHandler().makeRequest(
+                execute = {
+                    landownerApiService.getFarmers()
+                },
+                onSuccess = {
+                    cacheFarmers(it)
+                }
+            )
+        }
+    }
 
+    private suspend fun cacheFarmers(farmers: List<String>) {
+        withContext(Dispatchers.IO) {
+            farmers.forEach {
+                farmerDao.addFarmer(Farmer(name = it))
+            }
+        }
+    }
+
+    suspend fun getFarmers(): List<Farmer> {
+        return withContext(Dispatchers.IO) {
+            farmerDao.getFarmers()
+        }
+    }
+
+    suspend fun deleteFarmers() {
+        withContext(Dispatchers.IO) {
+            farmerDao.deleteFarmers()
+        }
+    }
 }

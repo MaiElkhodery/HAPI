@@ -8,10 +8,10 @@ import com.example.hapi.util.CROP_KEY
 import com.example.hapi.util.LAND_ID_KEY
 import com.example.hapi.util.LAST_DETECTION_HISTORY_ID_KEY
 import com.example.hapi.util.LAST_LAND_DATA_HISTORY_ID_KEY
-import com.example.hapi.util.NPK
+import com.example.hapi.util.NPK_KEY
 import com.example.hapi.util.ROLE_KEY
 import com.example.hapi.util.USERNAME_KEY
-import com.example.hapi.util.WATER_LEVEL
+import com.example.hapi.util.WATER_LEVEL_KEY
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -62,13 +62,13 @@ class UserDataPreference @Inject constructor(
 
     suspend fun saveWaterLevel(waterLevel: Int) {
         dataStore.edit { pref ->
-            pref[WATER_LEVEL] = setOf(waterLevel.toString())
+            pref[WATER_LEVEL_KEY] = setOf(waterLevel.toString())
         }
     }
 
     suspend fun saveNPK(npk: String) {
         dataStore.edit { pref ->
-            pref[NPK] = setOf(npk)
+            pref[NPK_KEY] = setOf(npk)
         }
     }
 
@@ -110,11 +110,11 @@ class UserDataPreference @Inject constructor(
 
     suspend fun getWaterLevel(): String? {
         val preferences = dataStore.data.first()
-        return preferences[WATER_LEVEL]?.first()
+        return preferences[WATER_LEVEL_KEY]?.first()
     }
 
     suspend fun getNPK(): String? {
         val preferences = dataStore.data.first()
-        return preferences[NPK]?.first()
+        return preferences[NPK_KEY]?.first()
     }
 }

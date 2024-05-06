@@ -25,26 +25,32 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionHistoryCard
-import com.example.hapi.presentation.home.common.RoundedYellowBoxes
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
-import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
 fun DetectionHistory(
     navController: NavController,
-    viewmodel: DetectionHistoryViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
+    detectionHistoryViewmodel: DetectionHistoryViewModel = hiltViewModel()
 ) {
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
-    LaunchedEffect(Unit) {
+    val isAllDetectionsSelected =
+        detectionHistoryViewmodel.isAllDetectionsSelected.collectAsState().value
+    LaunchedEffect(key1 = isAllDetectionsSelected) {
         isNetworkConnected = isNetworkConnected()
-        viewmodel.getDetectionHistory()
+        if (isAllDetectionsSelected)
+            detectionHistoryViewmodel.getDetectionHistory()
+        else
+            detectionHistoryViewmodel.getDetectionHistoryByUsername()
     }
 
-    val detectionHistoryList = viewmodel.detectionList.collectAsState().value
+    val detectionHistoryList = detectionHistoryViewmodel.detectionList.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -65,17 +71,24 @@ fun DetectionHistory(
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.history)
         ) {
-//            navController.navigateToLandownerHome()
+            mainViewModel.setSelectedTab(Tab.HOME)
             navController.popBackStack()
         }
 
-        RoundedYellowBoxes(
+        DetectionHistoryFilters(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .constrainAs(boxes) {
                     top.linkTo(header.bottom, margin = 16.dp)
-                }
+                },
+            onAllDetectionsSelected = {
+                detectionHistoryViewmodel.modifyIsAllDetectionsSelected(true)
+            },
+            onYourDetectionsSelected = {
+                detectionHistoryViewmodel.modifyIsAllDetectionsSelected(false)
+            }
         )
+
         Box(
             modifier = Modifier
                 .padding(horizontal = 28.dp)

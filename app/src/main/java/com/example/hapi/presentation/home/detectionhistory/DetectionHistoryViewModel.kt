@@ -3,7 +3,8 @@ package com.example.hapi.presentation.home.detectionhistory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
-import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionHistoryByUsernameUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetectionHistoryViewModel @Inject constructor(
-    private val detectionHistoryUseCase: FetchDetectionHistoryUseCase
+    private val detectionHistoryUseCase: GetDetectionHistoryUseCase,
+    private val detectionHistoryByUsernameUseCase: GetDetectionHistoryByUsernameUseCase
 ) : ViewModel() {
 
     private val _detectionList = MutableStateFlow(emptyList<DetectionOfHistory>())
@@ -21,13 +23,26 @@ class DetectionHistoryViewModel @Inject constructor(
     private val _errorMsg = MutableStateFlow("")
     val errorMsg = _errorMsg.asStateFlow()
 
+    private val _isAllDetectionsSelected = MutableStateFlow(true)
+    val isAllDetectionsSelected = _isAllDetectionsSelected.asStateFlow()
+
     fun getDetectionHistory() {
         viewModelScope.launch {
-            val detectionList = detectionHistoryUseCase()
-            detectionList?.let {
+            detectionHistoryUseCase()?.let {
                 _detectionList.value = it
             }
         }
     }
 
+    fun getDetectionHistoryByUsername() {
+        viewModelScope.launch {
+            detectionHistoryByUsernameUseCase()?.let {
+                _detectionList.value = it
+            }
+        }
+    }
+
+    fun modifyIsAllDetectionsSelected(isAllDetectionsSelected: Boolean) {
+        _isAllDetectionsSelected.value = isAllDetectionsSelected
+    }
 }

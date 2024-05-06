@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
+import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.FarmerSignupRequest
 import com.example.hapi.data.remote.request.LandownerSignupRequest
 import com.example.hapi.data.remote.request.SigninRequest
@@ -70,5 +71,50 @@ class AuthRepository @Inject constructor(
                 }
             }
         )
+    }
+
+    suspend fun logout(): Flow<State<Unit>> {
+        return ApiHandler().makeRequest(
+            execute = { authApiService.logout() },
+            onSuccess = {
+                clearUserDataPreference()
+            }
+        )
+    }
+
+    suspend fun deleteAccount(password: String): Flow<State<Unit>> {
+        return ApiHandler().makeRequest(
+            execute = {
+                authApiService.deleteAccount(
+                    PasswordRequest(password)
+                ).apply {
+                    Log.d("AuthRepository", "deleteAccount: $this")
+                }
+            },
+            onSuccess = {
+                clearUserDataPreference()
+            }
+        )
+    }
+
+    suspend fun checkPassword(password:String): Flow<State<Unit>> {
+        return ApiHandler().makeRequest(
+            execute = {
+                authApiService.checkPassword(
+                    PasswordRequest(password)
+                )
+            }
+        )
+    }
+
+    private suspend fun clearUserDataPreference() {
+        userDataPreference.saveUsername("")
+        userDataPreference.saveLandId("")
+        userDataPreference.saveNPK("")
+        userDataPreference.saveCrop("")
+        userDataPreference.saveAuthToken("")
+        userDataPreference.saveLastDetectionHistoryId("1")
+        userDataPreference.saveLastLandDataHistoryId("1")
+        userDataPreference.saveRole("")
     }
 }

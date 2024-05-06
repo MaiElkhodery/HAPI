@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DetectionOfHistoryDao {
@@ -24,5 +23,9 @@ interface DetectionOfHistoryDao {
     suspend fun getAllDetectionHistory(): List<DetectionOfHistory>?
 
     @Query("SELECT * FROM DetectionOfHistory ORDER BY remoteId DESC LIMIT 1")
-    suspend fun getNewestDetection(): DetectionOfHistory?
+    suspend fun getLastDetection(): DetectionOfHistory?
+
+    @Query("SELECT * FROM DetectionOfHistory WHERE username = :username")
+    suspend fun getDetectionByUsername(username: String): List<DetectionOfHistory>?
+
 }

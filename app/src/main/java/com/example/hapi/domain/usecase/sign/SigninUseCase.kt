@@ -1,4 +1,4 @@
-package com.example.hapi.domain.usecase
+package com.example.hapi.domain.usecase.sign
 
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.repository.AuthRepository

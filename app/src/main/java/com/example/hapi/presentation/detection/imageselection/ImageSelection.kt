@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home.diseasedetection
+package com.example.hapi.presentation.detection.imageselection
 
 import android.net.Uri
 import android.util.Log
@@ -33,7 +33,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.ORTextRow
-import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.ui.theme.GreenAppColor
@@ -43,10 +42,10 @@ import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageCapture(
+fun ImageSelection(
     navController: NavController,
     crop: Crop,
-    viewModel: DiseaseDetectionViewModel = hiltViewModel()
+    viewModel: ImageSelectionViewModel = hiltViewModel()
 ) {
 
     val isLoading = viewModel.loading.collectAsState().value
@@ -69,7 +68,6 @@ fun ImageCapture(
         cameraController.takePicture(
             ContextCompat.getMainExecutor(context),
             object : ImageCapture.OnImageCapturedCallback() {
-
                 override fun onCaptureSuccess(image: ImageProxy) {
                     viewModel.detectDisease(
                         crop.name,
@@ -77,7 +75,6 @@ fun ImageCapture(
                     )
                     image.close()
                 }
-
                 override fun onError(exception: ImageCaptureException) {
                     Log.d("Save Photo", exception.toString())
                 }
@@ -85,7 +82,6 @@ fun ImageCapture(
             }
         )
     }
-
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { selectedImageUri ->
@@ -170,7 +166,7 @@ fun ImageCapture(
 @Preview
 @Composable
 fun ImageCapturePreview() {
-    ImageCapture(
+    ImageSelection(
         navController = rememberNavController(),
         crop = Crop.POTATO
     )

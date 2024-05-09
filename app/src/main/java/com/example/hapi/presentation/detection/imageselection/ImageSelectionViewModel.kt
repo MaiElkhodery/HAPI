@@ -1,10 +1,10 @@
-package com.example.hapi.presentation.home.diseasedetection
+package com.example.hapi.presentation.detection.imageselection
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.DiseaseDetectionUseCase
+import com.example.hapi.domain.usecase.detection.DetectDiseaseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DiseaseDetectionViewModel @Inject constructor(
-    private val detectionUseCase: DiseaseDetectionUseCase
+class ImageSelectionViewModel @Inject constructor(
+    private val detectDiseaseUseCase: DetectDiseaseUseCase
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -30,7 +30,7 @@ class DiseaseDetectionViewModel @Inject constructor(
         byteArrayImage: ByteArray
     ) {
         viewModelScope.launch {
-            detectionUseCase(selectedCrop, byteArrayImage).collect { state ->
+            detectDiseaseUseCase(selectedCrop, byteArrayImage).collect { state ->
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true

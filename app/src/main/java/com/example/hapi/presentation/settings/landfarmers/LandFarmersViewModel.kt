@@ -1,9 +1,8 @@
-package com.example.hapi.presentation.settings.farmers
+package com.example.hapi.presentation.settings.landfarmers
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.landowner.DeleteFarmersUseCase
 import com.example.hapi.domain.usecase.landowner.FetchFarmersUseCase
 import com.example.hapi.domain.usecase.landowner.GetFarmersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class FarmersListViewModel @Inject constructor(
+class LandFarmersViewModel @Inject constructor(
     private val fetchFarmersUseCase: FetchFarmersUseCase,
     private val getFarmersUseCase: GetFarmersUseCase,
 ) : ViewModel() {

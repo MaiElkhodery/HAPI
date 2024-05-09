@@ -1,17 +1,17 @@
-package com.example.hapi.presentation.settings.farmers
+package com.example.hapi.presentation.settings.landfarmers
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-private const val ROUTE = "farmers"
+private const val ROUTE = "land_farmers"
 fun NavGraphBuilder.farmersRoute(navController: NavController) {
 
     composable(route = ROUTE) {
-        FarmersList(navController = navController)
+        LandFarmers(navController = navController)
     }
 }
 
-fun NavController.navigateToFarmers() {
+fun NavController.navigateToLandFarmers() {
     navigate(ROUTE)
 }

@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.farmers
+package com.example.hapi.presentation.settings.landfarmers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +22,8 @@ import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
-fun FarmersList(
-    farmersViewModel: FarmersListViewModel = hiltViewModel(),
+fun LandFarmers(
+    farmersViewModel: LandFarmersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel(),
     navController: NavController
 ) {
@@ -85,5 +85,5 @@ fun FarmersList(
 @Preview
 @Composable
 fun FarmersListPreview() {
-    FarmersList(navController = rememberNavController())
+    LandFarmers(navController = rememberNavController())
 }

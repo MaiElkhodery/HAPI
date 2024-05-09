@@ -27,7 +27,7 @@ import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
 import com.example.hapi.presentation.settings.data.navigateToDataAndStorage
-import com.example.hapi.presentation.settings.farmers.navigateToFarmers
+import com.example.hapi.presentation.settings.landfarmers.navigateToLandFarmers
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
 import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
@@ -93,7 +93,7 @@ fun LandownerSettings(
             LandownerSettingsContent(
                 modifier = Modifier.padding(top = 11.dp),
                 onLanguageClick = { /*TODO*/ },
-                onFarmersListClick = { navController.navigateToFarmers() },
+                onFarmersListClick = { navController.navigateToLandFarmers() },
                 onDataAndStorageClick = { navController.navigateToDataAndStorage() },
                 onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
                 onAboutUsClick = { navController.navigateToAboutUs() },

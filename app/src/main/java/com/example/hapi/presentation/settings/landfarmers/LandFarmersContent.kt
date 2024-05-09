@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.farmers
+package com.example.hapi.presentation.settings.landfarmers
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

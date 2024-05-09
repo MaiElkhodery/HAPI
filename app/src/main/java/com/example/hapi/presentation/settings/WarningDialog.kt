@@ -1,5 +1,7 @@
-package com.example.hapi.presentation.home
+package com.example.hapi.presentation.settings
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
@@ -32,6 +33,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -51,16 +54,19 @@ import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBoldText
 import com.example.hapi.util.RedBlackText
+import com.example.hapi.util.YellowBlackText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun WarningDialog(
+fun WarningDialogWithPassword(
     modifier: Modifier = Modifier,
     warningText: String,
-    warningIconSize: Int,
+    additionalWarningText: String,
     password: StateFlow<String>,
-    onChangePassword: (String) -> Unit
+    onClickConfirm: () -> Unit,
+    onChangePassword: (String) -> Unit,
+    onClickCancel: () -> Unit
 ) {
     Dialog(onDismissRequest = { /*TODO*/ }) {
         Card(
@@ -73,7 +79,7 @@ fun WarningDialog(
             )
         ) {
             CancelButton {
-
+                onClickCancel()
             }
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -81,23 +87,126 @@ fun WarningDialog(
                 verticalArrangement = Arrangement.Center
             ) {
                 WarningRow(
-                    text = warningText,
-                    iconSize = warningIconSize
+                    text = warningText
                 )
+            }
+            if (additionalWarningText.isNotBlank()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 18.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.warning),
+                        contentDescription = null,
+                        tint = DarkGreenAppColor,
+                        modifier = Modifier
+                            .size(26.dp)
+                            .padding(end = 8.dp)
+                    )
+
+                    DarkGreenBoldText(size = 12, text = additionalWarningText)
+                }
             }
             ConfirmPassword(content = password) { password ->
                 onChangePassword(password)
             }
-
+            ConfirmButton(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
+            ) {
+                onClickConfirm()
+            }
         }
+    }
+}
+
+@Composable
+fun WarningDialog(
+    modifier: Modifier = Modifier,
+    warningText: String,
+    additionalWarningText: String,
+    onClickConfirm: () -> Unit,
+    onClickCancel: () -> Unit
+) {
+    Dialog(onDismissRequest = { /*TODO*/ }) {
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(5.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = YellowAppColor
+            )
+        ) {
+            CancelButton {
+                onClickCancel()
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                WarningRow(
+                    text = warningText
+                )
+            }
+            if (additionalWarningText.isNotBlank()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 18.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.warning),
+                        contentDescription = null,
+                        tint = DarkGreenAppColor,
+                        modifier = Modifier
+                            .size(26.dp)
+                            .padding(end = 8.dp)
+                    )
+
+                    DarkGreenBoldText(size = 12, text = additionalWarningText)
+                }
+            }
+            ConfirmButton(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
+            ) {
+                onClickConfirm()
+            }
+        }
+    }
+}
+
+@Composable
+fun ConfirmButton(
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(3.dp))
+            .background(WarningColor)
+            .padding(horizontal = 22.dp)
+            .clickable {
+                onClick()
+            }
+    ) {
+        YellowBlackText(size = 20, text = stringResource(id = R.string.confirm))
     }
 }
 
 @Composable
 private fun WarningRow(
     modifier: Modifier = Modifier,
-    text: String,
-    iconSize: Int
+    text: String
 ) {
     Row(
         modifier = modifier
@@ -106,22 +215,22 @@ private fun WarningRow(
             .padding(8.dp),
         horizontalArrangement = Arrangement.Center
     ) {
-        Box (
+        Box(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxHeight(),
             contentAlignment = Alignment.Center
-        ){
-            Icon(
+        ) {
+            Image(
                 painter = painterResource(id = R.drawable.warnning),
                 contentDescription = null,
-                tint = WarningColor,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .size(iconSize.dp)
+                    .size(44.dp)
                     .fillMaxHeight()
             )
         }
-        
+
         Column {
             DarkGreenBoldText(
                 size = 16,
@@ -150,11 +259,11 @@ private fun CancelButton(
         horizontalArrangement = Arrangement.End
     ) {
         Icon(
-            imageVector = Icons.Default.Close,
+            painter = painterResource(id = R.drawable.cancel_btn),
             contentDescription = null,
-            tint = YellowAppColor,
+            tint = DarkGreenAppColor,
             modifier = Modifier
-                .size(16.dp)
+                .size(22.dp)
                 .fillMaxHeight()
         )
     }
@@ -227,10 +336,26 @@ private fun ConfirmPassword(
 
 @Preview
 @Composable
+private fun WarningDialogWithPasswordPreview() {
+
+    WarningDialogWithPassword(
+        warningText = stringResource(id = R.string.delete_account_warning),
+        password = MutableStateFlow("098765"),
+        additionalWarningText = "This action cannot be undone.",
+        onClickConfirm = {},
+        onChangePassword = {},
+        onClickCancel = {}
+    )
+
+}
+
+@Preview
+@Composable
 private fun WarningDialogPreview() {
     WarningDialog(
         warningText = stringResource(id = R.string.delete_account_warning),
-        warningIconSize = 44,
-        password = MutableStateFlow("098765"),
-    ) {}
+        additionalWarningText = "This action cannot be undone.",
+        onClickConfirm = {},
+        onClickCancel = {}
+    )
 }

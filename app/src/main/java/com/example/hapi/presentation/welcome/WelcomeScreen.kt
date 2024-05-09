@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signin.navToSignin
 import com.example.hapi.presentation.home.common.ORTextRow
-import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
+import com.example.hapi.presentation.detection.cropselection.navigateToCropSelection
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens

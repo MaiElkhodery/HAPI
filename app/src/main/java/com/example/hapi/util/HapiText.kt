@@ -17,7 +17,8 @@ import com.example.hapi.ui.theme.YellowAppColor
 fun YellowBlackText(
     modifier: Modifier = Modifier,
     size: Int,
-    text: String
+    text: String,
+    align: TextAlign = TextAlign.Center
 ) {
     Text(
         modifier = modifier,
@@ -29,7 +30,7 @@ fun YellowBlackText(
             )
         ),
         text = text,
-        textAlign = TextAlign.Center
+        textAlign = align
     )
 }
 

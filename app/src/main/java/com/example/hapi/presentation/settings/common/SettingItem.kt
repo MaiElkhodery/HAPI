@@ -37,6 +37,9 @@ fun SettingItem(
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(10.dp))
             .padding(vertical = 3.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Box(
             modifier = Modifier
@@ -53,10 +56,7 @@ fun SettingItem(
                 .fillMaxHeight()
                 .weight(.11f)
                 .background(DarkGreenAppColor)
-                .padding(8.dp)
-                .clickable {
-                    onClick()
-                },
+                .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(

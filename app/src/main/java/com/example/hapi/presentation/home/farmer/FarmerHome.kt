@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.home.common.EmptyBox
+import com.example.hapi.presentation.home.common.NotFoundWarning
 import com.example.hapi.presentation.home.common.FarmerLastDetection
 import com.example.hapi.presentation.home.common.HorizontalHistoryCard
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
@@ -81,7 +81,7 @@ fun FarmerHome(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (detectionDate.isBlank()) {
-                EmptyBox(
+                NotFoundWarning(
                     warning = stringResource(id = R.string.no_detection),
                     warningDetails = stringResource(id = R.string.no_detection_details)
                 )

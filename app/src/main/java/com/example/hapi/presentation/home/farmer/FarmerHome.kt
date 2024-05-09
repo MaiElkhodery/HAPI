@@ -43,11 +43,11 @@ fun FarmerHome(
     val isLoading = viewmodel.loading.collectAsState().value
 
     LaunchedEffect(key1 = Unit) {
+        viewmodel.getUsername()
+        viewmodel.getSavedLastDetection()
         if (isNetworkConnected()) {
             viewmodel.getAndSaveRemoteDetectionHistory()
         }
-        viewmodel.getSavedLastDetection()
-        viewmodel.getUsername()
     }
     ConstraintLayout(
         modifier = Modifier

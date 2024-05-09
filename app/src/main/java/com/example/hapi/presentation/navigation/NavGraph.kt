@@ -23,6 +23,7 @@ import com.example.hapi.presentation.welcome.welcomeRoute
 import com.example.hapi.presentation.progress.progressRoute
 import com.example.hapi.presentation.settings.about.aboutUsRoute
 import com.example.hapi.presentation.settings.data.dataAndStorageRoute
+import com.example.hapi.presentation.settings.farmer.farmerSettingsRoute
 import com.example.hapi.presentation.settings.farmers.farmersRoute
 import com.example.hapi.presentation.settings.landowner.landownerSettingsRoute
 import com.example.hapi.presentation.settings.support.helpAndSupportRoute
@@ -58,5 +59,6 @@ fun NavGraph(navController: NavHostController) {
         dataAndStorageRoute(navController)
         helpAndSupportRoute(navController)
         aboutUsRoute(navController)
+        farmerSettingsRoute(navController)
     }
 }

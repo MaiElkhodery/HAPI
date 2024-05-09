@@ -12,9 +12,6 @@ fun NavGraphBuilder.landownerSettingsRoute(navController: NavController) {
     }
 }
 
-fun NavController.navigateToMainScreen(
-    role: String
-) {
-    val route = "main/$role"
-    navigate(route)
+fun NavController.navigateToLandownerSettings() {
+    navigate(ROUTE)
 }

@@ -12,7 +12,7 @@ import com.example.hapi.presentation.settings.common.SettingItem
 import com.example.hapi.util.YellowExtraBoldText
 
 @Composable
-fun LandownerSettings(
+fun LandownerSettingsContent(
     modifier: Modifier = Modifier,
     onLanguageClick:()->Unit,
     onFarmersListClick:()->Unit,
@@ -85,7 +85,7 @@ fun LandownerSettings(
 
         SettingItem(
             text = stringResource(id = R.string.logout),
-            iconInt = R.drawable.about_us_icon
+            iconInt = R.drawable.logout_icon
         ) {
             onLogoutClick()
         }
@@ -97,7 +97,7 @@ fun LandownerSettings(
 @Preview
 @Composable
 private fun SettingsPreview() {
-    LandownerSettings(
+    LandownerSettingsContent(
         onLanguageClick = {},
         onFarmersListClick = {},
         onDataAndStorageClick = {},

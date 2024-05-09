@@ -2,24 +2,34 @@ package com.example.hapi.di
 
 import com.example.hapi.data.repository.AuthRepository
 import com.example.hapi.data.repository.DetectionHistoryRepository
-import com.example.hapi.data.repository.DetectionRepository
+import com.example.hapi.data.repository.DiseaseDetectionRepository
+import com.example.hapi.data.repository.LandRepository
 import com.example.hapi.data.repository.LandownerRepository
-import com.example.hapi.domain.usecase.CropRecommendationUseCase
-import com.example.hapi.domain.usecase.DiseaseDetectionUseCase
-import com.example.hapi.domain.usecase.FarmerSignupUseCase
-import com.example.hapi.domain.usecase.FetchDetectionHistoryUseCase
-import com.example.hapi.domain.usecase.FetchLastDetectionUseCase
-import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
-import com.example.hapi.domain.usecase.GetAndSaveAllLandHistoryUseCase
-import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
-import com.example.hapi.domain.usecase.GetAllSavedLandHistoryUseCase
-import com.example.hapi.domain.usecase.GetLastFarmerUseCase
-import com.example.hapi.domain.usecase.GetLastLandHistoryItemUseCase
-import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
-import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
-import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.SigninUseCase
-import com.example.hapi.domain.usecase.UploadSelectedCropUseCase
+import com.example.hapi.domain.usecase.detection.DeleteDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.detection.DetectDiseaseUseCase
+import com.example.hapi.domain.usecase.detection.FetchDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionDetailsUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionHistoryByUsernameUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.detection.GetLastDetectionUseCase
+import com.example.hapi.domain.usecase.land.DeleteLandHistoryUseCase
+import com.example.hapi.domain.usecase.land.FetchLandHistoryUseCase
+import com.example.hapi.domain.usecase.land.GetLandHistoryByActionTypeUseCase
+import com.example.hapi.domain.usecase.land.GetLandHistoryUseCase
+import com.example.hapi.domain.usecase.land.GetLastLandHistoryItemUseCase
+import com.example.hapi.domain.usecase.landowner.CropRecommendationUseCase
+import com.example.hapi.domain.usecase.landowner.FetchFarmersUseCase
+import com.example.hapi.domain.usecase.landowner.FetchTanksDataUseCase
+import com.example.hapi.domain.usecase.landowner.GetFarmersUseCase
+import com.example.hapi.domain.usecase.landowner.GetLastFarmerUseCase
+import com.example.hapi.domain.usecase.landowner.UploadSelectedCropUseCase
+import com.example.hapi.domain.usecase.sign.CheckPasswordUseCase
+import com.example.hapi.domain.usecase.sign.DeleteAccountUseCase
+import com.example.hapi.domain.usecase.sign.FarmerSignupUseCase
+import com.example.hapi.domain.usecase.sign.LandownerSignupUseCase
+import com.example.hapi.domain.usecase.sign.LogoutUseCase
+import com.example.hapi.domain.usecase.sign.SigninUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,67 +72,121 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideDiseaseDetectionUseCase(
-        detectionRepository: DetectionRepository
-    ) = DiseaseDetectionUseCase(detectionRepository)
+    fun provideDetectDiseaseUseCase(
+        detectionRepository: DiseaseDetectionRepository
+    ) = DetectDiseaseUseCase(detectionRepository)
 
     @Provides
     @Singleton
-    fun provideGetDetectionUseCase(
-        detectionRepository: DetectionRepository
-    ) = GetLocalCurrentDetectionUseCase(detectionRepository)
+    fun provideGetCurrentDetectionUseCase(
+        detectionRepository: DiseaseDetectionRepository
+    ) = GetCurrentDetectionUseCase(detectionRepository)
 
     @Provides
     @Singleton
-    fun provideGetRemoteDetectionUseCase(
+    fun provideGetDetectionDetailsUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetRemoteDetectionUseCase(detectionHistoryRepository)
+    ) = GetDetectionDetailsUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideGetAndSaveDetectionHistoryUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = GetAndSaveDetectionHistoryUseCase(detectionHistoryRepository)
+    ) = FetchDetectionHistoryUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideFetchDetectionHistoryUseCase(
+    fun provideGetDetectionHistoryUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = FetchDetectionHistoryUseCase(detectionHistoryRepository)
+    ) = GetDetectionHistoryUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
     fun provideFetchNewestDetectionUseCase(
         detectionHistoryRepository: DetectionHistoryRepository
-    ) = FetchLastDetectionUseCase(detectionHistoryRepository)
+    ) = GetLastDetectionUseCase(detectionHistoryRepository)
 
     @Provides
     @Singleton
-    fun provideGetAndSaveLandDataUseCase(
-        landownerRepository: LandownerRepository
-    ) = GetAndSaveAllLandHistoryUseCase(landownerRepository)
+    fun provideFetchLandHistoryUseCase(
+        landRepository: LandRepository
+    ) = FetchLandHistoryUseCase(landRepository)
 
     @Provides
     @Singleton
-    fun provideGetLastLandDataUseCase(
-        landownerRepository: LandownerRepository
-    ) = GetLastLandHistoryItemUseCase(landownerRepository)
+    fun provideGetLastLandHistoryItemUseCase(
+        landRepository: LandRepository
+    ) = GetLastLandHistoryItemUseCase(landRepository)
 
     @Provides
     @Singleton
     fun provideGetLandHistoryUseCase(
-        landownerRepository: LandownerRepository
-    ) = GetAllSavedLandHistoryUseCase(landownerRepository)
+        landRepository: LandRepository
+    ) = GetLandHistoryUseCase(landRepository)
 
     @Provides
     @Singleton
-    fun provideGetLandDataUseCase(
+    fun provideFetchTanksDataUseCase(
         landownerRepository: LandownerRepository
-    ) = GetAndSaveLandDataUseCase(landownerRepository)
+    ) = FetchTanksDataUseCase(landownerRepository)
 
     @Provides
     @Singleton
     fun provideGetLastFarmerUseCase(
         landownerRepository: LandownerRepository
     ) = GetLastFarmerUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchFarmersUseCase(
+        landownerRepository: LandownerRepository
+    ) = FetchFarmersUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteDetectionHistoryUseCase(
+        detectionHistoryRepository: DetectionHistoryRepository
+    ) = DeleteDetectionHistoryUseCase(detectionHistoryRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteLandHistoryUseCase(
+        landRepository: LandRepository
+    ) = DeleteLandHistoryUseCase(landRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetFarmersUseCase(
+        landownerRepository: LandownerRepository
+    ) = GetFarmersUseCase(landownerRepository)
+
+    @Provides
+    @Singleton
+    fun provideLogoutUseCase(
+        authRepository: AuthRepository
+    ) = LogoutUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteAccountUseCase(
+        authRepository: AuthRepository
+    ) = DeleteAccountUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideCheckPasswordUseCase(
+        authRepository: AuthRepository
+    ) = CheckPasswordUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetLandHistoryByActionTypeUseCase(
+        landRepository: LandRepository
+    ) = GetLandHistoryByActionTypeUseCase(landRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetDetectionHistoryByUsernameUseCase(
+        detectionHistoryRepository: DetectionHistoryRepository
+    ) = GetDetectionHistoryByUsernameUseCase(detectionHistoryRepository)
 }

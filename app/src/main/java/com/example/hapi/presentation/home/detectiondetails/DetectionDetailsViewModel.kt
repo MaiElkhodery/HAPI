@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.Disease
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.GetLocalCurrentDetectionUseCase
-import com.example.hapi.domain.usecase.GetRemoteDetectionUseCase
+import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
+import com.example.hapi.domain.usecase.detection.GetDetectionDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetectionDetailsViewModel @Inject constructor(
-    private val getDetectionDetailsUseCase: GetRemoteDetectionUseCase,
-    private val getLocalCurrentDetectionUseCase: GetLocalCurrentDetectionUseCase
+    private val getDetectionDetailsUseCase: GetDetectionDetailsUseCase,
+    private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase
 
 ) : ViewModel() {
 
@@ -87,7 +87,7 @@ class DetectionDetailsViewModel @Inject constructor(
         id: Int
     ) {
         viewModelScope.launch {
-            val result = getLocalCurrentDetectionUseCase(id)
+            val result = getCurrentDetectionUseCase(id)
             _crop.value = result.detection.crop.uppercase()
             _confidence.value = result.detection.confidence
             _diseaseList.value = result.diseases.map {

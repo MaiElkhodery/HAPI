@@ -41,7 +41,8 @@ import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.DetectionLowConfidence
 import com.example.hapi.presentation.home.common.DetectionResult
 import com.example.hapi.presentation.home.common.getCropIcon
-import com.example.hapi.presentation.home.cropselection.navigateToCropSelection
+import com.example.hapi.presentation.detection.cropselection.navigateToCropSelection
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
@@ -53,26 +54,26 @@ import com.example.hapi.util.toBitmap
 @Composable
 fun DetectionDetails(
     navController: NavController,
-    viewModel: DetectionDetailsViewModel = hiltViewModel(),
+    detectionDetailsViewModel: DetectionDetailsViewModel = hiltViewModel(),
     id: Int,
     isCurrentDetection: Boolean
 ) {
     LaunchedEffect(true) {
         if (!isCurrentDetection) {
-            viewModel.getRemoteDetectionDetailsById(id)
+            detectionDetailsViewModel.getRemoteDetectionDetailsById(id)
         } else {
-            viewModel.getCachedDiseaseDetectionResult(id)
+            detectionDetailsViewModel.getCachedDiseaseDetectionResult(id)
         }
     }
 
-    val image = viewModel.byteArrayImage.collectAsState().value
-    val username = viewModel.username.collectAsState().value
-    val date = viewModel.date.collectAsState().value
-    val time = viewModel.time.collectAsState().value
-    val crop = viewModel.crop.collectAsState().value
-    val confidence = viewModel.confidence.collectAsState().value
-    val diseaseList = viewModel.diseaseList.collectAsState().value
-    val imageUrl = viewModel.imageUrl.collectAsState().value
+    val image = detectionDetailsViewModel.byteArrayImage.collectAsState().value
+    val username = detectionDetailsViewModel.username.collectAsState().value
+    val date = detectionDetailsViewModel.date.collectAsState().value
+    val time = detectionDetailsViewModel.time.collectAsState().value
+    val crop = detectionDetailsViewModel.crop.collectAsState().value
+    val confidence = detectionDetailsViewModel.confidence.collectAsState().value
+    val diseaseList = detectionDetailsViewModel.diseaseList.collectAsState().value
+    val imageUrl = detectionDetailsViewModel.imageUrl.collectAsState().value
 
     val context = LocalContext.current
 

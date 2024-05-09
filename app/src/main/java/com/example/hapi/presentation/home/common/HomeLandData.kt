@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,7 +34,6 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBlackText
-import com.example.hapi.util.DarkGreenExtraBoldText
 import com.example.hapi.util.FeatureInfo
 
 @Composable
@@ -135,7 +133,7 @@ fun HomeLandData(
                             onClickDetectionDetailsIcon()
                         }
                     } else {
-                        EmptyBox(
+                        NotFoundWarning(
                             warning = stringResource(id = R.string.no_detection),
                             warningDetails = stringResource(id = R.string.no_detection_details)
                         )
@@ -150,7 +148,7 @@ fun HomeLandData(
                             time = lastLandAction.time
                         )
                     } else {
-                        EmptyBox(
+                        NotFoundWarning(
                             warning = stringResource(id = R.string.no_land),
                             warningDetails = stringResource(id = R.string.no_land_details)
                         )
@@ -165,7 +163,7 @@ fun HomeLandData(
                             farmerName = lastFarmerUsername
                         )
                     } else {
-                        EmptyBox(
+                        NotFoundWarning(
                             warning = stringResource(id = R.string.no_farmer),
                             warningDetails = stringResource(id = R.string.no_farmer_details)
                         )
@@ -259,50 +257,6 @@ fun LastFarmerContent(
                     .fillMaxWidth()
             )
         }
-    }
-}
-
-@Composable
-fun EmptyBox(
-    modifier: Modifier = Modifier,
-    warning: String,
-    warningDetails: String
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(YellowAppColor)
-            .padding(vertical = 18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        Box(
-            modifier = Modifier
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.warning),
-                contentDescription = null,
-                tint = DarkGreenAppColor,
-            )
-        }
-        DarkGreenExtraBoldText(
-            size = 15,
-            text = warning,
-            modifier = Modifier.padding(vertical = 5.dp)
-        )
-        Text(
-            color = DarkGreenAppColor,
-            fontSize = 10.sp,
-            fontFamily = FontFamily(
-                Font(
-                    R.font.poppins_semibold
-                )
-            ),
-            text = warningDetails,
-            textAlign = TextAlign.Center,
-            lineHeight = 12.sp
-        )
     }
 }
 

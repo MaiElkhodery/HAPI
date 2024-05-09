@@ -23,7 +23,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
-class DetectionRepository @Inject constructor(
+class DiseaseDetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val currentDetectionDao: CurrentDetectionDao,
     private val currentDiseaseDao: CurrentDiseaseDao,

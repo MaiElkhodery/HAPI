@@ -1,0 +1,86 @@
+package com.example.hapi.presentation.settings.support
+
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.hapi.R
+import com.example.hapi.presentation.auth.common.NavHeader
+import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.FQA_LINK
+import com.example.hapi.util.PHONE_NUMBER
+import com.example.hapi.util.Tab
+
+@Composable
+fun HelpAndSupport(
+    navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(GreenAppColor)
+            .padding(bottom = 26.dp)
+    ) {
+
+        val (navHeader, content) = createRefs()
+        val topGuideLine = createGuidelineFromTop(.05f)
+
+        NavHeader(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .constrainAs(navHeader) {
+                    top.linkTo(topGuideLine)
+                },
+            topText = stringResource(id = R.string.help_and),
+            downText = stringResource(id = R.string.support),
+            imageId = R.drawable.settings_back_btn
+        ) {
+            mainViewModel.setSelectedTab(Tab.SETTINGS)
+            navController.popBackStack()
+        }
+
+        HelpAndSupportContent(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .constrainAs(content) {
+                    top.linkTo(navHeader.bottom, margin = 44.dp)
+                },
+            onFQAClick = {
+                startActivity(
+                    context,
+                    Intent(Intent.ACTION_VIEW, Uri.parse(FQA_LINK)),
+                    null
+                )
+            },
+            onCallNowClick = {
+                startActivity(
+                    context,
+                    Intent(Intent.ACTION_DIAL, Uri.parse("tel:$PHONE_NUMBER")),
+                    null
+                )
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun HelpAndSupportPreview() {
+    HelpAndSupport(navController = rememberNavController())
+}

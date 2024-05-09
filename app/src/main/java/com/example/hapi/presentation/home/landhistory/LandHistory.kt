@@ -24,26 +24,32 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.LastLandActionContent
-import com.example.hapi.presentation.home.common.RoundedYellowBoxes
-import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LandAction
+import com.example.hapi.util.LandHistoryFilter
+import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
 fun LandHistory(
     navController: NavController,
-    viewmodel: LandHistoryViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
+    landHistoryViewmodel: LandHistoryViewModel = hiltViewModel()
 ) {
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
-    LaunchedEffect(Unit) {
+    val actionType = landHistoryViewmodel.actionType.collectAsState().value
+    LaunchedEffect(key1 = actionType) {
         isNetworkConnected = isNetworkConnected()
-        viewmodel.getLandHistory()
+        if (actionType.isBlank())
+            landHistoryViewmodel.getAllLandHistory()
+        else
+            landHistoryViewmodel.getLandHistoryByActionType()
     }
 
-    val landHistoryList = viewmodel.landDataList.collectAsState().value
+    val landHistoryList = landHistoryViewmodel.landHistory.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -64,16 +70,21 @@ fun LandHistory(
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.history)
         ) {
+            mainViewModel.setSelectedTab(Tab.HOME)
             navController.popBackStack()
         }
 
-        RoundedYellowBoxes(
+        LandHistoryFilters(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .constrainAs(boxes) {
                     top.linkTo(header.bottom, margin = 16.dp)
-                }
+                },
+            onAllActionsSelected = { landHistoryViewmodel.modifyActionType("") },
+            onFertilizationSelected = { landHistoryViewmodel.modifyActionType(LandHistoryFilter.FERTILIZATION.name.lowercase()) },
+            onIrrigationSelected = { landHistoryViewmodel.modifyActionType(LandHistoryFilter.IRRIGATION.name.lowercase()) }
         )
+
         Box(
             modifier = Modifier
                 .padding(horizontal = 26.dp)

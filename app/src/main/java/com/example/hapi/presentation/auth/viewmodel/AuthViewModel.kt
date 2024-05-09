@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.CropRecommendationUseCase
-import com.example.hapi.domain.usecase.FarmerSignupUseCase
-import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.SigninUseCase
-import com.example.hapi.domain.usecase.UploadSelectedCropUseCase
+import com.example.hapi.domain.usecase.landowner.CropRecommendationUseCase
+import com.example.hapi.domain.usecase.sign.FarmerSignupUseCase
+import com.example.hapi.domain.usecase.sign.LandownerSignupUseCase
+import com.example.hapi.domain.usecase.sign.SigninUseCase
+import com.example.hapi.domain.usecase.landowner.UploadSelectedCropUseCase
 import com.example.hapi.util.Crop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

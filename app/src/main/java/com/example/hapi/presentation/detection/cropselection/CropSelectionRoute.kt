@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home.cropselection
+package com.example.hapi.presentation.detection.cropselection
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
@@ -20,12 +21,15 @@ import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
 import com.example.hapi.presentation.identityselection.Crops
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.Tab
 
 @Composable
 fun ProgressScreen(
     navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel(),
     final: String = "false",
     isFarmer: Boolean = false
 ) {
@@ -63,6 +67,7 @@ fun ProgressScreen(
                 SetupMessage(
                     message = stringResource(id = R.string.congratulation)
                 ) {
+                    mainViewModel.setSelectedTab(Tab.HOME)
                     if (isFarmer)
                         navController.navigateToFarmerHome()
                     else
@@ -91,5 +96,5 @@ fun ProgressScreen(
 @Preview
 @Composable
 private fun ProgressPreview() {
-    ProgressScreen(rememberNavController(), "false")
+    ProgressScreen(rememberNavController())
 }

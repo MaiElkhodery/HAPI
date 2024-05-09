@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.auth.signin
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,18 +29,21 @@ import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
 import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.Tab
 
 @Composable
 fun Signin(
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
+    signinViewModel: AuthViewModel = hiltViewModel()
 ) {
 
-    val errorMsg = viewModel.errorMsg.collectAsState().value
-    val authenticated = viewModel.authenticated.collectAsState().value
-    val isLandowner = viewModel.isLandowner.collectAsState().value
+    val errorMsg = signinViewModel.errorMsg.collectAsState().value
+    val authenticated = signinViewModel.authenticated.collectAsState().value
+    val isLandowner = signinViewModel.isLandowner.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -88,17 +90,17 @@ fun Signin(
 
             LabeledInputField(
                 title = stringResource(id = R.string.phone_number),
-                content = viewModel.phoneNumber
+                content = signinViewModel.phoneNumber
             ) { phone_number ->
-                viewModel.onEvent(AuthEvent.ChangePhoneNumber(phone_number))
+                signinViewModel.onEvent(AuthEvent.ChangePhoneNumber(phone_number))
             }
             Spacer(modifier = Modifier.padding(12.dp))
 
             LabeledInputField(
                 title = stringResource(id = R.string.password),
-                content = viewModel.password
+                content = signinViewModel.password
             ) { password ->
-                viewModel.onEvent(AuthEvent.ChangePassword(password))
+                signinViewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
 
@@ -112,8 +114,7 @@ fun Signin(
                 },
             text = stringResource(id = R.string.signin)
         ) {
-            Log.d("SIGNIN", "SIGNIN")
-            viewModel.signin()
+            signinViewModel.signin()
         }
 
         LotusRow(
@@ -126,6 +127,7 @@ fun Signin(
         )
     }
     if (authenticated) {
+        mainViewModel.setSelectedTab(Tab.HOME)
         if (isLandowner) {
             navController.navigateToLandownerHome()
         } else {

@@ -1,6 +1,5 @@
-package com.example.hapi.presentation.home.cropselection
+package com.example.hapi.presentation.detection.cropselection
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,19 +9,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.SignupCropSelectionContent
-import com.example.hapi.presentation.home.diseasedetection.navigateToImageCapture
-import com.example.hapi.presentation.main.navigateToMainScreen
+import com.example.hapi.presentation.detection.imageselection.navigateToImageSelection
+import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Tab
 
 @Composable
 fun CropSelection(
-    navController: NavController
+    navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -41,9 +43,8 @@ fun CropSelection(
             topText = stringResource(id = R.string.disease),
             downText = stringResource(id = R.string.detection)
         ) {
-            navController.popBackStack().apply {
-                Log.d("CropSelection", "Back to main screen")
-            }
+            mainViewModel.setSelectedTab(Tab.HOME)
+            navController.popBackStack()
         }
 
 
@@ -61,7 +62,7 @@ fun CropSelection(
                 bottom.linkTo(bottomGuideLine)
             }
         ) { crop ->
-            navController.navigateToImageCapture(crop = crop.name)
+            navController.navigateToImageSelection(crop = crop.name)
         }
     }
 }

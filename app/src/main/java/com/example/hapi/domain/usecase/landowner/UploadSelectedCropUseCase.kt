@@ -1,7 +1,6 @@
-package com.example.hapi.domain.usecase
+package com.example.hapi.domain.usecase.landowner
 
 import com.example.hapi.data.repository.LandownerRepository
-import com.example.hapi.util.Crop
 import javax.inject.Inject
 
 class UploadSelectedCropUseCase @Inject constructor(

@@ -1,8 +1,7 @@
-package com.example.hapi.domain.usecase
+package com.example.hapi.domain.usecase.landowner
 
-import android.util.Log
-import com.example.hapi.domain.model.State
 import com.example.hapi.data.repository.LandownerRepository
+import com.example.hapi.domain.model.State
 import com.example.hapi.util.Crop
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,8 +18,6 @@ class CropRecommendationUseCase @Inject constructor(
 
                     is State.Loading -> {
                         emit(State.Loading)
-                        Log.d("CropRecommendation", "Loading...")
-
                     }
 
                     is State.Success -> {
@@ -36,14 +33,12 @@ class CropRecommendationUseCase @Inject constructor(
                         )
                         crops = crops.sortedByDescending { it.second }
                         val topRecommendedCrops = crops.take(3).map { it.first }
-                        Log.d("CropRecommendation", topRecommendedCrops.toString())
                         emit(State.Success(topRecommendedCrops))
 
                     }
 
                     is State.Error -> {
                         emit(State.Error(state.error))
-                        Log.d("CropRecommendation", "Error: ${state.error}")
                     }
 
                     else -> {}

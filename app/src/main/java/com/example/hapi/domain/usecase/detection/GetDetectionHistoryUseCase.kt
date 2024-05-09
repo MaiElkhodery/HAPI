@@ -1,15 +1,15 @@
-package com.example.hapi.domain.usecase
+package com.example.hapi.domain.usecase.detection
 
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.repository.DetectionHistoryRepository
 import javax.inject.Inject
 
-class FetchLastDetectionUseCase @Inject constructor(
+class GetDetectionHistoryUseCase @Inject constructor(
     private val detectionHistoryRepository: DetectionHistoryRepository
 ) {
     suspend operator fun invoke(
-    ): DetectionOfHistory? {
-        return detectionHistoryRepository.getNewestDetection()
+    ): List<DetectionOfHistory>? {
+        return detectionHistoryRepository.getDetectionHistory()
     }
 
 }

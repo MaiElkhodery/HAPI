@@ -1,4 +1,4 @@
-package com.example.hapi.domain.usecase
+package com.example.hapi.domain.usecase.landowner
 
 import com.example.hapi.data.repository.LandownerRepository
 import javax.inject.Inject

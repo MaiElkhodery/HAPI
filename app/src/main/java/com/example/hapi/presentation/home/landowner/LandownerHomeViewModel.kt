@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.FetchLastDetectionUseCase
-import com.example.hapi.domain.usecase.GetAndSaveAllLandHistoryUseCase
-import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
-import com.example.hapi.domain.usecase.GetAndSaveLandDataUseCase
-import com.example.hapi.domain.usecase.GetLastFarmerUseCase
-import com.example.hapi.domain.usecase.GetLastLandHistoryItemUseCase
+import com.example.hapi.domain.usecase.detection.GetLastDetectionUseCase
+import com.example.hapi.domain.usecase.land.FetchLandHistoryUseCase
+import com.example.hapi.domain.usecase.detection.FetchDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.landowner.FetchTanksDataUseCase
+import com.example.hapi.domain.usecase.landowner.GetLastFarmerUseCase
+import com.example.hapi.domain.usecase.land.GetLastLandHistoryItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,12 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandownerHomeViewModel @Inject constructor(
-    private val getAndSaveDetectionHistoryListUseCase: GetAndSaveDetectionHistoryUseCase,
-    private val getLastDetectionUseCase: FetchLastDetectionUseCase,
+    private val fetchDetectionHistoryUseCase: FetchDetectionHistoryUseCase,
+    private val getLastDetectionUseCase: GetLastDetectionUseCase,
     private val userDataPreference: UserDataPreference,
-    private val getAndSaveAllLandHistoryUseCase: GetAndSaveAllLandHistoryUseCase,
+    private val fetchLandHistoryUseCase: FetchLandHistoryUseCase,
     private val getLastLandHistoryItemUseCase: GetLastLandHistoryItemUseCase,
-    private val getAndSaveLandDataUseCase: GetAndSaveLandDataUseCase,
+    private val fetchTanksDataUseCase: FetchTanksDataUseCase,
     private val getLastFarmerUseCase: GetLastFarmerUseCase
 ) : ViewModel() {
 
@@ -77,9 +77,9 @@ class LandownerHomeViewModel @Inject constructor(
     private val _lastFarmerTime = MutableStateFlow("")
     val lastFarmerTime = _lastFarmerTime.asStateFlow()
 
-    fun getAndSaveRemoteDetectionHistory() {
+    fun fetchDetectionHistory() {
         viewModelScope.launch {
-            getAndSaveDetectionHistoryListUseCase(
+            fetchDetectionHistoryUseCase(
                 userDataPreference.getLastDetectionHistoryId().toInt()
             ).collect { state ->
                 when (state) {
@@ -107,9 +107,9 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getAndSaveRemoteLandHistory() {
+    suspend fun fetchLandHistory() {
         viewModelScope.launch {
-            getAndSaveAllLandHistoryUseCase(
+            fetchLandHistoryUseCase(
                 userDataPreference.getLastLandDataHistoryId().toInt()
             ).collect { state ->
                 Log.d("LAST LAND ID", userDataPreference.getLastLandDataHistoryId())
@@ -139,9 +139,9 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    fun getAndSaveRemoteLandData() {
+    fun fetchTanksData() {
         viewModelScope.launch {
-            getAndSaveLandDataUseCase().collect { state ->
+            fetchTanksDataUseCase().collect { state ->
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
@@ -168,7 +168,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getSavedLastLandHistoryItem() {
+    suspend fun getLastLandHistoryItem() {
         viewModelScope.launch {
             getLastLandHistoryItemUseCase()?.let { landData ->
                 userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
@@ -179,7 +179,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getSavedLastDetection() {
+    suspend fun getLastDetection() {
         viewModelScope.launch {
             getLastDetectionUseCase()?.let { detection ->
                 userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
@@ -199,10 +199,11 @@ class LandownerHomeViewModel @Inject constructor(
     }
 
 
-    fun getSavedLandData() {
+    fun getTanksData() {
         viewModelScope.launch {
-            _waterLevel.value = userDataPreference.getWaterLevel()!!.toInt()
-            _npk.value = userDataPreference.getNPK() ?: ""
+            val water_level = userDataPreference.getWaterLevel() ?: "0"
+            _waterLevel.value = water_level.toInt()
+            _npk.value = userDataPreference.getNPK() ?: "0 - 0 - 0"
         }
     }
 

@@ -41,18 +41,18 @@ fun LandownerHome(
     }
 
     LaunchedEffect(Unit) {
-        isNetworkConnected = isNetworkConnected()
-        if (isNetworkConnected()) {
-            viewModel.getAndSaveRemoteDetectionHistory()
-            viewModel.getAndSaveRemoteLandHistory()
-            viewModel.getAndSaveRemoteLandData()
-            viewModel.getRemoteLastFarmer()
-        }
-        viewModel.getSavedLastDetection()
-        viewModel.getSavedLastLandHistoryItem()
-        viewModel.getSavedLandData()
         viewModel.getCrop()
         viewModel.getUsername()
+        isNetworkConnected = isNetworkConnected()
+        if (isNetworkConnected()) {
+            viewModel.fetchDetectionHistory()
+            viewModel.fetchLandHistory()
+            viewModel.fetchTanksData()
+            viewModel.getRemoteLastFarmer()
+        }
+        viewModel.getLastDetection()
+        viewModel.getLastLandHistoryItem()
+        viewModel.getTanksData()
     }
 
     val username = viewModel.username.collectAsState().value
@@ -64,7 +64,6 @@ fun LandownerHome(
     val landActionType = viewModel.landActionType.collectAsState().value
     val landActionDate = viewModel.landActionDate.collectAsState().value
     val landActionTime = viewModel.landActionTime.collectAsState().value
-    val isLoading = viewModel.loading.collectAsState().value
     val waterLevel = viewModel.waterLevel.collectAsState().value
     val npk = viewModel.npk.collectAsState().value
     val crop = viewModel.crop.collectAsState().value
@@ -77,11 +76,8 @@ fun LandownerHome(
             .fillMaxSize()
             .background(GreenAppColor)
     ) {
-
         val (welcomeHeader, dataHeader, content, historyCards) = createRefs()
         val topGuideLine = createGuidelineFromTop(.08f)
-
-
         NavHeader(
             modifier = Modifier
                 .padding(horizontal = 26.dp)
@@ -98,11 +94,8 @@ fun LandownerHome(
                 top.linkTo(welcomeHeader.bottom, margin = 21.dp)
                 bottom.linkTo(content.top)
             },
-            crop = crop,
-            waterLevel = waterLevel,
-            npk = npk
+            crop = crop, waterLevel = waterLevel, npk = npk
         )
-
         HomeLandData(
             modifier = Modifier
                 .padding(horizontal = 35.dp)
@@ -111,9 +104,7 @@ fun LandownerHome(
                     bottom.linkTo(historyCards.top)
                 },
             lastLandAction = com.example.hapi.domain.model.LandAction(
-                name = landActionType.uppercase(),
-                date = landActionDate,
-                time = landActionTime
+                name = landActionType.uppercase(), date = landActionDate, time = landActionTime
             ),
             detectionUsername = detectionUsername,
             detectionDate = detectionDate,
@@ -121,14 +112,12 @@ fun LandownerHome(
             imageUrl = if (isNetworkConnected) imageUrl else "",
             lastFarmerDate = lastFarmerDate,
             lastFarmerTime = lastFarmerTime,
-            lastFarmerUsername = lastFarmerUsername,
+            lastFarmerUsername = lastFarmerUsername
         ) {
             navController.navigateToDetectionDetails(
                 id = detectionRemoteId.toString()
             )
         }
-
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -142,17 +131,11 @@ fun LandownerHome(
             VerticalHistoryCard(
                 type = "land",
                 modifier = Modifier.weight(1f)
-
-            ) {
-                navController.navigateToLandHistory()
-            }
+            ) { navController.navigateToLandHistory() }
             VerticalHistoryCard(
                 type = "detection",
                 modifier = Modifier.weight(1f)
-
-            ) {
-                navController.navigateToDetectionHistory()
-            }
+            ) { navController.navigateToDetectionHistory() }
         }
     }
 }

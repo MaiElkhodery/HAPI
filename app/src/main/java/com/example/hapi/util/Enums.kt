@@ -19,3 +19,15 @@ enum class Crop{
     APPLE,
     SUGARCANE
 }
+
+enum class Tab{
+    HOME,
+    SETTINGS,
+    CAMERA
+}
+
+enum class LandHistoryFilter{
+    ALL,
+    FERTILIZATION,
+    IRRIGATION
+}

@@ -79,4 +79,25 @@
     <string name="account_settings">ACCOUNT SETTINGS</string>
     <string name="delete_account">DELETE ACCOUNT</string>
     <string name="logout">LOGOUT</string>
+    <string name="listOf">LIST OF</string>
+    <string name="farmers">FARMERS</string>
+    <string name="no_farmers_yet">NO FARMERS YET</string>
+    <string name="no_farmers_yet_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
+    <string name="clear_detcetion_history">RESET DETECTION HISTORY</string>
+    <string name="clear_land_history">RESET LAND HISTORY</string>
+    <string name="change_crop">CHANGE CROP SELECTION</string>
+    <string name="data_storage"><![CDATA[DATA & STORAGE]]></string>
+    <string name="help_and"><![CDATA[HELP &]]></string>
+    <string name="support">SUPPORT</string>
+    <string name="fqa_text">BROWSE OUR FREQUENTLY\nASKED QUESTIONS</string>
+    <string name="fqa">FAQs</string>
+    <string name="call_now_text">CALL US IF YOU NEED\nFURTHER ASSISTANCE</string>
+    <string name="call_now">CALL NOW</string>
+    <string name="about">ABOUT</string>
+    <string name="us">US</string>
+    <string name="about_us_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="learn_more">LEARN MORE</string>
+    <string name="all_actions">ALL ACTIONS</string>
+    <string name="your_detections">YOUR DETECTIONS</string>
+    <string name="all_detections">ALL DETECTIONS</string>
 </resources>

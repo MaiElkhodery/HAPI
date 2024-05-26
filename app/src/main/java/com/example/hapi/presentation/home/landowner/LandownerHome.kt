@@ -29,6 +29,7 @@ import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDe
 import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
 import com.example.hapi.presentation.home.landhistory.navigateToLandHistory
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.isNetworkConnected
 
 @Composable
@@ -77,10 +78,10 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
         val (welcomeHeader, dataHeader, content, historyCards) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.08f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_home)
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 26.dp)
+                .padding(horizontal = Dimens.nav_header_horizontal_padding)
                 .constrainAs(welcomeHeader) {
                     top.linkTo(topGuideLine)
                     bottom.linkTo(dataHeader.top)

@@ -63,14 +63,21 @@ fun CustomNavigationBottom(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 37.dp)
+                .padding(horizontal = 46.dp)
         ) {
             val (home, camera, settings) = createRefs()
 
-            createHorizontalChain(
-                home, camera, settings,
-                chainStyle = ChainStyle.SpreadInside
-            )
+            CameraIcon(
+                modifier = Modifier
+                    .padding(bottom = 25.dp)
+                    .constrainAs(camera) {
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        centerHorizontallyTo(parent)
+                    },
+            ) {
+                onCameraClick()
+            }
 
             NavigationIcon(
                 modifier = Modifier.constrainAs(home) {
@@ -95,18 +102,7 @@ fun CustomNavigationBottom(
                 isHomeSelected = false
                 onSettingsClick()
             }
-            CameraIcon(
-                modifier = Modifier
-                    .padding(bottom = 25.dp)
-                    .constrainAs(camera) {
-                        bottom.linkTo(parent.bottom)
-                        top.linkTo(parent.top)
-                        start.linkTo(home.end, margin = 23.dp)
-                        end.linkTo(settings.start, margin = 23.dp)
-                    },
-            ) {
-                onCameraClick()
-            }
+
         }
     }
 }
@@ -129,7 +125,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(37.dp),
+                .size(29.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -137,7 +133,8 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .size(16.dp),
+                    .padding(bottom = 4.dp)
+                    .size(13.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor

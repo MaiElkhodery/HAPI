@@ -113,8 +113,8 @@ class UserDataPreference @Inject constructor(
         return preferences[WATER_LEVEL_KEY]?.first()
     }
 
-    suspend fun getNPK(): String? {
+    suspend fun getNPK(): String {
         val preferences = dataStore.data.first()
-        return preferences[NPK_KEY]?.first()
+        return preferences[NPK_KEY]?.first() ?: "0 - 0 - 0"
     }
 }

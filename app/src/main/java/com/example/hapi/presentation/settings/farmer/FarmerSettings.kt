@@ -21,11 +21,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.settings.WarningDialog
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
-import com.example.hapi.presentation.settings.data.navigateToDataAndStorage
+import com.example.hapi.presentation.settings.data.DataAndStorageViewModel
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
 import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
@@ -33,15 +32,18 @@ import com.example.hapi.ui.theme.GreenAppColor
 @Composable
 fun FarmerSettings(
     navController: NavController,
-    viewModel: FarmerSettingsViewModel = hiltViewModel()
+    viewModel: FarmerSettingsViewModel = hiltViewModel(),
+    dataAndStorageViewModel: DataAndStorageViewModel = hiltViewModel()
 ) {
     val logout = viewModel.logout.collectAsState().value
     val deleteAccount = viewModel.deleteAccount.collectAsState().value
     val landId = viewModel.landId.collectAsState().value
     val isLoggedOut = viewModel.isLoggedOut.collectAsState().value
 
-    var openDialogWithPassword by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
+    var withPassword by remember {
+        mutableStateOf(false)
+    }
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
@@ -90,11 +92,20 @@ fun FarmerSettings(
             FarmerSettingsContent(
                 modifier = Modifier.padding(top = 11.dp),
                 onLanguageClick = { /*TODO*/ },
-                onDataAndStorageClick = { navController.navigateToDataAndStorage() },
+                onClearDetectionClick = {
+                    openDialog = true
+                    withPassword = false
+                    warningText = "RESET DETECTION\nHISTORY?"
+                    onClickConfirm = {
+                        dataAndStorageViewModel.deleteDetectionHistory()
+                        openDialog = false
+                    }
+                },
                 onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
                 onAboutUsClick = { navController.navigateToAboutUs() },
                 onDeleteAccountClick = {
-                    openDialogWithPassword = true
+                    openDialog = true
+                    withPassword = true
                     warningText = "DELETE YOUR\nACCOUNT?"
                     onClickConfirm = {
                         viewModel.onEvent(FarmerSettingsEvent.OnClickDeleteAccount)
@@ -102,6 +113,7 @@ fun FarmerSettings(
                 },
                 onLogoutClick = {
                     openDialog = true
+                    withPassword = true
                     warningText = "LOG OUT?"
                     onClickConfirm = {
                         viewModel.onEvent(FarmerSettingsEvent.OnClickLogout)
@@ -113,8 +125,9 @@ fun FarmerSettings(
         if (isLoggedOut) {
             navController.navigateToWelcomeScreen()
         }
-        if (openDialogWithPassword) {
+        if (openDialog) {
             WarningDialogWithPassword(
+                isWithPassword = withPassword,
                 warningText = warningText,
                 additionalWarningText = additionalWarningText,
                 password = viewModel.password,
@@ -122,15 +135,6 @@ fun FarmerSettings(
                 onChangePassword = { password ->
                     viewModel.onEvent(FarmerSettingsEvent.ChangePassword(password))
                 },
-                onClickCancel = { openDialogWithPassword = false }
-            )
-        }
-
-        if (openDialog) {
-            WarningDialog(
-                warningText = warningText,
-                additionalWarningText = additionalWarningText,
-                onClickConfirm = onClickConfirm,
                 onClickCancel = { openDialog = false }
             )
         }

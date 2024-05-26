@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.settings.landowner
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +21,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.settings.WarningDialog
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
@@ -42,7 +40,6 @@ fun LandownerSettings(
     val landId = viewModel.landId.collectAsState().value
     val isLoggedOut = viewModel.isLoggedOut.collectAsState().value
 
-    var openDialogWithPassword by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
@@ -53,7 +50,6 @@ fun LandownerSettings(
         if (logout)
             viewModel.logout()
         if (deleteAccount) {
-            Log.d("LandownerSettings", "LandownerSettings: delete account")
             viewModel.deleteAccount()
         }
     }
@@ -98,10 +94,9 @@ fun LandownerSettings(
                 onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
                 onAboutUsClick = { navController.navigateToAboutUs() },
                 onDeleteAccountClick = {
-                    openDialogWithPassword = true
+                    openDialog = true
                     warningText = "DELETE YOUR\nACCOUNT?"
                     onClickConfirm = {
-                        Log.d("LandownerSettings", "LandownerSettings: delete account")
                         viewModel.onEvent(LandownerSettingsEvent.OnClickDeleteAccount)
                     }
                 },
@@ -118,8 +113,9 @@ fun LandownerSettings(
         if (isLoggedOut) {
             navController.navigateToWelcomeScreen()
         }
-        if (openDialogWithPassword) {
+        if (openDialog) {
             WarningDialogWithPassword(
+                isWithPassword = true,
                 warningText = warningText,
                 additionalWarningText = additionalWarningText,
                 password = viewModel.password,
@@ -127,15 +123,6 @@ fun LandownerSettings(
                 onChangePassword = { password ->
                     viewModel.onEvent(LandownerSettingsEvent.ChangePassword(password))
                 },
-                onClickCancel = { openDialogWithPassword = false }
-            )
-        }
-
-        if (openDialog) {
-            WarningDialog(
-                warningText = warningText,
-                additionalWarningText = additionalWarningText,
-                onClickConfirm = onClickConfirm,
                 onClickCancel = { openDialog = false }
             )
         }

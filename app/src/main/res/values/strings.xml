@@ -100,4 +100,5 @@
     <string name="all_actions">ALL ACTIONS</string>
     <string name="your_detections">YOUR DETECTIONS</string>
     <string name="all_detections">ALL DETECTIONS</string>
+    <string name="clear_detection">CLEAR DETECTION</string>
 </resources>

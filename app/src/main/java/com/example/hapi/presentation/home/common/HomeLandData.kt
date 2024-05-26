@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,15 +26,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.domain.model.LandAction
 import com.example.hapi.ui.theme.DarkGreenAppColor
+import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.FeatureInfo
 
 @Composable
@@ -118,56 +122,68 @@ fun HomeLandData(
                 )
             }
 
-            when {
-                isDetectionSelected -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+            ) {
+                when {
+                    isDetectionSelected -> {
 
-                    if (detectionDate.isNotBlank()) {
+                        if (detectionDate.isNotBlank()) {
 
-                        LastDetectionContent(
-                            username = detectionUsername,
-                            date = detectionDate,
-                            time = detectionTime,
-                            byteArray = byteArray,
-                            imageUrl = imageUrl,
-                        ) {
-                            onClickDetectionDetailsIcon()
+                            LastDetectionContent(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                username = detectionUsername,
+                                date = detectionDate,
+                                time = detectionTime,
+                                byteArray = byteArray,
+                                imageUrl = imageUrl,
+                            ) {
+                                onClickDetectionDetailsIcon()
+                            }
+                        } else {
+                            NotFoundWarning(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                warning = stringResource(id = R.string.no_detection),
+                                warningDetails = stringResource(id = R.string.no_detection_details)
+                            )
                         }
-                    } else {
-                        NotFoundWarning(
-                            warning = stringResource(id = R.string.no_detection),
-                            warningDetails = stringResource(id = R.string.no_detection_details)
-                        )
                     }
-                }
 
-                isLandSelected -> {
-                    if (lastLandAction.name.isNotBlank()) {
-                        LastLandActionContent(
-                            action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
-                            date = lastLandAction.date,
-                            time = lastLandAction.time
-                        )
-                    } else {
-                        NotFoundWarning(
-                            warning = stringResource(id = R.string.no_land),
-                            warningDetails = stringResource(id = R.string.no_land_details)
-                        )
+                    isLandSelected -> {
+                        if (lastLandAction.name.isNotBlank()) {
+                            LastLandActionContent(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
+                                date = lastLandAction.date,
+                                time = lastLandAction.time
+                            )
+                        } else {
+                            NotFoundWarning(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                warning = stringResource(id = R.string.no_land),
+                                warningDetails = stringResource(id = R.string.no_land_details)
+                            )
+                        }
                     }
-                }
 
-                isFarmerSelected -> {
-                    if (lastFarmerDate.isNotBlank()) {
-                        LastFarmerContent(
-                            date = lastFarmerDate,
-                            time = lastFarmerTime,
-                            farmerName = lastFarmerUsername
-                        )
-                    } else {
-                        NotFoundWarning(
-                            warning = stringResource(id = R.string.no_farmer),
-                            warningDetails = stringResource(id = R.string.no_farmer_details)
-                        )
+                    isFarmerSelected -> {
+                        if (lastFarmerDate.isNotBlank()) {
+                            LastFarmerContent(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                date = lastFarmerDate,
+                                time = lastFarmerTime,
+                                farmerName = lastFarmerUsername
+                            )
+                        } else {
+                            NotFoundWarning(
+                                modifier = Modifier.height(Dimens.home_box_height),
+                                warning = stringResource(id = R.string.no_farmer),
+                                warningDetails = stringResource(id = R.string.no_farmer_details)
+                            )
 
+                        }
                     }
                 }
             }
@@ -185,14 +201,14 @@ private fun FeatureBox(
     Box(
         modifier = modifier
             .background(
-                color = if (isSelected) YellowAppColor else DarkGreenAppColor
+                color = DarkGreenAppColor
             )
             .fillMaxWidth()
             .padding(3.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            color = if (isSelected) DarkGreenAppColor else YellowAppColor,
+            color = if (isSelected) YellowAppColor else GreenAppColor,
             fontSize = 12.sp,
             fontFamily = FontFamily(
                 Font(
@@ -200,7 +216,8 @@ private fun FeatureBox(
                 )
             ),
             text = text,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            textDecoration = if (isSelected) TextDecoration.Underline else TextDecoration.None
         )
     }
 }

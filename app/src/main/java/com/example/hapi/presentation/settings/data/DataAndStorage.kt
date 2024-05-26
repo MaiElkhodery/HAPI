@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.settings.data
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,7 +22,6 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.main.MainViewModel
-import com.example.hapi.presentation.settings.WarningDialog
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Tab
@@ -40,11 +38,10 @@ fun DataAndStorage(
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
     var openDialog by remember { mutableStateOf(false) }
-    var openDialogWithPassword by remember { mutableStateOf(false) }
+    var withPassword by remember { mutableStateOf(false) }
     var passwordConfirmed by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = passwordConfirmed) {
-        Log.d("DataAndStorage", "LaunchedEffect")
         if (passwordConfirmed) {
             dataAndStorageViewModel.checkIfPasswordIsCorrect()
         }
@@ -81,6 +78,7 @@ fun DataAndStorage(
                 },
             onClickClearDetectionHistory = {
                 openDialog = true
+                withPassword = false
                 warningText = "RESET DETECTION\nHISTORY?"
                 onClickConfirm = {
                     dataAndStorageViewModel.deleteDetectionHistory()
@@ -89,6 +87,7 @@ fun DataAndStorage(
             },
             onClickClearLandHistory = {
                 openDialog = true
+                withPassword = false
                 warningText = "RESET LAND\nHISTORY?"
                 onClickConfirm = {
                     dataAndStorageViewModel.deleteLandHistory()
@@ -96,27 +95,19 @@ fun DataAndStorage(
                 }
             },
             onClickChangeCrop = {
-                Log.d("DataAndStorage", "onClickChangeCrop")
-                openDialogWithPassword = true
+                openDialog = true
+                withPassword = true
                 warningText = "CHANGE CROP?"
                 additionalWarningText = "THIS ALSO RESETS ALL LAND HISTORY"
                 onClickConfirm = {
-                    Log.d("DataAndStorage", "onClickConfirm")
                     passwordConfirmed = true
                 }
             }
         )
 
         if (openDialog) {
-            WarningDialog(
-                warningText = warningText,
-                additionalWarningText = additionalWarningText,
-                onClickConfirm = onClickConfirm,
-                onClickCancel = { openDialog = false }
-            )
-        }
-        if (openDialogWithPassword) {
             WarningDialogWithPassword(
+                isWithPassword = withPassword,
                 warningText = warningText,
                 additionalWarningText = additionalWarningText,
                 password = dataAndStorageViewModel.password,
@@ -124,7 +115,7 @@ fun DataAndStorage(
                 onChangePassword = { password ->
                     dataAndStorageViewModel.onChangePassword(password)
                 },
-                onClickCancel = { openDialogWithPassword = false }
+                onClickCancel = { openDialog = false }
             )
         }
 

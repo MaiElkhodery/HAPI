@@ -15,7 +15,7 @@ import com.example.hapi.util.YellowExtraBoldText
 fun FarmerSettingsContent(
     modifier: Modifier = Modifier,
     onLanguageClick: () -> Unit,
-    onDataAndStorageClick: () -> Unit,
+    onClearDetectionClick: () -> Unit,
     onHelpAndSupportClick: () -> Unit,
     onAboutUsClick: () -> Unit,
     onDeleteAccountClick: () -> Unit,
@@ -36,10 +36,10 @@ fun FarmerSettingsContent(
         }
 
         SettingItem(
-            text = stringResource(id = R.string.data_and_storage),
+            text = stringResource(id = R.string.clear_detection),
             iconInt = R.drawable.data_and_storage_icon
         ) {
-            onDataAndStorageClick()
+            onClearDetectionClick()
         }
 
         YellowExtraBoldText(
@@ -91,7 +91,7 @@ fun FarmerSettingsContent(
 private fun SettingsPreview() {
     FarmerSettingsContent(
         onLanguageClick = {},
-        onDataAndStorageClick = {},
+        onClearDetectionClick = {},
         onHelpAndSupportClick = {},
         onAboutUsClick = {},
         onDeleteAccountClick = {},

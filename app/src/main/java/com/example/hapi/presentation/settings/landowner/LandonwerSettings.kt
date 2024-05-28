@@ -45,6 +45,9 @@ fun LandownerSettings(
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
 
+    val logoutWarning = stringResource(id = R.string.logout)
+    val deleteAccountWarning = stringResource(id = R.string.delete_your_account)
+
     LaunchedEffect(key1 = Unit, logout, deleteAccount) {
         viewModel.getLandId()
         if (logout)
@@ -53,6 +56,7 @@ fun LandownerSettings(
             viewModel.deleteAccount()
         }
     }
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -95,14 +99,14 @@ fun LandownerSettings(
                 onAboutUsClick = { navController.navigateToAboutUs() },
                 onDeleteAccountClick = {
                     openDialog = true
-                    warningText = "DELETE YOUR\nACCOUNT?"
+                    warningText = deleteAccountWarning
                     onClickConfirm = {
                         viewModel.onEvent(LandownerSettingsEvent.OnClickDeleteAccount)
                     }
                 },
                 onLogoutClick = {
                     openDialog = true
-                    warningText = "LOG OUT?"
+                    warningText = logoutWarning
                     onClickConfirm = {
                         viewModel.onEvent(LandownerSettingsEvent.OnClickLogout)
                     }

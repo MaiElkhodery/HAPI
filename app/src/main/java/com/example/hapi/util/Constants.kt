@@ -12,7 +12,8 @@ val LAST_DETECTION_HISTORY_ID_KEY = stringSetPreferencesKey("last_detection_hist
 val LAST_LAND_DATA_HISTORY_ID_KEY = stringSetPreferencesKey("last_land_history_id_key")
 val WATER_LEVEL_KEY = stringSetPreferencesKey("water_level")
 val NPK_KEY = stringSetPreferencesKey("npk")
-val PASSWORD_KEY = stringSetPreferencesKey("password")
+val LANGUAGE_KEY = stringSetPreferencesKey("language")
+
 
 const val LANDOWNER = "landowner"
 const val FARMER = "farmer"

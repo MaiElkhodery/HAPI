@@ -6,26 +6,30 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
+import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun SignupCropSelection(
-    navController: NavController
+    navController: NavController,
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -37,6 +41,7 @@ fun SignupCropSelection(
         val (logo, header, content, title, lotusRow) = createRefs()
         val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_sign)
         val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_sign)
+        val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
         Logo(
             modifier = Modifier
@@ -53,7 +58,8 @@ fun SignupCropSelection(
                 bottom.linkTo(title.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.navigateToCropSelectionStrategy()
         }

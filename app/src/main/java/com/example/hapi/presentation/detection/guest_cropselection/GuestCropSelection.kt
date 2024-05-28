@@ -1,9 +1,10 @@
-package com.example.hapi.presentation.detection.cropselection
+package com.example.hapi.presentation.detection.guest_cropselection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,15 +18,16 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.SignupCropSelectionContent
 import com.example.hapi.presentation.detection.imageselection.navigateToImageSelection
-import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.Tab
 
 @Composable
-fun CropSelection(
+fun GuestCropSelection(
     navController: NavController,
-    mainViewModel: MainViewModel = hiltViewModel()
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
+
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -43,9 +45,8 @@ fun CropSelection(
                 },
             topText = stringResource(id = R.string.disease),
             downText = stringResource(id = R.string.detection),
-            imageId = R.drawable.logo
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
-            mainViewModel.setSelectedTab(Tab.HOME)
             navController.popBackStack()
         }
 
@@ -72,5 +73,5 @@ fun CropSelection(
 @Preview
 @Composable
 private fun CropSelectionPreview() {
-    CropSelection(navController = rememberNavController())
+    GuestCropSelection(navController = rememberNavController())
 }

@@ -9,13 +9,22 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.presentation.navigation.NavGraph
 import com.example.hapi.ui.theme.HapiTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var datastore: UserDataPreference
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +36,13 @@ class MainActivity : ComponentActivity() {
                     0
                 )
             }
+
+            lifecycleScope.launch {
+                val deviceLanguage = Locale.getDefault().language
+                val isEnglish = deviceLanguage == "en"
+                datastore.setLanguage(isEnglish)
+            }
+
             HapiTheme {
                 val navController = rememberNavController()
                 Box {

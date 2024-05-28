@@ -1,38 +1,41 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.Logo
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
+import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 
 @Composable
 fun RecommendedCrops(
+    languageViewModel: LanguageViewModel = hiltViewModel(),
     navController: NavController,
     crops: String,
 ) {
 
     val topRecommendedCropsList = crops.split(",").map { Crop.valueOf(it) }
-    Log.d("CropSelectionStrategy", "Crops: $topRecommendedCropsList")
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -60,7 +63,8 @@ fun RecommendedCrops(
                 bottom.linkTo(title.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.navigateToCropSelectionStrategy()
         }
@@ -97,7 +101,7 @@ fun RecommendedCrops(
 @Composable
 private fun FinalCropScreenPreview() {
     RecommendedCrops(
-        rememberNavController(),
-        "Crops"
+        navController = rememberNavController(),
+        crops = "Crops"
     )
 }

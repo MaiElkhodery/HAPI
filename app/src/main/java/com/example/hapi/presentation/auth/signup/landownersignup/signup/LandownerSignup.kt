@@ -27,19 +27,22 @@ import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrate
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun LandownerSignup(
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
     val phoneNumberError = viewModel.phoneNumberError.collectAsState().value
     val usernameError = viewModel.usernameError.collectAsState().value
     val passwordError = viewModel.passwordError.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -67,7 +70,8 @@ fun LandownerSignup(
                 bottom.linkTo(content.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.navigateToIdentitySelection()
         }

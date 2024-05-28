@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -71,7 +72,7 @@ fun Signin(
                 bottom.linkTo(content.top)
             },
             topText = stringResource(id = R.string.sign),
-            downText = stringResource(id = R.string._in)
+            downText = stringResource(id = R.string._in),
         ) {
             navController.popBackStack()
         }

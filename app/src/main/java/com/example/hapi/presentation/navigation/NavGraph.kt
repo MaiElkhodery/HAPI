@@ -11,6 +11,7 @@ import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.Final
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.recommendedCropsRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.landownerSignupRoute
 import com.example.hapi.presentation.detection.cropselection.cropSelectionRoute
+import com.example.hapi.presentation.detection.guest_cropselection.guestCropSelectionRoute
 import com.example.hapi.presentation.home.detectiondetails.detectionDetailsRoute
 import com.example.hapi.presentation.home.detectionhistory.detectionHistoryRoute
 import com.example.hapi.presentation.detection.imageselection.imageCaptureRoute
@@ -50,7 +51,7 @@ fun NavGraph(navController: NavHostController) {
         farmerHomeRoute(navController)
         detectionHistoryRoute(navController)
         detectionDetailsRoute(navController)
-        cropSelectionRoute(navController)
+        guestCropSelectionRoute(navController)
         imageCaptureRoute(navController)
         landHistoryRoute(navController)
         mainRoute(navController)
@@ -60,5 +61,6 @@ fun NavGraph(navController: NavHostController) {
         helpAndSupportRoute(navController)
         aboutUsRoute(navController)
         farmerSettingsRoute(navController)
+        cropSelectionRoute(navController)
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">hapi</string>
+    <string name="app_name" translatable="false">hapi</string>
     <string name="account_setup">LET US GET YOUR \nACCOUNT SETUP!</string>
     <string name="are_you">ARE YOU A....</string>
     <string name="landowner">LANDOWNER?</string>
@@ -26,7 +26,7 @@
     <string name="other_options">OTHER SUITABLE OPTIONS.....</string>
     <string name="choose_recommedation">CHOOSE A RECOMMENDATION.....</string>
     <string name="sign">SIGNING</string>
-    <string name="_in">IN\n</string>
+    <string name="_in">IN</string>
     <string name="signin">SIGNIN</string>
     <string name="first_time">FIRST TIME USER?</string>
     <string name="signup">SIGN UP</string>
@@ -40,7 +40,7 @@
     <string name="last_action">LAST ACTION</string>
     <string name="land_history">LAND\nHISTORY</string>
     <string name="disease_history">DISEASE\nHISTORY</string>
-    <string name="n_p_k">N  :  P  :  K</string>
+    <string name="n_p_k" translatable="false">N  :  P  :  K</string>
     <string name="warning">ARE YOU SURE\nYOU WANT TO</string>
     <string name="delete_account_warning">DELETE YOUR\nACCOUNT?</string>
     <string name="confirm_password">CONFIRM YOUR PASSWORD</string>
@@ -57,7 +57,7 @@
     <string name="now_detecting">NOW DETECTION</string>
     <string name="choose_from_photos">CHOOSE FROM PHOTOS</string>
     <string name="water_level">WATER\nLEVELS</string>
-    <string name="npk_ratio">N P K</string>
+    <string name="npk_ratio" translatable="false">N P K</string>
     <string name="connected_farmer">FARMER</string>
     <string name="last_connected_farmer">LAST CONNECTED FARMER</string>
     <string name="no_detection">NO DETECTIONS YET</string>
@@ -94,11 +94,15 @@
     <string name="call_now_text">CALL US IF YOU NEED\nFURTHER ASSISTANCE</string>
     <string name="call_now">CALL NOW</string>
     <string name="about">ABOUT</string>
-    <string name="us">US</string>
+    <string name="us" translatable="false">US</string>
     <string name="about_us_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="learn_more">LEARN MORE</string>
     <string name="all_actions">ALL ACTIONS</string>
     <string name="your_detections">YOUR DETECTIONS</string>
     <string name="all_detections">ALL DETECTIONS</string>
     <string name="clear_detection">CLEAR DETECTION</string>
+    <string name="delete_your_account">DELETE YOUR\nACCOUNT?</string>
+    <string name="land_id">LAND ID</string>
+    <string name="english">ENGLISH</string>
+    <string name="arabic">عربي</string>
 </resources>

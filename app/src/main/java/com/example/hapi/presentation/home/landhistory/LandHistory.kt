@@ -25,6 +25,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.LastLandActionContent
 import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LandAction
 import com.example.hapi.util.LandHistoryFilter
@@ -35,8 +36,11 @@ import com.example.hapi.util.isNetworkConnected
 fun LandHistory(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel(),
     landHistoryViewmodel: LandHistoryViewModel = hiltViewModel()
 ) {
+
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
@@ -66,7 +70,7 @@ fun LandHistory(
                 .constrainAs(header) {
                     top.linkTo(topGuideLine)
                 },
-            imageId = R.drawable.back_home,
+            imageId = if(isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar,
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.history)
         ) {

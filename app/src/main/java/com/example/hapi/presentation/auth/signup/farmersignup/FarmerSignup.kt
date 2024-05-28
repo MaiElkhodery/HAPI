@@ -27,20 +27,23 @@ import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun FarmerSignup(
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    languageViewModel: LanguageViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
 
-    val phoneNumberError = viewModel.phoneNumberError.collectAsState().value
-    val usernameError = viewModel.usernameError.collectAsState().value
-    val passwordError = viewModel.passwordError.collectAsState().value
-    val farmIdError = viewModel.landIdError.collectAsState().value
-    val authenticated = viewModel.authenticated.collectAsState().value
+    val phoneNumberError = authViewModel.phoneNumberError.collectAsState().value
+    val usernameError = authViewModel.usernameError.collectAsState().value
+    val passwordError = authViewModel.passwordError.collectAsState().value
+    val farmIdError = authViewModel.landIdError.collectAsState().value
+    val authenticated = authViewModel.authenticated.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -68,7 +71,8 @@ fun FarmerSignup(
                     bottom.linkTo(content.top, margin = Dimens.header_margin)
                 },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.navigateToIdentitySelection()
         }
@@ -85,36 +89,36 @@ fun FarmerSignup(
 
             LabeledInputField(
                 title = stringResource(id = R.string.phone_number),
-                content = viewModel.phoneNumber
+                content = authViewModel.phoneNumber
             ) { phoneNumber ->
-                viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
+                authViewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
             WarningBox(warningText = phoneNumberError)
 
             LabeledInputField(
                 title = stringResource(id = R.string.user_name),
-                content = viewModel.username
+                content = authViewModel.username
             ) { username ->
-                viewModel.onEvent(AuthEvent.ChangeUserName(username))
+                authViewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
             WarningBox(warningText = usernameError)
 
             LabeledInputField(
                 title = stringResource(id = R.string.password),
-                content = viewModel.password
+                content = authViewModel.password
             ) { password ->
-                viewModel.onEvent(AuthEvent.ChangePassword(password))
+                authViewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
             WarningBox(warningText = passwordError)
 
             LabeledInputField(
                 title = stringResource(id = R.string.farm_id),
-                content = viewModel.landId
+                content = authViewModel.landId
             ) { farmId ->
-                viewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
+                authViewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
             }
 
             WarningBox(warningText = farmIdError)
@@ -129,11 +133,11 @@ fun FarmerSignup(
                 },
             text = stringResource(id = R.string.confirm_signup)
         ) {
-            viewModel.signupFarmer()
+            authViewModel.signupFarmer()
         }
     }
     if (authenticated) {
-        navController.navToProgress("true",isFarmer = "true")
+        navController.navToProgress("true", isFarmer = "true")
     }
 }
 

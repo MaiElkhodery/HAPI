@@ -2,6 +2,7 @@ package com.example.hapi.presentation.home.detectiondetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.Disease
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionDetailsUseCase: GetDetectionDetailsUseCase,
-    private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase
+    private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase,
 
 ) : ViewModel() {
 

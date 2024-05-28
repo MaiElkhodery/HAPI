@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,29 +24,25 @@ import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.n
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.navigateToRecommendedCrops
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun CropSelectionStrategy(
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val isLoading = viewModel.loading.collectAsState().value
     val crops = viewModel.recommendedCrops.collectAsState().value
     val error = viewModel.errorMsg.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     LaunchedEffect(crops) {
-//        if (isLoading) {
-//            //TODO: ADD LOADING SCREEN
-//        }
         if (crops.isNotEmpty()) {
-            Log.d("CropSelectionStrategy", "Crops: $crops")
             navController.navigateToRecommendedCrops(crops.joinToString(","))
         }
-//        if (error.isNotEmpty()) {
-//            //TODO: Handle error
-//        }
     }
     ConstraintLayout(
         modifier = Modifier
@@ -74,7 +69,8 @@ fun CropSelectionStrategy(
                 bottom.linkTo(title.top)
             },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.popBackStack()
         }

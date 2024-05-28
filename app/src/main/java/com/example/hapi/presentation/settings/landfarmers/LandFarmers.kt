@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
@@ -25,8 +26,12 @@ import com.example.hapi.util.isNetworkConnected
 fun LandFarmers(
     farmersViewModel: LandFarmersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel(),
     navController: NavController
 ) {
+
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+
     LaunchedEffect(key1 = Unit) {
         if (isNetworkConnected()) {
             farmersViewModel.fetchFarmers()
@@ -59,7 +64,7 @@ fun LandFarmers(
                 },
             topText = stringResource(id = R.string.listOf),
             downText = stringResource(id = R.string.farmers),
-            imageId = R.drawable.settings_back_btn
+            imageId = if(isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar
         ) {
             mainViewModel.setSelectedTab(Tab.SETTINGS)
             navController.popBackStack()

@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.landowner.CropRecommendationUseCase
+import com.example.hapi.domain.usecase.landowner.UploadSelectedCropUseCase
 import com.example.hapi.domain.usecase.sign.FarmerSignupUseCase
 import com.example.hapi.domain.usecase.sign.LandownerSignupUseCase
 import com.example.hapi.domain.usecase.sign.SigninUseCase
-import com.example.hapi.domain.usecase.landowner.UploadSelectedCropUseCase
 import com.example.hapi.util.Crop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -156,7 +156,7 @@ class AuthViewModel @Inject constructor(
                 phoneNumber = _phoneNumber.value,
                 password = _password.value
             ).collect { state ->
-                Log.d("SIGNIN",state.toString())
+                Log.d("SIGNIN", state.toString())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false

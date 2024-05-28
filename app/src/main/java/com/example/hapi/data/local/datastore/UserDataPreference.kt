@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import com.example.hapi.util.AUTH_KEY
 import com.example.hapi.util.CROP_KEY
 import com.example.hapi.util.LAND_ID_KEY
+import com.example.hapi.util.LANGUAGE_KEY
 import com.example.hapi.util.LAST_DETECTION_HISTORY_ID_KEY
 import com.example.hapi.util.LAST_LAND_DATA_HISTORY_ID_KEY
 import com.example.hapi.util.NPK_KEY
@@ -72,6 +73,12 @@ class UserDataPreference @Inject constructor(
         }
     }
 
+    suspend fun setLanguage(isEnglish: Boolean) {
+        dataStore.edit { pref ->
+            pref[LANGUAGE_KEY] = setOf(isEnglish.toString())
+        }
+    }
+
     suspend fun getToken(): String? {
         val preferences = dataStore.data.first()
         return preferences[AUTH_KEY]?.first()
@@ -116,5 +123,10 @@ class UserDataPreference @Inject constructor(
     suspend fun getNPK(): String {
         val preferences = dataStore.data.first()
         return preferences[NPK_KEY]?.first() ?: "0 - 0 - 0"
+    }
+
+    suspend fun getLanguage(): Boolean {
+        val preferences = dataStore.data.first()
+        return preferences[LANGUAGE_KEY]?.first()?.toBoolean() ?: true
     }
 }

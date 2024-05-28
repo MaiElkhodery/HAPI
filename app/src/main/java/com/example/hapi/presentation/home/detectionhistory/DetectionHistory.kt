@@ -27,6 +27,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionHistoryCard
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
@@ -35,14 +36,18 @@ import com.example.hapi.util.isNetworkConnected
 fun DetectionHistory(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
-    detectionHistoryViewmodel: DetectionHistoryViewModel = hiltViewModel()
+    detectionHistoryViewmodel: DetectionHistoryViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
+
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
     val isAllDetectionsSelected =
         detectionHistoryViewmodel.isAllDetectionsSelected.collectAsState().value
-    LaunchedEffect(key1 = isAllDetectionsSelected) {
+
+    LaunchedEffect(isAllDetectionsSelected,isEnglish) {
         isNetworkConnected = isNetworkConnected()
         if (isAllDetectionsSelected)
             detectionHistoryViewmodel.getDetectionHistory()
@@ -67,9 +72,9 @@ fun DetectionHistory(
                 .constrainAs(header) {
                     top.linkTo(topGuideLine)
                 },
-            imageId = R.drawable.back_home,
             topText = stringResource(id = R.string.detection),
-            downText = stringResource(id = R.string.history)
+            downText = stringResource(id = R.string.history),
+            imageId = if(isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar
         ) {
             mainViewModel.setSelectedTab(Tab.HOME)
             navController.popBackStack()

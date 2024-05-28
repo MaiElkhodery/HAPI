@@ -22,6 +22,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
@@ -30,8 +31,11 @@ fun FinalSelectedCrop(
     navController: NavController,
     crop: String,
     viewModel: AuthViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val error = viewModel.errorMsg.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+
     LaunchedEffect(error) {
         if (error.isNotEmpty()) {
             //TODO: handle error
@@ -63,7 +67,8 @@ fun FinalSelectedCrop(
                 bottom.linkTo(content.top, margin = Dimens.header_margin)
             },
             topText = stringResource(id = R.string.setting_up),
-            downText = stringResource(id = R.string.your_account)
+            downText = stringResource(id = R.string.your_account),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.popBackStack()
         }

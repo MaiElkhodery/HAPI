@@ -23,6 +23,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Tab
 
@@ -30,8 +31,11 @@ import com.example.hapi.util.Tab
 fun DataAndStorage(
     mainViewModel: MainViewModel = hiltViewModel(),
     dataAndStorageViewModel: DataAndStorageViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel(),
     navController: NavController
 ) {
+
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     val isPasswordCorrect = dataAndStorageViewModel.isPasswordCorrect.collectAsState().value
     var warningText by remember { mutableStateOf("") }
@@ -64,7 +68,7 @@ fun DataAndStorage(
                 },
             topText = stringResource(id = R.string.data_storage),
             downText = stringResource(id = R.string.settings),
-            imageId = R.drawable.settings_back_btn
+            imageId = if(isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar
         ) {
             mainViewModel.setSelectedTab(Tab.SETTINGS)
             navController.popBackStack()

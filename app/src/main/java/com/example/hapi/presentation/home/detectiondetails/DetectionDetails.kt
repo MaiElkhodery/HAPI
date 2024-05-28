@@ -37,12 +37,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
+import com.example.hapi.presentation.detection.guest_cropselection.navigateToGuestCropSelection
 import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.DetectionLowConfidence
 import com.example.hapi.presentation.home.common.DetectionResult
 import com.example.hapi.presentation.home.common.getCropIcon
-import com.example.hapi.presentation.detection.cropselection.navigateToCropSelection
-import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
@@ -55,10 +55,12 @@ import com.example.hapi.util.toBitmap
 fun DetectionDetails(
     navController: NavController,
     detectionDetailsViewModel: DetectionDetailsViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel(),
     id: Int,
     isCurrentDetection: Boolean
 ) {
-    LaunchedEffect(true) {
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    LaunchedEffect(true, isEnglish) {
         if (!isCurrentDetection) {
             detectionDetailsViewModel.getRemoteDetectionDetailsById(id)
         } else {
@@ -92,10 +94,11 @@ fun DetectionDetails(
                     top.linkTo(parent.top)
                 },
             topText = stringResource(id = R.string.detection),
-            downText = stringResource(id = R.string.result)
+            downText = stringResource(id = R.string.result),
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             if (isCurrentDetection)
-                navController.navigateToCropSelection()
+                navController.navigateToGuestCropSelection()
             else
                 navController.popBackStack()
         }

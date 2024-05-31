@@ -111,7 +111,7 @@ private fun CropName(
                 R.font.poppins_bold
             )
         ),
-        text = stringResource(id = TranslateCropNameFromEnglish(crop = crop.name)),
+        text = stringResource(id = getCropName(crop = crop.name)),
         textAlign = TextAlign.Center
     )
 }

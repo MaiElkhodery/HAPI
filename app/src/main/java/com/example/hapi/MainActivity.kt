@@ -14,6 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.presentation.navigation.NavGraph
 import com.example.hapi.ui.theme.HapiTheme
+import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.SetStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
             }
 
             HapiTheme {
+                SetStatusBarColor(color = YellowAppColor)
                 val navController = rememberNavController()
                 Box {
                     NavGraph(navController = navController)

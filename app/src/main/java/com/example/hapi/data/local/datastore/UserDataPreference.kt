@@ -115,9 +115,9 @@ class UserDataPreference @Inject constructor(
     }
 
 
-    suspend fun getWaterLevel(): String? {
+    suspend fun getWaterLevel(): String {
         val preferences = dataStore.data.first()
-        return preferences[WATER_LEVEL_KEY]?.first()
+        return preferences[WATER_LEVEL_KEY]?.first() ?: "0"
     }
 
     suspend fun getNPK(): String {

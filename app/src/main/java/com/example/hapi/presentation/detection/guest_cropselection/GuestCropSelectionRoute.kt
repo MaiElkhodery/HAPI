@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-private const val ROUTE = "crop_detection_selection"
+private const val ROUTE = "guest_crop_detection_selection"
 fun NavGraphBuilder.guestCropSelectionRoute(navController: NavController) {
     composable(route = ROUTE) {
         GuestCropSelection(navController)

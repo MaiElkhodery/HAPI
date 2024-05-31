@@ -16,8 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.auth.common.Title
-import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.SignupCropSelectionContent
 import com.example.hapi.presentation.detection.imageselection.navigateToImageSelection
+import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 
@@ -59,7 +59,7 @@ fun GuestCropSelection(
             }
         )
 
-        SignupCropSelectionContent(
+        CropCollection(
             modifier = Modifier.constrainAs(crops) {
                 top.linkTo(text.bottom, margin = 5.dp)
                 bottom.linkTo(bottomGuideLine)

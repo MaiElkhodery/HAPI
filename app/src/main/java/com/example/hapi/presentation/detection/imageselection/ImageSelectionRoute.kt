@@ -16,6 +16,6 @@ fun NavGraphBuilder.imageCaptureRoute(navController: NavController) {
 fun NavController.navigateToImageSelection(
     crop: String
 ) {
-    val route = "image_capture/$crop"
+    val route = "image_selection/$crop"
     navigate(route)
 }

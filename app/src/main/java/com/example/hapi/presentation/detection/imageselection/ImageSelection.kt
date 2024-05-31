@@ -75,6 +75,7 @@ fun ImageSelection(
                     )
                     image.close()
                 }
+
                 override fun onError(exception: ImageCaptureException) {
                     Log.d("Save Photo", exception.toString())
                 }
@@ -82,6 +83,7 @@ fun ImageSelection(
             }
         )
     }
+
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { selectedImageUri ->

@@ -31,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
@@ -47,6 +46,7 @@ fun CustomNavigationBottom(
     onSettingsClick: () -> Unit
 ) {
     var isHomeSelected by remember { mutableStateOf(true) }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -76,6 +76,7 @@ fun CustomNavigationBottom(
                         centerHorizontallyTo(parent)
                     },
             ) {
+                isHomeSelected = false
                 onCameraClick()
             }
 
@@ -171,6 +172,7 @@ fun CameraIcon(
         )
     }
 }
+
 @Preview
 @Composable
 private fun CustomNavigationBottomPreview() {

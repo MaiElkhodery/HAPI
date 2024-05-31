@@ -22,7 +22,7 @@ fun getCropIcon(
 }
 
 @Composable
-fun TranslateCropNameFromEnglish(crop: String): Int {
+fun getCropName(crop: String): Int {
     return when (crop) {
         Crop.TOMATO.name -> R.string.tomato
         Crop.POTATO.name -> R.string.potato

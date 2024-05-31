@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.landowner
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.HomeHeaderBackgroundColor
-import com.example.hapi.util.Crop
 import com.example.hapi.util.YellowBlackText
 import com.example.hapi.util.YellowBoldText
 
@@ -39,7 +38,7 @@ fun LandData(
         verticalAlignment = Alignment.CenterVertically
     ) {
         LandDataItem(
-            data = crop,
+            data = stringResource(id = getCropName(crop)),
             text = stringResource(id = R.string.crop), isCrop = true
         )
         LandDataItem(
@@ -62,7 +61,6 @@ fun LandDataItem(
     text: String,
     isCrop: Boolean = false
 ) {
-    Log.d("LandDataItem", "data: $data")
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -72,9 +70,7 @@ fun LandDataItem(
                     .size(48.dp)
                     .padding(end = 8.dp),
                 painter = painterResource(
-                    id = if (isCrop) getCropIcon(
-                        Crop.valueOf(data.uppercase())
-                    ) else image
+                    id = if (isCrop) getCropIcon(data) else image
                 ),
                 contentDescription = "crop icon"
             )
@@ -92,7 +88,7 @@ fun LandDataItem(
 @Composable
 private fun LandDataPreview() {
     LandData(
-        crop = "WHEAT",
+        crop = "POTATO",
         waterLevel = 20,
         npk = "2-3-1"
     )

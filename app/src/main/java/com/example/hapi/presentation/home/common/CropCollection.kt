@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.common
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -68,8 +69,9 @@ private fun CropItem(
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CropImageCard(imageId = getCropIcon(crop.name))
-        CropName(crop = crop)
+        val cropName = stringResource(id = getCropName(crop = crop.name))
+        CropImageCard(imageId = getCropIcon(cropName))
+        CropText(crop = crop)
     }
 }
 
@@ -97,7 +99,7 @@ private fun CropImageCard(
 }
 
 @Composable
-private fun CropName(
+private fun CropText(
     crop: Crop
 ) {
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">hapi</string>
+    <string name="app_name">hapi</string>
     <string name="account_setup">LET US GET YOUR \nACCOUNT SETUP!</string>
     <string name="are_you">ARE YOU A....</string>
     <string name="landowner">LANDOWNER?</string>
@@ -57,7 +57,7 @@
     <string name="now_detecting">NOW DETECTION</string>
     <string name="choose_from_photos">CHOOSE FROM PHOTOS</string>
     <string name="water_level">WATER\nLEVELS</string>
-    <string name="npk_ratio" translatable="false">N P K</string>
+    <string name="npk_ratio">N P K</string>
     <string name="connected_farmer">FARMER</string>
     <string name="last_connected_farmer">LAST CONNECTED FARMER</string>
     <string name="no_detection">NO DETECTIONS YET</string>
@@ -105,4 +105,12 @@
     <string name="land_id">LAND ID</string>
     <string name="english">ENGLISH</string>
     <string name="arabic">عربي</string>
+    <string name="wheat">WHEAT</string>
+    <string name="cotton">COTTON</string>
+    <string name="sugarcane">SUGARCANE</string>
+    <string name="apple">APPLE</string>
+    <string name="corn">CORN</string>
+    <string name="clear_detection_history">RESET DETECTION \\n HISTORY</string>
+    <string name="change_crop_warning">THIS WILL RESET ALL LAND HISTORY</string>
+
 </resources>

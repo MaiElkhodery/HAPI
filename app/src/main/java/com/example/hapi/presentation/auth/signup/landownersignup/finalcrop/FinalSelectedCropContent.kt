@@ -50,7 +50,7 @@ private fun ChosenCrop(
             modifier = Modifier
                 .size(95.dp)
                 .padding(vertical = 6.dp),
-            painter = painterResource(id = getCropIcon(crop)),
+            painter = painterResource(id = getCropIcon(crop.name)),
             contentDescription = "crop image"
         )
         YellowBlackText(size = 20, text = crop.name)

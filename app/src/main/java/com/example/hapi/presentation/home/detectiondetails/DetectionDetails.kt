@@ -46,7 +46,6 @@ import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.util.Crop
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.YellowBlackText
 import com.example.hapi.util.toBitmap
@@ -171,7 +170,7 @@ fun DetectionDetails(
                         .size(31.dp),
                     painter = painterResource(
                         id = getCropIcon(
-                            Crop.valueOf(crop.uppercase())
+                            crop
                         )
                     ),
                     contentDescription = "crop icon"

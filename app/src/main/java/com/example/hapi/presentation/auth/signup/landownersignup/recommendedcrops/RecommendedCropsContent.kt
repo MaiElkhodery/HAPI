@@ -126,7 +126,7 @@ fun CropRow(
                     if (textSize == 20) 48.dp else 33.dp
                 )
                 .padding(end = 3.dp),
-            painter = painterResource(id = getCropIcon(crop)),
+            painter = painterResource(id = getCropIcon(crop.name)),
             contentDescription = "crop image"
         )
 

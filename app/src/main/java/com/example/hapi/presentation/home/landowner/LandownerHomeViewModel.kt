@@ -201,9 +201,9 @@ class LandownerHomeViewModel @Inject constructor(
 
     fun getTanksData() {
         viewModelScope.launch {
-            val water_level = userDataPreference.getWaterLevel()
-            _waterLevel.value = water_level.toInt()
+            _waterLevel.value = userDataPreference.getWaterLevel().toInt()
             _npk.value = userDataPreference.getNPK()
+            if (_npk.value.isBlank()) _npk.value = "0 - 0 - 0"
         }
     }
 
@@ -244,6 +244,6 @@ class LandownerHomeViewModel @Inject constructor(
     init {
         getCrop()
         getUsername()
-        Log.d("CROP",_crop.value)
+        getTanksData()
     }
 }

@@ -112,5 +112,7 @@
     <string name="corn">CORN</string>
     <string name="clear_detection_history">RESET DETECTION \\n HISTORY</string>
     <string name="change_crop_warning">THIS WILL RESET ALL LAND HISTORY</string>
+    <string name="irrigation">IRRIGATION</string>
+    <string name="fertilization">FERTILIZATION</string>
 
 </resources>

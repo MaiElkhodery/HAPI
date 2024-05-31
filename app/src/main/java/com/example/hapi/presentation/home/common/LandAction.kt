@@ -83,7 +83,7 @@ fun LandAction(
         DarkGreenBlackText(
             modifier = Modifier.padding(vertical = 4.dp),
             size = 12,
-            text = action.name
+            text = stringResource(id = LandActionName(name = action.name))
         )
         Row {
             ActionInfo(

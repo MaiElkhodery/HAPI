@@ -113,4 +113,6 @@
     <string name="corn">ذره</string>
     <string name="clear_detection_history">مسحع عمليات التحديد؟</string>
     <string name="change_crop_warning">سيؤدي ذلك إلي مسح كل البيانات الخاصه بالأرض</string>
+    <string name="irrigation">ري</string>
+    <string name="fertilization">تسميد</string>
 </resources>

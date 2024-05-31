@@ -39,8 +39,8 @@
     <string name="land">الأرض</string>
     <string name="last_detection">آخر عملية تحديد للمرض</string>
     <string name="last_action">آخر إجراء تم في الأرض</string>
-    <string name="land_history">معلومات عن  الأرض</string>
-    <string name="disease_history">معلومات عن  الأمراض</string>
+    <string name="land_history">معلومات عن \n الأرض</string>
+    <string name="disease_history">معلومات عن \n الأمراض</string>
     <string name="n_p_k">N P K</string>
     <string name="warning">هل أنت متأكد\nأنك تريد</string>
     <string name="delete_account_warning">حذف \nحسابك؟</string>

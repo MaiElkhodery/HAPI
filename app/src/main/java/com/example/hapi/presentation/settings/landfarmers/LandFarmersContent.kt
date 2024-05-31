@@ -61,7 +61,7 @@ fun FarmersGridList(
     ) {
         FarmersImage()
         YellowExtraBoldText(size = 15,
-            text = "NUMBER OF FARMERS : ${farmers.size}",
+            text = stringResource(id = R.string.no_of_farmers)+ "${farmers.size}",
             modifier = Modifier.padding(11.dp)
         )
 

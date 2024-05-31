@@ -74,7 +74,7 @@ fun LandownerSettings(
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(welcomeHeader) {
                     top.linkTo(topGuideLine)
                     bottom.linkTo(content.top)

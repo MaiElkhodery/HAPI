@@ -22,6 +22,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.FQA_LINK
 import com.example.hapi.util.PHONE_NUMBER
 import com.example.hapi.util.Tab
@@ -39,15 +40,14 @@ fun HelpAndSupport(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(bottom = 26.dp)
     ) {
 
         val (navHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.05f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },
@@ -61,9 +61,11 @@ fun HelpAndSupport(
 
         HelpAndSupportContent(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(content) {
                     top.linkTo(navHeader.bottom, margin = 44.dp)
+                    centerHorizontallyTo(parent)
+                    centerVerticallyTo(parent)
                 },
             onFQAClick = {
                 startActivity(

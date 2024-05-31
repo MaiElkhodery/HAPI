@@ -114,5 +114,6 @@
     <string name="change_crop_warning">THIS WILL RESET ALL LAND HISTORY</string>
     <string name="irrigation">IRRIGATION</string>
     <string name="fertilization">FERTILIZATION</string>
+    <string name="no_of_farmers">NUMBER OF FARMERS :</string>
 
 </resources>

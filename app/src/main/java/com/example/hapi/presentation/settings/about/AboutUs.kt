@@ -31,6 +31,7 @@ import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.presentation.settings.support.ButtonWithEndIcon
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ABOUT_US_LINK
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.Tab
 import com.example.hapi.util.YellowBlackText
 
@@ -52,12 +53,12 @@ fun AboutUs(
     ) {
 
         val (navHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.05f)
-        val bottomGuideLine = createGuidelineFromBottom(.05f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.top_guideline_settings_options)
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },

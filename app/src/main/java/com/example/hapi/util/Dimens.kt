@@ -7,6 +7,7 @@ object Dimens {
     val title_bottom_margin = 26.dp
     val content_margin = 30.dp
     val home_box_height = 155.dp
+    val small_horizontal_padding = 16.dp
 
     const val top_guideline_sign = 0.07f
     const val bottom_guideline_sign = 0.11f
@@ -20,5 +21,6 @@ object Dimens {
     const val end_guideline_settings = 0.1f
 
     const val top_guideline_settings_options = 0.03f
+
 
 }

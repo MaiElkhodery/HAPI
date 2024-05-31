@@ -54,10 +54,11 @@ fun LanguageSettings(
 
         val (navHeader, content) = createRefs()
         val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.top_guideline_settings_options)
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },
@@ -76,7 +77,7 @@ fun LanguageSettings(
                 .fillMaxWidth()
                 .constrainAs(content) {
                     top.linkTo(navHeader.bottom)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(bottomGuideLine)
                 },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

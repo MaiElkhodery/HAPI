@@ -59,7 +59,7 @@ fun LandFarmers(
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },

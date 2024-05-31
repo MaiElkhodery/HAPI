@@ -68,7 +68,7 @@ fun DataAndStorage(
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },
@@ -83,7 +83,7 @@ fun DataAndStorage(
 
         DataAndStorageContent(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = Dimens.small_horizontal_padding)
                 .constrainAs(content) {
                     top.linkTo(navHeader.bottom, margin = 44.dp)
                 },

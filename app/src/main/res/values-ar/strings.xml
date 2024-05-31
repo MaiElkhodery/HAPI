@@ -88,13 +88,13 @@
     <string name="clear_land_history">إعادة تعيين سجل الأرض</string>
     <string name="change_crop">تغيير اختيار المحصول</string>
     <string name="data_storage"><![CDATA[البيانات والتخزين]]></string>
-    <string name="help_and"><![CDATA[المساعدة و]]></string>
-    <string name="support">الدعم</string>
+    <string name="help_and"><![CDATA[المساعدة]]></string>
+    <string name="support">والدعم</string>
     <string name="fqa_text">استعرض الأسئلة الشائعة</string>
     <string name="fqa">الأسئلة الشائعة</string>
     <string name="call_now_text">اتصل بنا إذا كنت بحاجة \nإلى مزيد من المساعدة</string>
     <string name="call_now">اتصل الآن</string>
-    <string name="about">معلومات عنا</string>
+    <string name="about">معلومات</string>
     <string name="us">عنا</string>
     <string name="about_us_text">لوريم إيبسوم دولار سيت أميت، كونسيكتيتور أديبيسسينج إيليت، سيد دو إييوسمود تيمبور إنكيديدونت يوت لابوري إت دولار ماجنا أليكوا. يوت إينيم أد مينيم فينيام، كويز نوستريد إكسيرسيتاشن أولامكو لابوريس نيسي يوت أليكويب إكس إيا كومودو كونسيكوات. دويس أوتي إيرور دولور إن ريبريهيندريت إن فولوبتات فيليت إيس سيليوم دولور يوفوجيات نيولا بارياتيور. إكسسيبتيور سينت أوكسيكابات كيبيداتات نون برويدينت، سونت إن كيولبا كي أوفيسيا ديسيريونت موليت أنيم أيد إست لابوروم.</string>
     <string name="learn_more">اعرف المزيد</string>
@@ -115,4 +115,5 @@
     <string name="change_crop_warning">سيؤدي ذلك إلي مسح كل البيانات الخاصه بالأرض</string>
     <string name="irrigation">ري</string>
     <string name="fertilization">تسميد</string>
+    <string name="no_of_farmers">عدد المزارعين : </string>
 </resources>

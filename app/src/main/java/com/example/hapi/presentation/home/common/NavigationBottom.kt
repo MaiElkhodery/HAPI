@@ -46,6 +46,7 @@ fun CustomNavigationBottom(
     onSettingsClick: () -> Unit
 ) {
     var isHomeSelected by remember { mutableStateOf(true) }
+    var isSettingsSelected by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -77,6 +78,7 @@ fun CustomNavigationBottom(
                     },
             ) {
                 isHomeSelected = false
+                isSettingsSelected = false
                 onCameraClick()
             }
 
@@ -90,6 +92,7 @@ fun CustomNavigationBottom(
                 icon = Icons.Default.Home
             ) {
                 isHomeSelected = true
+                isSettingsSelected = false
                 onHomeClick()
             }
             NavigationIcon(
@@ -97,10 +100,11 @@ fun CustomNavigationBottom(
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 },
-                isSelected = !isHomeSelected, text = stringResource(id = R.string.settings),
+                isSelected = isSettingsSelected, text = stringResource(id = R.string.settings),
                 icon = Icons.Default.Settings
             ) {
                 isHomeSelected = false
+                isSettingsSelected = true
                 onSettingsClick()
             }
 

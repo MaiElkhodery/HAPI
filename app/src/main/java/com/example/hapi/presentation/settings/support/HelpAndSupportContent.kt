@@ -42,14 +42,15 @@ fun HelpAndSupportContent(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.help_and_support_icon),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier.size(165.dp)
             )
         }
 
@@ -57,7 +58,7 @@ fun HelpAndSupportContent(
             text = stringResource(id = R.string.fqa_text),
             btnText = stringResource(id = R.string.fqa),
             imageId = R.drawable.fqa_icon
-        ){
+        ) {
             onFQAClick()
         }
 
@@ -65,7 +66,7 @@ fun HelpAndSupportContent(
             text = stringResource(id = R.string.call_now_text),
             btnText = stringResource(id = R.string.call_now),
             imageId = R.drawable.call_icon
-        ){
+        ) {
             onCallNowClick()
         }
     }
@@ -83,7 +84,7 @@ fun helpAndSupportTextAndButton(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         YellowBlackText(
             size = 13,
@@ -111,30 +112,26 @@ fun ButtonWithEndIcon(
     imageId: Int,
     onClick: () -> Unit
 ) {
-    Box(
+
+    Row(
         modifier = modifier
-            .height(IntrinsicSize.Max),
-        contentAlignment = Alignment.Center
+            .height(IntrinsicSize.Max)
+            .clip(RoundedCornerShape(4.dp)),
     ) {
-        Row(
+
+        GreenTextBox(
+            text = text, modifier = Modifier
+                .fillMaxWidth()
+                .weight(3f)
+        )
+
+        ButtonIcon(
+            imageId = imageId,
             modifier = Modifier
-                .clip(RoundedCornerShape(6.dp)),
-        ) {
+                .fillMaxWidth()
+                .weight(1f)
+        ) { onClick() }
 
-            GreenTextBox(
-                text = text, modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(3f)
-            )
-
-            ButonIcon(
-                imageId = imageId,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1.2f)
-            ) { onClick() }
-
-        }
     }
 
 }
@@ -148,7 +145,7 @@ private fun GreenTextBox(
         modifier = modifier
             .background(YellowAppColor)
             .fillMaxHeight()
-            .padding(horizontal = 16.dp),
+            .padding(9.dp),
         contentAlignment = Alignment.Center
     ) {
 
@@ -159,7 +156,7 @@ private fun GreenTextBox(
 }
 
 @Composable
-fun ButonIcon(
+fun ButtonIcon(
     modifier: Modifier = Modifier,
     imageId: Int,
     onClick: () -> Unit
@@ -168,16 +165,17 @@ fun ButonIcon(
         modifier = modifier
             .background(DarkGreenAppColor)
             .fillMaxHeight()
-            .padding(5.dp)
             .clickable {
                 onClick()
             },
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(38.dp),
+            modifier = Modifier
+                .padding( 5.dp)
+                .size(28.dp),
             painter = painterResource(id = imageId),
-            contentDescription = "next button",
+            contentDescription = null,
             tint = YellowAppColor
         )
     }

@@ -13,4 +13,10 @@ object Dimens {
 
     const val top_guideline_home = 0.05f
     val nav_header_horizontal_padding = 26.dp
+
+    const val top_guideline_settings = 0.08f
+    const val bottom_guideline_settings = 0.12f
+    const val start_guideline_settings = 0.1f
+    const val end_guideline_settings = 0.1f
+
 }

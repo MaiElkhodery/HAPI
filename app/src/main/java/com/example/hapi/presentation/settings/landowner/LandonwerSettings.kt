@@ -30,6 +30,7 @@ import com.example.hapi.presentation.settings.language.navigateToLanguageSetting
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
 import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 
 @Composable
 fun LandownerSettings(
@@ -62,16 +63,18 @@ fun LandownerSettings(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(bottom = 26.dp)
     ) {
 
         val (welcomeHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.08f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings)
+        val bottomGuideLine = createGuidelineFromBottom(Dimens.bottom_guideline_settings)
+        val startGuideLine = createGuidelineFromStart(Dimens.start_guideline_settings)
+        val endGuideLine = createGuidelineFromEnd(Dimens.end_guideline_settings)
 
 
         NavHeader(
             modifier = Modifier
-                .padding(horizontal = 26.dp)
+                .padding(horizontal = 24.dp)
                 .constrainAs(welcomeHeader) {
                     top.linkTo(topGuideLine)
                     bottom.linkTo(content.top)
@@ -79,20 +82,24 @@ fun LandownerSettings(
             imageId = R.drawable.logo,
             topText = stringResource(id = R.string.your),
             downText = stringResource(id = R.string.settings),
+            imageSize = 80
         )
 
         Column(
             modifier = Modifier
-                .padding(horizontal = 26.dp)
+                .padding(horizontal = 33.dp)
                 .constrainAs(content) {
                     top.linkTo(welcomeHeader.bottom, margin = 26.dp)
+                    bottom.linkTo(bottomGuideLine)
+                    start.linkTo(startGuideLine)
+                    end.linkTo(endGuideLine)
                 }
         ) {
 
             LandIdRow(landId = landId)
 
             LandownerSettingsContent(
-                modifier = Modifier.padding(top = 11.dp),
+                modifier = Modifier.padding(top = 22.dp),
                 onLanguageClick = { navController.navigateToLanguageSettings() },
                 onFarmersListClick = { navController.navigateToLandFarmers() },
                 onDataAndStorageClick = { navController.navigateToDataAndStorage() },

@@ -56,15 +56,16 @@ fun SettingItem(
                 .fillMaxHeight()
                 .weight(.11f)
                 .background(DarkGreenAppColor)
-                .padding(8.dp),
+                .padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
+                modifier = Modifier
+                    .padding(3.dp)
+                    .size(25.dp),
                 painter = painterResource(id = iconInt),
                 contentDescription = null,
                 tint = YellowAppColor,
-                modifier = Modifier
-                    .size(26.dp)
             )
         }
     }

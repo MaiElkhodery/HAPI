@@ -27,12 +27,13 @@ import com.example.hapi.util.GreenBlackText
 
 @Composable
 fun SettingItem(
+    modifier: Modifier = Modifier,
     text: String,
     iconInt: Int,
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
             .clip(RoundedCornerShape(10.dp))

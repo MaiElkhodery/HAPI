@@ -3,6 +3,7 @@ package com.example.hapi.presentation.settings.data
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -28,7 +29,8 @@ fun DataAndStorageContent(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(bottom = 28.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -41,21 +43,24 @@ fun DataAndStorageContent(
 
         SettingItem(
             text = stringResource(id = R.string.clear_detcetion_history),
-            iconInt = R.drawable.reset_icon
+            iconInt = R.drawable.reset_icon,
+            modifier = Modifier.padding(bottom = 5.dp)
         ) {
             onClickClearDetectionHistory()
         }
 
         SettingItem(
             text = stringResource(id = R.string.clear_land_history),
-            iconInt = R.drawable.reset_icon
+            iconInt = R.drawable.reset_icon,
+            modifier = Modifier.padding(bottom = 5.dp)
         ) {
             onClickClearLandHistory()
         }
 
         SettingItem(
             text = stringResource(id = R.string.change_crop),
-            iconInt = R.drawable.reset_icon
+            iconInt = R.drawable.reset_icon,
+            modifier = Modifier.padding(bottom = 5.dp)
         ) {
            onClickChangeCrop()
         }

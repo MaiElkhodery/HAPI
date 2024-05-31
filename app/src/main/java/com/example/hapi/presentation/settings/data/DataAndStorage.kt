@@ -25,6 +25,7 @@ import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.Tab
 
 @Composable
@@ -36,8 +37,8 @@ fun DataAndStorage(
 ) {
 
     val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
-
     val isPasswordCorrect = dataAndStorageViewModel.isPasswordCorrect.collectAsState().value
+
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
@@ -63,7 +64,7 @@ fun DataAndStorage(
     ) {
 
         val (navHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.05f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
 
         NavHeader(
             modifier = Modifier
@@ -71,9 +72,10 @@ fun DataAndStorage(
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },
-            topText = stringResource(id = R.string.data_storage),
-            downText = stringResource(id = R.string.settings),
-            imageId = if(isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar
+            topText = stringResource(id = if (isEnglish) R.string.data_storage else R.string.settings),
+            downText = stringResource(id = if (isEnglish) R.string.settings else R.string.data_and_storage),
+            imageId = if (isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar,
+            imageSize = 80
         ) {
             mainViewModel.setSelectedTab(Tab.SETTINGS)
             navController.popBackStack()

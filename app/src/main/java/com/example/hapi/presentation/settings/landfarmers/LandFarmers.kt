@@ -19,6 +19,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.Dimens
 import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
@@ -54,7 +55,7 @@ fun LandFarmers(
     ) {
 
         val (navHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.05f)
+        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
 
         NavHeader(
             modifier = Modifier
@@ -64,7 +65,8 @@ fun LandFarmers(
                 },
             topText = stringResource(id = R.string.listOf),
             downText = stringResource(id = R.string.farmers),
-            imageId = if(isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar
+            imageId = if(isEnglish) R.drawable.settings_back_btn else R.drawable.settings_back_btn_ar,
+            imageSize = 80
         ) {
             mainViewModel.setSelectedTab(Tab.SETTINGS)
             navController.popBackStack()

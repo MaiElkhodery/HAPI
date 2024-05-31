@@ -38,7 +38,7 @@ fun LandownerSettingsContent(
 
         SettingItem(
             text = stringResource(id = R.string.list_of_farmers),
-            iconInt = R.drawable.language_icon
+            iconInt = R.drawable.farmers_icon
         ) {
             onFarmersListClick()
         }

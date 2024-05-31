@@ -245,5 +245,9 @@ class LandownerHomeViewModel @Inject constructor(
         getCrop()
         getUsername()
         getTanksData()
+        viewModelScope.launch {
+            getLastDetection()
+            getLastLandHistoryItem()
+        }
     }
 }

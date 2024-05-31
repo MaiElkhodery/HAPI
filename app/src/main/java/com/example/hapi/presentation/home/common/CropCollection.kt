@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.cropselection
+package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -27,12 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
-import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
 
 @Composable
-fun SignupCropSelectionContent(
+fun CropCollection(
     modifier: Modifier,
     onClick: (Crop) -> Unit
 ) {
@@ -68,8 +68,8 @@ private fun CropItem(
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CropImageCard(imageId = getCropIcon(crop))
-        CropName(title = crop.name)
+        CropImageCard(imageId = getCropIcon(crop.name))
+        CropName(crop = crop)
     }
 }
 
@@ -98,7 +98,7 @@ private fun CropImageCard(
 
 @Composable
 private fun CropName(
-    title: String
+    crop: Crop
 ) {
 
     Text(
@@ -111,7 +111,7 @@ private fun CropName(
                 R.font.poppins_bold
             )
         ),
-        text = title,
+        text = stringResource(id = TranslateCropNameFromEnglish(crop = crop.name)),
         textAlign = TextAlign.Center
     )
 }
@@ -119,7 +119,7 @@ private fun CropName(
 @Preview
 @Composable
 private fun CropChooseContentPreview() {
-    SignupCropSelectionContent(Modifier) {}
+    CropCollection(Modifier) {}
 }
 
 

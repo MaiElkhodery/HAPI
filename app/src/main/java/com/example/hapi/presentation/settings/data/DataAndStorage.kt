@@ -45,6 +45,11 @@ fun DataAndStorage(
     var withPassword by remember { mutableStateOf(false) }
     var passwordConfirmed by remember { mutableStateOf(false) }
 
+    val clearDetectionHistoryWarning = stringResource(id = R.string.clear_detection_history)
+    val clearLandHistoryWarning = stringResource(id = R.string.clear_land_history)
+    val changeCropWarning = stringResource(id = R.string.change_crop)
+    val additionalWarningForChangeCrop = stringResource(id = R.string.change_crop_warning)
+
     LaunchedEffect(key1 = passwordConfirmed) {
         if (passwordConfirmed) {
             dataAndStorageViewModel.checkIfPasswordIsCorrect()
@@ -83,7 +88,7 @@ fun DataAndStorage(
             onClickClearDetectionHistory = {
                 openDialog = true
                 withPassword = false
-                warningText = "RESET DETECTION\nHISTORY?"
+                warningText = clearDetectionHistoryWarning
                 onClickConfirm = {
                     dataAndStorageViewModel.deleteDetectionHistory()
                     openDialog = false
@@ -92,7 +97,7 @@ fun DataAndStorage(
             onClickClearLandHistory = {
                 openDialog = true
                 withPassword = false
-                warningText = "RESET LAND\nHISTORY?"
+                warningText = clearLandHistoryWarning
                 onClickConfirm = {
                     dataAndStorageViewModel.deleteLandHistory()
                     openDialog = false
@@ -101,8 +106,8 @@ fun DataAndStorage(
             onClickChangeCrop = {
                 openDialog = true
                 withPassword = true
-                warningText = "CHANGE CROP?"
-                additionalWarningText = "THIS ALSO RESETS ALL LAND HISTORY"
+                warningText = changeCropWarning
+                additionalWarningText = additionalWarningForChangeCrop
                 onClickConfirm = {
                     passwordConfirmed = true
                 }

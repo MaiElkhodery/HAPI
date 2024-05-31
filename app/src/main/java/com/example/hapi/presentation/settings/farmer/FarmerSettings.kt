@@ -25,6 +25,7 @@ import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
 import com.example.hapi.presentation.settings.data.DataAndStorageViewModel
+import com.example.hapi.presentation.settings.language.navigateToLanguageSettings
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
 import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
@@ -47,6 +48,10 @@ fun FarmerSettings(
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
+
+    val logoutWarning = stringResource(id = R.string.logout)
+    val deleteAccountWarning = stringResource(id = R.string.delete_your_account)
+    val clearDetectionWarning = stringResource(id = R.string.clear_detection_history)
 
     LaunchedEffect(key1 = Unit, logout, deleteAccount) {
         viewModel.getLandId()
@@ -91,11 +96,11 @@ fun FarmerSettings(
 
             FarmerSettingsContent(
                 modifier = Modifier.padding(top = 11.dp),
-                onLanguageClick = { /*TODO*/ },
+                onLanguageClick = { navController.navigateToLanguageSettings() },
                 onClearDetectionClick = {
                     openDialog = true
                     withPassword = false
-                    warningText = "RESET DETECTION\nHISTORY?"
+                    warningText = clearDetectionWarning
                     onClickConfirm = {
                         dataAndStorageViewModel.deleteDetectionHistory()
                         openDialog = false
@@ -106,7 +111,7 @@ fun FarmerSettings(
                 onDeleteAccountClick = {
                     openDialog = true
                     withPassword = true
-                    warningText = "DELETE YOUR\nACCOUNT?"
+                    warningText = deleteAccountWarning
                     onClickConfirm = {
                         viewModel.onEvent(FarmerSettingsEvent.OnClickDeleteAccount)
                     }
@@ -114,7 +119,7 @@ fun FarmerSettings(
                 onLogoutClick = {
                     openDialog = true
                     withPassword = true
-                    warningText = "LOG OUT?"
+                    warningText = logoutWarning
                     onClickConfirm = {
                         viewModel.onEvent(FarmerSettingsEvent.OnClickLogout)
                     }

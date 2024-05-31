@@ -35,6 +35,7 @@ import com.example.hapi.presentation.auth.common.NavHeader
 import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
 import com.example.hapi.presentation.home.loading.Loading
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.toCompressedByteArray
@@ -45,12 +46,14 @@ import kotlinx.coroutines.launch
 fun ImageSelection(
     navController: NavController,
     crop: Crop,
-    viewModel: ImageSelectionViewModel = hiltViewModel()
+    viewModel: ImageSelectionViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
     val isLoading = viewModel.loading.collectAsState().value
     val errorMsg = viewModel.errorMsg.collectAsState().value
     val detectionId = viewModel.detectionId.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     val context = LocalContext.current
 
@@ -116,7 +119,8 @@ fun ImageSelection(
                     top.linkTo(parent.top)
                 },
             topText = stringResource(id = R.string.disease),
-            downText = stringResource(id = R.string.detection)
+            downText = stringResource(id = R.string.detection),
+            imageId = if(isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.popBackStack()
         }

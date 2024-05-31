@@ -27,6 +27,7 @@ import com.example.hapi.presentation.settings.data.dataAndStorageRoute
 import com.example.hapi.presentation.settings.farmer.farmerSettingsRoute
 import com.example.hapi.presentation.settings.landfarmers.farmersRoute
 import com.example.hapi.presentation.settings.landowner.landownerSettingsRoute
+import com.example.hapi.presentation.settings.language.languageSettingsRoute
 import com.example.hapi.presentation.settings.support.helpAndSupportRoute
 import com.example.hapi.presentation.splash.splashOneRoute
 
@@ -62,5 +63,6 @@ fun NavGraph(navController: NavHostController) {
         aboutUsRoute(navController)
         farmerSettingsRoute(navController)
         cropSelectionRoute(navController)
+        languageSettingsRoute(navController)
     }
 }

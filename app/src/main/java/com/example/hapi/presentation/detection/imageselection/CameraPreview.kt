@@ -68,7 +68,7 @@ fun CropDetectionText(
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = getCropIcon(crop)),
+                painter = painterResource(id = getCropIcon(crop.name)),
                 contentDescription = "crop icon",
                 modifier = Modifier
                     .size(26.dp)

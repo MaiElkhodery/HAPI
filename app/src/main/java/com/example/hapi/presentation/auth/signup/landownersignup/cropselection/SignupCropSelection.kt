@@ -22,6 +22,7 @@ import com.example.hapi.presentation.auth.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
@@ -71,7 +72,7 @@ fun SignupCropSelection(
             }
         )
 
-        SignupCropSelectionContent(
+        CropCollection(
             modifier = Modifier
                 .constrainAs(content) {
                     top.linkTo(title.bottom)

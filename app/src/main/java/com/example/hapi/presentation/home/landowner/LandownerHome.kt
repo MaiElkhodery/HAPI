@@ -42,8 +42,6 @@ fun LandownerHome(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.getCrop()
-        viewModel.getUsername()
         isNetworkConnected = isNetworkConnected()
         if (isNetworkConnected()) {
             viewModel.fetchDetectionHistory()

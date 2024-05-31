@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
+import com.example.hapi.domain.usecase.detection.FetchDetectionHistoryUseCase
 import com.example.hapi.domain.usecase.detection.GetLastDetectionUseCase
 import com.example.hapi.domain.usecase.land.FetchLandHistoryUseCase
-import com.example.hapi.domain.usecase.detection.FetchDetectionHistoryUseCase
+import com.example.hapi.domain.usecase.land.GetLastLandHistoryItemUseCase
 import com.example.hapi.domain.usecase.landowner.FetchTanksDataUseCase
 import com.example.hapi.domain.usecase.landowner.GetLastFarmerUseCase
-import com.example.hapi.domain.usecase.land.GetLastLandHistoryItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -160,8 +160,8 @@ class LandownerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
-                        _waterLevel.value = userDataPreference.getWaterLevel()!!.toInt()
-                        _npk.value = userDataPreference.getNPK() ?: ""
+                        _waterLevel.value = userDataPreference.getWaterLevel().toInt()
+                        _npk.value = userDataPreference.getNPK()
                     }
                 }
             }
@@ -192,7 +192,7 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    fun getUsername() {
+    private fun getUsername() {
         viewModelScope.launch {
             _username.value = userDataPreference.getUsername()
         }
@@ -201,17 +201,16 @@ class LandownerHomeViewModel @Inject constructor(
 
     fun getTanksData() {
         viewModelScope.launch {
-            val water_level = userDataPreference.getWaterLevel() ?: "0"
+            val water_level = userDataPreference.getWaterLevel()
             _waterLevel.value = water_level.toInt()
-            _npk.value = userDataPreference.getNPK() ?: "0 - 0 - 0"
+            _npk.value = userDataPreference.getNPK()
         }
     }
 
 
-    fun getCrop() {
+    private fun getCrop() {
         viewModelScope.launch {
-            Log.d("LANDOWNER HOME", "CROP Preference: ${userDataPreference.getCrop()}")
-            _crop.value = userDataPreference.getCrop()
+            _crop.value = userDataPreference.getCrop().uppercase()
         }
     }
 
@@ -240,5 +239,11 @@ class LandownerHomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    init {
+        getCrop()
+        getUsername()
+        Log.d("CROP",_crop.value)
     }
 }

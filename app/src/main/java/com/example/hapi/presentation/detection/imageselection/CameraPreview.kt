@@ -19,13 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.LifecycleOwner
 import com.example.hapi.R
 import com.example.hapi.presentation.home.common.CameraIcon
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
@@ -46,7 +46,7 @@ fun CameraPreview(
         CameraBox(
             cameraController = cameraController,
             lifecycleOwner = lifecycleOwner
-        ){
+        ) {
             onCaptureClick()
         }
     }
@@ -56,6 +56,7 @@ fun CameraPreview(
 fun CropDetectionText(
     crop: Crop
 ) {
+    val cropName = stringResource(id = getCropName(crop = crop.name))
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,13 +69,13 @@ fun CropDetectionText(
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = getCropIcon(crop.name)),
+                painter = painterResource(id = getCropIcon(cropName)),
                 contentDescription = "crop icon",
                 modifier = Modifier
                     .size(26.dp)
                     .padding(end = 6.dp)
             )
-            YellowBoldText(text = crop.name, size = 16)
+            YellowBoldText(text = cropName, size = 16)
         }
     }
 }
@@ -86,7 +87,9 @@ fun CameraBox(
     onCaptureClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier.padding(top = 12.dp).fillMaxSize()
+        modifier = Modifier
+            .padding(top = 12.dp)
+            .fillMaxSize()
     ) {
         Box(
             modifier = Modifier
@@ -95,7 +98,8 @@ fun CameraBox(
                     width = 3.dp,
                     color = YellowAppColor,
                     shape = RoundedCornerShape(16.dp)
-                ).fillMaxSize()
+                )
+                .fillMaxSize()
         ) {
             AndroidView(
                 factory = { context ->
@@ -104,7 +108,9 @@ fun CameraBox(
                         cameraController.bindToLifecycle(lifecycleOwner)
                     }
                 },
-                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(16.dp))
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp))
             )
         }
         CameraIcon(
@@ -114,10 +120,4 @@ fun CameraBox(
             onCaptureClick()
         }
     }
-}
-
-@Preview
-@Composable
-private fun CameraBoxPreview() {
-
 }

@@ -2,7 +2,10 @@ package com.example.hapi.presentation.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,97 +16,87 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signin.navToSignin
-import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.detection.guest_cropselection.navigateToGuestCropSelection
+import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-
-    ConstraintLayout(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
     ) {
+        val screenWidth = maxWidth
+        val screenHeight = maxHeight
 
-        val topGuideLine = createGuidelineFromTop(Dimens.bottom_guideline_sign)
-        val (welcomeImage, guestRow, signup, signin, cropImage) = createRefs()
+        val verticalPadding = if (screenHeight < 600.dp) 33.dp else 44.dp
+        val horizontalPadding = if (screenWidth < 360.dp) 16.dp else 44.dp
+        val contentMargin = if (screenHeight < 600.dp) 8.dp else Dimens.content_margin
 
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(welcomeImage) {
-                    top.linkTo(topGuideLine)
-                    bottom.linkTo(signup.top)
-                },
-            contentAlignment = Alignment.Center
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+
             Image(
+                modifier = Modifier
+                    .padding(top = verticalPadding)
+                    .weight(1f, fill = false),
                 painter = painterResource(id = R.drawable.welcom_to_hapi),
                 contentDescription = null
             )
-        }
 
-        WelcomeScreenContent(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 44.dp)
-                .constrainAs(signup) {
-                    top.linkTo(welcomeImage.bottom, margin = Dimens.content_margin)
-                    bottom.linkTo(signin.top)
-                },
-            text = stringResource(id = R.string.first_time),
-            buttonText = stringResource(id = R.string.signup)
-        ) {
-            navController.navToProgress("false")
-        }
-        WelcomeScreenContent(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 44.dp)
-                .constrainAs(signin) {
-                    top.linkTo(signup.bottom, margin = Dimens.content_margin)
-                    bottom.linkTo(guestRow.top, margin = Dimens.content_margin)
-                },
-            text = stringResource(id = R.string.have_account),
-            buttonText = stringResource(id = R.string.signin)
-        ) {
-            navController.navToSignin()
-        }
+            WelcomeScreenContent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = contentMargin),
+                text = stringResource(id = R.string.first_time),
+                buttonText = stringResource(id = R.string.signup)
+            ) {
+                navController.navToProgress("false")
+            }
 
-        ORTextRow(
-            modifier = Modifier
-                .constrainAs(guestRow) {
-                    bottom.linkTo(cropImage.top, margin = 5.dp)
-                },
-            text = stringResource(id = R.string.detect_now)
-        ) {
-            navController.navigateToGuestCropSelection()
-        }
+            WelcomeScreenContent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = contentMargin),
+                text = stringResource(id = R.string.have_account),
+                buttonText = stringResource(id = R.string.signin)
+            ) {
+                navController.navToSignin()
+            }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(cropImage) {
-                    bottom.linkTo(parent.bottom)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.main_crop),
-                contentDescription = null
-            )
+            ORTextRow(
+                modifier = Modifier
+                    .padding(top = contentMargin, bottom = contentMargin),
+                text = stringResource(id = R.string.detect_now)
+            ) {
+                navController.navigateToGuestCropSelection()
+            }
+
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Image(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    painter = painterResource(id = R.drawable.main_crop),
+                    contentDescription = null
+                )
+            }
         }
 
     }
-
 }
 
 

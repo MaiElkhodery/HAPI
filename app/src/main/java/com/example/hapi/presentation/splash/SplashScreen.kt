@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.splash
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,8 +60,6 @@ fun Splash(
         }
     }
 
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -99,14 +96,11 @@ fun Splash(
         }
     }
     if (state == 5) {
-        Log.d("SPLASH", "role: ${role}, token: ${token}, isCropSelected: ${isCropSelected}")
         if (token != null) {
             if (role == LANDOWNER) {
                 if (isCropSelected) {
-                    Log.d("SPLASH", "Navigate to landowner home")
                     navController.navigateToMainScreen(role)
                 } else {
-                    Log.d("SPLASH", "Navigate to crop selection")
                     navController.navigateToCropSelectionStrategy()
                 }
             } else {

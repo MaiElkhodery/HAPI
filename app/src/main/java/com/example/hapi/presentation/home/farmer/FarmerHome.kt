@@ -19,12 +19,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.home.common.NotFoundWarning
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.home.common.HomeNotFoundWarning
 import com.example.hapi.presentation.home.common.FarmerLastDetection
 import com.example.hapi.presentation.home.common.HorizontalHistoryCard
-import com.example.hapi.presentation.home.detectiondetails.navigateToDetectionDetails
-import com.example.hapi.presentation.home.detectionhistory.navigateToDetectionHistory
+import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
+import com.example.hapi.presentation.home.detectionhistory.ui.navigateToDetectionHistory
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.isNetworkConnected
@@ -82,7 +82,7 @@ fun FarmerHome(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (detectionDate.isBlank()) {
-                NotFoundWarning(
+                HomeNotFoundWarning(
                     warning = stringResource(id = R.string.no_detection),
                     warningDetails = stringResource(id = R.string.no_detection_details)
                 )

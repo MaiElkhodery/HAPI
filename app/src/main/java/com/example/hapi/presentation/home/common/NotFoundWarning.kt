@@ -25,7 +25,7 @@ import com.example.hapi.util.DarkGreenExtraBoldText
 import com.example.hapi.util.YellowExtraBoldText
 
 @Composable
-fun NotFoundWarning(
+fun HomeNotFoundWarning(
     modifier: Modifier = Modifier,
     warning: String,
     warningDetails: String,

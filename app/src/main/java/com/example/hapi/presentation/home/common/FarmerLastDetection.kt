@@ -17,7 +17,6 @@ fun FarmerLastDetection(
     username: String,
     date: String,
     time: String,
-    byteArray: ByteArray? = null,
     imageUrl: String = "",
     onClick: () -> Unit
 ) {

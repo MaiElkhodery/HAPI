@@ -18,11 +18,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.ConfirmButton
-import com.example.hapi.presentation.auth.common.LabeledInputField
-import com.example.hapi.presentation.auth.common.Logo
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.common.WarningBox
+import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.SignLabeledInputFields
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
@@ -86,7 +86,7 @@ fun LandownerSignup(
             verticalArrangement = Arrangement.Center
         ) {
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
             ) { phoneNumber ->
@@ -95,7 +95,7 @@ fun LandownerSignup(
 
             WarningBox(warningText = phoneNumberError)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.user_name),
                 content = viewModel.username
             ) { username ->
@@ -104,7 +104,7 @@ fun LandownerSignup(
 
             WarningBox(warningText = usernameError)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.password),
                 content = viewModel.password
             ) { password ->

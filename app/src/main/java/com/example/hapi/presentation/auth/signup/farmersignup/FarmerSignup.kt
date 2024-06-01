@@ -18,11 +18,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.ConfirmButton
-import com.example.hapi.presentation.auth.common.LabeledInputField
-import com.example.hapi.presentation.auth.common.Logo
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.common.WarningBox
+import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.SignLabeledInputFields
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.WarningBox
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
@@ -87,7 +87,7 @@ fun FarmerSignup(
             verticalArrangement = Arrangement.Center
         ) {
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.phone_number),
                 content = authViewModel.phoneNumber
             ) { phoneNumber ->
@@ -96,7 +96,7 @@ fun FarmerSignup(
 
             WarningBox(warningText = phoneNumberError)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.user_name),
                 content = authViewModel.username
             ) { username ->
@@ -105,7 +105,7 @@ fun FarmerSignup(
 
             WarningBox(warningText = usernameError)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.password),
                 content = authViewModel.password
             ) { password ->
@@ -114,7 +114,7 @@ fun FarmerSignup(
 
             WarningBox(warningText = passwordError)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.farm_id),
                 content = authViewModel.landId
             ) { farmId ->

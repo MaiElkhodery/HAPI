@@ -20,9 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.Logo
+import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
-import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
+import com.example.hapi.presentation.home.landowner.ui.navigateToLandownerHome
 import com.example.hapi.presentation.identityselection.Crops
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.main.MainViewModel

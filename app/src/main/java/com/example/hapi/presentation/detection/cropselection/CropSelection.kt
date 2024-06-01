@@ -13,8 +13,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.common.Title
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.detection.imageselection.navigateToImageSelection
 import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.main.MainViewModel

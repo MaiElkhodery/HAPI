@@ -16,9 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.Logo
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.common.Title
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow

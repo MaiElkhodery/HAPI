@@ -116,4 +116,5 @@
     <string name="irrigation">ري</string>
     <string name="fertilization">تسميد</string>
     <string name="no_of_farmers">عدد المزارعين : </string>
+    <string name="confidence">ثقة</string>
 </resources>

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,17 +19,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.ConfirmButton
-import com.example.hapi.presentation.auth.common.LabeledInputField
-import com.example.hapi.presentation.auth.common.Logo
-import com.example.hapi.presentation.auth.common.NavHeader
-import com.example.hapi.presentation.auth.common.WarningBox
+import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.SignLabeledInputFields
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.WarningBox
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
-import com.example.hapi.presentation.home.landowner.navigateToLandownerHome
+import com.example.hapi.presentation.home.landowner.ui.navigateToLandownerHome
 import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.Tab
@@ -39,12 +39,14 @@ import com.example.hapi.util.Tab
 fun Signin(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
-    signinViewModel: AuthViewModel = hiltViewModel()
+    signinViewModel: AuthViewModel = hiltViewModel(),
+    languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
     val errorMsg = signinViewModel.errorMsg.collectAsState().value
     val authenticated = signinViewModel.authenticated.collectAsState().value
     val isLandowner = signinViewModel.isLandowner.collectAsState().value
+    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -60,7 +62,7 @@ fun Signin(
         Logo(
             modifier = Modifier
                 .fillMaxWidth()
-                .size(70.dp)
+                .size(80.dp)
                 .constrainAs(logo) {
                     top.linkTo(topGuideLine)
                     bottom.linkTo(header.top)
@@ -73,6 +75,8 @@ fun Signin(
             },
             topText = stringResource(id = R.string.sign),
             downText = stringResource(id = R.string._in),
+            imageId = if(isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
+            imageSize = 80
         ) {
             navController.popBackStack()
         }
@@ -89,7 +93,7 @@ fun Signin(
 
             WarningBox(warningText = errorMsg)
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.phone_number),
                 content = signinViewModel.phoneNumber
             ) { phone_number ->
@@ -97,7 +101,7 @@ fun Signin(
             }
             Spacer(modifier = Modifier.padding(12.dp))
 
-            LabeledInputField(
+            SignLabeledInputFields(
                 title = stringResource(id = R.string.password),
                 content = signinViewModel.password
             ) { password ->

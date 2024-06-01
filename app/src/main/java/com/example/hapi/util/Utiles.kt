@@ -111,28 +111,28 @@ fun crossFadeAnimation(
 ): TweenSpec<Float> {
     return when (state) {
         0 -> tween(
-            durationMillis = 400, // Shorter duration for faster transition
-            easing = LinearOutSlowInEasing // Different easing for variety
+            durationMillis = 400,
+            easing = LinearOutSlowInEasing
         )
 
         1 -> tween(
-            durationMillis = 600, // Slightly longer duration
-            easing = FastOutSlowInEasing // Standard easing
+            durationMillis = 600,
+            easing = FastOutSlowInEasing
         )
 
         2 -> tween(
-            durationMillis = 600, // Same duration as state 1
-            easing = FastOutSlowInEasing // Standard easing
+            durationMillis = 600,
+            easing = FastOutSlowInEasing
         )
 
         3 -> tween(
-            durationMillis = 400, // Shorter duration for faster transition
-            easing = LinearOutSlowInEasing // Different easing for variety
+            durationMillis = 400,
+            easing = LinearOutSlowInEasing
         )
 
         else -> tween(
-            durationMillis = 500, // Default duration
-            easing = FastOutSlowInEasing // Default easing
+            durationMillis = 500,
+            easing = FastOutSlowInEasing
         )
     }
 }

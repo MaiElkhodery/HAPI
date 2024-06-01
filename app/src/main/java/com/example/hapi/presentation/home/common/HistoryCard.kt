@@ -24,7 +24,7 @@ import com.example.hapi.util.DarkGreenBlackText
 
 @Composable
 fun VerticalHistoryCard(
-    type: String,
+    isLand: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -50,7 +50,7 @@ fun VerticalHistoryCard(
                     .padding(top = 3.dp)
                     .size(55.dp),
                 painter = painterResource(
-                    id = if (type == "land") {
+                    id = if (isLand) {
                         R.drawable.land_history
                     } else {
                         R.drawable.disease_history
@@ -60,7 +60,7 @@ fun VerticalHistoryCard(
             )
             DarkGreenBlackText(
                 size = 15,
-                text = if (type == "land") stringResource(id = R.string.land_history)
+                text = if (isLand) stringResource(id = R.string.land_history)
                 else stringResource(id = R.string.disease_history),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -114,7 +114,7 @@ fun HorizontalHistoryCard(
 @Composable
 fun HistoryCardPreview() {
     VerticalHistoryCard(
-        type = "land",
+        isLand = true,
         onClick = {}
     )
     HorizontalHistoryCard(

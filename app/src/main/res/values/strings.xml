@@ -115,5 +115,6 @@
     <string name="irrigation">IRRIGATION</string>
     <string name="fertilization">FERTILIZATION</string>
     <string name="no_of_farmers">NUMBER OF FARMERS :</string>
+    <string name="confidence">CONFIDENCE</string>
 
 </resources>

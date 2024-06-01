@@ -21,7 +21,7 @@ import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun FinalSelectedCropContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     crop: String,
     onClick: () -> Unit
 ) {

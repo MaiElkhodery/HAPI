@@ -16,12 +16,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.common.Logo
-import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.navigateToFinalSelectedCrop
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
-import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.LotusRow
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor

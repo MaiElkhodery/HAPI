@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.auth.signup.landownersignup.signup
+package com.example.hapi.presentation.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,7 @@ import com.example.hapi.R
 @Composable
 fun LotusRow(
     highlightedLotusPos: Short,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),

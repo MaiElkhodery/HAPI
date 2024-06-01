@@ -27,7 +27,7 @@ import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
 fun CropSelectionStrategyContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onClickRecommendation: () -> Unit,
     onClickHaveCrop: () -> Unit
 ) {

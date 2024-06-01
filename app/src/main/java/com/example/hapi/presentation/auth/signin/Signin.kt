@@ -19,14 +19,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
-import com.example.hapi.presentation.common.ConfirmButton
-import com.example.hapi.presentation.common.SignLabeledInputFields
-import com.example.hapi.presentation.common.Logo
-import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.WarningBox
-import com.example.hapi.presentation.auth.signup.landownersignup.signup.LotusRow
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.LotusRow
+import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.common.SignLabeledInputFields
+import com.example.hapi.presentation.common.WarningBox
 import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
 import com.example.hapi.presentation.home.landowner.ui.navigateToLandownerHome
 import com.example.hapi.presentation.main.MainViewModel
@@ -75,7 +75,7 @@ fun Signin(
             },
             topText = stringResource(id = R.string.sign),
             downText = stringResource(id = R.string._in),
-            imageId = if(isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
             imageSize = 80
         ) {
             navController.popBackStack()

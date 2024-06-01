@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.dp
 object Dimens {
     val header_margin = 26.dp
     val title_bottom_margin = 26.dp
-    val content_margin = 30.dp
+    val content_margin = 24.dp
     val home_box_height = 155.dp
     val small_horizontal_padding = 16.dp
 

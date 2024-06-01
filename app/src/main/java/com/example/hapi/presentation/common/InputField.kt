@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
@@ -48,6 +51,7 @@ import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.Locale
 
 @Composable
 fun SignLabeledInputFields(
@@ -145,89 +149,96 @@ private fun InputField(
     var trailingIconColor by remember {
         mutableStateOf(GreenAppColor)
     }
+    val currentLocale = Locale.getDefault()
+    val layoutDirection =
+        if (currentLocale.isO3Language == "ar") LayoutDirection.Rtl else LayoutDirection.Ltr
+    val textAlign = if (layoutDirection == LayoutDirection.Rtl) TextAlign.End else TextAlign.Start
 
-
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(6.dp))
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .background(backgroundColor),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+    CompositionLocalProvider(
+        LocalLayoutDirection provides layoutDirection,
     ) {
-        if (!onFocus.value) {
-            Icon(
-                modifier = Modifier
-                    .weight(0.11f)
-                    .size(33.dp)
-                    .padding(start = 12.dp),
-                painter = painterResource(id = imageId),
-                contentDescription = null,
-                tint = GreenAppColor
-            )
-
-        }
-
-        val visualTransformation = if (isPasswordField) {
-            if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
-        } else VisualTransformation.None
-
-        OutlinedTextField(
+        Row(
             modifier = Modifier
+                .clip(RoundedCornerShape(6.dp))
                 .fillMaxWidth()
-                .height(51.dp)
-                .background(backgroundColor)
-                .weight(1f)
-                .wrapContentHeight(Alignment.CenterVertically)
-                .border(width = 4.dp, color = YellowAppColor)
-                .onFocusChanged {
-                    onFocus.value = it.isFocused
-                    backgroundColor = if (it.isFocused) GreenAppColor else YellowAppColor
-                    textColor = if (it.isFocused) YellowAppColor else GreenAppColor
-                    trailingIconColor = if (it.isFocused) YellowAppColor else GreenAppColor
+                .height(IntrinsicSize.Min)
+                .background(backgroundColor),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            if (!onFocus.value) {
+                Icon(
+                    modifier = Modifier
+                        .weight(0.11f)
+                        .size(33.dp)
+                        .padding(start = 12.dp),
+                    painter = painterResource(id = imageId),
+                    contentDescription = null,
+                    tint = GreenAppColor
+                )
+
+            }
+
+            val visualTransformation = if (isPasswordField) {
+                if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+            } else VisualTransformation.None
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(51.dp)
+                    .background(backgroundColor)
+                    .weight(1f)
+                    .wrapContentHeight(Alignment.CenterVertically)
+                    .border(width = 4.dp, color = YellowAppColor)
+                    .onFocusChanged {
+                        onFocus.value = it.isFocused
+                        backgroundColor = if (it.isFocused) GreenAppColor else YellowAppColor
+                        textColor = if (it.isFocused) YellowAppColor else GreenAppColor
+                        trailingIconColor = if (it.isFocused) YellowAppColor else GreenAppColor
+                    },
+                maxLines = 1,
+                value = text.value,
+                onValueChange = {
+                    onChangeText(it)
                 },
-            maxLines = 1,
-            value = text.value,
-            onValueChange = {
-                onChangeText(it)
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = YellowAppColor,
-                unfocusedBorderColor = YellowAppColor,
-                focusedTextColor = YellowAppColor,
-                unfocusedTextColor = GreenAppColor
-            ),
-            textStyle = TextStyle(
-                color = textColor,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.poppins_black
-                    )
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = YellowAppColor,
+                    unfocusedBorderColor = YellowAppColor,
+                    focusedTextColor = YellowAppColor,
+                    unfocusedTextColor = GreenAppColor
                 ),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start,
-                lineHeight = 10.sp
-            ),
-            visualTransformation = visualTransformation,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = if (isPasswordField) KeyboardType.Password
-                else KeyboardType.Text
-            ),
-            trailingIcon = {
-                if (isPasswordField) {
-                    val image =
-                        if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            imageVector = image,
-                            contentDescription = null,
-                            tint = trailingIconColor
+                textStyle = TextStyle(
+                    color = textColor,
+                    fontFamily = FontFamily(
+                        Font(
+                            R.font.poppins_black
                         )
+                    ),
+                    fontSize = 14.sp,
+                    lineHeight = 10.sp,
+                    textAlign = textAlign
+                ),
+                visualTransformation = visualTransformation,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = if (isPasswordField) KeyboardType.Password
+                    else KeyboardType.Text
+                ),
+                trailingIcon = {
+                    if (isPasswordField) {
+                        val image =
+                            if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                imageVector = image,
+                                contentDescription = null,
+                                tint = trailingIconColor
+                            )
+                        }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
 

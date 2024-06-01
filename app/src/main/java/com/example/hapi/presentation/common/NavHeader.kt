@@ -26,7 +26,7 @@ import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun NavHeader(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     topText: String,
     downText: String,
     imageId: Int = R.drawable.back_btn,

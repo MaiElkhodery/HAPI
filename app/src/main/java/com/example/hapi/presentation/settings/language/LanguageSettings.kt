@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.settings.language
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +33,7 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 
 @Composable
@@ -40,7 +43,9 @@ fun LanguageSettings(
     navController: NavController
 
 ) {
-    val isEnglishIsSelected = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglishIsSelected = languageViewModel.appLanguage.collectAsState().value == ENGLISH
+    val context = LocalContext.current
+    val activity = (context as? Activity)
 
     LaunchedEffect(isEnglishIsSelected) {
         languageViewModel.getLanguage()
@@ -62,8 +67,8 @@ fun LanguageSettings(
                 .constrainAs(navHeader) {
                     top.linkTo(topGuideLine)
                 },
-            topText = stringResource(id = if(isEnglishIsSelected) R.string.language else R.string.settings),
-            downText = stringResource(id = if(isEnglishIsSelected) R.string.settings else R.string.language),
+            topText = stringResource(id = if (isEnglishIsSelected) R.string.language else R.string.settings),
+            downText = stringResource(id = if (isEnglishIsSelected) R.string.settings else R.string.language),
             imageId = if (isEnglishIsSelected) R.drawable.settings_back_btn
             else R.drawable.settings_back_btn_ar,
             imageSize = 80
@@ -94,7 +99,9 @@ fun LanguageSettings(
                     modifier = Modifier.size(130.dp)
                 )
             }
+
             Spacer(modifier = Modifier.height(24.dp))
+
             LanguageOption(
                 isSelected = isEnglishIsSelected,
                 textId = R.string.english,
@@ -102,7 +109,9 @@ fun LanguageSettings(
                 unselectedColor = DarkGreenAppColor,
                 selectedFontSize = 24,
                 unselectedFontSize = 20
-            )
+            ) {
+                languageViewModel.onEvent(LanguageEvent.SetLanguageToEnglish)
+            }
 
             LanguageOption(
                 isSelected = !isEnglishIsSelected,
@@ -111,7 +120,9 @@ fun LanguageSettings(
                 unselectedColor = DarkGreenAppColor,
                 selectedFontSize = 24,
                 unselectedFontSize = 20
-            )
+            ) {
+                languageViewModel.onEvent(LanguageEvent.SetLanguageToArabic)
+            }
 
         }
     }

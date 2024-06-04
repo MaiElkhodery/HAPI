@@ -28,6 +28,7 @@ import com.example.hapi.presentation.home.landhistory.viewmodel.LandHistoryViewM
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.LandAction
 import com.example.hapi.util.LandHistoryFilter
 import com.example.hapi.util.Tab
@@ -41,7 +42,7 @@ fun LandHistory(
     landHistoryViewmodel: LandHistoryViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }

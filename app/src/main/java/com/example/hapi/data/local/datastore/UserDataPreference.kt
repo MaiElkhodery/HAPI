@@ -73,9 +73,9 @@ class UserDataPreference @Inject constructor(
         }
     }
 
-    suspend fun setLanguage(isEnglish: Boolean) {
+    suspend fun setLanguage(language: String) {
         dataStore.edit { pref ->
-            pref[LANGUAGE_KEY] = setOf(isEnglish.toString())
+            pref[LANGUAGE_KEY] = setOf(language)
         }
     }
 
@@ -125,8 +125,8 @@ class UserDataPreference @Inject constructor(
         return preferences[NPK_KEY]?.first() ?: "0 - 0 - 0"
     }
 
-    suspend fun getLanguage(): Boolean {
+    suspend fun getLanguage(): String? {
         val preferences = dataStore.data.first()
-        return preferences[LANGUAGE_KEY]?.first()?.toBoolean() ?: true
+        return preferences[LANGUAGE_KEY]?.first()
     }
 }

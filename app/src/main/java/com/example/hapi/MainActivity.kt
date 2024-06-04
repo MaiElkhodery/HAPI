@@ -3,10 +3,12 @@ package com.example.hapi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +17,7 @@ import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.presentation.navigation.NavGraph
 import com.example.hapi.ui.theme.HapiTheme
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.LocaleHelper
 import com.example.hapi.util.SetStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,9 +30,19 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var datastore: UserDataPreference
 
+    @Inject
+    lateinit var localeHelper: LocaleHelper
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            setLanguage()
+            Log.d("LANGUAGE", "change app language to ${datastore.getLanguage()}")
+            Log.d("LANGUAGE", "change app locale to ${Locale.getISOLanguages()}")
+        }
+
         setContent {
             if (!hasRequiredPermissions()) {
                 ActivityCompat.requestPermissions(
@@ -39,17 +52,14 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            lifecycleScope.launch {
-                val deviceLanguage = Locale.getDefault().language
-                val isEnglish = deviceLanguage == "en"
-                datastore.setLanguage(isEnglish)
-            }
+            CompositionLocalProvider{
 
-            HapiTheme {
-                SetStatusBarColor(color = YellowAppColor)
-                val navController = rememberNavController()
-                Box {
-                    NavGraph(navController = navController)
+                HapiTheme {
+                    SetStatusBarColor(color = YellowAppColor)
+                    val navController = rememberNavController()
+                    Box {
+                        NavGraph(navController = navController)
+                    }
                 }
             }
         }
@@ -72,4 +82,11 @@ class MainActivity : ComponentActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         }
     }
+
+    private suspend fun setLanguage() {
+        val defaultLanguage = datastore.getLanguage() ?: Locale.getDefault().language
+        datastore.setLanguage(defaultLanguage!!)
+        localeHelper.setLocale(defaultLanguage)
+    }
+
 }

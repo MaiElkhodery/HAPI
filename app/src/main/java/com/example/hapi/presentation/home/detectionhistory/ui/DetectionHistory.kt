@@ -30,6 +30,7 @@ import com.example.hapi.presentation.home.detectionhistory.viewmodel.DetectionHi
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
@@ -41,7 +42,7 @@ fun DetectionHistory(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }

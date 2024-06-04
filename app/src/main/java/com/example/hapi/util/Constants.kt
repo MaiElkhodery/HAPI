@@ -21,3 +21,6 @@ const val FARMER = "farmer"
 const val FQA_LINK = "https://www.google.com"
 const val PHONE_NUMBER = "01028360746"
 const val ABOUT_US_LINK = "https://www.google.com"
+
+const val ARABIC = "ar"
+const val ENGLISH = "en"

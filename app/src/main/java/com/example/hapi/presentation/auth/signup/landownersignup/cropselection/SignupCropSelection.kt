@@ -29,6 +29,7 @@ import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun SignupCropSelection(
@@ -36,7 +37,7 @@ fun SignupCropSelection(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     BoxWithConstraints(
         modifier = Modifier

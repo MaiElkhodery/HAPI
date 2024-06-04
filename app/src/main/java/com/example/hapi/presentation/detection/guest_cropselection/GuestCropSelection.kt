@@ -20,6 +20,7 @@ import com.example.hapi.presentation.detection.imageselection.navigateToImageSel
 import com.example.hapi.presentation.home.common.CropCollection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun GuestCropSelection(
@@ -27,7 +28,7 @@ fun GuestCropSelection(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     ConstraintLayout(
         modifier = Modifier

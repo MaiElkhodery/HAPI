@@ -48,6 +48,7 @@ import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.YellowBlackText
 import com.example.hapi.util.toBitmap
 
@@ -59,7 +60,7 @@ fun DetectionDetails(
     id: Int,
     isCurrentDetection: Boolean
 ) {
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
     LaunchedEffect(true, isEnglish) {
         if (!isCurrentDetection) {
             detectionDetailsViewModel.getRemoteDetectionDetailsById(id)

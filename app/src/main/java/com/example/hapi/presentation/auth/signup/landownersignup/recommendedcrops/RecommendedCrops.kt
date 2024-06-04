@@ -30,6 +30,7 @@ import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun RecommendedCrops(
@@ -39,7 +40,7 @@ fun RecommendedCrops(
 ) {
 
     val topRecommendedCropsList = crops.split(",").map { Crop.valueOf(it) }
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     BoxWithConstraints(
         modifier = Modifier

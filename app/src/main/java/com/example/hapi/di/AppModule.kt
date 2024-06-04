@@ -1,5 +1,6 @@
 package com.example.hapi.di
 
+import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -30,5 +31,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserDataPreference(dataStore: DataStore<Preferences>) = UserDataPreference(dataStore)
+
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context = application.applicationContext
 
 }

@@ -30,6 +30,7 @@ import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun FarmerSignup(
@@ -43,7 +44,7 @@ fun FarmerSignup(
     val passwordError = authViewModel.passwordError.collectAsState().value
     val farmIdError = authViewModel.landIdError.collectAsState().value
     val authenticated = authViewModel.authenticated.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     ConstraintLayout(
         modifier = Modifier

@@ -26,6 +26,7 @@ import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun FinalSelectedCrop(
@@ -35,7 +36,7 @@ fun FinalSelectedCrop(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val error = viewModel.errorMsg.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     LaunchedEffect(error) {
         if (error.isNotEmpty()) {

@@ -33,6 +33,7 @@ import com.example.hapi.presentation.common.WarningBox
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun LandownerSignup(
@@ -45,7 +46,7 @@ fun LandownerSignup(
     val usernameError = viewModel.usernameError.collectAsState().value
     val passwordError = viewModel.passwordError.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     BoxWithConstraints(
         modifier = Modifier

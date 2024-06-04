@@ -35,6 +35,7 @@ import com.example.hapi.presentation.settings.support.ButtonWithEndIcon
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ABOUT_US_LINK
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 import com.example.hapi.util.YellowBlackText
 
@@ -45,7 +46,7 @@ fun AboutUs(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     BoxWithConstraints(
         modifier = Modifier

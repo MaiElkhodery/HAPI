@@ -33,6 +33,7 @@ import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 
 @Composable
@@ -46,7 +47,7 @@ fun Signin(
     val errorMsg = signinViewModel.errorMsg.collectAsState().value
     val authenticated = signinViewModel.authenticated.collectAsState().value
     val isLandowner = signinViewModel.isLandowner.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     ConstraintLayout(
         modifier = Modifier

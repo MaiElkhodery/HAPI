@@ -27,6 +27,7 @@ import com.example.hapi.presentation.settings.data.viewmodel.DataAndStorageViewM
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 
 @Composable
@@ -37,7 +38,7 @@ fun DataAndStorage(
     navController: NavController
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
     val isPasswordCorrect = dataAndStorageViewModel.isPasswordCorrect.collectAsState().value
 
     var warningText by remember { mutableStateOf("") }

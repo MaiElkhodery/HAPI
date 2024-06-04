@@ -21,6 +21,7 @@ import com.example.hapi.presentation.settings.farmerslist.viewmodel.FarmersListV
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 import com.example.hapi.util.isNetworkConnected
 
@@ -32,7 +33,7 @@ fun FarmersListItems(
     navController: NavController
 ) {
 
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     LaunchedEffect(key1 = Unit) {
         if (isNetworkConnected()) {

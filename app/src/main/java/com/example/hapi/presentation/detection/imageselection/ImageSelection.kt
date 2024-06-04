@@ -38,6 +38,7 @@ import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
+import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.toCompressedByteArray
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
@@ -53,7 +54,7 @@ fun ImageSelection(
     val isLoading = viewModel.loading.collectAsState().value
     val errorMsg = viewModel.errorMsg.collectAsState().value
     val detectionId = viewModel.detectionId.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     val context = LocalContext.current
 

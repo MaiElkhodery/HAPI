@@ -31,6 +31,7 @@ import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.ENGLISH
 
 @Composable
 fun CropSelectionStrategy(
@@ -41,7 +42,7 @@ fun CropSelectionStrategy(
     val isLoading = viewModel.loading.collectAsState().value
     val crops = viewModel.recommendedCrops.collectAsState().value
     val error = viewModel.errorMsg.collectAsState().value
-    val isEnglish = languageViewModel.isEnglishIsSelected.collectAsState().value
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
     LaunchedEffect(crops) {
         if (crops.isNotEmpty()) {

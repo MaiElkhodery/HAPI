@@ -14,14 +14,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.ConfirmButton
+import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.util.Crop
 import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun FinalSelectedCropContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     crop: String,
     onClick: () -> Unit
 ) {
@@ -50,7 +50,7 @@ private fun ChosenCrop(
             modifier = Modifier
                 .size(95.dp)
                 .padding(vertical = 6.dp),
-            painter = painterResource(id = getCropIcon(crop)),
+            painter = painterResource(id = getCropIcon(crop.name)),
             contentDescription = "crop image"
         )
         YellowBlackText(size = 20, text = crop.name)

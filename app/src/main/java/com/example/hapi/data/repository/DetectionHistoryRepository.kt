@@ -1,6 +1,6 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
 import com.example.hapi.data.remote.api.ApiHandler
@@ -20,19 +20,19 @@ import javax.inject.Inject
 class DetectionHistoryRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val detectionOfHistoryDao: DetectionOfHistoryDao,
+    private val userDataPreference: UserDataPreference
 ) : ApiHandler() {
-    suspend fun getAndSaveDetectionHistory(
+    suspend fun fetchDetectionHistory(
         id: Int
     ): Flow<State<Boolean>> {
         return withContext(Dispatchers.IO) {
             flow {
                 try {
-                    Log.d("DetectionHistoryRepository", "getAndSaveDetectionHistory: $id")
                     emit(State.Loading)
                     val response = detectionApiService.getDetectionHistory(id)
                     if (response.isSuccessful) {
                         if (!response.body().isNullOrEmpty()) {
-                            saveDetectionHistory(response.body()!!)
+                            cacheDetectionHistory(response.body()!!)
                         }
                         emit(State.Success(true))
                     } else {
@@ -50,21 +50,21 @@ class DetectionHistoryRepository @Inject constructor(
     }
 
 
-    suspend fun getRemoteDetectionDetailsById(
+    suspend fun getDetectionDetails(
         id: Int
     ): Flow<State<DetectionResponse>> {
 
         return withContext(Dispatchers.IO) {
             ApiHandler().makeRequest(
                 execute = {
-                    detectionApiService.getDetection(id)
+                    detectionApiService.getDetectionWithId(id)
                 }
             )
         }
     }
 
 
-    private suspend fun saveDetectionHistory(detectionHistoryList: List<DetectionHistoryResponse>) {
+    private suspend fun cacheDetectionHistory(detectionHistoryList: List<DetectionHistoryResponse>) {
 
         withContext(Dispatchers.IO) {
             detectionHistoryList.forEach { detectionHistory ->
@@ -82,17 +82,28 @@ class DetectionHistoryRepository @Inject constructor(
         }
     }
 
-    suspend fun getDetectionHistoryFromLocal(): List<DetectionOfHistory>? {
+    suspend fun getDetectionHistory(): List<DetectionOfHistory>? {
         return withContext(Dispatchers.IO) {
             detectionOfHistoryDao.getAllDetectionHistory()
         }
     }
 
-    suspend fun getNewestDetection(): DetectionOfHistory? {
+    suspend fun getLastDetection(): DetectionOfHistory? {
         return withContext(Dispatchers.IO) {
-            detectionOfHistoryDao.getNewestDetection()
+            detectionOfHistoryDao.getLastDetection()
         }
 
     }
 
+    suspend fun deleteDetectionHistory() {
+        withContext(Dispatchers.IO) {
+            detectionOfHistoryDao.deleteAll()
+        }
+    }
+
+    suspend fun getDetectionByUsername(): List<DetectionOfHistory>? {
+        return withContext(Dispatchers.IO) {
+            detectionOfHistoryDao.getDetectionByUsername(userDataPreference.getUsername())
+        }
+    }
 }

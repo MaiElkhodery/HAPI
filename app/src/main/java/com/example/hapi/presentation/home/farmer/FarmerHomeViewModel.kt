@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
-import com.example.hapi.domain.usecase.FetchLastDetectionUseCase
-import com.example.hapi.domain.usecase.GetAndSaveDetectionHistoryUseCase
-import com.example.hapi.util.isNetworkConnected
+import com.example.hapi.domain.usecase.detection.GetLastDetectionUseCase
+import com.example.hapi.domain.usecase.detection.FetchDetectionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FarmerHomeViewModel @Inject constructor(
     private val userDataPreference: UserDataPreference,
-    private val getAndSaveDetectionHistoryListUseCase: GetAndSaveDetectionHistoryUseCase,
-    private val getLastDetectionUseCase: FetchLastDetectionUseCase
+    private val fetchDetectionHistoryUseCase: FetchDetectionHistoryUseCase,
+    private val getLastDetectionUseCase: GetLastDetectionUseCase
 ) : ViewModel() {
 
     private val _username = MutableStateFlow("")
@@ -46,9 +45,9 @@ class FarmerHomeViewModel @Inject constructor(
     val loading = _loading.asStateFlow()
 
 
-    private fun getAndSaveRemoteDetectionHistory() {
+    fun getAndSaveRemoteDetectionHistory() {
         viewModelScope.launch {
-            getAndSaveDetectionHistoryListUseCase(
+            fetchDetectionHistoryUseCase(
                 userDataPreference.getLastDetectionHistoryId().toInt()
             ).collect { state ->
                 when (state) {
@@ -84,7 +83,7 @@ class FarmerHomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getLastDetectionAndSetLastId() {
+    suspend fun getSavedLastDetection() {
         viewModelScope.launch {
             getLastDetectionUseCase()?.let { detection ->
                 userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
@@ -97,18 +96,9 @@ class FarmerHomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getUsername(){
+    suspend fun getUsername() {
         viewModelScope.launch {
             _username.value = userDataPreference.getUsername()
-        }
-    }
-    init {
-        viewModelScope.launch {
-            if (isNetworkConnected()) {
-                getAndSaveRemoteDetectionHistory()
-            }
-            getLastDetectionAndSetLastId()
-            getUsername()
         }
     }
 }

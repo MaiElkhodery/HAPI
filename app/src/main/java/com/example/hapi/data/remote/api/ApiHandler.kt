@@ -1,6 +1,5 @@
 package com.example.hapi.data.remote.api
 
-import android.util.Log
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.google.gson.Gson
@@ -28,37 +27,12 @@ open class ApiHandler {
                         SignupErrorInfo::class.java
                     )
                     emit(State.Error(error))
-                    Log.d("ApiHandler", "makeRequest: $error")
                 }
             } catch (e: Exception) {
                 emit(handleException(e))
             }
         }
     }
-
-//    suspend fun <T : Any> makeRequest(
-//        execute: suspend () -> Response<T>,
-//        onSuccess: suspend (responseBody: T) -> Unit = {}
-//    ): Flow<State<Boolean>> {
-//        return flow {
-//            try {
-//                emit(State.Loading)
-//                val response = execute()
-//                if (response.isSuccessful) {
-//                    onSuccess(response.body()!!)
-//                    emit(State.Success(true))
-//                } else {
-//                    val error = Gson().fromJson(
-//                        response.errorBody()?.string(),
-//                        SignupErrorInfo::class.java
-//                    )
-//                    emit(State.Error(error))
-//                }
-//            } catch (e: Exception) {
-//                emit(handleException(e))
-//            }
-//        }
-//    }
 
 
     fun <T : Any> handleException(e: Exception): State<T> {

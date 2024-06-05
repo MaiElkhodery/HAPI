@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.presentation.auth.common.ContinueButton
+import com.example.hapi.presentation.common.ContinueButton
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
@@ -126,7 +126,7 @@ fun CropRow(
                     if (textSize == 20) 48.dp else 33.dp
                 )
                 .padding(end = 3.dp),
-            painter = painterResource(id = getCropIcon(crop)),
+            painter = painterResource(id = getCropIcon(crop.name)),
             contentDescription = "crop image"
         )
 

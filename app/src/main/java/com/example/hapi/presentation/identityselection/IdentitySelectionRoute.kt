@@ -8,7 +8,7 @@ private const val ROUTE = "identity_selection"
 fun NavGraphBuilder.identitySelectionRoute(navController: NavController) {
 
     composable(route = ROUTE) {
-        IdentitySelectionScreen(navController = navController)
+        IdentitySelection(navController = navController)
     }
 }
 

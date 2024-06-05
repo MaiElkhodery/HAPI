@@ -26,7 +26,7 @@
     <string name="other_options">OTHER SUITABLE OPTIONS.....</string>
     <string name="choose_recommedation">CHOOSE A RECOMMENDATION.....</string>
     <string name="sign">SIGNING</string>
-    <string name="_in">IN\n</string>
+    <string name="_in">IN</string>
     <string name="signin">SIGNIN</string>
     <string name="first_time">FIRST TIME USER?</string>
     <string name="signup">SIGN UP</string>
@@ -40,7 +40,7 @@
     <string name="last_action">LAST ACTION</string>
     <string name="land_history">LAND\nHISTORY</string>
     <string name="disease_history">DISEASE\nHISTORY</string>
-    <string name="n_p_k">N  :  P  :  K</string>
+    <string name="n_p_k" translatable="false">N  :  P  :  K</string>
     <string name="warning">ARE YOU SURE\nYOU WANT TO</string>
     <string name="delete_account_warning">DELETE YOUR\nACCOUNT?</string>
     <string name="confirm_password">CONFIRM YOUR PASSWORD</string>
@@ -68,4 +68,53 @@
     <string name="no_farmer_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
     <string name="welcome_home">WELCOME</string>
     <string name="disease_history_horizontal">DISEASE HISTORY</string>
+    <string name="your">YOUR</string>
+    <string name="app_settings">APP SETTINGS</string>
+    <string name="language">LANGUAGE</string>
+    <string name="list_of_farmers">LIST OF FARMERS</string>
+    <string name="data_and_storage"><![CDATA[DATA & STORAGE]]></string>
+    <string name="more">MORE</string>
+    <string name="help_and_support"><![CDATA[HELP & SUPPORT]]></string>
+    <string name="about_us">ABOUT US</string>
+    <string name="account_settings">ACCOUNT SETTINGS</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="logout">LOGOUT</string>
+    <string name="listOf">LIST OF</string>
+    <string name="farmers">FARMERS</string>
+    <string name="no_farmers_yet">NO FARMERS YET</string>
+    <string name="no_farmers_yet_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
+    <string name="clear_detcetion_history">RESET DETECTION HISTORY</string>
+    <string name="clear_land_history">RESET LAND HISTORY</string>
+    <string name="change_crop">CHANGE CROP SELECTION</string>
+    <string name="data_storage"><![CDATA[DATA & STORAGE]]></string>
+    <string name="help_and"><![CDATA[HELP &]]></string>
+    <string name="support">SUPPORT</string>
+    <string name="fqa_text">BROWSE OUR FREQUENTLY\nASKED QUESTIONS</string>
+    <string name="fqa">FAQs</string>
+    <string name="call_now_text">CALL US IF YOU NEED\nFURTHER ASSISTANCE</string>
+    <string name="call_now">CALL NOW</string>
+    <string name="about">ABOUT</string>
+    <string name="us" translatable="false">US</string>
+    <string name="about_us_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="learn_more">LEARN MORE</string>
+    <string name="all_actions">ALL ACTIONS</string>
+    <string name="your_detections">YOUR DETECTIONS</string>
+    <string name="all_detections">ALL DETECTIONS</string>
+    <string name="clear_detection">CLEAR DETECTION</string>
+    <string name="delete_your_account">DELETE YOUR\nACCOUNT?</string>
+    <string name="land_id">LAND ID</string>
+    <string name="english">ENGLISH</string>
+    <string name="arabic">عربي</string>
+    <string name="wheat">WHEAT</string>
+    <string name="cotton">COTTON</string>
+    <string name="sugarcane">SUGARCANE</string>
+    <string name="apple">APPLE</string>
+    <string name="corn">CORN</string>
+    <string name="clear_detection_history">RESET DETECTION \\n HISTORY</string>
+    <string name="change_crop_warning">THIS WILL RESET ALL LAND HISTORY</string>
+    <string name="irrigation">IRRIGATION</string>
+    <string name="fertilization">FERTILIZATION</string>
+    <string name="no_of_farmers">NUMBER OF FARMERS :</string>
+    <string name="confidence">CONFIDENCE</string>
+
 </resources>

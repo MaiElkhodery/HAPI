@@ -106,6 +106,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
 
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
 }
 kapt {
     correctErrorTypes = true

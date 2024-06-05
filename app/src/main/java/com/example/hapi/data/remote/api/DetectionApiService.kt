@@ -1,6 +1,5 @@
 package com.example.hapi.data.remote.api
 
-import com.example.hapi.data.remote.request.DetectionHistoryRequest
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.data.remote.response.DetectionResponse
 import com.example.hapi.data.remote.response.DiseaseDetectionResponse
@@ -10,7 +9,6 @@ import com.example.hapi.util.DETECTION_HISTORY
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -33,6 +31,6 @@ interface DetectionApiService {
     ): Response<List<DetectionHistoryResponse>>
 
     @GET(DETECTION_ITEM)
-    suspend fun getDetection(@Path("id") id: Int): Response<DetectionResponse>
+    suspend fun getDetectionWithId(@Path("id") id: Int): Response<DetectionResponse>
 
 }

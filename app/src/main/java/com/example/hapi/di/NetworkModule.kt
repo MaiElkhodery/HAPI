@@ -3,7 +3,7 @@ package com.example.hapi.di
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.DetectionApiService
-import com.example.hapi.data.remote.api.FarmerApiService
+import com.example.hapi.data.remote.api.LandApiService
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.util.BASE_URL
 import dagger.Module
@@ -33,7 +33,6 @@ object NetworkModule {
                     .addHeader("Accept", "application/json")
                     .apply {
                         if (token != null) addHeader("Authorization", "Bearer $token")
-//                        addHeader("Authorization", "Bearer 91|6oJyfNcBxKRwEHShCkjiwQBBa4hpcCrqRGs4MHcm596dada2")
                     }
                     .build()
                 chain.proceed(newRequest)
@@ -63,8 +62,8 @@ object NetworkModule {
     @Singleton
     fun provideApiFarmerServiceInstance(
         retrofit: Retrofit
-    ): FarmerApiService {
-        return retrofit.create(FarmerApiService::class.java)
+    ): LandApiService {
+        return retrofit.create(LandApiService::class.java)
     }
 
     @Provides

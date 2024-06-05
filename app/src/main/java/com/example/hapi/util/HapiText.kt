@@ -17,7 +17,8 @@ import com.example.hapi.ui.theme.YellowAppColor
 fun YellowBlackText(
     modifier: Modifier = Modifier,
     size: Int,
-    text: String
+    text: String,
+    align: TextAlign = TextAlign.Center
 ) {
     Text(
         modifier = modifier,
@@ -29,7 +30,7 @@ fun YellowBlackText(
             )
         ),
         text = text,
-        textAlign = TextAlign.Center
+        textAlign = align
     )
 }
 
@@ -158,6 +159,25 @@ fun DarkGreenExtraBoldText(
     Text(
         modifier = modifier,
         color = DarkGreenAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins_extrabold
+            )
+        ),
+        text = text,
+        textAlign = TextAlign.Center
+    )
+}
+@Composable
+fun YellowExtraBoldText(
+    modifier: Modifier = Modifier,
+    size: Int,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        color = YellowAppColor,
         fontSize = size.sp,
         fontFamily = FontFamily(
             Font(

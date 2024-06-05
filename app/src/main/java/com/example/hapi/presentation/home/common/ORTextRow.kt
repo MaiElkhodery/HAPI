@@ -29,7 +29,7 @@ fun ORTextRow(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-               onClick()
+                onClick()
             },
         horizontalArrangement = Arrangement.Center
     ) {

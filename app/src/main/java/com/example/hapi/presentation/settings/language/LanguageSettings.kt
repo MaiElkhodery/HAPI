@@ -111,6 +111,7 @@ fun LanguageSettings(
                 unselectedFontSize = 20
             ) {
                 languageViewModel.onEvent(LanguageEvent.SetLanguageToEnglish)
+                activity?.recreate()
             }
 
             LanguageOption(
@@ -122,6 +123,7 @@ fun LanguageSettings(
                 unselectedFontSize = 20
             ) {
                 languageViewModel.onEvent(LanguageEvent.SetLanguageToArabic)
+                activity?.recreate()
             }
 
         }

@@ -29,6 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hapi"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

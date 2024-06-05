@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LanguageViewModel @Inject constructor(
     private val userDataPreference: UserDataPreference,
-    private val localeHelper: LocaleHelper,
+    val localeHelper: LocaleHelper,
 ) : ViewModel() {
 
     private var _appLanguage = MutableStateFlow("")
@@ -39,7 +39,7 @@ class LanguageViewModel @Inject constructor(
                 viewModelScope.launch {
                     userDataPreference.setLanguage(ARABIC)
                     _appLanguage.value = ARABIC
-                    val context = localeHelper.setLocale(ARABIC)
+                     localeHelper.setLocale(ARABIC)
                 }
             }
 
@@ -47,7 +47,7 @@ class LanguageViewModel @Inject constructor(
                 viewModelScope.launch {
                     userDataPreference.setLanguage(ENGLISH)
                     _appLanguage.value = ENGLISH
-                    val context = localeHelper.setLocale(ENGLISH)
+                    localeHelper.setLocale(ENGLISH)
                     Log.d("LANGUAGE VIEWMODEL", "")
                 }
             }

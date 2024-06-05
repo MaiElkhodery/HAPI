@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.example.hapi.MainActivity
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.util.AUTH_PREFERENCES
 import dagger.Module

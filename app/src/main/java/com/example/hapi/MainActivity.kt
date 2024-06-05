@@ -1,6 +1,7 @@
 package com.example.hapi
 
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +9,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -37,12 +37,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            setLanguage()
-            Log.d("LANGUAGE", "change app language to ${datastore.getLanguage()}")
-            Log.d("LANGUAGE", "change app locale to ${Locale.getISOLanguages()}")
-        }
-
         setContent {
             if (!hasRequiredPermissions()) {
                 ActivityCompat.requestPermissions(
@@ -52,16 +46,15 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            CompositionLocalProvider{
 
-                HapiTheme {
-                    SetStatusBarColor(color = YellowAppColor)
-                    val navController = rememberNavController()
-                    Box {
-                        NavGraph(navController = navController)
-                    }
+            HapiTheme {
+                SetStatusBarColor(color = YellowAppColor)
+                val navController = rememberNavController()
+                Box {
+                    NavGraph(navController = navController)
                 }
             }
+
         }
     }
 
@@ -86,7 +79,29 @@ class MainActivity : ComponentActivity() {
     private suspend fun setLanguage() {
         val defaultLanguage = datastore.getLanguage() ?: Locale.getDefault().language
         datastore.setLanguage(defaultLanguage!!)
-        localeHelper.setLocale(defaultLanguage)
+        val newContext = localeHelper.setLocale(defaultLanguage)
+        Log.d("LOCALE", "new config: ${newContext == null}")
+        applyOverrideConfiguration(newContext!!.resources.configuration)
     }
 
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        if (overrideConfiguration != null) {
+            val uiMode = overrideConfiguration.uiMode
+            overrideConfiguration.setTo(baseContext.resources.configuration)
+            overrideConfiguration.uiMode = uiMode
+        } else {
+            super.applyOverrideConfiguration(overrideConfiguration)
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+    }
+
+    override fun onStart() {
+        lifecycleScope.launch {
+            setLanguage()
+        }
+        super.onStart()
+    }
 }

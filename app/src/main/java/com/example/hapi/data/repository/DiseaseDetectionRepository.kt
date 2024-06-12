@@ -2,13 +2,9 @@ package com.example.hapi.data.repository
 
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
-import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
-import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionDisease
-import com.example.hapi.data.local.room.entities.current_detection.CurrentDetectionWithDisease
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
-import com.example.hapi.domain.model.Disease
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.example.hapi.util.createMultiPartBody
@@ -26,7 +22,6 @@ import javax.inject.Inject
 class DiseaseDetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val currentDetectionDao: CurrentDetectionDao,
-    private val currentDiseaseDao: CurrentDiseaseDao,
     private val userDataPreference: UserDataPreference
 
 ) : ApiHandler() {
@@ -46,17 +41,18 @@ class DiseaseDetectionRepository @Inject constructor(
                 if (response.isSuccessful) {
 
                     deleteCurrentCachedDetection()
+
                     val detectionId = saveDetection(
                         username = userDataPreference.getUsername(),
                         date = getCurrentDateAsString(),
                         time = getCurrentTimeAsString(),
-                        confidence = response.body()!!.confidence,
-                        isHealthy = response.body()!!.isHealthy,
+                        certainty = response.body()!!.certainty,
                         crop = crop,
-                        byteArrayImage = byteArrayImage
+                        byteArrayImage = byteArrayImage,
+                        diseaseName = response.body()!!.disease_name,
+                        link = response.body()!!.link
                     )
-                    if (!response.body()!!.isHealthy)
-                        saveDisease(response.body()!!.diseases, detectionId.toInt())
+
                     emit(State.Success(detectionId))
                 } else {
                     val error = Gson().fromJson(
@@ -71,48 +67,33 @@ class DiseaseDetectionRepository @Inject constructor(
         }
     }
 
-    private suspend fun saveDisease(
-        diseases: List<Disease>,
-        detectionId: Int
-    ) {
-        withContext(Dispatchers.IO) {
-            val diseaseList = diseases.map { disease ->
-                CurrentDetectionDisease(
-                    name = disease.name,
-                    confidence = disease.confidence,
-                    infoLink = disease.infoLink,
-                    detectionId = detectionId
-                )
-            }
-            currentDiseaseDao.insertListOfDiseases(diseaseList)
-        }
-    }
-
     private suspend fun saveDetection(
         username: String,
         date: String,
         time: String,
-        confidence: Float,
-        isHealthy: Boolean,
+        certainty: Float,
+        diseaseName: String,
+        link: String,
         crop: String,
         byteArrayImage: ByteArray
     ): Long {
         return withContext(Dispatchers.IO) {
             currentDetectionDao.insertDetection(
                 CurrentDetection(
-                    detectionMaker = username,
+                    username = username,
                     date = date,
                     time = time,
-                    confidence = confidence,
-                    isHealthy = isHealthy,
+                    certainty = certainty,
                     crop = crop,
-                    image = byteArrayImage
+                    image = byteArrayImage,
+                    diseaseName = diseaseName,
+                    link = link
                 )
             )
         }
     }
 
-    suspend fun getLocalCurrentDetectionById(detectionId: Int): CurrentDetectionWithDisease {
+    suspend fun getLocalCurrentDetectionById(detectionId: Int): CurrentDetection {
         return withContext(Dispatchers.IO) {
             currentDetectionDao.getDetectionWithDiseasesById(detectionId)
         }
@@ -121,7 +102,6 @@ class DiseaseDetectionRepository @Inject constructor(
     private suspend fun deleteCurrentCachedDetection() {
         withContext(Dispatchers.IO) {
             currentDetectionDao.deleteAll()
-            currentDiseaseDao.deleteAll()
         }
     }
 }

@@ -116,5 +116,8 @@
     <string name="fertilization">FERTILIZATION</string>
     <string name="no_of_farmers">NUMBER OF FARMERS :</string>
     <string name="confidence">CONFIDENCE</string>
+    <string name="disease_result">DISEASE</string>
+    <string name="with_a">WITH A</string>
+    <string name="result_certainty">RESULT CERTAINTY</string>
 
 </resources>

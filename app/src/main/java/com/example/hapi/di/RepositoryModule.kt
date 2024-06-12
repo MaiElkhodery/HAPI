@@ -2,7 +2,6 @@ package com.example.hapi.di
 
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
-import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
 import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.dao.farmer.FarmerDao
 import com.example.hapi.data.local.room.dao.land_history.LandDataDao
@@ -40,12 +39,10 @@ object RepositoryModule {
     fun provideDetectionRepository(
         detectionApiService: DetectionApiService,
         detectionDao: CurrentDetectionDao,
-        diseaseDao: CurrentDiseaseDao,
         userDataPreference: UserDataPreference
     ) = DiseaseDetectionRepository(
         detectionApiService,
         detectionDao,
-        diseaseDao,
         userDataPreference
     )
 

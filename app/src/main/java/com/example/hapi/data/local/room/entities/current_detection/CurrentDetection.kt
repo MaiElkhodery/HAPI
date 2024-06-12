@@ -7,11 +7,12 @@ import androidx.room.PrimaryKey
 data class CurrentDetection(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val detectionMaker: String,
+    val username: String,
     val date: String,
     val time: String,
-    val isHealthy: Boolean,
-    val confidence: Float,
+    val certainty: Float,
+    val diseaseName : String,
+    val link : String,
     val crop: String,
     val image: ByteArray,
 )

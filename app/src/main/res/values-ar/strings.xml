@@ -117,4 +117,7 @@
     <string name="fertilization">تسميد</string>
     <string name="no_of_farmers">عدد المزارعين : </string>
     <string name="confidence">ثقة</string>
+    <string name="disease_result">DISEASE</string>
+    <string name="with_a">WITH A</string>
+    <string name="result_certainty">RESULT CERTAINTY</string>
 </resources>

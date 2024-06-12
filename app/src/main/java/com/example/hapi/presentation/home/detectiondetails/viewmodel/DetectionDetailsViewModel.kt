@@ -2,7 +2,6 @@ package com.example.hapi.presentation.home.detectiondetails.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.domain.model.Disease
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
 import com.example.hapi.domain.usecase.detection.GetDetectionDetailsUseCase
@@ -17,7 +16,7 @@ class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionDetailsUseCase: GetDetectionDetailsUseCase,
     private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -40,11 +39,14 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _crop = MutableStateFlow("")
     val crop = _crop.asStateFlow()
 
-    private val _confidence = MutableStateFlow(0.0f)
-    val confidence = _confidence.asStateFlow()
+    private val _certainty = MutableStateFlow(0.0f)
+    val certainty = _certainty.asStateFlow()
 
-    private val _diseaseList = MutableStateFlow(emptyList<Disease>())
-    val diseaseList = _diseaseList.asStateFlow()
+    private val _diseaseName = MutableStateFlow("")
+    val diseaseName = _diseaseName.asStateFlow()
+
+    private val _link = MutableStateFlow("")
+    val link = _link.asStateFlow()
 
     private val _imageUrl = MutableStateFlow("")
     val imageUrl = _imageUrl.asStateFlow()
@@ -67,8 +69,7 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Success -> {
                         _loading.value = false
                         _crop.value = state.result!!.crop.uppercase()
-                        _confidence.value = state.result.detection.confidence
-                        _diseaseList.value = state.result.detection.diseases
+                        _certainty.value = state.result.detection.confidence
                         _date.value = state.result.date
                         _time.value = state.result.time
                         _username.value = state.result.username
@@ -88,19 +89,14 @@ class DetectionDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
-            _crop.value = result.detection.crop.uppercase()
-            _confidence.value = result.detection.confidence
-            _diseaseList.value = result.diseases.map {
-                Disease(
-                    name = it.name,
-                    confidence = it.confidence,
-                    infoLink = it.infoLink
-                )
-            }
-            _date.value = result.detection.date
-            _time.value = result.detection.time
-            _username.value = result.detection.detectionMaker
-            _byteArrayImage.value = result.detection.image
+            _crop.value = result.crop.uppercase()
+            _certainty.value = result.certainty
+            _diseaseName.value = result.diseaseName
+            _date.value = result.date
+            _time.value = result.time
+            _username.value = result.username
+            _byteArrayImage.value = result.image
+            _link.value = result.link
         }
     }
 }

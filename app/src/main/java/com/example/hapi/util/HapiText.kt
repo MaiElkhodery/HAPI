@@ -211,7 +211,8 @@ fun YellowMediumText(
 fun YellowBoldText(
     text: String,
     modifier: Modifier=Modifier,
-    size: Int
+    size: Int,
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         modifier = modifier,
@@ -222,6 +223,7 @@ fun YellowBoldText(
             Font(
                 R.font.poppins_bold
             )
-        )
+        ),
+        textAlign = textAlign
     )
 }

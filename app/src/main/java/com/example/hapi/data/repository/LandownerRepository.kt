@@ -45,14 +45,17 @@ class LandownerRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             flow {
                 try {
+
                     emit(State.Loading)
                     val response = landownerApiService.getTanksData()
                     if (response.isSuccessful) {
+
                         userDataPreference.saveWaterLevel(response.body()!!.water_level)
-                        userDataPreference.saveNPK(
-                            "${response.body()!!.npk.N}% -${response.body()!!.npk.P}% -${response.body()!!.npk.K}%"
-                        )
+                        userDataPreference.saveNitrogenTankLevel("${response.body()!!.npk.N}")
+                        userDataPreference.savePhosphorusTankLevel("${response.body()!!.npk.P}")
+                        userDataPreference.savePotassiumTankLevel("${response.body()!!.npk.K}")
                         emit(State.Success(true))
+
                     } else {
                         val error = Gson().fromJson(
                             response.errorBody()?.string(),

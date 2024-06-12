@@ -64,8 +64,14 @@ class LandownerHomeViewModel @Inject constructor(
     private val _waterLevel = MutableStateFlow(0)
     val waterLevel = _waterLevel.asStateFlow()
 
-    private var _npk = MutableStateFlow("")
-    val npk = _npk.asStateFlow()
+    private var _nitrogen = MutableStateFlow("")
+    val nitrogen = _nitrogen.asStateFlow()
+
+    private var _phosphorus = MutableStateFlow("")
+    val phosphorus = _phosphorus.asStateFlow()
+
+    private var _potassium = MutableStateFlow("")
+    val potassium = _potassium.asStateFlow()
 
     private var _crop = MutableStateFlow("")
     val crop = _crop.asStateFlow()
@@ -161,7 +167,9 @@ class LandownerHomeViewModel @Inject constructor(
                     is State.Success -> {
                         _loading.value = false
                         _waterLevel.value = userDataPreference.getWaterLevel().toInt()
-                        _npk.value = userDataPreference.getNPK()
+                        _nitrogen.value = userDataPreference.getNitrogenTankLevel()
+                        _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
+                        _potassium.value = userDataPreference.getPotassiumTankLevel()
                     }
                 }
             }
@@ -202,8 +210,9 @@ class LandownerHomeViewModel @Inject constructor(
     fun getTanksData() {
         viewModelScope.launch {
             _waterLevel.value = userDataPreference.getWaterLevel().toInt()
-            _npk.value = userDataPreference.getNPK()
-            if (_npk.value.isBlank()) _npk.value = "0 - 0 - 0"
+            _nitrogen.value = userDataPreference.getNitrogenTankLevel()
+            _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
+            _potassium.value = userDataPreference.getPotassiumTankLevel()
         }
     }
 

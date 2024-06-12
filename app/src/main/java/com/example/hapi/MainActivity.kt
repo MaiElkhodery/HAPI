@@ -46,7 +46,6 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-
             HapiTheme {
                 SetStatusBarColor(color = YellowAppColor)
                 val navController = rememberNavController()

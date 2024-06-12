@@ -27,13 +27,14 @@ import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.SignLabeledInputFields
 import com.example.hapi.presentation.common.WarningBox
-import com.example.hapi.presentation.home.farmer.navigateToFarmerHome
-import com.example.hapi.presentation.home.landowner.ui.navigateToLandownerHome
 import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.ENGLISH
+import com.example.hapi.util.FARMER
+import com.example.hapi.util.LANDOWNER
 import com.example.hapi.util.Tab
 
 @Composable
@@ -47,7 +48,7 @@ fun Signin(
     val errorMsg = signinViewModel.errorMsg.collectAsState().value
     val authenticated = signinViewModel.authenticated.collectAsState().value
     val isLandowner = signinViewModel.isLandowner.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     ConstraintLayout(
         modifier = Modifier
@@ -135,9 +136,13 @@ fun Signin(
     if (authenticated) {
         mainViewModel.setSelectedTab(Tab.HOME)
         if (isLandowner) {
-            navController.navigateToLandownerHome()
+            navController.navigateToMainScreen(
+                role = LANDOWNER
+            )
         } else {
-            navController.navigateToFarmerHome()
+            navController.navigateToMainScreen(
+                role = FARMER
+            )
         }
     }
 }

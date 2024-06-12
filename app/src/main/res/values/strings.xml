@@ -117,7 +117,7 @@
     <string name="no_of_farmers">NUMBER OF FARMERS :</string>
     <string name="confidence">CONFIDENCE</string>
     <string name="water_tank">WATER\nTANK</string>
-    <string name="n_tank">NITROGEN TANK</string>
+    <string name="n_tank">NITROGEN\nTANK</string>
     <string name="p_tank">PHOSPHORUS TANK</string>
     <string name="k_tank">POTASSIUM\nTANK</string>
 

@@ -93,7 +93,7 @@ fun LandownerHome(
         )
         LandDataHeader(
             modifier = Modifier.constrainAs(dataHeader) {
-                top.linkTo(welcomeHeader.bottom, margin = 21.dp)
+                top.linkTo(welcomeHeader.bottom, margin = 12.dp)
                 bottom.linkTo(content.top)
             },
             crop = crop,

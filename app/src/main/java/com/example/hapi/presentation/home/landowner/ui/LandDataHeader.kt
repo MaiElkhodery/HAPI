@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
@@ -47,7 +48,8 @@ fun LandDataHeader(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CropItem(crop = crop)
+        if (crop.isNotBlank())
+            CropItem(crop = crop)
         Row(
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -96,17 +98,18 @@ private fun CropItem(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val cropName = stringResource(id = getCropName(crop))
         Image(
             modifier = Modifier
                 .size(26.dp)
                 .padding(end = 8.dp),
             painter = painterResource(
-                id = getCropIcon(crop)
+                id = getCropIcon(cropName)
             ),
             contentDescription = "crop icon"
         )
         YellowBoldText(
-            text = crop,
+            text = cropName,
             size = 16
         )
     }

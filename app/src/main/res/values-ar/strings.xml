@@ -118,7 +118,7 @@
     <string name="no_of_farmers">عدد المزارعين : </string>
     <string name="confidence">ثقة</string>
     <string name="water_tank">خزان \nالمياة</string>
-    <string name="n_tank">خزان\\n النيتروجين</string>
-    <string name="p_tank">خزان\\n الفوسفور</string>
-    <string name="k_tank">"خزان \\nالبوتاسيوم "</string>
+    <string name="n_tank">خزان\n النيتروجين</string>
+    <string name="p_tank">خزان\n الفوسفور</string>
+    <string name="k_tank">"خزان\nالبوتاسيوم "</string>
 </resources>

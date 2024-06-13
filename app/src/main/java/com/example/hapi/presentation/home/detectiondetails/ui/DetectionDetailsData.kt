@@ -20,10 +20,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
 import com.example.hapi.util.YellowBlackText
@@ -39,10 +41,14 @@ fun DetectionDetailsData(
     date: String,
     time: String
 ) {
-    Column {
+    Column(
+        modifier = modifier
+            .fillMaxWidth(),
+    ) {
 
+        val cropName = stringResource(id = getCropName(crop = crop))
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 12.dp),
             horizontalArrangement = Arrangement.Center
@@ -53,12 +59,12 @@ fun DetectionDetailsData(
                     .size(31.dp),
                 painter = painterResource(
                     id = getCropIcon(
-                        crop
+                        cropName
                     )
                 ),
                 contentDescription = "crop icon"
             )
-            YellowBlackText(size = 24, text = crop.uppercase())
+            YellowBlackText(size = 24, text = cropName)
         }
 
 

@@ -1,12 +1,12 @@
 package com.example.hapi.data.remote.response
 
-import com.example.hapi.domain.model.DetectionHistory
-
 data class DetectionResponse(
-    val detection: DetectionHistory,
+    val diseaseName: String,
+    val certainty: Float,
+    val link: String,
     val crop: String,
     val username: String,
     val date: String,
     val time: String,
-    val image_url:String
+    val image_url: String
 )

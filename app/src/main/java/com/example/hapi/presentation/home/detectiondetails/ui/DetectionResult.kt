@@ -25,7 +25,7 @@ import com.example.hapi.util.YellowBoldText
 fun DiseasedResult(
     modifier: Modifier = Modifier,
     diseaseName: String,
-    certainty: Float,
+    certainty: Int,
     onClick: () -> Unit
 ) {
     Column(
@@ -55,7 +55,7 @@ fun DiseasedResult(
 @Composable
 fun HealthyResult(
     modifier: Modifier = Modifier,
-    certainty: Float
+    certainty: Int
 ){
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -72,16 +72,17 @@ fun HealthyResult(
 
 @Composable
 fun CertaintyText(
-    certainty: Float
+    certainty: Int
 ){
     Row(
-        modifier = Modifier.padding(top = 6.dp)
+        modifier = Modifier.padding(top = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             painter = painterResource(id = R.drawable.warning),
             contentDescription = null,
             tint = YellowAppColor,
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(18.dp).padding(end = 4.dp)
         )
         YellowBoldText(
             text = stringResource(id = R.string.with_a),
@@ -101,6 +102,6 @@ fun CertaintyText(
 fun DiseasesResultPreview() {
     DiseasedResult(
         diseaseName = "EARLY BLIGHT",
-        certainty = 50f
+        certainty = 50
     ) {}
 }

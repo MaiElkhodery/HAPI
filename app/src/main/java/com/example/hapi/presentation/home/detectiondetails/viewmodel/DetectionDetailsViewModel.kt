@@ -69,11 +69,12 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Success -> {
                         _loading.value = false
                         _crop.value = state.result!!.crop.uppercase()
-                        _certainty.value = state.result.detection.confidence
-                        _date.value = state.result.date
+                        _certainty.value =  state.result.certainty * 100
                         _time.value = state.result.time
+                        _date.value = state.result.date
                         _username.value = state.result.username
                         _imageUrl.value = state.result.image_url
+                        _diseaseName.value = state.result.diseaseName
                     }
 
                     else -> {
@@ -90,7 +91,7 @@ class DetectionDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
             _crop.value = result.crop.uppercase()
-            _certainty.value = result.certainty
+            _certainty.value = result.certainty *100
             _diseaseName.value = result.diseaseName
             _date.value = result.date
             _time.value = result.time

@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.detectionhistory.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -16,7 +17,6 @@ import javax.inject.Inject
 class DetectionHistoryViewModel @Inject constructor(
     private val detectionHistoryUseCase: GetDetectionHistoryUseCase,
     private val detectionHistoryByUsernameUseCase: GetDetectionHistoryByUsernameUseCase,
-    private val userDataPreference: UserDataPreference
 ) : ViewModel() {
 
     private val _detectionList = MutableStateFlow(emptyList<DetectionOfHistory>())
@@ -40,6 +40,7 @@ class DetectionHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             detectionHistoryByUsernameUseCase()?.let {
                 _detectionList.value = it
+                Log.d("DetectionHistoryViewModel", detectionList.toString())
             }
         }
     }

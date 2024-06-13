@@ -79,12 +79,13 @@ fun DetectionDetails(
             else
                 navController.popBackStack()
         }
+        if (crop.isNotBlank()) {
 
-        if (crop.isNotBlank())
             DetectionDetailsData(
                 modifier = Modifier
                     .constrainAs(data) {
                         top.linkTo(header.bottom, margin = 26.dp)
+                        bottom.linkTo(result.top, margin = 16.dp)
                     },
                 crop = crop,
                 imageUrl = imageUrl,
@@ -94,29 +95,32 @@ fun DetectionDetails(
                 time = time
             )
 
-        if (diseaseName.isBlank()) {
-            HealthyResult(certainty = certainty,
-                modifier = Modifier.constrainAs(result) {
-                    bottom.linkTo(bottomGuideLine)
-                }
-            )
-
-        } else {
-            DiseasedResult(
-                diseaseName = diseaseName, certainty = certainty,
-                modifier = Modifier.constrainAs(result) {
-                    bottom.linkTo(bottomGuideLine)
-                }
-            ) {
-                ContextCompat.startActivity(
-                    context,
-                    Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                    null
+            if (diseaseName.isBlank()) {
+                HealthyResult(certainty = certainty.toInt(),
+                    modifier = Modifier.constrainAs(result) {
+                        top.linkTo(data.bottom, margin = 26.dp)
+                        bottom.linkTo(bottomGuideLine)
+                    }
                 )
+
+            } else {
+                DiseasedResult(
+                    diseaseName = diseaseName, certainty = certainty.toInt(),
+                    modifier = Modifier.constrainAs(result) {
+                        top.linkTo(data.bottom, margin = 26.dp)
+                        bottom.linkTo(bottomGuideLine)
+                    }
+                ) {
+                    ContextCompat.startActivity(
+                        context,
+                        Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                        null
+                    )
+                }
+
             }
 
         }
-
     }
 }
 

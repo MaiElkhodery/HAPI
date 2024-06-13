@@ -175,7 +175,8 @@ private fun WarningRow(
 }
 
 @Composable
-private fun CancelButton(
+fun CancelButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Row(
@@ -188,7 +189,7 @@ private fun CancelButton(
             painter = painterResource(id = R.drawable.cancel_btn),
             contentDescription = null,
             tint = DarkGreenAppColor,
-            modifier = Modifier
+            modifier = modifier
                 .size(22.dp)
                 .fillMaxHeight()
                 .clickable {

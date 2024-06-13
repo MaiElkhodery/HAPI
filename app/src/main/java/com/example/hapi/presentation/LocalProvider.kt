@@ -9,20 +9,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import java.util.Locale
 
-@Composable
-fun LocaleProvider(
-    viewModel: LanguageViewModel = hiltViewModel(),
-    content: @Composable () -> Unit
-) {
-    val context = LocalContext.current
-
-    val language = viewModel.appLanguage.collectAsState(Locale.getDefault().language).value
-
-    val updatedContext = remember(language) {
-        viewModel.localeHelper.setLocale(language)
-    }
-
-    CompositionLocalProvider(LocalContext provides updatedContext!!) {
-        content()
-    }
-}
+//@Composable
+//fun LocaleProvider(
+//    viewModel: LanguageViewModel = hiltViewModel(),
+//    content: @Composable () -> Unit
+//) {
+//    val context = LocalContext.current
+//
+//    val language = viewModel.appLanguage.collectAsState(Locale.getDefault().language).value
+//
+//    val updatedContext = remember(language) {
+//        viewModel.localeHelper.setLocale(language)
+//    }
+//
+//    CompositionLocalProvider(LocalContext provides updatedContext!!) {
+//        content()
+//    }
+//}

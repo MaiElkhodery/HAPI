@@ -14,5 +14,5 @@ data class CurrentDetection(
     val diseaseName : String,
     val link : String,
     val crop: String,
-    val image: ByteArray,
+    val imageLocalUrl: String,
 )

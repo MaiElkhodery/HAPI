@@ -27,10 +27,11 @@ class ImageSelectionViewModel @Inject constructor(
 
     fun detectDisease(
         selectedCrop: String,
-        byteArrayImage: ByteArray
+        byteArrayImage: ByteArray,
+        imageLocalUrl: String
     ) {
         viewModelScope.launch {
-            detectDiseaseUseCase(selectedCrop, byteArrayImage).collect { state ->
+            detectDiseaseUseCase(selectedCrop, byteArrayImage,imageLocalUrl).collect { state ->
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true

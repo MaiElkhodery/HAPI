@@ -22,15 +22,19 @@ import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.detection.guest_cropselection.navigateToGuestCropSelection
 import com.example.hapi.presentation.home.detectiondetails.viewmodel.DetectionDetailsViewModel
+import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
+import com.example.hapi.util.Tab
 
 @Composable
 fun DetectionDetails(
     navController: NavController,
     detectionDetailsViewModel: DetectionDetailsViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
     id: Int,
     isCurrentDetection: Boolean
 ) {
@@ -43,7 +47,8 @@ fun DetectionDetails(
         }
     }
 
-    val image = detectionDetailsViewModel.byteArrayImage.collectAsState().value
+    val role = detectionDetailsViewModel.role.collectAsState().value
+    val imageLocalUri = detectionDetailsViewModel.imageLocalUri.collectAsState().value
     val username = detectionDetailsViewModel.username.collectAsState().value
     val date = detectionDetailsViewModel.date.collectAsState().value
     val time = detectionDetailsViewModel.time.collectAsState().value
@@ -74,10 +79,15 @@ fun DetectionDetails(
             downText = stringResource(id = R.string.result),
             imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
-            if (isCurrentDetection)
-                navController.navigateToGuestCropSelection()
-            else
-                navController.popBackStack()
+            if (isCurrentDetection) {
+                mainViewModel.setSelectedTab(Tab.CAMERA)
+                navController.navigateToMainScreen(role)
+            } else {
+                if (role.isNotBlank())
+                    navController.popBackStack()
+                else
+                    navController.navigateToGuestCropSelection()
+            }
         }
         if (crop.isNotBlank()) {
 
@@ -89,7 +99,7 @@ fun DetectionDetails(
                     },
                 crop = crop,
                 imageUrl = imageUrl,
-                imageByteArray = image,
+                imageLocalUri = imageLocalUri,
                 username = username,
                 date = date,
                 time = time

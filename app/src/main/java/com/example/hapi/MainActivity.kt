@@ -1,26 +1,31 @@
 package com.example.hapi
 
+import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.presentation.navigation.NavGraph
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.HapiTheme
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.LocaleHelper
 import com.example.hapi.util.SetStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 import javax.inject.Inject
 
@@ -32,6 +37,11 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var localeHelper: LocaleHelper
+
+    @Inject
+    lateinit var context: Context
+
+    private var IS_RTL: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,15 +56,35 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-
-            HapiTheme {
-                SetStatusBarColor(color = YellowAppColor)
-                val navController = rememberNavController()
-                Box {
-                    NavGraph(navController = navController)
-                }
+            runBlocking {
+                initLanguage()
             }
 
+            val languageViewModel: LanguageViewModel by lazy {
+                LanguageViewModel(datastore)
+            }
+            val language = languageViewModel.appLanguage.collectAsState().value
+            val isRtl = getRtlMode(language)
+            val direction =
+                if (isRtl) LocalLayoutDirection provides LayoutDirection.Rtl else LocalLayoutDirection provides LayoutDirection.Ltr
+
+
+            CompositionLocalProvider(direction) {
+                HapiTheme {
+                    SetStatusBarColor(color = YellowAppColor)
+                    val navController = rememberNavController()
+                    Box {
+                        NavGraph(navController = navController) { language ->
+                            lifecycleScope.launch {
+                                datastore.setLanguage(language)
+                                setLanguage(language)
+                                recreate()
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
 
@@ -76,32 +106,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private suspend fun setLanguage() {
+    private suspend fun initLanguage() {
         val defaultLanguage = datastore.getLanguage() ?: Locale.getDefault().language
-        datastore.setLanguage(defaultLanguage!!)
-        val newContext = localeHelper.setLocale(defaultLanguage)
-        Log.d("LOCALE", "new config: ${newContext == null}")
-        applyOverrideConfiguration(newContext!!.resources.configuration)
+        datastore.setLanguage(defaultLanguage)
+        setLanguage(defaultLanguage)
     }
 
-    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        if (overrideConfiguration != null) {
-            val uiMode = overrideConfiguration.uiMode
-            overrideConfiguration.setTo(baseContext.resources.configuration)
-            overrideConfiguration.uiMode = uiMode
-        } else {
-            super.applyOverrideConfiguration(overrideConfiguration)
-        }
+    private fun getRtlMode(lang: String): Boolean {
+        IS_RTL = lang == "ar"
+        return lang == "ar"
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onStart() {
-        lifecycleScope.launch {
-            setLanguage()
-        }
-        super.onStart()
+    private fun setLanguage(language: String) {
+        val config = resources.configuration
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+        createConfigurationContext(config)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 }
+

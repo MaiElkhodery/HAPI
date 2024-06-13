@@ -1,7 +1,9 @@
 package com.example.hapi.presentation.home.detectiondetails.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
 import com.example.hapi.domain.usecase.detection.GetDetectionDetailsUseCase
@@ -15,8 +17,8 @@ import javax.inject.Inject
 class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionDetailsUseCase: GetDetectionDetailsUseCase,
     private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase,
-
-    ) : ViewModel() {
+    private val userDataPreference: UserDataPreference
+) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -33,8 +35,8 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _time = MutableStateFlow("")
     val time = _time.asStateFlow()
 
-    private val _byteArrayImage = MutableStateFlow(ByteArray(0))
-    val byteArrayImage = _byteArrayImage.asStateFlow()
+    private val _imageLocalUri = MutableStateFlow("")
+    val imageLocalUri = _imageLocalUri.asStateFlow()
 
     private val _crop = MutableStateFlow("")
     val crop = _crop.asStateFlow()
@@ -51,6 +53,15 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _imageUrl = MutableStateFlow("")
     val imageUrl = _imageUrl.asStateFlow()
 
+    private val _role = MutableStateFlow("")
+    val role = _role.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _role.value = userDataPreference.getRole()!!
+        }
+    }
+
     fun getRemoteDetectionDetailsById(
         remoteId: Int
     ) {
@@ -60,21 +71,25 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Error -> {
                         _loading.value = false
                         _errorMsg.value = state.error.message
+                        Log.d("DetectionViewModel", "detectDisease: ${state.error.message}")
                     }
 
                     is State.Loading -> {
                         _loading.value = true
+                        Log.d("DetectionViewModel", "loading")
                     }
 
                     is State.Success -> {
                         _loading.value = false
                         _crop.value = state.result!!.crop.uppercase()
-                        _certainty.value =  state.result.certainty * 100
+                        _certainty.value = state.result.certainty
                         _time.value = state.result.time
                         _date.value = state.result.date
                         _username.value = state.result.username
                         _imageUrl.value = state.result.image_url
-                        _diseaseName.value = state.result.diseaseName
+                        _diseaseName.value = state.result.disease_name
+
+                        Log.d("DetectionViewModel", "detectDisease: ${state.result}")
                     }
 
                     else -> {
@@ -91,12 +106,12 @@ class DetectionDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
             _crop.value = result.crop.uppercase()
-            _certainty.value = result.certainty *100
+            _certainty.value = result.certainty * 100
             _diseaseName.value = result.diseaseName
             _date.value = result.date
             _time.value = result.time
             _username.value = result.username
-            _byteArrayImage.value = result.image
+            _imageLocalUri.value = result.imageLocalUri
             _link.value = result.link
         }
     }

@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,11 +34,14 @@ import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
 import com.example.hapi.presentation.home.loading.Loading
+import com.example.hapi.presentation.main.MainViewModel
+import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.ENGLISH
-import com.example.hapi.util.toCompressedByteArray
+import com.example.hapi.util.Tab
+import com.example.hapi.util.fileToBytes
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
 
@@ -48,7 +50,8 @@ fun ImageSelection(
     navController: NavController,
     crop: Crop,
     viewModel: ImageSelectionViewModel = hiltViewModel(),
-    languageViewModel: LanguageViewModel = hiltViewModel()
+    languageViewModel: LanguageViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
 
     val isLoading = viewModel.loading.collectAsState().value
@@ -68,16 +71,24 @@ fun ImageSelection(
     val coroutineScope = rememberCoroutineScope()
 
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
     fun takePhotoAndDetectDisease() {
         cameraController.takePicture(
+            getPhotoOutputFileOptions(context),
             ContextCompat.getMainExecutor(context),
-            object : ImageCapture.OnImageCapturedCallback() {
-                override fun onCaptureSuccess(image: ImageProxy) {
-                    viewModel.detectDisease(
-                        crop.name,
-                        image.toBitmap().toCompressedByteArray()!!
-                    )
-                    image.close()
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+
+                    try {
+                        val contentResolver = context.contentResolver
+                        val uri = outputFileResults.savedUri!!
+                        val byteArray = fileToBytes(contentResolver, uri)
+
+                        viewModel.detectDisease(crop.name, byteArray, uri.toString())
+                    } catch (e: Exception) {
+                        Log.e("Save Photo", "Error: ${e.message}", e)
+                    }
+
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -96,7 +107,8 @@ fun ImageSelection(
                     Log.d("GetPhoto", "onCaptureSuccess: ${byteArray.size}")
                     viewModel.detectDisease(
                         crop.name,
-                        byteArray
+                        byteArray,
+                        uri.toString()
                     )
                 }
             }
@@ -123,6 +135,7 @@ fun ImageSelection(
             downText = stringResource(id = R.string.detection),
             imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
+            mainViewModel.setSelectedTab(Tab.CAMERA)
             navController.popBackStack()
         }
 

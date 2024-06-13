@@ -120,6 +120,7 @@ fun DetectionHistory(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 8.dp)
                 ) {
                     items(detectionHistoryList.size) { index ->
                         val detection = detectionHistoryList[index]

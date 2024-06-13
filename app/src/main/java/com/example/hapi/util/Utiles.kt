@@ -13,7 +13,10 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -89,6 +92,16 @@ fun Bitmap.toCompressedByteArray(
     val outputStream = ByteArrayOutputStream()
     compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
     return outputStream.toByteArray()
+}
+
+fun fileToBytes(contentResolver: ContentResolver, uri: Uri): ByteArray {
+    val inputStream = contentResolver.openInputStream(uri)
+    inputStream?.use { stream ->
+        val buffer = ByteArrayOutputStream()
+        stream.copyTo(buffer)
+        return buffer.toByteArray()
+    }
+    return ByteArray(0)
 }
 
 suspend fun isNetworkConnected(): Boolean {

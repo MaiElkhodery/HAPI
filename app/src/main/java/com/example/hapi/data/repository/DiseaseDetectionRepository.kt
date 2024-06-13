@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
 import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
@@ -27,7 +28,8 @@ class DiseaseDetectionRepository @Inject constructor(
 ) : ApiHandler() {
     suspend fun detectDisease(
         crop: String,
-        byteArrayImage: ByteArray
+        byteArrayImage: ByteArray,
+        imageLocalUrl: String
     ): Flow<State<Long>> {
         return flow {
             try {
@@ -48,10 +50,11 @@ class DiseaseDetectionRepository @Inject constructor(
                         time = getCurrentTimeAsString(),
                         certainty = response.body()!!.certainty,
                         crop = crop,
-                        byteArrayImage = byteArrayImage,
+                        imageLocalUrl = imageLocalUrl,
                         diseaseName = response.body()!!.disease_name,
-                        link = response.body()!!.link
+                        link = response.body()!!.info_link
                     )
+                    Log.d("DiseaseDetectionRepo",response.body()!!.toString() )
 
                     emit(State.Success(detectionId))
                 } else {
@@ -75,7 +78,7 @@ class DiseaseDetectionRepository @Inject constructor(
         diseaseName: String,
         link: String,
         crop: String,
-        byteArrayImage: ByteArray
+        imageLocalUrl: String
     ): Long {
         return withContext(Dispatchers.IO) {
             currentDetectionDao.insertDetection(
@@ -85,7 +88,7 @@ class DiseaseDetectionRepository @Inject constructor(
                     time = time,
                     certainty = certainty,
                     crop = crop,
-                    image = byteArrayImage,
+                    imageLocalUrl = imageLocalUrl,
                     diseaseName = diseaseName,
                     link = link
                 )

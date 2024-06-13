@@ -1,6 +1,6 @@
 package com.example.hapi.domain.model
 
-data class DiseaseDetection (
+data class CurrentDiseaseDetection (
     val id: Int? = null,
     val username: String,
     val date: String,
@@ -9,5 +9,5 @@ data class DiseaseDetection (
     val diseaseName : String,
     val link : String,
     val crop: String,
-    val image: ByteArray,
+    val imageLocalUri: String,
 )

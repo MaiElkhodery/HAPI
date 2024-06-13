@@ -10,9 +10,10 @@ class DetectDiseaseUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         crop: String,
-        byteArrayImage: ByteArray
+        byteArrayImage: ByteArray,
+        imageLocalUrl: String
     ): Flow<State<Long>> {
-        return detectionRepository.detectDisease(crop, byteArrayImage)
+        return detectionRepository.detectDisease(crop, byteArrayImage,imageLocalUrl)
     }
 
 }

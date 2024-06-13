@@ -119,5 +119,9 @@
     <string name="disease_result">DISEASE</string>
     <string name="with_a">WITH A</string>
     <string name="result_certainty">RESULT CERTAINTY</string>
+    <string name="something_wrong">SOMETHING WENT WRONG!</string>
+    <string name="another_img">TRY AGAIN WITH ANOTHER IMAGE</string>
+    <string name="not_detections">NO DETECTIONS YET</string>
+    <string name="click_on_camera">CLICK ON THE CAMERA ICON\nTO START DETECTING</string>
 
 </resources>

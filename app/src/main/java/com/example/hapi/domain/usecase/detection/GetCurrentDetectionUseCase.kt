@@ -1,7 +1,7 @@
 package com.example.hapi.domain.usecase.detection
 
 import com.example.hapi.data.repository.DiseaseDetectionRepository
-import com.example.hapi.domain.model.DiseaseDetection
+import com.example.hapi.domain.model.CurrentDiseaseDetection
 import javax.inject.Inject
 
 class GetCurrentDetectionUseCase @Inject constructor(
@@ -9,9 +9,9 @@ class GetCurrentDetectionUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         id: Int
-    ): DiseaseDetection {
+    ): CurrentDiseaseDetection {
          val detection = diseaseDetectionRepository.getLocalCurrentDetectionById(id)
-        return DiseaseDetection(
+        return CurrentDiseaseDetection(
             id = detection.id,
             username = detection.username,
             date = detection.date,
@@ -20,7 +20,7 @@ class GetCurrentDetectionUseCase @Inject constructor(
             diseaseName = detection.diseaseName,
             link = detection.link,
             crop = detection.crop,
-            image = detection.image
+            imageLocalUri = detection.imageLocalUrl
         )
     }
 

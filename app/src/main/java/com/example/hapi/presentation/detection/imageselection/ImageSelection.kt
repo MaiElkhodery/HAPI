@@ -54,7 +54,7 @@ fun ImageSelection(
     val isLoading = viewModel.loading.collectAsState().value
     val errorMsg = viewModel.errorMsg.collectAsState().value
     val detectionId = viewModel.detectionId.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     val context = LocalContext.current
 
@@ -121,7 +121,7 @@ fun ImageSelection(
                 },
             topText = stringResource(id = R.string.disease),
             downText = stringResource(id = R.string.detection),
-            imageId = if(isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
+            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
         ) {
             navController.popBackStack()
         }
@@ -156,8 +156,13 @@ fun ImageSelection(
         if (isLoading) {
             Loading()
         }
-        if (errorMsg != null) {
-            //TODO: handle error msg
+        if (errorMsg.isNotBlank()) {
+            DetectionWarningDialog(
+                topWarningId = R.string.something_wrong,
+                downWarningId = R.string.another_img
+            ) {
+                viewModel.resetError()
+            }
         }
         if (detectionId != null) {
             navController.navigateToDetectionDetails(

@@ -55,4 +55,8 @@ class ImageSelectionViewModel @Inject constructor(
             }
         }
     }
+
+    fun resetError(){
+        _errorMsg.value = ""
+    }
 }

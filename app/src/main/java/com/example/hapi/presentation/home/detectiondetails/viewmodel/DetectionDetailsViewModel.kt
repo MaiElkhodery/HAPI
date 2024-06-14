@@ -90,6 +90,7 @@ class DetectionDetailsViewModel @Inject constructor(
                         _diseaseName.value = state.result.disease_name
 
                         Log.d("DetectionViewModel", "detectDisease: ${state.result}")
+                        Log.d("DetectionViewModel", "detectDisease: ${state.result.image_url}")
                     }
 
                     else -> {
@@ -106,7 +107,7 @@ class DetectionDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
             _crop.value = result.crop.uppercase()
-            _certainty.value = result.certainty * 100
+            _certainty.value = result.certainty
             _diseaseName.value = result.diseaseName
             _date.value = result.date
             _time.value = result.time

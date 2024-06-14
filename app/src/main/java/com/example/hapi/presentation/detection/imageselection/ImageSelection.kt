@@ -35,13 +35,11 @@ import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
 import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.presentation.main.MainViewModel
-import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
-import com.example.hapi.util.fileToBytes
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
 
@@ -79,14 +77,15 @@ fun ImageSelection(
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
 
-                    try {
-                        val contentResolver = context.contentResolver
-                        val uri = outputFileResults.savedUri!!
-                        val byteArray = fileToBytes(contentResolver, uri)
+                    coroutineScope.launch {
+                        val byteArray =
+                            uriToByteArray(context.contentResolver, outputFileResults.savedUri!!)!!
 
-                        viewModel.detectDisease(crop.name, byteArray, uri.toString())
-                    } catch (e: Exception) {
-                        Log.e("Save Photo", "Error: ${e.message}", e)
+                        viewModel.detectDisease(
+                            crop.name,
+                            byteArray,
+                            outputFileResults.savedUri.toString()
+                        )
                     }
 
                 }

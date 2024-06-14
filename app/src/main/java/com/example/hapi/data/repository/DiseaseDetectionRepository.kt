@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.CurrentDetectionDao
 import com.example.hapi.data.local.room.entities.CurrentDetection
-import com.example.hapi.data.remote.api.ApiHandler
+import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
@@ -23,9 +23,9 @@ import javax.inject.Inject
 class DiseaseDetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val currentDetectionDao: CurrentDetectionDao,
-    private val userDataPreference: UserDataPreference
-
-) : ApiHandler() {
+    private val userDataPreference: UserDataPreference,
+    private val apiHandler: ApiHandler
+) {
     suspend fun detectDisease(
         crop: String,
         byteArrayImage: ByteArray,
@@ -54,8 +54,6 @@ class DiseaseDetectionRepository @Inject constructor(
                         diseaseName = response.body()!!.disease_name,
                         link = response.body()!!.info_link
                     )
-                    Log.d("DiseaseDetectionRepo",response.body()!!.toString() )
-
                     emit(State.Success(detectionId))
                 } else {
                     val error = Gson().fromJson(
@@ -65,7 +63,7 @@ class DiseaseDetectionRepository @Inject constructor(
                     emit(State.Error(error))
                 }
             } catch (e: Exception) {
-                emit(handleException(e))
+                emit(State.Exception(e.message.toString()))
             }
         }
     }

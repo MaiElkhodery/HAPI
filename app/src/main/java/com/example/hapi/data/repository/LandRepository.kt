@@ -39,7 +39,6 @@ class LandRepository @Inject constructor(
                     }
                 } catch (e: Exception) {
                     emit(State.Exception(e.message.toString()))
-                    e.printStackTrace()
                 }
             }
         }

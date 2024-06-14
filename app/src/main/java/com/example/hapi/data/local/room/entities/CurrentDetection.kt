@@ -1,4 +1,4 @@
-package com.example.hapi.data.local.room.entities.current_detection
+package com.example.hapi.data.local.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

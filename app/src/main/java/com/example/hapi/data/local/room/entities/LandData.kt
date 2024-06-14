@@ -1,15 +1,14 @@
-package com.example.hapi.data.local.room.entities.detection_history
+package com.example.hapi.data.local.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class DetectionOfHistory(
+data class LandData(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val remoteId: Int,
-    val username: String,
+    val remote_id: Int,
     val date: String,
     val time: String,
-    val imageUrl: String
+    val action_type: String,
 )

@@ -1,8 +1,8 @@
 package com.example.hapi.data.repository
 
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.farmer.FarmerDao
-import com.example.hapi.data.local.room.entities.farmer.Farmer
+import com.example.hapi.data.local.room.dao.FarmerDao
+import com.example.hapi.data.local.room.entities.Farmer
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.data.remote.request.SelectCropRequest

@@ -3,8 +3,7 @@ package com.example.hapi.presentation.home.detectionhistory.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
+import com.example.hapi.data.local.room.entities.DetectionOfHistory
 import com.example.hapi.domain.usecase.detection.GetDetectionHistoryByUsernameUseCase
 import com.example.hapi.domain.usecase.detection.GetDetectionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

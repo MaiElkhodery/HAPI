@@ -2,8 +2,8 @@ package com.example.hapi.data.repository
 
 import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
-import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
+import com.example.hapi.data.local.room.dao.DetectionOfHistoryDao
+import com.example.hapi.data.local.room.entities.DetectionOfHistory
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.response.DetectionHistoryResponse

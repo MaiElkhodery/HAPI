@@ -1,7 +1,7 @@
 package com.example.hapi.data.repository
 
-import com.example.hapi.data.local.room.dao.land_history.LandDataDao
-import com.example.hapi.data.local.room.entities.land_history.LandData
+import com.example.hapi.data.local.room.dao.LandDataDao
+import com.example.hapi.data.local.room.entities.LandData
 import com.example.hapi.data.remote.api.LandApiService
 import com.example.hapi.data.remote.response.LandHistoryResponse
 import com.example.hapi.domain.model.SignupErrorInfo

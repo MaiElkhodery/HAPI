@@ -2,8 +2,8 @@ package com.example.hapi.data.repository
 
 import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
-import com.example.hapi.data.local.room.entities.current_detection.CurrentDetection
+import com.example.hapi.data.local.room.dao.CurrentDetectionDao
+import com.example.hapi.data.local.room.entities.CurrentDetection
 import com.example.hapi.data.remote.api.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.domain.model.SignupErrorInfo

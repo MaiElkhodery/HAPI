@@ -5,6 +5,7 @@ import com.example.hapi.data.local.room.dao.CurrentDetectionDao
 import com.example.hapi.data.local.room.dao.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.dao.FarmerDao
 import com.example.hapi.data.local.room.dao.LandDataDao
+import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.api.LandApiService
@@ -29,9 +30,11 @@ object RepositoryModule {
     fun provideAuthRepository(
         authApiService: AuthApiService,
         authPreference: UserDataPreference,
+        apiHandler: ApiHandler
     ) = AuthRepository(
         authApiService,
         authPreference,
+        apiHandler
     )
 
     @Provides
@@ -39,11 +42,11 @@ object RepositoryModule {
     fun provideDetectionRepository(
         detectionApiService: DetectionApiService,
         detectionDao: CurrentDetectionDao,
-        userDataPreference: UserDataPreference
+        userDataPreference: UserDataPreference,
     ) = DiseaseDetectionRepository(
         detectionApiService,
         detectionDao,
-        userDataPreference
+        userDataPreference,
     )
 
     @Provides
@@ -51,11 +54,13 @@ object RepositoryModule {
     fun provideDetectionHistoryRepository(
         detectionOfHistoryDao: DetectionOfHistoryDao,
         detectionApiService: DetectionApiService,
-        userDataPreference: UserDataPreference
+        userDataPreference: UserDataPreference,
+        apiHandler: ApiHandler
     ) = DetectionHistoryRepository(
         detectionApiService,
         detectionOfHistoryDao,
-        userDataPreference
+        userDataPreference,
+        apiHandler
     )
 
     @Provides
@@ -63,11 +68,13 @@ object RepositoryModule {
     fun provideLandownerRepository(
         landownerApiService: LandownerApiService,
         authPreference: UserDataPreference,
-        farmerDao: FarmerDao
+        farmerDao: FarmerDao,
+        apiHandler: ApiHandler
     ) = LandownerRepository(
         landownerApiService,
         authPreference,
-        farmerDao
+        farmerDao,
+        apiHandler
     )
 
     @Provides

@@ -56,7 +56,8 @@ class DetectionHistoryRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             apiHandler.makeRequest(
                 execute = {
-                    detectionApiService.getDetectionWithId(id)
+                    detectionApiService.getDetectionWithId(id).apply {
+                    }
                 }
             )
         }

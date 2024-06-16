@@ -19,6 +19,7 @@ import com.example.hapi.presentation.home.farmer.farmerHomeRoute
 import com.example.hapi.presentation.home.landhistory.ui.landHistoryRoute
 import com.example.hapi.presentation.home.landowner.ui.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
+import com.example.hapi.presentation.language_setup.languageSetUpRoute
 import com.example.hapi.presentation.main.mainRoute
 import com.example.hapi.presentation.welcome.welcomeRoute
 import com.example.hapi.presentation.progress.progressRoute
@@ -63,5 +64,6 @@ fun NavGraph(navController: NavHostController,onLanguageSelected: (String) -> Un
         farmerSettingsRoute(navController)
         cropSelectionRoute(navController)
         languageSettingsRoute(navController,onLanguageSelected)
+        languageSetUpRoute(navController,onLanguageSelected)
     }
 }

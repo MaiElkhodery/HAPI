@@ -52,13 +52,13 @@ fun AboutUs(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(bottom = 36.dp) // Increased bottom padding
+            .padding(bottom = 36.dp)
     ) {
         val screenWidth = maxWidth
         val screenHeight = maxHeight
 
-        val horizontalPadding = if (screenWidth < 360.dp) 16.dp else 22.dp
-        val verticalMargin = if (screenHeight < 600.dp) 16.dp else 24.dp // Reduced vertical margin
+        val horizontalPadding = if (screenWidth < 360.dp) 12.dp else 16.dp
+        val verticalMargin = if (screenHeight < 600.dp) 10.dp else 16.dp
 
         Column(
             modifier = Modifier
@@ -83,7 +83,7 @@ fun AboutUs(
             Spacer(modifier = Modifier.height(verticalMargin)) // Space between header and image
 
             Image(
-                modifier = Modifier.size(if (screenWidth < 360.dp) 120.dp else 180.dp),
+                modifier = Modifier.size(if (screenWidth < 360.dp) 100.dp else 150.dp),
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = null,
                 contentScale = ContentScale.Fit

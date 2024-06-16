@@ -1,8 +1,9 @@
 package com.example.hapi.presentation.home.detectiondetails.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.domain.model.Disease
+import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.detection.GetCurrentDetectionUseCase
 import com.example.hapi.domain.usecase.detection.GetDetectionDetailsUseCase
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class DetectionDetailsViewModel @Inject constructor(
     private val getDetectionDetailsUseCase: GetDetectionDetailsUseCase,
     private val getCurrentDetectionUseCase: GetCurrentDetectionUseCase,
-
+    private val userDataPreference: UserDataPreference
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -34,20 +35,32 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _time = MutableStateFlow("")
     val time = _time.asStateFlow()
 
-    private val _byteArrayImage = MutableStateFlow(ByteArray(0))
-    val byteArrayImage = _byteArrayImage.asStateFlow()
+    private val _imageLocalUri = MutableStateFlow("")
+    val imageLocalUri = _imageLocalUri.asStateFlow()
 
     private val _crop = MutableStateFlow("")
     val crop = _crop.asStateFlow()
 
-    private val _confidence = MutableStateFlow(0.0f)
-    val confidence = _confidence.asStateFlow()
+    private val _certainty = MutableStateFlow("")
+    val certainty = _certainty.asStateFlow()
 
-    private val _diseaseList = MutableStateFlow(emptyList<Disease>())
-    val diseaseList = _diseaseList.asStateFlow()
+    private val _diseaseName = MutableStateFlow("")
+    val diseaseName = _diseaseName.asStateFlow()
+
+    private val _link = MutableStateFlow("")
+    val link = _link.asStateFlow()
 
     private val _imageUrl = MutableStateFlow("")
     val imageUrl = _imageUrl.asStateFlow()
+
+    private val _role = MutableStateFlow("")
+    val role = _role.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _role.value = userDataPreference.getRole()!!
+        }
+    }
 
     fun getRemoteDetectionDetailsById(
         remoteId: Int
@@ -58,25 +71,32 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Error -> {
                         _loading.value = false
                         _errorMsg.value = state.error.message
+                        Log.d("DetectionViewModel", "detectDisease: ${state.error.message}")
                     }
 
                     is State.Loading -> {
                         _loading.value = true
+                        Log.d("DetectionViewModel", "loading")
                     }
 
                     is State.Success -> {
                         _loading.value = false
                         _crop.value = state.result!!.crop.uppercase()
-                        _confidence.value = state.result.detection.confidence
-                        _diseaseList.value = state.result.detection.diseases
-                        _date.value = state.result.date
+                        _certainty.value = state.result.certainty.toString()
                         _time.value = state.result.time
+                        _date.value = state.result.date
                         _username.value = state.result.username
                         _imageUrl.value = state.result.image_url
+                        _diseaseName.value = state.result.disease_name
+
+                        Log.d("DetectionViewModel", "detectDisease: ${state.result}")
+                        Log.d("DetectionViewModel", "detectDisease: ${state.result.image_url}")
                     }
 
-                    else -> {
-
+                    is State.Exception->{
+                        _loading.value = false
+                        _errorMsg.value = state.msg
+                        Log.d("DetectionViewModel", "detectDisease: ${state.msg}")
                     }
                 }
             }
@@ -88,19 +108,14 @@ class DetectionDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
-            _crop.value = result.detection.crop.uppercase()
-            _confidence.value = result.detection.confidence
-            _diseaseList.value = result.diseases.map {
-                Disease(
-                    name = it.name,
-                    confidence = it.confidence,
-                    infoLink = it.infoLink
-                )
-            }
-            _date.value = result.detection.date
-            _time.value = result.detection.time
-            _username.value = result.detection.detectionMaker
-            _byteArrayImage.value = result.detection.image
+            _crop.value = result.crop.uppercase()
+            _certainty.value = result.certainty.toString()
+            _diseaseName.value = result.diseaseName
+            _date.value = result.date
+            _time.value = result.time
+            _username.value = result.username
+            _imageLocalUri.value = result.imageLocalUri
+            _link.value = result.link
         }
     }
 }

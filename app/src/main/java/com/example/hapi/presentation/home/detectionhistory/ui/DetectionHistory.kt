@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.home.common.DetectionHistoryCard
+import com.example.hapi.presentation.home.common.HistoryWarning
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.viewmodel.DetectionHistoryViewModel
 import com.example.hapi.presentation.main.MainViewModel
@@ -42,14 +43,14 @@ fun DetectionHistory(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
     val isAllDetectionsSelected =
         detectionHistoryViewmodel.isAllDetectionsSelected.collectAsState().value
 
-    LaunchedEffect(isAllDetectionsSelected,isEnglish) {
+    LaunchedEffect(isAllDetectionsSelected, isEnglish) {
         isNetworkConnected = isNetworkConnected()
         if (isAllDetectionsSelected)
             detectionHistoryViewmodel.getDetectionHistory()
@@ -63,9 +64,9 @@ fun DetectionHistory(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 16.dp),
     ) {
-        val (header, boxes, list) = createRefs()
+        val (header, filters, list) = createRefs()
         val topGuideLine = createGuidelineFromTop(.02f)
 
         NavHeader(
@@ -76,7 +77,7 @@ fun DetectionHistory(
                 },
             topText = stringResource(id = R.string.detection),
             downText = stringResource(id = R.string.history),
-            imageId = if(isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar
+            imageId = if (isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar
         ) {
             mainViewModel.setSelectedTab(Tab.HOME)
             navController.popBackStack()
@@ -84,8 +85,8 @@ fun DetectionHistory(
 
         DetectionHistoryFilters(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .constrainAs(boxes) {
+                .padding(horizontal = 24.dp)
+                .constrainAs(filters) {
                     top.linkTo(header.bottom, margin = 16.dp)
                 },
             onAllDetectionsSelected = {
@@ -96,35 +97,49 @@ fun DetectionHistory(
             }
         )
 
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 28.dp)
-                .constrainAs(list) {
-                    top.linkTo(boxes.bottom, margin = 22.dp)
+        if (detectionHistoryList.isEmpty())
+            HistoryWarning(
+                topMsg = R.string.not_detections,
+                downMsg = R.string.click_on_camera,
+                modifier = Modifier.constrainAs(list) {
+                    top.linkTo(filters.bottom, margin = 16.dp)
+                    bottom.linkTo(parent.bottom, margin = 16.dp)
+                    centerVerticallyTo(parent)
+                    centerHorizontallyTo(parent)
                 }
-        ) {
-
-            LazyColumn(
+            )
+        else {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp)
+                    .constrainAs(list) {
+                        top.linkTo(filters.bottom, margin = 22.dp)
+                    }
             ) {
-                items(detectionHistoryList.size) { index ->
-                    val detection = detectionHistoryList[index]
-                    Log.d("DetectionHistory", "DetectionHistory: $detection")
-                    DetectionHistoryCard(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        username = detection.username,
-                        date = detection.date,
-                        time = detection.time,
-                        imageUrl = if (isNetworkConnected) detection.imageUrl else ""
-                    ) {
-                        navController.navigateToDetectionDetails(
-                            id = detection.remoteId.toString()
-                        )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                ) {
+                    items(detectionHistoryList.size) { index ->
+                        val detection = detectionHistoryList[index]
+                        Log.d("DetectionHistory", "DetectionHistory: $detection")
+                        DetectionHistoryCard(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            username = detection.username,
+                            date = detection.date,
+                            time = detection.time,
+                            imageUrl = if (isNetworkConnected) detection.imageUrl else ""
+                        ) {
+                            navController.navigateToDetectionDetails(
+                                id = detection.remoteId.toString()
+                            )
+                        }
                     }
                 }
-            }
 
+            }
         }
     }
 }

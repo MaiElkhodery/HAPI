@@ -2,7 +2,7 @@ package com.example.hapi.presentation.home.landhistory.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.local.room.entities.land_history.LandData
+import com.example.hapi.data.local.room.entities.LandData
 import com.example.hapi.domain.usecase.land.GetLandHistoryByActionTypeUseCase
 import com.example.hapi.domain.usecase.land.GetLandHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -11,16 +11,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.DarkGreenBlackText
@@ -28,6 +28,7 @@ import com.example.hapi.util.DarkGreenBlackText
 @Composable
 fun SignButton(
     text: String,
+    isEnglish: Boolean,
     onClick: () -> Unit
 ) {
     Row(
@@ -61,12 +62,18 @@ fun SignButton(
                 },
             contentAlignment = Alignment.Center
         ) {
-            IconButton(
-                onClick = { onClick() }
-            ) {
+
+            IconButton(onClick = { onClick() }) {
+
                 Icon(
-                    modifier = Modifier.size(120.dp),
-                    imageVector = Icons.Default.PlayArrow,
+                    modifier = Modifier
+                        .size(25.dp)
+                        ,
+                    painter = painterResource(
+                        id =
+                        if (isEnglish) R.drawable.continue_icon
+                        else R.drawable.continue_icon_ar
+                    ),
                     contentDescription = "next button",
                     tint = YellowAppColor
                 )
@@ -78,7 +85,7 @@ fun SignButton(
 @Preview
 @Composable
 fun SignButtonPreview() {
-    SignButton(text = "SIGN UP") {
+    SignButton(text = "SIGN UP", isEnglish = true) {
 
     }
 }

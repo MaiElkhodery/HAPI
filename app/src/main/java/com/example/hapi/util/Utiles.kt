@@ -73,23 +73,11 @@ suspend fun uriToByteArray(contentResolver: ContentResolver, uri: Uri): ByteArra
     }
 }
 
-fun Bitmap.toByteArray(): ByteArray {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    this.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-    return byteArrayOutputStream.toByteArray()
-}
 
 fun ByteArray.toBitmap(): Bitmap {
     return BitmapFactory.decodeByteArray(this, 0, size)
 }
 
-fun Bitmap.toCompressedByteArray(
-    quality: Int = 90
-): ByteArray? {
-    val outputStream = ByteArrayOutputStream()
-    compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
-    return outputStream.toByteArray()
-}
 
 suspend fun isNetworkConnected(): Boolean {
     return withContext(Dispatchers.IO) {

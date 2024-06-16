@@ -52,7 +52,7 @@ fun LandHistoryFilters(
                 .background(
                     if (isAllActionsSelected) YellowAppColor else DarkGreenAppColor
                 )
-                .padding(10.dp)
+                .padding(horizontal = 16.dp,vertical = 9.dp)
                 .clip(RoundedCornerShape(4.dp))
                 .clickable {
                     isFertilizationSelected = false
@@ -71,11 +71,11 @@ fun LandHistoryFilters(
 
         Box(
             modifier = Modifier
+                .clip(RoundedCornerShape(4.dp))
                 .background(
                     if (isFertilizationSelected) YellowAppColor else DarkGreenAppColor
                 )
-                .padding(5.dp)
-                .clip(RoundedCornerShape(4.dp))
+                .padding(horizontal = 12.dp)
                 .clickable {
                     isFertilizationSelected = true
                     isIrrigationSelected = false
@@ -97,11 +97,11 @@ fun LandHistoryFilters(
 
         Box(
             modifier = Modifier
+                .clip(RoundedCornerShape(4.dp))
                 .background(
                     if (isIrrigationSelected) YellowAppColor else DarkGreenAppColor
                 )
-                .padding(5.dp)
-                .clip(RoundedCornerShape(4.dp))
+                .padding(horizontal = 12.dp)
                 .clickable {
                     isFertilizationSelected = false
                     isIrrigationSelected = true

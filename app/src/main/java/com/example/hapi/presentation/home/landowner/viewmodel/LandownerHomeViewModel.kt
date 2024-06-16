@@ -91,12 +91,12 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "ERROR")
+                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "EXCEPTION")
+                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
@@ -122,12 +122,12 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND:ERROR")
+                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND:EXCEPTION")
+                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
@@ -151,12 +151,12 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND DATA:ERROR")
+                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND DATA:EXCEPTION")
+                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
@@ -188,15 +188,13 @@ class LandownerHomeViewModel @Inject constructor(
     }
 
     suspend fun getLastDetection() {
-        viewModelScope.launch {
-            getLastDetectionUseCase()?.let { detection ->
-                userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-                _imageUrl.value = detection.imageUrl
-                _detectionUsername.value = detection.username
-                _detectionDate.value = detection.date
-                _detectionTime.value = detection.time
-                _detectionRemoteId.value = detection.remoteId
-            }
+        getLastDetectionUseCase()?.let { detection ->
+            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
+            _imageUrl.value = detection.imageUrl
+            _detectionUsername.value = detection.username
+            _detectionDate.value = detection.date
+            _detectionTime.value = detection.time
+            _detectionRemoteId.value = detection.remoteId
         }
     }
 

@@ -82,7 +82,7 @@ fun LandHistory(
 
         LandHistoryFilters(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 24.dp)
                 .constrainAs(boxes) {
                     top.linkTo(header.bottom, margin = 16.dp)
                 },

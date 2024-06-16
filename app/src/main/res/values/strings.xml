@@ -116,6 +116,15 @@
     <string name="fertilization">FERTILIZATION</string>
     <string name="no_of_farmers">NUMBER OF FARMERS :</string>
     <string name="confidence">CONFIDENCE</string>
+    <string name="disease_result">DISEASE</string>
+    <string name="with_a">WITH A</string>
+    <string name="result_certainty">RESULT CERTAINTY</string>
+    <string name="something_wrong">SOMETHING WENT WRONG!</string>
+    <string name="another_img">TRY AGAIN WITH ANOTHER IMAGE</string>
+    <string name="not_detections">NO DETECTIONS YET</string>
+    <string name="click_on_camera">CLICK ON THE CAMERA ICON\nTO START DETECTING</string>
+    <string name="choose_language">CHOOSE A LANGUAGE</string>
+    <string name="to_proceed">TO PROCEED</string>
     <string name="water_tank">WATER\nTANK</string>
     <string name="n_tank">NITROGEN\nTANK</string>
     <string name="p_tank">PHOSPHORUS TANK</string>

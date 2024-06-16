@@ -1,4 +1,4 @@
-package com.example.hapi.data.local.room.entities.current_detection
+package com.example.hapi.data.local.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,11 +7,12 @@ import androidx.room.PrimaryKey
 data class CurrentDetection(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val detectionMaker: String,
+    val username: String,
     val date: String,
     val time: String,
-    val isHealthy: Boolean,
-    val confidence: Float,
+    val certainty: Float,
+    val diseaseName : String,
+    val link : String,
     val crop: String,
-    val image: ByteArray,
+    val imageLocalUrl: String,
 )

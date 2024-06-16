@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.util.Crop
 import com.example.hapi.util.YellowBlackText
 
@@ -25,11 +26,12 @@ fun FinalSelectedCropContent(
     crop: String,
     onClick: () -> Unit
 ) {
+    val cropName = stringResource(id =  getCropName(crop.uppercase()))
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ChosenCrop(crop = Crop.valueOf(crop.uppercase()))
+        ChosenCrop(crop = cropName)
         Spacer(modifier = Modifier.padding(21.dp))
         ConfirmButton(text = stringResource(id = R.string.confirm_signup)) {
             onClick()
@@ -39,7 +41,7 @@ fun FinalSelectedCropContent(
 
 @Composable
 private fun ChosenCrop(
-    crop: Crop
+    crop: String
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -50,10 +52,10 @@ private fun ChosenCrop(
             modifier = Modifier
                 .size(95.dp)
                 .padding(vertical = 6.dp),
-            painter = painterResource(id = getCropIcon(crop.name)),
+            painter = painterResource(id = getCropIcon(crop)),
             contentDescription = "crop image"
         )
-        YellowBlackText(size = 20, text = crop.name)
+        YellowBlackText(size = 20, text = crop)
 
     }
 }

@@ -25,10 +25,6 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideCurrentDiseaseDao(database: HapiDatabase) = database.currentDiseaseDao()
-
-    @Singleton
-    @Provides
     fun provideCurrentDetectionDao(database: HapiDatabase) = database.currentDetectionDao()
 
     @Singleton

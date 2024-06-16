@@ -122,7 +122,8 @@ fun LandownerSignup(
 
             ConfirmButton(
                 modifier = Modifier,
-                text = stringResource(id = R.string.confirm)
+                text = stringResource(id = R.string.confirm),
+                isEnglish = isEnglish
             ) {
                 viewModel.signupLandowner()
             }

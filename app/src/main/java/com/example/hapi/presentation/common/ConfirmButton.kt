@@ -11,15 +11,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.GreenBlackText
@@ -27,6 +28,7 @@ import com.example.hapi.util.GreenBlackText
 @Composable
 fun ConfirmButton(
     modifier: Modifier = Modifier,
+    isEnglish: Boolean = true,
     text: String,
     onClick: () -> Unit
 ) {
@@ -43,7 +45,9 @@ fun ConfirmButton(
 
             GreenTextBox(text = text)
 
-            ContinueButton { onClick() }
+            ContinueButton(
+                isEnglish = isEnglish
+            ) { onClick() }
 
         }
     }
@@ -71,6 +75,7 @@ private fun GreenTextBox(
 @Composable
 fun ContinueButton(
     modifier: Modifier = Modifier,
+    isEnglish: Boolean = true,
     onClick: () -> Unit
 ) {
     Box(
@@ -82,17 +87,24 @@ fun ContinueButton(
             },
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            modifier = Modifier.size(42.dp),
-            imageVector = Icons.Default.PlayArrow,
-            contentDescription = "next button",
-            tint = YellowAppColor
-        )
+        IconButton(onClick = {onClick() }) {
+
+            Icon(
+                modifier = Modifier.size(25.dp),
+                painter = painterResource(
+                    id =
+                    if (isEnglish) R.drawable.continue_icon
+                    else R.drawable.continue_icon_ar
+                ),
+                contentDescription = "next button",
+                tint = YellowAppColor
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 private fun ConfirmButtonPreview() {
-    ConfirmButton(Modifier, "SIGNUP") {}
+    ConfirmButton(Modifier, text = "SIGNUP") {}
 }

@@ -1,9 +1,9 @@
-package com.example.hapi.data.local.room.dao.detection_history
+package com.example.hapi.data.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.hapi.data.local.room.entities.detection_history.DetectionOfHistory
+import com.example.hapi.data.local.room.entities.DetectionOfHistory
 
 @Dao
 interface DetectionOfHistoryDao {

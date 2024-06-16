@@ -9,7 +9,20 @@
         <State />
       </entry>
       <entry key="LandownerHomePreview (1)">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-12T09:01:27.555221400Z" />
+        </State>
       </entry>
       <entry key="LandownerSettingsPreview">
         <State>
@@ -56,7 +69,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-12T07:19:25.762395100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-06-16T10:48:28.426873300Z" />
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />

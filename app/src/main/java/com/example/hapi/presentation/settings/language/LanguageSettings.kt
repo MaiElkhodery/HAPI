@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.settings.language
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +30,7 @@ import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.ARABIC
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
@@ -40,12 +39,11 @@ import com.example.hapi.util.Tab
 fun LanguageSettings(
     mainViewModel: MainViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    onLanguageSelected: (String) -> Unit = {}
 
 ) {
     val isEnglishIsSelected = languageViewModel.appLanguage.collectAsState().value == ENGLISH
-    val context = LocalContext.current
-    val activity = (context as? Activity)
 
     LaunchedEffect(isEnglishIsSelected) {
         languageViewModel.getLanguage()
@@ -110,8 +108,7 @@ fun LanguageSettings(
                 selectedFontSize = 24,
                 unselectedFontSize = 20
             ) {
-                languageViewModel.onEvent(LanguageEvent.SetLanguageToEnglish)
-                activity?.recreate()
+                onLanguageSelected(ENGLISH)
             }
 
             LanguageOption(
@@ -122,8 +119,7 @@ fun LanguageSettings(
                 selectedFontSize = 24,
                 unselectedFontSize = 20
             ) {
-                languageViewModel.onEvent(LanguageEvent.SetLanguageToArabic)
-                activity?.recreate()
+                onLanguageSelected(ARABIC)
             }
 
         }

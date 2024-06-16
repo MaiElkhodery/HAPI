@@ -1,9 +1,9 @@
-package com.example.hapi.data.local.room.dao.farmer
+package com.example.hapi.data.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.hapi.data.local.room.entities.farmer.Farmer
+import com.example.hapi.data.local.room.entities.Farmer
 
 @Dao
 interface FarmerDao {

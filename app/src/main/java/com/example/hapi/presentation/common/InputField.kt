@@ -51,7 +51,6 @@ import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.Locale
 
 @Composable
 fun SignLabeledInputFields(
@@ -149,9 +148,7 @@ private fun InputField(
     var trailingIconColor by remember {
         mutableStateOf(GreenAppColor)
     }
-    val currentLocale = Locale.getDefault()
-    val layoutDirection =
-        if (currentLocale.isO3Language == "ar") LayoutDirection.Rtl else LayoutDirection.Ltr
+    val layoutDirection = LocalLayoutDirection.current
     val textAlign = if (layoutDirection == LayoutDirection.Rtl) TextAlign.End else TextAlign.Start
 
     CompositionLocalProvider(

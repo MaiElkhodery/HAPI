@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
@@ -23,11 +25,18 @@ import com.example.hapi.presentation.auth.signin.navToSignin
 import com.example.hapi.presentation.detection.guest_cropselection.navigateToGuestCropSelection
 import com.example.hapi.presentation.home.common.ORTextRow
 import com.example.hapi.presentation.progress.navToProgress
+import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.ENGLISH
 
 @Composable
-fun WelcomeScreen(navController: NavController) {
+fun WelcomeScreen(
+    navController: NavController,
+    languageViewModel: LanguageViewModel = hiltViewModel()
+) {
+
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +70,8 @@ fun WelcomeScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(top = contentMargin),
                 text = stringResource(id = R.string.first_time),
-                buttonText = stringResource(id = R.string.signup)
+                buttonText = stringResource(id = R.string.signup),
+                isEnglish = isEnglish
             ) {
                 navController.navToProgress("false")
             }
@@ -71,7 +81,8 @@ fun WelcomeScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(top = contentMargin),
                 text = stringResource(id = R.string.have_account),
-                buttonText = stringResource(id = R.string.signin)
+                buttonText = stringResource(id = R.string.signin),
+                isEnglish = isEnglish
             ) {
                 navController.navToSignin()
             }
@@ -79,7 +90,8 @@ fun WelcomeScreen(navController: NavController) {
             ORTextRow(
                 modifier = Modifier
                     .padding(top = contentMargin, bottom = contentMargin),
-                text = stringResource(id = R.string.detect_now)
+                text = stringResource(id = R.string.detect_now),
+                iconId = if (isEnglish) R.drawable.continue_icon else R.drawable.continue_icon_ar
             ) {
                 navController.navigateToGuestCropSelection()
             }

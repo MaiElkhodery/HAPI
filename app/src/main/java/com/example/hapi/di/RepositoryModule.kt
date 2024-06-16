@@ -1,11 +1,11 @@
 package com.example.hapi.di
 
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.current_detection.CurrentDetectionDao
-import com.example.hapi.data.local.room.dao.current_detection.CurrentDiseaseDao
-import com.example.hapi.data.local.room.dao.detection_history.DetectionOfHistoryDao
-import com.example.hapi.data.local.room.dao.farmer.FarmerDao
-import com.example.hapi.data.local.room.dao.land_history.LandDataDao
+import com.example.hapi.data.local.room.dao.CurrentDetectionDao
+import com.example.hapi.data.local.room.dao.DetectionOfHistoryDao
+import com.example.hapi.data.local.room.dao.FarmerDao
+import com.example.hapi.data.local.room.dao.LandDataDao
+import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.api.LandApiService
@@ -30,9 +30,11 @@ object RepositoryModule {
     fun provideAuthRepository(
         authApiService: AuthApiService,
         authPreference: UserDataPreference,
+        apiHandler: ApiHandler
     ) = AuthRepository(
         authApiService,
         authPreference,
+        apiHandler
     )
 
     @Provides
@@ -40,13 +42,11 @@ object RepositoryModule {
     fun provideDetectionRepository(
         detectionApiService: DetectionApiService,
         detectionDao: CurrentDetectionDao,
-        diseaseDao: CurrentDiseaseDao,
-        userDataPreference: UserDataPreference
+        userDataPreference: UserDataPreference,
     ) = DiseaseDetectionRepository(
         detectionApiService,
         detectionDao,
-        diseaseDao,
-        userDataPreference
+        userDataPreference,
     )
 
     @Provides
@@ -54,11 +54,13 @@ object RepositoryModule {
     fun provideDetectionHistoryRepository(
         detectionOfHistoryDao: DetectionOfHistoryDao,
         detectionApiService: DetectionApiService,
-        userDataPreference: UserDataPreference
+        userDataPreference: UserDataPreference,
+        apiHandler: ApiHandler
     ) = DetectionHistoryRepository(
         detectionApiService,
         detectionOfHistoryDao,
-        userDataPreference
+        userDataPreference,
+        apiHandler
     )
 
     @Provides
@@ -66,11 +68,13 @@ object RepositoryModule {
     fun provideLandownerRepository(
         landownerApiService: LandownerApiService,
         authPreference: UserDataPreference,
-        farmerDao: FarmerDao
+        farmerDao: FarmerDao,
+        apiHandler: ApiHandler
     ) = LandownerRepository(
         landownerApiService,
         authPreference,
-        farmerDao
+        farmerDao,
+        apiHandler
     )
 
     @Provides

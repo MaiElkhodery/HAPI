@@ -1,9 +1,9 @@
 package com.example.hapi.data.repository
 
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.local.room.dao.farmer.FarmerDao
-import com.example.hapi.data.local.room.entities.farmer.Farmer
-import com.example.hapi.data.remote.api.ApiHandler
+import com.example.hapi.data.local.room.dao.FarmerDao
+import com.example.hapi.data.local.room.entities.Farmer
+import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.LandownerApiService
 import com.example.hapi.data.remote.request.SelectCropRequest
 import com.example.hapi.data.remote.response.CropRecommendationResponse
@@ -20,17 +20,18 @@ import javax.inject.Inject
 class LandownerRepository @Inject constructor(
     private val landownerApiService: LandownerApiService,
     private val userDataPreference: UserDataPreference,
-    private val farmerDao: FarmerDao
-) : ApiHandler() {
+    private val farmerDao: FarmerDao,
+    private val apiHandler: ApiHandler
+) {
 
     suspend fun cropRecommendation(): Flow<State<CropRecommendationResponse?>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = { landownerApiService.getRecommendedCrops() },
         )
     }
 
     suspend fun uploadSelectedCrop(crop: String): Flow<State<Unit>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = {
                 landownerApiService.uploadSelectedCrop(SelectCropRequest(crop = crop))
             },
@@ -74,7 +75,7 @@ class LandownerRepository @Inject constructor(
 
     suspend fun getLastFarmer(): Flow<State<LastFarmerResponse>> {
         return withContext(Dispatchers.IO) {
-            ApiHandler().makeRequest(
+            apiHandler.makeRequest(
                 execute = {
                     landownerApiService.getLastFarmer()
                 }
@@ -84,7 +85,7 @@ class LandownerRepository @Inject constructor(
 
     suspend fun fetchFarmers(): Flow<State<List<String>>> {
         return withContext(Dispatchers.IO) {
-            ApiHandler().makeRequest(
+            apiHandler.makeRequest(
                 execute = {
                     landownerApiService.getFarmers()
                 },

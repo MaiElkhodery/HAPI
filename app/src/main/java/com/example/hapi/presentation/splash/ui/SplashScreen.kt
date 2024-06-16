@@ -27,9 +27,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
+import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
-import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
@@ -90,7 +90,7 @@ fun Splash(
                 }
 
                 else -> {
-                    navController.navigateToWelcomeScreen()
+                    navController.navigateToLanguageSetUp()
                 }
             }
         }
@@ -106,7 +106,7 @@ fun Splash(
             } else {
                 navController.navigateToMainScreen(role!!)
             }
-        } else navController.navigateToWelcomeScreen()
+        } else navController.navigateToLanguageSetUp()
     }
 }
 

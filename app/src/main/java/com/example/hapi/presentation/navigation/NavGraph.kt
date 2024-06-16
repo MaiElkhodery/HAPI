@@ -19,6 +19,7 @@ import com.example.hapi.presentation.home.farmer.farmerHomeRoute
 import com.example.hapi.presentation.home.landhistory.ui.landHistoryRoute
 import com.example.hapi.presentation.home.landowner.ui.landownerHomeRoute
 import com.example.hapi.presentation.identityselection.identitySelectionRoute
+import com.example.hapi.presentation.language_setup.languageSetUpRoute
 import com.example.hapi.presentation.main.mainRoute
 import com.example.hapi.presentation.welcome.welcomeRoute
 import com.example.hapi.presentation.progress.progressRoute
@@ -32,9 +33,8 @@ import com.example.hapi.presentation.settings.support.helpAndSupportRoute
 import com.example.hapi.presentation.splash.ui.splashOneRoute
 
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(navController: NavHostController,onLanguageSelected: (String) -> Unit) {
     val startRoute = "splash"
-//    val startRoute = "landowner_home"
     NavHost(navController = navController, startDestination = startRoute) {
         progressRoute(navController)
         splashOneRoute(navController)
@@ -63,6 +63,7 @@ fun NavGraph(navController: NavHostController) {
         aboutUsRoute(navController)
         farmerSettingsRoute(navController)
         cropSelectionRoute(navController)
-        languageSettingsRoute(navController)
+        languageSettingsRoute(navController,onLanguageSelected)
+        languageSetUpRoute(navController,onLanguageSelected)
     }
 }

@@ -31,3 +31,9 @@ enum class LandHistoryFilter{
     FERTILIZATION,
     IRRIGATION
 }
+
+enum class Languages{
+    ENGLISH,
+    ARABIC,
+    SYSTEM
+}

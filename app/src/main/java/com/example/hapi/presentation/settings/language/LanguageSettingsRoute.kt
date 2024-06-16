@@ -5,10 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 private const val ROUTE = "language_settings"
-fun NavGraphBuilder.languageSettingsRoute(navController: NavController) {
+fun NavGraphBuilder.languageSettingsRoute(navController: NavController, onLanguageSelected: (String) -> Unit){
 
     composable(route = ROUTE) {
-        LanguageSettings(navController = navController)
+        LanguageSettings(navController = navController, onLanguageSelected = onLanguageSelected)
     }
 }
 

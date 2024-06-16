@@ -11,6 +11,7 @@ import com.example.hapi.util.YellowMediumText
 @Composable
 fun WelcomeScreenContent(
     modifier: Modifier = Modifier,
+    isEnglish: Boolean,
     text: String,
     buttonText: String,
     onClick: () -> Unit
@@ -25,7 +26,7 @@ fun WelcomeScreenContent(
             modifier = Modifier.padding(bottom = 12.dp),
             size = 15
         )
-        SignButton(text = buttonText) {
+        SignButton(text = buttonText,isEnglish = isEnglish){
             onClick()
         }
     }

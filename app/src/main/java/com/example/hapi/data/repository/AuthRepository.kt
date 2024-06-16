@@ -1,12 +1,11 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
-import com.example.hapi.data.remote.api.ApiHandler
+import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
-import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.FarmerSignupRequest
 import com.example.hapi.data.remote.request.LandownerSignupRequest
+import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
@@ -18,16 +17,16 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val userDataPreference: UserDataPreference
-) : ApiHandler() {
+    private val userDataPreference: UserDataPreference,
+    private val apiHandler: ApiHandler
+)  {
     suspend fun signupLandowner(
         landownerSignupRequest: LandownerSignupRequest
     ): Flow<State<SignupResponse?>> {
 
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = { authApiService.signupLandowner(landownerSignupRequest) },
             onSuccess = { response ->
-                Log.d("AuthRepository", "signupLandowner: $response")
                 userDataPreference.saveAuthToken(response.token)
                 userDataPreference.saveRole(LANDOWNER)
                 userDataPreference.saveUsername(response.username)
@@ -39,7 +38,7 @@ class AuthRepository @Inject constructor(
     suspend fun signupFarmer(
         farmerSignupRequest: FarmerSignupRequest
     ): Flow<State<SignupResponse?>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = { authApiService.signupFarmer(farmerSignupRequest) },
             onSuccess = { response ->
                 userDataPreference.saveAuthToken(response.token)
@@ -53,15 +52,11 @@ class AuthRepository @Inject constructor(
     suspend fun signin(
         signinRequest: SigninRequest
     ): Flow<State<SigninResponse?>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = {
-                authApiService.signin(signinRequest).apply {
-                    Log.d("AuthRepository", "signin: $this")
-
-                }
+                authApiService.signin(signinRequest)
             },
             onSuccess = { response ->
-                Log.d("AuthRepository", "signin: $response")
                 userDataPreference.saveAuthToken(response.token)
                 userDataPreference.saveRole(response.role)
                 userDataPreference.saveUsername(response.username)
@@ -74,7 +69,7 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun logout(): Flow<State<Unit>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = { authApiService.logout() },
             onSuccess = {
                 clearUserDataPreference()
@@ -83,12 +78,11 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun deleteAccount(password: String): Flow<State<Unit>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = {
                 authApiService.deleteAccount(
                     PasswordRequest(password)
                 ).apply {
-                    Log.d("AuthRepository", "deleteAccount: $this")
                 }
             },
             onSuccess = {
@@ -98,7 +92,7 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun checkPassword(password:String): Flow<State<Unit>> {
-        return ApiHandler().makeRequest(
+        return apiHandler.makeRequest(
             execute = {
                 authApiService.checkPassword(
                     PasswordRequest(password)

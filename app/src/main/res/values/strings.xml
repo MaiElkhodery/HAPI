@@ -125,5 +125,9 @@
     <string name="click_on_camera">CLICK ON THE CAMERA ICON\nTO START DETECTING</string>
     <string name="choose_language">CHOOSE A LANGUAGE</string>
     <string name="to_proceed">TO PROCEED</string>
+    <string name="water_tank">WATER\nTANK</string>
+    <string name="n_tank">NITROGEN\nTANK</string>
+    <string name="p_tank">PHOSPHORUS TANK</string>
+    <string name="k_tank">POTASSIUM\nTANK</string>
 
 </resources>

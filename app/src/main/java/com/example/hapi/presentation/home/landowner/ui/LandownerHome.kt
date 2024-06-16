@@ -65,11 +65,13 @@ fun LandownerHome(
     val landActionDate = viewModel.landActionDate.collectAsState().value
     val landActionTime = viewModel.landActionTime.collectAsState().value
     val waterLevel = viewModel.waterLevel.collectAsState().value
-    val npk = viewModel.npk.collectAsState().value
     val crop = viewModel.crop.collectAsState().value
     val lastFarmerUsername = viewModel.lastFarmerUsername.collectAsState().value
     val lastFarmerDate = viewModel.lastFarmerDate.collectAsState().value
     val lastFarmerTime = viewModel.lastFarmerTime.collectAsState().value
+    val nitrogen = viewModel.nitrogen.collectAsState().value
+    val phosphorus = viewModel.phosphorus.collectAsState().value
+    val potassium = viewModel.potassium.collectAsState().value
 
     ConstraintLayout(
         modifier = Modifier
@@ -89,12 +91,16 @@ fun LandownerHome(
             topText = stringResource(id = R.string.welcome_home),
             downText = username,
         )
-        LandData(
+        LandDataHeader(
             modifier = Modifier.constrainAs(dataHeader) {
-                top.linkTo(welcomeHeader.bottom, margin = 21.dp)
+                top.linkTo(welcomeHeader.bottom, margin = 12.dp)
                 bottom.linkTo(content.top)
             },
-            crop = crop, waterLevel = waterLevel, npk = npk
+            crop = crop,
+            waterTankLevel = waterLevel,
+            nTankLevel = nitrogen.toInt(),
+            pTankLevel = phosphorus.toInt(),
+            kTankLevel = potassium.toInt()
         )
         LandownerHomeLandData(
             modifier = Modifier

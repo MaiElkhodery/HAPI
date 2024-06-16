@@ -104,7 +104,9 @@ class AuthRepository @Inject constructor(
     private suspend fun clearUserDataPreference() {
         userDataPreference.saveUsername("")
         userDataPreference.saveLandId("")
-        userDataPreference.saveNPK("")
+        userDataPreference.saveNitrogenTankLevel("")
+        userDataPreference.savePhosphorusTankLevel("")
+        userDataPreference.savePotassiumTankLevel("")
         userDataPreference.saveCrop("")
         userDataPreference.saveAuthToken("")
         userDataPreference.saveLastDetectionHistoryId("1")

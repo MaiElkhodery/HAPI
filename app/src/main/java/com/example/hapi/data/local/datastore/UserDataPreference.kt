@@ -9,7 +9,9 @@ import com.example.hapi.util.LAND_ID_KEY
 import com.example.hapi.util.LANGUAGE_KEY
 import com.example.hapi.util.LAST_DETECTION_HISTORY_ID_KEY
 import com.example.hapi.util.LAST_LAND_DATA_HISTORY_ID_KEY
-import com.example.hapi.util.NPK_KEY
+import com.example.hapi.util.NITROGEN_KEY
+import com.example.hapi.util.PHOSPHORUS_KEY
+import com.example.hapi.util.POTASSIUM_KEY
 import com.example.hapi.util.ROLE_KEY
 import com.example.hapi.util.USERNAME_KEY
 import com.example.hapi.util.WATER_LEVEL_KEY
@@ -67,9 +69,21 @@ class UserDataPreference @Inject constructor(
         }
     }
 
-    suspend fun saveNPK(npk: String) {
+    suspend fun saveNitrogenTankLevel(n: String) {
         dataStore.edit { pref ->
-            pref[NPK_KEY] = setOf(npk)
+            pref[NITROGEN_KEY] = setOf(n)
+        }
+    }
+
+    suspend fun savePhosphorusTankLevel(p: String) {
+        dataStore.edit { pref ->
+            pref[PHOSPHORUS_KEY] = setOf(p)
+        }
+    }
+
+    suspend fun savePotassiumTankLevel(k: String) {
+        dataStore.edit { pref ->
+            pref[POTASSIUM_KEY] = setOf(k)
         }
     }
 
@@ -120,9 +134,20 @@ class UserDataPreference @Inject constructor(
         return preferences[WATER_LEVEL_KEY]?.first() ?: "0"
     }
 
-    suspend fun getNPK(): String {
+    suspend fun getNitrogenTankLevel(): String {
         val preferences = dataStore.data.first()
-        return preferences[NPK_KEY]?.first() ?: "0 - 0 - 0"
+        return preferences[NITROGEN_KEY]?.first() ?: "0"
+    }
+
+    suspend fun getPhosphorusTankLevel(): String {
+        val preferences = dataStore.data.first()
+        return preferences[PHOSPHORUS_KEY]?.first() ?: "0"
+    }
+
+    suspend fun getPotassiumTankLevel(): String {
+        val preferences = dataStore.data.first()
+        return preferences[POTASSIUM_KEY]?.first() ?: "0"
+
     }
 
     suspend fun getLanguage(): String? {

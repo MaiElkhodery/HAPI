@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+
             runBlocking {
                 initLanguage()
             }
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
             val languageViewModel: LanguageViewModel by lazy {
                 LanguageViewModel(datastore)
             }
+            
             val language = languageViewModel.appLanguage.collectAsState().value
             val isRtl = getRtlMode(language)
             val direction =

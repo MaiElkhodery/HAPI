@@ -126,5 +126,9 @@
     <string name="click_on_camera">انقر على أيقونة الكاميرا\nلا ابدأ في الاكتشاف</string>
     <string name="choose_language">اختر لغة</string>
     <string name="to_proceed">للمتابعة</string>
+    <string name="water_tank">خزان \nالمياة</string>
+    <string name="n_tank">خزان\n النيتروجين</string>
+    <string name="p_tank">خزان\n الفوسفور</string>
+    <string name="k_tank">"خزان\nالبوتاسيوم "</string>
 
 </resources>

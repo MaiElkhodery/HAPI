@@ -11,7 +11,9 @@ val CROP_KEY = stringSetPreferencesKey("crop_key")
 val LAST_DETECTION_HISTORY_ID_KEY = stringSetPreferencesKey("last_detection_history_id_key")
 val LAST_LAND_DATA_HISTORY_ID_KEY = stringSetPreferencesKey("last_land_history_id_key")
 val WATER_LEVEL_KEY = stringSetPreferencesKey("water_level")
-val NPK_KEY = stringSetPreferencesKey("npk")
+val NITROGEN_KEY = stringSetPreferencesKey("nitrogen")
+val PHOSPHORUS_KEY = stringSetPreferencesKey("phosphorus")
+val POTASSIUM_KEY = stringSetPreferencesKey("potassium")
 val LANGUAGE_KEY = stringSetPreferencesKey("language")
 
 

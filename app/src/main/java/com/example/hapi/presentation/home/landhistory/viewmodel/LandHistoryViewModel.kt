@@ -34,15 +34,22 @@ class LandHistoryViewModel @Inject constructor(
         }
     }
 
-    fun getLandHistoryByActionType() {
+     fun getLandHistoryByActionType(actionType: String) {
         viewModelScope.launch {
-            getLandHistoryByActionTypeUseCase(_actionType.value)?.let {
-                _landHistory.value = it
+            try {
+                _landHistory.value = getLandHistoryByActionTypeUseCase(actionType) ?: emptyList()
+            } catch (e: Exception) {
+                _errorMsg.value = e.message ?: "Unknown error"
             }
         }
     }
 
     fun modifyActionType(actionType: String) {
         _actionType.value = actionType
+        if (actionType.isBlank()) {
+            getAllLandHistory()
+        } else {
+            getLandHistoryByActionType(actionType)
+        }
     }
 }

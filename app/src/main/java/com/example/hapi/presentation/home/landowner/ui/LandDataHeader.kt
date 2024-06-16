@@ -34,7 +34,7 @@ import com.example.hapi.util.YellowBoldText
 
 
 @Composable
-fun LandDataHeader(
+fun TanksData(
     modifier: Modifier = Modifier,
     crop: String,
     waterTankLevel: Int,
@@ -168,7 +168,7 @@ fun LandDataItem(
 @Preview
 @Composable
 fun LandDataHeaderPreview() {
-    LandDataHeader(
+    TanksData(
         crop = "TOMATO",
         waterTankLevel = 50,
         nTankLevel = 20,

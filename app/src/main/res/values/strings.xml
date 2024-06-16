@@ -129,5 +129,7 @@
     <string name="n_tank">NITROGEN\nTANK</string>
     <string name="p_tank">PHOSPHORUS TANK</string>
     <string name="k_tank">POTASSIUM\nTANK</string>
+    <string name="no_actions">NO ACTIONS YET</string>
+    <string name="wait_for_the_device">WAIT FOR THE DEVICES\nTO START TO SEE RESULTS</string>
 
 </resources>

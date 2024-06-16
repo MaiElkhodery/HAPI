@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -34,7 +35,7 @@ import com.example.hapi.R
 import com.example.hapi.domain.model.LandAction
 import com.example.hapi.presentation.home.common.ActionInfo
 import com.example.hapi.presentation.home.common.LastDetectionContent
-import com.example.hapi.presentation.home.common.LastLandActionCard
+import com.example.hapi.presentation.home.common.LandActionCard
 import com.example.hapi.presentation.home.common.HomeNotFoundWarning
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
@@ -50,7 +51,6 @@ fun LandownerHomeLandData(
     detectionUsername: String,
     detectionDate: String,
     detectionTime: String,
-    byteArray: ByteArray? = null,
     imageUrl: String = "",
     lastLandAction: LandAction,
     lastFarmerUsername: String,
@@ -77,7 +77,8 @@ fun LandownerHomeLandData(
             modifier = Modifier
                 .size(70.dp),
             painter = painterResource(id = R.drawable.crop_profile),
-            contentDescription = "home crop image"
+            contentDescription = "home crop image",
+            contentScale = ContentScale.FillBounds
         )
         Column {
 
@@ -141,7 +142,6 @@ fun LandownerHomeLandData(
                                 username = detectionUsername,
                                 date = detectionDate,
                                 time = detectionTime,
-                                byteArray = byteArray,
                                 imageUrl = imageUrl,
                             ) {
                                 onClickDetectionDetailsIcon()
@@ -157,7 +157,7 @@ fun LandownerHomeLandData(
 
                     isLandSelected -> {
                         if (lastLandAction.name.isNotBlank()) {
-                            LastLandActionCard(
+                            LandActionCard(
                                 modifier = Modifier.height(Dimens.home_box_height),
                                 action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
                                 date = lastLandAction.date,

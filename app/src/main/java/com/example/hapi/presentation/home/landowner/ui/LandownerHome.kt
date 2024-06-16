@@ -3,9 +3,11 @@ package com.example.hapi.presentation.home.landowner.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -78,8 +80,10 @@ fun LandownerHome(
             .fillMaxSize()
             .background(GreenAppColor)
     ) {
+
         val (welcomeHeader, dataHeader, content, historyCards) = createRefs()
         val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_home)
+
         NavHeader(
             modifier = Modifier
                 .padding(horizontal = Dimens.nav_header_horizontal_padding)
@@ -91,9 +95,10 @@ fun LandownerHome(
             topText = stringResource(id = R.string.welcome_home),
             downText = username,
         )
-        LandDataHeader(
+
+        TanksData(
             modifier = Modifier.constrainAs(dataHeader) {
-                top.linkTo(welcomeHeader.bottom, margin = 12.dp)
+                top.linkTo(welcomeHeader.bottom, margin = 16.dp)
                 bottom.linkTo(content.top)
             },
             crop = crop,
@@ -106,7 +111,7 @@ fun LandownerHome(
             modifier = Modifier
                 .padding(horizontal = 35.dp)
                 .constrainAs(content) {
-                    top.linkTo(dataHeader.bottom, margin = 21.dp)
+                    top.linkTo(dataHeader.bottom,margin = 16.dp)
                     bottom.linkTo(historyCards.top)
                 },
             lastLandAction = LandAction(
@@ -127,9 +132,9 @@ fun LandownerHome(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 26.dp)
+                .padding(horizontal = 35.dp)
                 .constrainAs(historyCards) {
-                    top.linkTo(content.bottom, margin = 12.dp)
+                    top.linkTo(content.bottom)
                     bottom.linkTo(parent.bottom, margin = 33.dp)
                 },
             horizontalArrangement = Arrangement.SpaceBetween
@@ -138,6 +143,7 @@ fun LandownerHome(
                 isLand = true,
                 modifier = Modifier.weight(1f)
             ) { navController.navigateToLandHistory() }
+            Spacer(modifier = Modifier.width(10.dp).weight(0.2f))
             VerticalHistoryCard(
                 isLand = false,
                 modifier = Modifier.weight(1f)

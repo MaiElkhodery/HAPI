@@ -30,7 +30,6 @@ fun VerticalHistoryCard(
 ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 12.dp)
             .clickable {
                 onClick()
             },
@@ -47,7 +46,7 @@ fun VerticalHistoryCard(
         ) {
             Image(
                 modifier = Modifier
-                    .padding(top = 3.dp)
+                    .padding(top = 5.dp)
                     .size(55.dp),
                 painter = painterResource(
                     id = if (isLand) {
@@ -117,7 +116,7 @@ fun HistoryCardPreview() {
         isLand = true,
         onClick = {}
     )
-    HorizontalHistoryCard(
-        onClick = {}
-    )
+//    HorizontalHistoryCard(
+//        onClick = {}
+//    )
 }

@@ -1,9 +1,12 @@
 package com.example.hapi.presentation.home.landhistory.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -13,17 +16,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.home.common.LastLandActionCard
+import com.example.hapi.presentation.home.common.HistoryWarning
+import com.example.hapi.presentation.home.common.LandActionCard
 import com.example.hapi.presentation.home.landhistory.viewmodel.LandHistoryViewModel
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
@@ -42,76 +46,99 @@ fun LandHistory(
     landHistoryViewmodel: LandHistoryViewModel = hiltViewModel()
 ) {
 
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
     var isNetworkConnected by remember {
         mutableStateOf(true)
     }
     val actionType = landHistoryViewmodel.actionType.collectAsState().value
+
     LaunchedEffect(key1 = actionType) {
         isNetworkConnected = isNetworkConnected()
         if (actionType.isBlank())
             landHistoryViewmodel.getAllLandHistory()
         else
-            landHistoryViewmodel.getLandHistoryByActionType()
+            landHistoryViewmodel.getLandHistoryByActionType(actionType)
     }
 
     val landHistoryList = landHistoryViewmodel.landHistory.collectAsState().value
 
-    ConstraintLayout(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 28.dp)
     ) {
-        val (header, boxes, list) = createRefs()
-        val topGuideLine = createGuidelineFromTop(.02f)
 
-        NavHeader(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .constrainAs(header) {
-                    top.linkTo(topGuideLine)
-                },
-            imageId = if(isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar,
-            topText = stringResource(id = R.string.detection),
-            downText = stringResource(id = R.string.history)
-        ) {
-            mainViewModel.setSelectedTab(Tab.HOME)
-            navController.popBackStack()
-        }
+        val maxHeight = maxHeight
+        val maxWidth = maxWidth
 
-        LandHistoryFilters(
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .constrainAs(boxes) {
-                    top.linkTo(header.bottom, margin = 16.dp)
-                },
-            onAllActionsSelected = { landHistoryViewmodel.modifyActionType("") },
-            onFertilizationSelected = { landHistoryViewmodel.modifyActionType(LandHistoryFilter.FERTILIZATION.name.lowercase()) },
-            onIrrigationSelected = { landHistoryViewmodel.modifyActionType(LandHistoryFilter.IRRIGATION.name.lowercase()) }
-        )
+        val headerPadding = if (maxWidth > 300.dp) 22.dp else 16.dp
+        val contentHorizontalPadding = if (maxWidth > 300.dp) 32.dp else 22.dp
+        val backIconSize = if (maxHeight < 650.dp) 60 else 80
+        val verticalPadding = if (maxHeight < 650.dp) 14.dp else 22.dp
 
-        Box(
+        Column(
             modifier = Modifier
-                .padding(horizontal = 26.dp)
-                .constrainAs(list) {
-                    top.linkTo(boxes.bottom, margin = 22.dp)
-                }
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
+            Spacer(modifier = Modifier.height(verticalPadding))
+
+            NavHeader(
+                modifier = Modifier.padding(horizontal = headerPadding),
+                imageId = if (isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar,
+                topText = stringResource(id = R.string.detection),
+                downText = stringResource(id = R.string.history),
+                imageSize = backIconSize
             ) {
-                items(landHistoryList.size) { index ->
-                    val landData = landHistoryList[index]
-                    LastLandActionCard(
-                        modifier = Modifier.padding(vertical = 11.dp),
-                        action = LandAction.valueOf(landData.action_type.uppercase()),
-                        date = landData.date,
-                        time = landData.time
-                    )
+                mainViewModel.setSelectedTab(Tab.HOME)
+                navController.popBackStack()
+            }
+
+            Spacer(modifier = Modifier.height(verticalPadding))
+
+            LandHistoryFilters(
+                modifier = Modifier
+                    .padding(horizontal = contentHorizontalPadding),
+                onFilterSelected = { filterType ->
+                    when (filterType) {
+                        LandFilterType.All -> landHistoryViewmodel.modifyActionType("")
+                        LandFilterType.Fertilization -> landHistoryViewmodel.modifyActionType(
+                            LandHistoryFilter.FERTILIZATION.name.lowercase()
+                        )
+
+                        LandFilterType.Irrigation -> landHistoryViewmodel.modifyActionType(
+                            LandHistoryFilter.IRRIGATION.name.lowercase()
+                        )
+                    }
                 }
+            )
+
+            Spacer(modifier = Modifier.height(verticalPadding))
+
+            if (landHistoryList.isEmpty())
+                HistoryWarning(
+                    topMsg = R.string.no_actions,
+                    downMsg = R.string.wait_for_the_device,
+                )
+            else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = contentHorizontalPadding)
+                ) {
+                    items(landHistoryList.size) { index ->
+                        val landData = landHistoryList[index]
+                        LandActionCard(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            action = LandAction.valueOf(landData.action_type.uppercase()),
+                            date = landData.date,
+                            time = landData.time
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(verticalPadding))
             }
 
         }

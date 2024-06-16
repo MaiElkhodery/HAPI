@@ -57,7 +57,7 @@ fun DetectionHistoryCard(
                 imagePath = imageUrl,
                 byteArrayImage = byteArray,
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(.8f),
                 contentScale = ContentScale.FillBounds
             )
 
@@ -72,7 +72,7 @@ fun DetectionHistoryCard(
 
             DetectionDetailsIcon(
                 modifier = Modifier
-                    .weight(.31f)
+                    .weight(.4f)
                     .fillMaxHeight()
             ) {
                 onClick()

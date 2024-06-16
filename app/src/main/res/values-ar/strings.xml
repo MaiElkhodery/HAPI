@@ -130,5 +130,7 @@
     <string name="n_tank">خزان\n النيتروجين</string>
     <string name="p_tank">خزان\n الفوسفور</string>
     <string name="k_tank">"خزان\nالبوتاسيوم "</string>
+    <string name="no_actions">لا توجد إجراءات حتى الآن</string>
+    <string name="wait_for_the_device">انتظر الأجهزة\nللبدء في رؤية النتائج</string>
 
 </resources>

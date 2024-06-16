@@ -105,8 +105,9 @@ fun DetectionDetails(
                 time = time
             )
 
+
             if (diseaseName.isBlank()) {
-                HealthyResult(certainty = certainty.toInt(),
+                HealthyResult(certainty = certainty,
                     modifier = Modifier.constrainAs(result) {
                         top.linkTo(data.bottom, margin = 26.dp)
                         bottom.linkTo(bottomGuideLine)
@@ -115,7 +116,7 @@ fun DetectionDetails(
 
             } else {
                 DiseasedResult(
-                    diseaseName = diseaseName, certainty = certainty.toInt(),
+                    diseaseName = diseaseName, certainty = certainty,
                     modifier = Modifier.constrainAs(result) {
                         top.linkTo(data.bottom, margin = 26.dp)
                         bottom.linkTo(bottomGuideLine)

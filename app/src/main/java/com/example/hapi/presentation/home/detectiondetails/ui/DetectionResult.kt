@@ -25,7 +25,7 @@ import com.example.hapi.util.YellowBoldText
 fun DiseasedResult(
     modifier: Modifier = Modifier,
     diseaseName: String,
-    certainty: Int,
+    certainty: String,
     onClick: () -> Unit
 ) {
     Column(
@@ -55,7 +55,7 @@ fun DiseasedResult(
 @Composable
 fun HealthyResult(
     modifier: Modifier = Modifier,
-    certainty: Int
+    certainty: String
 ){
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -72,7 +72,7 @@ fun HealthyResult(
 
 @Composable
 fun CertaintyText(
-    certainty: Int
+    certainty: String
 ){
     Row(
         modifier = Modifier.padding(top = 6.dp),
@@ -102,6 +102,6 @@ fun CertaintyText(
 fun DiseasesResultPreview() {
     DiseasedResult(
         diseaseName = "EARLY BLIGHT",
-        certainty = 50
+        certainty = "50"
     ) {}
 }

@@ -41,7 +41,7 @@ class DetectionDetailsViewModel @Inject constructor(
     private val _crop = MutableStateFlow("")
     val crop = _crop.asStateFlow()
 
-    private val _certainty = MutableStateFlow(0.0f)
+    private val _certainty = MutableStateFlow("")
     val certainty = _certainty.asStateFlow()
 
     private val _diseaseName = MutableStateFlow("")
@@ -82,7 +82,7 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Success -> {
                         _loading.value = false
                         _crop.value = state.result!!.crop.uppercase()
-                        _certainty.value = state.result.certainty
+                        _certainty.value = state.result.certainty.toString()
                         _time.value = state.result.time
                         _date.value = state.result.date
                         _username.value = state.result.username
@@ -93,8 +93,10 @@ class DetectionDetailsViewModel @Inject constructor(
                         Log.d("DetectionViewModel", "detectDisease: ${state.result.image_url}")
                     }
 
-                    else -> {
-
+                    is State.Exception->{
+                        _loading.value = false
+                        _errorMsg.value = state.msg
+                        Log.d("DetectionViewModel", "detectDisease: ${state.msg}")
                     }
                 }
             }
@@ -107,7 +109,7 @@ class DetectionDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getCurrentDetectionUseCase(id)
             _crop.value = result.crop.uppercase()
-            _certainty.value = result.certainty
+            _certainty.value = result.certainty.toString()
             _diseaseName.value = result.diseaseName
             _date.value = result.date
             _time.value = result.time

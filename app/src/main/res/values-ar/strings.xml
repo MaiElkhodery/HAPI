@@ -124,5 +124,7 @@
     <string name="another_img">حاول مرة أخرى مع صورة أخرى</string>
     <string name="not_detections">لم يتم اكتشاف أي شيء حتى الآن</string>
     <string name="click_on_camera">انقر على أيقونة الكاميرا\nلا ابدأ في الاكتشاف</string>
+    <string name="choose_language">اختر لغة</string>
+    <string name="to_proceed">للمتابعة</string>
 
 </resources>

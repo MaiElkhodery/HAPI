@@ -123,5 +123,7 @@
     <string name="another_img">TRY AGAIN WITH ANOTHER IMAGE</string>
     <string name="not_detections">NO DETECTIONS YET</string>
     <string name="click_on_camera">CLICK ON THE CAMERA ICON\nTO START DETECTING</string>
+    <string name="choose_language">CHOOSE A LANGUAGE</string>
+    <string name="to_proceed">TO PROCEED</string>
 
 </resources>

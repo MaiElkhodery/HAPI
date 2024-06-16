@@ -113,6 +113,7 @@ fun Signin(
         }
 
         ConfirmButton(
+            isEnglish = isEnglish,
             modifier = Modifier
                 .constrainAs(button) {
                     top.linkTo(content.bottom)

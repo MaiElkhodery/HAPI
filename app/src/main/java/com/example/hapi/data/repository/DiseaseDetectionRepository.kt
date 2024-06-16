@@ -1,6 +1,5 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.CurrentDetectionDao
 import com.example.hapi.data.local.room.entities.CurrentDetection
@@ -24,7 +23,6 @@ class DiseaseDetectionRepository @Inject constructor(
     private val detectionApiService: DetectionApiService,
     private val currentDetectionDao: CurrentDetectionDao,
     private val userDataPreference: UserDataPreference,
-    private val apiHandler: ApiHandler
 ) {
     suspend fun detectDisease(
         crop: String,

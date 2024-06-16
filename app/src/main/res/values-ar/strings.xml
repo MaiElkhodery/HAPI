@@ -118,8 +118,8 @@
     <string name="no_of_farmers">عدد المزارعين : </string>
     <string name="confidence">ثقة</string>
     <string name="disease_result">DISEASE</string>
-    <string name="with_a">WITH A</string>
-    <string name="result_certainty">RESULT CERTAINTY</string>
+    <string name="with_a">"مع "</string>
+    <string name="result_certainty">نتيجة مؤكدة</string>
     <string name="something_wrong">هناك خطأ ما!</string>
     <string name="another_img">حاول مرة أخرى مع صورة أخرى</string>
     <string name="not_detections">لم يتم اكتشاف أي شيء حتى الآن</string>

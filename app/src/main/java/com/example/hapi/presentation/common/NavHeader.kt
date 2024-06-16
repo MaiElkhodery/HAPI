@@ -30,7 +30,7 @@ fun NavHeader(
     topText: String,
     downText: String,
     imageId: Int = R.drawable.back_btn,
-    imageSize: Int = 88,
+    imageSize: Int = 80,
     onClick: () -> Unit = {}
 ) {
     Row(
@@ -39,13 +39,17 @@ fun NavHeader(
             .height(IntrinsicSize.Max),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+
         Image(
-            modifier = Modifier.size(imageSize.dp).clickable {
-                onClick()
-            },
+            modifier = Modifier
+                .size(imageSize.dp)
+                .clickable {
+                    onClick()
+                },
             painter = painterResource(id = imageId),
             contentDescription = "logo"
         )
+
         Column(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.Center,

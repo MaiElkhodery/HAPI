@@ -180,15 +180,13 @@ class LandownerHomeViewModel @Inject constructor(
     }
 
     suspend fun getLastDetection() {
-        viewModelScope.launch {
-            getLastDetectionUseCase()?.let { detection ->
-                userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-                _imageUrl.value = detection.imageUrl
-                _detectionUsername.value = detection.username
-                _detectionDate.value = detection.date
-                _detectionTime.value = detection.time
-                _detectionRemoteId.value = detection.remoteId
-            }
+        getLastDetectionUseCase()?.let { detection ->
+            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
+            _imageUrl.value = detection.imageUrl
+            _detectionUsername.value = detection.username
+            _detectionDate.value = detection.date
+            _detectionTime.value = detection.time
+            _detectionRemoteId.value = detection.remoteId
         }
     }
 

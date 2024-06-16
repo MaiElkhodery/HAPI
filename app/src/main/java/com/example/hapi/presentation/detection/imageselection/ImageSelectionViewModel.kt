@@ -51,7 +51,11 @@ class ImageSelectionViewModel @Inject constructor(
                         Log.d("DetectionViewModel", "detectDisease: ${state.error.message}")
                     }
 
-                    else -> {}
+                    is State.Exception -> {
+                        _loading.value = false
+                        _errorMsg.value = state.msg
+                        Log.d("DetectionViewModel", "detectDisease: ${state.msg}")
+                    }
                 }
             }
         }

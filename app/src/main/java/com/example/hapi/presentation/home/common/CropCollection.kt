@@ -1,10 +1,8 @@
 package com.example.hapi.presentation.home.common
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,21 +14,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
+import com.example.hapi.util.YellowBoldText
 
 @Composable
 fun CropCollection(
@@ -46,11 +39,12 @@ fun CropCollection(
         verticalArrangement = Arrangement.Center
     ) {
         items(Crop.entries) { crop ->
+
             CropItem(
-                crop = crop
-            ) {
-                onClick(crop)
-            }
+                crop = crop,
+                onClick = { onClick(crop) }
+            )
+
         }
     }
 }
@@ -63,59 +57,46 @@ private fun CropItem(
     Column(
         modifier = Modifier
             .padding(bottom = 21.dp)
-            .clickable {
-                onClick(crop)
-            }
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val cropName = stringResource(id = getCropName(crop = crop.name))
-        CropImageCard(imageId = getCropIcon(cropName))
-        CropText(crop = crop)
+        CropImageCard(imageId = getCropIcon(cropName)) {
+            onClick(crop)
+        }
+        YellowBoldText(
+            text = stringResource(id = getCropName(crop = crop.name)),
+            size = 12,
+            modifier = Modifier.padding(top = 12.dp)
+        )
     }
 }
 
 @Composable
 private fun CropImageCard(
-    imageId: Int
+    imageId: Int,
+    onClick: () -> Unit
 ) {
     Card(
+        modifier = Modifier
+            .clickable {
+                onClick()
+            },
         shape = RoundedCornerShape(3.dp),
         colors = CardDefaults.cardColors(
             containerColor = YellowAppColor
         )
     ) {
-        Box(
+
+        Image(
             modifier = Modifier
-                .padding(11.dp)
-        ) {
-            Image(
-                modifier = Modifier.size(44.dp),
-                painter = painterResource(id = imageId),
-                contentDescription = "crop image"
-            )
-        }
+                .padding(10.dp)
+                .size(44.dp),
+            painter = painterResource(id = imageId),
+            contentDescription = "crop image"
+        )
+
     }
-}
-
-@Composable
-private fun CropText(
-    crop: Crop
-) {
-
-    Text(
-        modifier = Modifier
-            .padding(top = 12.dp),
-        color = YellowAppColor,
-        fontSize = 11.sp,
-        fontFamily = FontFamily(
-            Font(
-                R.font.poppins_bold
-            )
-        ),
-        text = stringResource(id = getCropName(crop = crop.name)),
-        textAlign = TextAlign.Center
-    )
 }
 
 @Preview

@@ -131,6 +131,9 @@ fun LandownerSignup(
 
             SignWarningBox(warningText = passwordError)
 
+            Spacer(modifier = Modifier.height(smallPadding))
+            
+            
             ConfirmButton(
                 modifier = Modifier,
                 text = stringResource(id = R.string.confirm),

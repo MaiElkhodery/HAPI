@@ -43,32 +43,34 @@ fun SignupCropSelection(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 26.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val smallPadding = screenHeight * 0.015f
+        val largePadding = screenHeight * 0.03f
+        val logoSize = if (screenHeight < 600.dp) 60.dp else 80.dp
+        val backIconSize = if (screenHeight < 600.dp) 60 else 75
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
             )
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             NavHeader(
                 topText = stringResource(id = R.string.setting_up),
@@ -78,22 +80,22 @@ fun SignupCropSelection(
             ) {
                 navController.navigateToCropSelectionStrategy()
             }
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             Title(title = stringResource(id = R.string.avilable_crop))
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             CropCollection(
                 modifier = Modifier
             ) { crop ->
                 navController.navigateToFinalSelectedCrop(crop.name)
             }
-            Spacer(modifier = Modifier.size(bottomPadding))
+            Spacer(modifier = Modifier.size(largePadding))
 
             LotusRow(
                 highlightedLotusPos = 2,
             )
-            Spacer(modifier = Modifier.size(bottomPadding))
+            Spacer(modifier = Modifier.size(largePadding))
             
         }
     }

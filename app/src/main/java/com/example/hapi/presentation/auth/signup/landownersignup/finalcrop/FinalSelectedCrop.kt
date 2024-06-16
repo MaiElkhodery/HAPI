@@ -1,6 +1,7 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.finalcrop
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,38 +38,48 @@ fun FinalSelectedCrop(
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val error = viewModel.errorMsg.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
+    val cropIsUploaded = viewModel.cropIsUploaded.collectAsState().value
 
-    LaunchedEffect(error) {
+    LaunchedEffect(error, cropIsUploaded) {
         if (error.isNotEmpty()) {
             //TODO: handle error
+        }
+        if (cropIsUploaded) {
+            navController.navToProgress(final = "true")
         }
     }
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 26.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
+        val smallPadding = screenHeight * 0.02f
+        val largePadding = screenHeight * 0.03f
+        val logoSize = if (screenHeight < 600.dp) 60.dp else 80.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
-        Column {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
 
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
             )
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             NavHeader(
                 topText = stringResource(id = R.string.setting_up),
@@ -78,24 +90,21 @@ fun FinalSelectedCrop(
                 navController.popBackStack()
             }
 
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(largePadding))
 
             FinalSelectedCropContent(
                 crop = crop
             ) {
                 viewModel.uploadSelectedCrop(crop.lowercase())
             }
-            Spacer(modifier = Modifier.size(bottomPadding))
+            Spacer(modifier = Modifier.size(largePadding))
 
 
             LotusRow(
                 highlightedLotusPos = 3,
             )
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(largePadding))
 
-            if (viewModel.cropIsUploaded.collectAsState().value) {
-                navController.navToProgress(final = "true")
-            }
         }
     }
 }

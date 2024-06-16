@@ -42,7 +42,7 @@ fun CropSelectionStrategy(
     val isLoading = viewModel.loading.collectAsState().value
     val crops = viewModel.recommendedCrops.collectAsState().value
     val error = viewModel.errorMsg.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     LaunchedEffect(crops) {
         if (crops.isNotEmpty()) {
@@ -53,20 +53,22 @@ fun CropSelectionStrategy(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 26.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
         val topPadding = screenHeight * 0.02f
         val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
+        val logoSize = if (screenHeight < 600.dp) 60.dp else 75.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -102,11 +104,11 @@ fun CropSelectionStrategy(
                     navController.navigateToSignupCropSelection()
                 }
             )
-            Spacer(modifier = Modifier.height(bottomPadding))
+            Spacer(modifier = Modifier.height(contentPadding))
             LotusRow(
                 highlightedLotusPos = 1
             )
-            Spacer(modifier = Modifier.height(bottomPadding))
+            Spacer(modifier = Modifier.height(contentPadding))
         }
     }
 }

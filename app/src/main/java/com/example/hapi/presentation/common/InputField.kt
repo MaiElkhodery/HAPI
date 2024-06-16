@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.YellowBlackText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -65,7 +65,7 @@ fun SignLabeledInputFields(
     ) {
         when (title) {
             stringResource(id = R.string.phone_number) -> {
-                Label(title)
+                YellowBlackText(size = 16, text = title)
                 InputField(
                     content = content,
                     imageId = R.drawable.phone
@@ -75,7 +75,7 @@ fun SignLabeledInputFields(
             }
 
             stringResource(id = R.string.user_name) -> {
-                Label(title)
+                YellowBlackText(size = 16, text = title)
                 InputField(
                     content = content,
                     imageId = R.drawable.user,
@@ -85,7 +85,7 @@ fun SignLabeledInputFields(
             }
 
             stringResource(id = R.string.farm_id) -> {
-                Label(title)
+                YellowBlackText(size = 16, text = title)
                 InputField(
                     content = content,
                     imageId = R.drawable.farm,
@@ -95,7 +95,7 @@ fun SignLabeledInputFields(
             }
 
             else -> {
-                Label(title)
+                YellowBlackText(size = 16, text = title)
                 InputField(
                     content = content,
                     imageId = R.drawable.password,
@@ -107,22 +107,6 @@ fun SignLabeledInputFields(
         }
     }
 
-}
-
-@Composable
-private fun Label(
-    title: String
-) {
-    Text(
-        text = title,
-        color = YellowAppColor,
-        fontSize = 16.sp,
-        fontFamily = FontFamily(
-            Font(
-                R.font.poppins_black
-            )
-        )
-    )
 }
 
 @Composable
@@ -167,7 +151,7 @@ private fun InputField(
                 Icon(
                     modifier = Modifier
                         .weight(0.11f)
-                        .size(33.dp)
+                        .size(30.dp)
                         .padding(start = 12.dp),
                     painter = painterResource(id = imageId),
                     contentDescription = null,
@@ -183,7 +167,7 @@ private fun InputField(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(51.dp)
+                    .height(48.dp)
                     .background(backgroundColor)
                     .weight(1f)
                     .wrapContentHeight(Alignment.CenterVertically)
@@ -213,7 +197,7 @@ private fun InputField(
                         )
                     ),
                     fontSize = 14.sp,
-                    lineHeight = 10.sp,
+                    lineHeight = 8.sp,
                     textAlign = textAlign
                 ),
                 visualTransformation = visualTransformation,

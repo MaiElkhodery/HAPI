@@ -62,7 +62,7 @@ private fun GreenTextBox(
         modifier = Modifier
             .background(YellowAppColor)
             .fillMaxHeight()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 26.dp, vertical = 7.dp),
         contentAlignment = Alignment.Center
     ) {
 
@@ -78,29 +78,30 @@ fun ContinueButton(
     isEnglish: Boolean = true,
     onClick: () -> Unit
 ) {
+
     Box(
         modifier = modifier
             .background(DarkGreenAppColor)
+            .padding(11.dp)
             .fillMaxHeight()
             .clickable {
-                onClick()
+                       onClick()
             },
         contentAlignment = Alignment.Center
-    ) {
-        IconButton(onClick = {onClick() }) {
+        ) {
 
-            Icon(
-                modifier = Modifier.size(25.dp),
-                painter = painterResource(
-                    id =
-                    if (isEnglish) R.drawable.continue_icon
-                    else R.drawable.continue_icon_ar
-                ),
-                contentDescription = "next button",
-                tint = YellowAppColor
-            )
-        }
+        Icon(
+            modifier = Modifier.size(22.dp),
+            painter = painterResource(
+                id =
+                if (isEnglish) R.drawable.continue_icon
+                else R.drawable.continue_icon_ar
+            ),
+            contentDescription = "next button",
+            tint = YellowAppColor
+        )
     }
+
 }
 
 @Preview

@@ -28,11 +28,11 @@ import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun WarningBox(
+fun SignWarningBox(
     warningText: String
 ) {
     if (warningText.isEmpty()) {
-        Box(modifier = Modifier.padding(12.dp))
+        Box(modifier = Modifier.padding(10.dp))
     } else {
         Row(
             modifier = Modifier
@@ -72,7 +72,7 @@ fun WarningBox(
 @Preview
 @Composable
 fun WarningBoxPreview() {
-    WarningBox(
+    SignWarningBox(
         warningText = "THIS USERNAME ALREADY EXISTS"
     )
 }

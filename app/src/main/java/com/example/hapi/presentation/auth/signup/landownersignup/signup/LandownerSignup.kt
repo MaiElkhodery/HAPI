@@ -1,7 +1,6 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +31,7 @@ import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.SignLabeledInputFields
-import com.example.hapi.presentation.common.WarningBox
+import com.example.hapi.presentation.common.SignWarningBox
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -48,29 +50,38 @@ fun LandownerSignup(
     val authenticated = viewModel.authenticated.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
 
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(authenticated){
+        if (authenticated) {
+            navController.navigateToCropSelectionStrategy()
+        }
+    }
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 24.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val smallPadding = screenHeight * 0.04f
+        val largePadding = screenHeight * 0.03f
+        val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
+        val backIconSize = if (screenHeight < 650.dp) 60 else 75
+        val horizontalPadding = if(screenWidth < 400.dp) 24.dp else 28.dp
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = horizontalPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             Logo(
                 modifier = Modifier
@@ -78,7 +89,7 @@ fun LandownerSignup(
                     .size(logoSize)
             )
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             NavHeader(
                 modifier = Modifier,
@@ -90,7 +101,7 @@ fun LandownerSignup(
                 navController.navigateToIdentitySelection()
             }
 
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(largePadding))
 
 
             SignLabeledInputFields(
@@ -100,7 +111,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
-            WarningBox(warningText = phoneNumberError)
+            SignWarningBox(warningText = phoneNumberError)
 
             SignLabeledInputFields(
                 title = stringResource(id = R.string.user_name),
@@ -109,7 +120,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
-            WarningBox(warningText = usernameError)
+            SignWarningBox(warningText = usernameError)
 
             SignLabeledInputFields(
                 title = stringResource(id = R.string.password),
@@ -118,7 +129,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
-            WarningBox(warningText = passwordError)
+            SignWarningBox(warningText = passwordError)
 
             ConfirmButton(
                 modifier = Modifier,
@@ -128,19 +139,17 @@ fun LandownerSignup(
                 viewModel.signupLandowner()
             }
 
-            Spacer(modifier = Modifier.height(bottomPadding))
+            Spacer(modifier = Modifier.height(largePadding))
 
             LotusRow(
                 highlightedLotusPos = 0,
                 modifier = Modifier
             )
 
-            Spacer(modifier = Modifier.height(bottomPadding))
+            Spacer(modifier = Modifier.height(largePadding))
         }
     }
-    if (authenticated) {
-        navController.navigateToCropSelectionStrategy()
-    }
+
 }
 
 @Preview

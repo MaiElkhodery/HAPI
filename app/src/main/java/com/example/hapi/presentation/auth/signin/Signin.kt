@@ -26,7 +26,7 @@ import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.SignLabeledInputFields
-import com.example.hapi.presentation.common.WarningBox
+import com.example.hapi.presentation.common.SignWarningBox
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
@@ -93,7 +93,7 @@ fun Signin(
             verticalArrangement = Arrangement.Center
         ) {
 
-            WarningBox(warningText = errorMsg)
+            SignWarningBox(warningText = errorMsg)
 
             SignLabeledInputFields(
                 title = stringResource(id = R.string.phone_number),

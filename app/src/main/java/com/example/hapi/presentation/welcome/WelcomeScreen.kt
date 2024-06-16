@@ -91,7 +91,7 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .padding(top = contentMargin, bottom = contentMargin),
                 text = stringResource(id = R.string.detect_now),
-//                isEnglish = isEnglish
+                iconId = if (isEnglish) R.drawable.continue_icon else R.drawable.continue_icon_ar
             ) {
                 navController.navigateToGuestCropSelection()
             }

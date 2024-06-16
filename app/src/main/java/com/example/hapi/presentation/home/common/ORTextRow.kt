@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
@@ -22,9 +20,10 @@ import com.example.hapi.util.YellowMediumText
 fun ORTextRow(
     modifier: Modifier = Modifier,
     text: String,
-    icon: ImageVector = Icons.Default.PlayArrow,
+    iconId: Int = R.drawable.gallery_icon,
     onClick: () -> Unit
 ) {
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -41,7 +40,7 @@ fun ORTextRow(
         YellowBlackText(size = 15, text = text)
         Icon(
             modifier = Modifier.padding(start = 3.dp),
-            imageVector = icon,
+            painter = painterResource(id = iconId),
             contentDescription = null,
             tint = YellowAppColor
         )

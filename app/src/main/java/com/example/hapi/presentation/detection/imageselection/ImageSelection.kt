@@ -11,8 +11,6 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -160,8 +158,7 @@ fun ImageSelection(
                 .constrainAs(bottomText) {
                     bottom.linkTo(bottomGuideLine)
                 },
-            text = stringResource(id = R.string.choose_from_photos),
-            icon = Icons.Default.PhotoLibrary
+            text = stringResource(id = R.string.choose_from_photos)
         ) {
             galleryLauncher.launch("image/*")
         }

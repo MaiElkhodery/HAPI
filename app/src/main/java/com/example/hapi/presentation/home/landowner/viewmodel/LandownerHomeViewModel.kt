@@ -91,17 +91,17 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
+                        Log.d("LANDOWNER HOME DetectionHistory", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
+                        Log.d("LANDOWNER HOME DetectionHistory", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LOADING")
+                        Log.d("LANDOWNER HOME DetectionHistory", "LOADING")
                     }
 
                     is State.Success -> {
@@ -122,22 +122,22 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
+                        Log.d("LANDOWNER HOME LAND HISTORY", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
+                        Log.d("LANDOWNER HOME LAND HISTORY", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LAND:LOADING")
+                        Log.d("LANDOWNER HOME LAND HISTORY", "LAND:LOADING")
                     }
 
                     is State.Success -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND:LOADING")
+                        Log.d("LANDOWNER HOME LAND HISTORY", "LAND:SUCCESS")
                     }
 
                 }
@@ -151,20 +151,21 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
+                        Log.d("LANDOWNER HOME TANKS DATA", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
+                        Log.d("LANDOWNER HOME TANKS DATA", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LAND DATA:LOADING")
+                        Log.d("LANDOWNER HOME TANKS DATA", "LAND DATA:LOADING")
                     }
 
                     is State.Success -> {
+                        Log.d("LANDOWNER HOME TANKS DATA", "LAND DATA:SUCCESS")
                         _loading.value = false
                         _waterLevel.value = userDataPreference.getWaterLevel().toInt()
                         _nitrogen.value = userDataPreference.getNitrogenTankLevel()

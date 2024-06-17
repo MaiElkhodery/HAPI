@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.settings.common.SettingItem
-import com.example.hapi.util.YellowExtraBoldText
+import com.example.hapi.presentation.common.YellowExtraBoldText
 
 @Composable
 fun FarmerSettingsOptions(

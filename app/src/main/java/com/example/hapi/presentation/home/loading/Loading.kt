@@ -27,8 +27,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.crossFadeAnimation
-import com.example.hapi.util.YellowBlackText
-import com.example.hapi.util.YellowMediumText
+import com.example.hapi.presentation.common.YellowBlackText
+import com.example.hapi.presentation.common.YellowMediumText
 import kotlinx.coroutines.delay
 
 @Composable

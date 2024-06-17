@@ -124,8 +124,8 @@ fun LandHistory(
             else {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(horizontal = contentHorizontalPadding)
+                        .fillMaxWidth()
                 ) {
                     items(landHistoryList.size) { index ->
                         val landData = landHistoryList[index]

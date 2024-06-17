@@ -26,8 +26,8 @@ import com.example.hapi.presentation.common.ContinueButton
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
-import com.example.hapi.util.GreenBlackText
-import com.example.hapi.util.YellowBlackText
+import com.example.hapi.presentation.common.GreenBlackText
+import com.example.hapi.presentation.common.YellowBlackText
 
 @Composable
 fun RecommendedCropsList(

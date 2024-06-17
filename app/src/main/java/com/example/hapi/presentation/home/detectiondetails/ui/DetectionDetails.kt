@@ -3,24 +3,27 @@ package com.example.hapi.presentation.home.detectiondetails.ui
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.detection.guest_cropselection.navigateToGuestCropSelection
 import com.example.hapi.presentation.home.detectiondetails.viewmodel.DetectionDetailsViewModel
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.main.navigateToMainScreen
@@ -60,43 +63,54 @@ fun DetectionDetails(
 
     val context = LocalContext.current
 
-    ConstraintLayout(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp, horizontal = 16.dp)
     ) {
 
-        val (header, data, result) = createRefs()
-        val bottomGuideLine = createGuidelineFromBottom(0.2f)
+        val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        NavHeader(
+        val smallPadding = screenHeight * 0.04f
+        val largePadding = screenHeight * 0.03f
+        val backIconSize = if (screenHeight < 650.dp) 60 else 75
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+
+
+
+        Column(
             modifier = Modifier
-                .constrainAs(header) {
-                    top.linkTo(parent.top)
-                },
-            topText = stringResource(id = R.string.detection),
-            downText = stringResource(id = R.string.result),
-            imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (isCurrentDetection) {
-                mainViewModel.setSelectedTab(Tab.CAMERA)
-                navController.navigateToMainScreen(role)
-            } else {
-                if (role.isNotBlank())
+
+            Spacer(modifier = Modifier.height(smallPadding))
+
+            NavHeader(
+                modifier = Modifier,
+                topText = stringResource(id = R.string.detection),
+                downText = stringResource(id = R.string.result),
+                imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
+                imageSize = backIconSize
+            ) {
+                if (role.isNotBlank()) {
+                    if (isCurrentDetection) {
+                        mainViewModel.setSelectedTab(Tab.CAMERA)
+                        navController.navigateToMainScreen(role)
+                    } else {
+                        navController.popBackStack()
+                    }
+                } else if (isCurrentDetection) {
                     navController.popBackStack()
-                else
-                    navController.navigateToGuestCropSelection()
+                }
             }
-        }
-        if (crop.isNotBlank()) {
+
+            Spacer(modifier = Modifier.height(largePadding))
 
             DetectionDetailsData(
-                modifier = Modifier
-                    .constrainAs(data) {
-                        top.linkTo(header.bottom, margin = 26.dp)
-                        bottom.linkTo(result.top, margin = 16.dp)
-                    },
+                modifier = Modifier,
                 crop = crop,
                 imageUrl = imageUrl,
                 imageLocalUri = imageLocalUri,
@@ -105,22 +119,15 @@ fun DetectionDetails(
                 time = time
             )
 
+            Spacer(modifier = Modifier.height(largePadding))
 
             if (diseaseName.isBlank()) {
-                HealthyResult(certainty = certainty,
-                    modifier = Modifier.constrainAs(result) {
-                        top.linkTo(data.bottom, margin = 26.dp)
-                        bottom.linkTo(bottomGuideLine)
-                    }
-                )
+                HealthyResult(certainty = certainty)
 
             } else {
+
                 DiseasedResult(
-                    diseaseName = diseaseName, certainty = certainty,
-                    modifier = Modifier.constrainAs(result) {
-                        top.linkTo(data.bottom, margin = 26.dp)
-                        bottom.linkTo(bottomGuideLine)
-                    }
+                    diseaseName = diseaseName, certainty = certainty
                 ) {
                     ContextCompat.startActivity(
                         context,

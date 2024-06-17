@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.ContinueButtonWithYellowBackground
-import com.example.hapi.util.YellowBlackText
+import com.example.hapi.presentation.common.YellowBlackText
 
 @Composable
 fun SetupMessage(

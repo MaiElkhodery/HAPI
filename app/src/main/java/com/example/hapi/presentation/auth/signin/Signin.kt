@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -50,6 +51,20 @@ fun Signin(
     val isLandowner = signinViewModel.isLandowner.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
+    LaunchedEffect(authenticated){
+        if (authenticated) {
+            mainViewModel.setSelectedTab(Tab.HOME)
+            if (isLandowner) {
+                navController.navigateToMainScreen(
+                    role = LANDOWNER
+                )
+            } else {
+                navController.navigateToMainScreen(
+                    role = FARMER
+                )
+            }
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -134,18 +149,7 @@ fun Signin(
                 }
         )
     }
-    if (authenticated) {
-        mainViewModel.setSelectedTab(Tab.HOME)
-        if (isLandowner) {
-            navController.navigateToMainScreen(
-                role = LANDOWNER
-            )
-        } else {
-            navController.navigateToMainScreen(
-                role = FARMER
-            )
-        }
-    }
+
 }
 
 @Preview

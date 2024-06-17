@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.GreenBlackText
+import com.example.hapi.presentation.common.GreenBlackText
 
 @Composable
 fun LandHistoryFilters(

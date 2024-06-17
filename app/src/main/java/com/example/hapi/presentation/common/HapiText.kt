@@ -1,4 +1,4 @@
-package com.example.hapi.util
+package com.example.hapi.presentation.common
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

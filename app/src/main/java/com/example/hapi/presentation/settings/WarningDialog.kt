@@ -51,9 +51,9 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.DarkGreenBoldText
-import com.example.hapi.util.RedBlackText
-import com.example.hapi.util.YellowBlackText
+import com.example.hapi.presentation.common.DarkGreenBoldText
+import com.example.hapi.presentation.common.RedBlackText
+import com.example.hapi.presentation.common.YellowBlackText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

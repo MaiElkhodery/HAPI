@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowBlackText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

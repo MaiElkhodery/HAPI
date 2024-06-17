@@ -25,8 +25,8 @@ import com.example.hapi.R
 import com.example.hapi.presentation.home.common.HomeNotFoundWarning
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.GreenBlackText
-import com.example.hapi.util.YellowExtraBoldText
+import com.example.hapi.presentation.common.GreenBlackText
+import com.example.hapi.presentation.common.YellowExtraBoldText
 
 @Composable
 fun NoFarmers(

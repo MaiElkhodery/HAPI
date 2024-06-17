@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.hapi.util.YellowMediumText
+import com.example.hapi.presentation.common.YellowMediumText
 
 @Composable
 fun WelcomeScreenContent(

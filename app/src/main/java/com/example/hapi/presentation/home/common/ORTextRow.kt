@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowBlackText
-import com.example.hapi.util.YellowMediumText
+import com.example.hapi.presentation.common.YellowBlackText
+import com.example.hapi.presentation.common.YellowMediumText
 
 @Composable
 fun ORTextRow(

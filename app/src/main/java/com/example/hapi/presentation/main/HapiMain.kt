@@ -39,7 +39,8 @@ fun HapiMainScreen(
                 },
                 onSettingsClick = {
                     viewModel.setSelectedTab(Tab.SETTINGS)
-                }
+                },
+                selectedTab = selectedTab
             )
         }
     ) { padding ->

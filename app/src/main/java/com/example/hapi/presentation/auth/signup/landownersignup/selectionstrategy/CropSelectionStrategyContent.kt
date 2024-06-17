@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.GreenBlackText
-import com.example.hapi.util.YellowBoldText
+import com.example.hapi.presentation.common.GreenBlackText
+import com.example.hapi.presentation.common.YellowBoldText
 
 
 @Composable

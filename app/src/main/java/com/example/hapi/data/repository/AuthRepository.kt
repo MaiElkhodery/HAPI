@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
@@ -83,6 +84,7 @@ class AuthRepository @Inject constructor(
                 authApiService.deleteAccount(
                     PasswordRequest(password)
                 ).apply {
+                    Log.d("AuthRepository", "deleteAccount: $this")
                 }
             },
             onSuccess = {

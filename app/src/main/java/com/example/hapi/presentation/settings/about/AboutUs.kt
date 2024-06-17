@@ -37,7 +37,7 @@ import com.example.hapi.util.ABOUT_US_LINK
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
-import com.example.hapi.util.YellowBlackText
+import com.example.hapi.presentation.common.YellowBlackText
 
 @Composable
 fun AboutUs(
@@ -80,7 +80,7 @@ fun AboutUs(
                 navController.popBackStack()
             }
 
-            Spacer(modifier = Modifier.height(verticalMargin)) // Space between header and image
+            Spacer(modifier = Modifier.height(verticalMargin))
 
             Image(
                 modifier = Modifier.size(if (screenWidth < 360.dp) 100.dp else 150.dp),
@@ -89,14 +89,14 @@ fun AboutUs(
                 contentScale = ContentScale.Fit
             )
 
-            Spacer(modifier = Modifier.height(verticalMargin)) // Space between image and text
+            Spacer(modifier = Modifier.height(verticalMargin))
 
             YellowBlackText(
                 size = 10,
                 text = stringResource(id = R.string.about_us_text),
                 modifier = Modifier
                     .padding(
-                        vertical = 12.dp, // Reduced vertical padding
+                        vertical = 12.dp,
                         horizontal = if (screenWidth < 360.dp) 30.dp else 55.dp
                     )
             )
@@ -113,7 +113,7 @@ fun AboutUs(
                 )
             }
 
-            Spacer(modifier = Modifier.height(verticalMargin * 2)) // Extra space at the bottom
+            Spacer(modifier = Modifier.height(verticalMargin * 2))
         }
     }
 }

@@ -3,7 +3,6 @@ package com.example.hapi.data.repository
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.CurrentDetectionDao
 import com.example.hapi.data.local.room.entities.CurrentDetection
-import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State

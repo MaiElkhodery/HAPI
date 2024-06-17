@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
-import com.example.hapi.util.YellowBoldText
+import com.example.hapi.presentation.common.YellowBoldText
 
 @Composable
 fun CropCollection(

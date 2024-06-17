@@ -36,11 +36,13 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.presentation.common.DarkGreenBlackText
+import com.example.hapi.util.Tab
 
 @Composable
 fun CustomNavigationBottom(
     modifier: Modifier = Modifier,
+    selectedTab: Tab,
     onHomeClick: () -> Unit,
     onCameraClick: () -> Unit,
     onSettingsClick: () -> Unit
@@ -87,7 +89,7 @@ fun CustomNavigationBottom(
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                 },
-                isSelected = isHomeSelected,
+                isSelected  = selectedTab == Tab.HOME,
                 text = stringResource(id = R.string.home),
                 icon = Icons.Default.Home
             ) {
@@ -100,7 +102,8 @@ fun CustomNavigationBottom(
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 },
-                isSelected = isSettingsSelected, text = stringResource(id = R.string.settings),
+                isSelected = selectedTab == Tab.SETTINGS,
+                text = stringResource(id = R.string.settings),
                 icon = Icons.Default.Settings
             ) {
                 isHomeSelected = false
@@ -180,5 +183,5 @@ fun CameraIcon(
 @Preview
 @Composable
 private fun CustomNavigationBottomPreview() {
-    CustomNavigationBottom(Modifier, {}, {}) {}
+    CustomNavigationBottom(Modifier,selectedTab = Tab.HOME, {}, {},{})
 }

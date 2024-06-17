@@ -30,7 +30,7 @@ import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowBoldText
+import com.example.hapi.presentation.common.YellowBoldText
 
 
 @Composable

@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.entities.DetectionOfHistory
@@ -32,6 +33,8 @@ class DetectionHistoryRepository @Inject constructor(
                     onSuccess = { responseBody ->
                         if (responseBody.isNotEmpty()) {
                             cacheDetectionHistory(responseBody)
+                            Log.d("DetectionHistoryRepository", "fetchDetectionHistory: $responseBody")
+                            Log.d("DetectionHistoryRepository", "lastId : $id")
                         }
                     }
                 ).collect { state ->

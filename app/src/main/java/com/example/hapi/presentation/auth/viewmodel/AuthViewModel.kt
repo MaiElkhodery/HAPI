@@ -177,7 +177,9 @@ class AuthViewModel @Inject constructor(
 
                     }
 
-                    else -> {}
+                    else -> {
+                        Log.d("SIGNIN", state.toString())
+                    }
                 }
             }
         }

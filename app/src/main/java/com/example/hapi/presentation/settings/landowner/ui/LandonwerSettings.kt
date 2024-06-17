@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.settings.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
@@ -30,7 +31,6 @@ import com.example.hapi.presentation.settings.landowner.viewmodel.LandownerSetti
 import com.example.hapi.presentation.settings.landowner.viewmodel.LandownerSettingsViewModel
 import com.example.hapi.presentation.settings.language.navigateToLanguageSettings
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
-import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
 
@@ -39,8 +39,7 @@ fun LandownerSettings(
     navController: NavController,
     viewModel: LandownerSettingsViewModel = hiltViewModel()
 ) {
-    val logout = viewModel.logout.collectAsState().value
-    val deleteAccount = viewModel.deleteAccount.collectAsState().value
+
     val landId = viewModel.landId.collectAsState().value
     val isLoggedOut = viewModel.isLoggedOut.collectAsState().value
 
@@ -52,13 +51,9 @@ fun LandownerSettings(
     val logoutWarning = stringResource(id = R.string.logout)
     val deleteAccountWarning = stringResource(id = R.string.delete_your_account)
 
-    LaunchedEffect(key1 = Unit, logout, deleteAccount) {
-        viewModel.getLandId()
-        if (logout)
-            viewModel.logout()
-        if (deleteAccount) {
-            viewModel.deleteAccount()
-        }
+    LaunchedEffect(isLoggedOut) {
+        if (isLoggedOut)
+            navController.navigateToLanguageSetUp()
     }
 
     ConstraintLayout(
@@ -124,9 +119,6 @@ fun LandownerSettings(
             )
         }
 
-        if (isLoggedOut) {
-            navController.navigateToWelcomeScreen()
-        }
         if (openDialog) {
             WarningDialogWithPassword(
                 isWithPassword = true,

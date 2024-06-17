@@ -31,7 +31,7 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.presentation.common.DarkGreenBlackText
 import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.toBitmap
 

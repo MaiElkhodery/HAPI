@@ -120,7 +120,7 @@ fun DetectionHistory(
             else {
                 LazyColumn(
                     modifier = Modifier
-                        .padding(bottom = contentHorizontalPadding)
+                        .padding(horizontal = contentHorizontalPadding)
                         .fillMaxWidth()
                 ) {
                     items(detectionHistoryList.size) { index ->

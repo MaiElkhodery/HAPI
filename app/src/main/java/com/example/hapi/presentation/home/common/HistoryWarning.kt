@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowExtraBoldText
+import com.example.hapi.presentation.common.YellowExtraBoldText
 
 @Composable
 fun HistoryWarning(

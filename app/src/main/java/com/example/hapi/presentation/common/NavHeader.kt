@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun NavHeader(

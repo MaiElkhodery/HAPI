@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetectionHistoryViewModel @Inject constructor(
-    private val detectionHistoryUseCase: GetDetectionHistoryUseCase,
+    private val getDetectionHistoryUseCase: GetDetectionHistoryUseCase,
     private val detectionHistoryByUsernameUseCase: GetDetectionHistoryByUsernameUseCase,
 ) : ViewModel() {
 
@@ -29,8 +29,13 @@ class DetectionHistoryViewModel @Inject constructor(
 
     fun getDetectionHistory() {
         viewModelScope.launch {
-            detectionHistoryUseCase()?.let {
+            getDetectionHistoryUseCase()?.let {
                 _detectionList.value = it
+                _detectionList.value.forEach {
+                    Log.d("DetectionHistoryViewModel", it.toString())
+
+                }
+                Log.d("DetectionHistoryViewModel", detectionList.value.size.toString())
             }
         }
     }

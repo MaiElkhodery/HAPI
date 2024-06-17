@@ -34,7 +34,7 @@ open class ApiHandler @Inject constructor(private val gson: Gson) {
         }
     }
 
-    private fun <T : Any> parseError(response: Response<T>): SignupErrorInfo {
+    private fun parseError(response: Response<*>): SignupErrorInfo {
         return gson.fromJson(response.errorBody()?.string(), SignupErrorInfo::class.java)
     }
 

@@ -36,19 +36,18 @@ class LandownerSettingsViewModel @Inject constructor(
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
 
-    private val _logout = MutableStateFlow(false)
-    val logout = _logout.asStateFlow()
 
-    private val _deleteAccount = MutableStateFlow(false)
-    val deleteAccount = _deleteAccount.asStateFlow()
+    init {
+        getLandId()
+    }
 
-    fun getLandId() {
+    private fun getLandId() {
         viewModelScope.launch {
             _landId.value = userDataPreference.getLandId()!!
         }
     }
 
-    suspend fun deleteAccount() {
+    private fun deleteAccount() {
         viewModelScope.launch {
             deleteAccountUseCase(_password.value).collect { state ->
                 when (state) {
@@ -74,7 +73,7 @@ class LandownerSettingsViewModel @Inject constructor(
         }
     }
 
-    suspend fun logout() {
+    fun logout() {
         viewModelScope.launch {
             logoutUseCase().collect { state ->
                 when (state) {
@@ -116,11 +115,11 @@ class LandownerSettingsViewModel @Inject constructor(
             }
 
             LandownerSettingsEvent.OnClickDeleteAccount -> {
-                _deleteAccount.value = true
+                deleteAccount()
             }
 
             LandownerSettingsEvent.OnClickLogout -> {
-                _logout.value = true
+                logout()
             }
         }
     }

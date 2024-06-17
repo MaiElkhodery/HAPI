@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.DarkGreenExtraBoldText
-import com.example.hapi.util.YellowExtraBoldText
+import com.example.hapi.presentation.common.DarkGreenExtraBoldText
+import com.example.hapi.presentation.common.YellowExtraBoldText
 
 @Composable
 fun HomeNotFoundWarning(

@@ -22,7 +22,7 @@ import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.HapiTheme
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.LocaleHelper
-import com.example.hapi.util.SetStatusBarColor
+import com.example.hapi.presentation.common.SetStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

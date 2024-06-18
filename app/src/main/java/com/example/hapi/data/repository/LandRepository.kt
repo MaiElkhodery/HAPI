@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.room.dao.LandDataDao
 import com.example.hapi.data.local.room.entities.LandData
 import com.example.hapi.data.remote.api.LandApiService
@@ -20,26 +21,25 @@ class LandRepository @Inject constructor(
     suspend fun fetchLandHistory(
         lastSavedId: Int,
     ): Flow<State<Boolean>> {
-        return withContext(Dispatchers.IO) {
-            flow {
-                try {
-                    emit(State.Loading)
-                    val response = landApiService.getLandHistory(lastSavedId)
-                    if (response.isSuccessful) {
-                        if (!response.body().isNullOrEmpty()) {
-                            saveLandHistory(response.body()!!)
-                        }
-                        emit(State.Success(true))
-                    } else {
-                        val error = Gson().fromJson(
-                            response.errorBody()?.string(),
-                            SignupErrorInfo::class.java
-                        )
-                        emit(State.Error(error))
+        return flow {
+            try {
+                emit(State.Loading)
+                val response = landApiService.getLandHistory(lastSavedId)
+                if (response.isSuccessful) {
+                    if (!response.body().isNullOrEmpty()) {
+                        Log.d("LandRepository", "fetchLandHistory: $response")
+                        saveLandHistory(response.body()!!)
                     }
-                } catch (e: Exception) {
-                    emit(State.Exception(e.message.toString()))
+                    emit(State.Success(true))
+                } else {
+                    val error = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        SignupErrorInfo::class.java
+                    )
+                    emit(State.Error(error))
                 }
+            } catch (e: Exception) {
+                emit(State.Exception(e.message.toString()))
             }
         }
     }

@@ -43,31 +43,27 @@ class LandownerRepository @Inject constructor(
     }
 
     suspend fun fetchTanksData(): Flow<State<Boolean>> {
-        return withContext(Dispatchers.IO) {
-            flow {
-                try {
+        return flow {
+            try {
+                emit(State.Loading)
+                val response = landownerApiService.getTanksData()
+                if (response.isSuccessful) {
 
-                    emit(State.Loading)
-                    val response = landownerApiService.getTanksData()
-                    if (response.isSuccessful) {
+                    userDataPreference.saveWaterLevel(response.body()!!.water_level)
+                    userDataPreference.saveNitrogenTankLevel("${response.body()!!.npk.N}")
+                    userDataPreference.savePhosphorusTankLevel("${response.body()!!.npk.P}")
+                    userDataPreference.savePotassiumTankLevel("${response.body()!!.npk.K}")
+                    emit(State.Success(true))
 
-                        userDataPreference.saveWaterLevel(response.body()!!.water_level)
-                        userDataPreference.saveNitrogenTankLevel("${response.body()!!.npk.N}")
-                        userDataPreference.savePhosphorusTankLevel("${response.body()!!.npk.P}")
-                        userDataPreference.savePotassiumTankLevel("${response.body()!!.npk.K}")
-                        emit(State.Success(true))
-
-                    } else {
-                        val error = Gson().fromJson(
-                            response.errorBody()?.string(),
-                            SignupErrorInfo::class.java
-                        )
-                        emit(State.Error(error))
-                    }
-                } catch (e: Exception) {
-                    emit(State.Exception(e.message.toString()))
-                    e.printStackTrace()
+                } else {
+                    val error = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        SignupErrorInfo::class.java
+                    )
+                    emit(State.Error(error))
                 }
+            } catch (e: Exception) {
+                emit(State.Exception(e.message.toString()))
             }
         }
 

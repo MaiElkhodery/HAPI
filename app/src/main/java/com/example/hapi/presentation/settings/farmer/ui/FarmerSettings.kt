@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.settings.WarningDialogWithPassword
+import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
 import com.example.hapi.presentation.settings.data.viewmodel.DataAndStorageViewModel

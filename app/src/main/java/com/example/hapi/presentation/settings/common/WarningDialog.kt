@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings
+package com.example.hapi.presentation.settings.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

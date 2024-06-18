@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.hapi.R
-import com.example.hapi.presentation.settings.CancelButton
+import com.example.hapi.presentation.settings.common.CancelButton
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.presentation.common.DarkGreenExtraBoldText

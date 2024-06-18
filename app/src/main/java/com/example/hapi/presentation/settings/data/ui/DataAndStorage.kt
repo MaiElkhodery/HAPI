@@ -22,7 +22,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.main.MainViewModel
-import com.example.hapi.presentation.settings.WarningDialogWithPassword
+import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.data.viewmodel.DataAndStorageViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor

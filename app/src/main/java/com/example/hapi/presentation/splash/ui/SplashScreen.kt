@@ -49,15 +49,14 @@ fun Splash(
         mutableStateOf(1)
     }
     LaunchedEffect(Unit) {
+
         launch {
-            viewModel.getIsCropSelected()
-            viewModel.getRole()
-            viewModel.getToken()
             while (isActive && state < 5) {
                 delay(700)
                 state++
             }
         }
+
     }
 
     Column(
@@ -89,25 +88,25 @@ fun Splash(
                     StateFour()
                 }
 
-                else -> {
-                    navController.navigateToLanguageSetUp()
-                }
             }
         }
-    }
-    if (state == 5) {
-        if (token != null) {
-            if (role == LANDOWNER) {
-                if (isCropSelected) {
-                    navController.navigateToMainScreen(role)
+
+        if (state == 5) {
+            if (token != null) {
+                if (role == LANDOWNER) {
+                    if (isCropSelected) {
+                        navController.navigateToMainScreen(role)
+                    } else {
+                        navController.navigateToCropSelectionStrategy()
+                    }
                 } else {
-                    navController.navigateToCropSelectionStrategy()
+                    navController.navigateToMainScreen(role!!)
                 }
-            } else {
-                navController.navigateToMainScreen(role!!)
-            }
-        } else navController.navigateToLanguageSetUp()
+            } else navController.navigateToLanguageSetUp()
+        }
+
     }
+
 }
 
 @Composable

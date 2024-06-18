@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.landowner.ui
+package com.example.hapi.presentation.settings.general.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,34 +22,41 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
-import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
+import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
 import com.example.hapi.presentation.settings.data.ui.navigateToDataAndStorage
+import com.example.hapi.presentation.settings.data.viewmodel.DataAndStorageViewModel
 import com.example.hapi.presentation.settings.farmerslist.ui.navigateToLandFarmers
-import com.example.hapi.presentation.settings.landowner.viewmodel.LandownerSettingsEvent
-import com.example.hapi.presentation.settings.landowner.viewmodel.LandownerSettingsViewModel
+import com.example.hapi.presentation.settings.general.viewmodel.SettingsEvent
+import com.example.hapi.presentation.settings.general.viewmodel.SettingsViewModel
 import com.example.hapi.presentation.settings.language.navigateToLanguageSettings
 import com.example.hapi.presentation.settings.support.navigateToHelpAndSupport
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Dimens
+import com.example.hapi.util.LANDOWNER
 
 @Composable
-fun LandownerSettings(
+fun Settings(
     navController: NavController,
-    viewModel: LandownerSettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
+    dataAndStorageViewModel: DataAndStorageViewModel = hiltViewModel()
 ) {
 
     val landId = viewModel.landId.collectAsState().value
+    val role = viewModel.role.collectAsState().value
     val isLoggedOut = viewModel.isLoggedOut.collectAsState().value
 
     var openDialog by remember { mutableStateOf(false) }
+    var openDialogWithPassword by remember { mutableStateOf(false) }
+
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
 
     val logoutWarning = stringResource(id = R.string.logout)
     val deleteAccountWarning = stringResource(id = R.string.delete_your_account)
+    val clearDetectionWarning = stringResource(id = R.string.clear_detection_history)
 
     LaunchedEffect(isLoggedOut) {
         if (isLoggedOut)
@@ -95,39 +102,75 @@ fun LandownerSettings(
 
             LandIdRow(landId = landId)
 
-            LandownerSettingsContent(
-                modifier = Modifier.padding(top = 22.dp),
-                onLanguageClick = { navController.navigateToLanguageSettings() },
-                onFarmersListClick = { navController.navigateToLandFarmers() },
-                onDataAndStorageClick = { navController.navigateToDataAndStorage() },
-                onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
-                onAboutUsClick = { navController.navigateToAboutUs() },
-                onDeleteAccountClick = {
-                    openDialog = true
-                    warningText = deleteAccountWarning
-                    onClickConfirm = {
-                        viewModel.onEvent(LandownerSettingsEvent.OnClickDeleteAccount)
+            if (role == LANDOWNER)
+                LandownerSettingsOptions(
+                    modifier = Modifier.padding(top = 22.dp),
+                    onLanguageClick = { navController.navigateToLanguageSettings() },
+                    onFarmersListClick = { navController.navigateToLandFarmers() },
+                    onDataAndStorageClick = { navController.navigateToDataAndStorage() },
+                    onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
+                    onAboutUsClick = { navController.navigateToAboutUs() },
+                    onDeleteAccountClick = {
+                        openDialog = true
+                        openDialogWithPassword = true
+                        warningText = deleteAccountWarning
+                        onClickConfirm = {
+                            viewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
+                        }
+                    },
+                    onLogoutClick = {
+                        openDialog = true
+                        openDialogWithPassword = true
+                        warningText = logoutWarning
+                        onClickConfirm = {
+                            viewModel.onEvent(SettingsEvent.OnClickLogout)
+                        }
                     }
-                },
-                onLogoutClick = {
-                    openDialog = true
-                    warningText = logoutWarning
-                    onClickConfirm = {
-                        viewModel.onEvent(LandownerSettingsEvent.OnClickLogout)
+                )
+            else
+                FarmerSettingsOptions(
+                    modifier = Modifier.padding(top = 22.dp),
+                    onLanguageClick = { navController.navigateToLanguageSettings() },
+                    onClearDetectionClick = {
+                        openDialog = true
+                        openDialogWithPassword = false
+                        warningText = clearDetectionWarning
+                        onClickConfirm = {
+                            dataAndStorageViewModel.deleteDetectionHistory()
+                            openDialog = false
+                        }
+                    },
+                    onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
+                    onAboutUsClick = { navController.navigateToAboutUs() },
+                    onDeleteAccountClick = {
+                        openDialog = true
+                        openDialogWithPassword = true
+                        warningText = deleteAccountWarning
+                        onClickConfirm = {
+                            viewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
+                        }
+                    },
+                    onLogoutClick = {
+                        openDialog = true
+                        openDialogWithPassword = true
+                        warningText = logoutWarning
+                        onClickConfirm = {
+                            viewModel.onEvent(SettingsEvent.OnClickLogout)
+                        }
                     }
-                }
-            )
+                )
         }
+
 
         if (openDialog) {
             WarningDialogWithPassword(
-                isWithPassword = true,
+                isWithPassword = openDialogWithPassword,
                 warningText = warningText,
                 additionalWarningText = additionalWarningText,
                 password = viewModel.password,
                 onClickConfirm = onClickConfirm,
                 onChangePassword = { password ->
-                    viewModel.onEvent(LandownerSettingsEvent.ChangePassword(password))
+                    viewModel.onEvent(SettingsEvent.ChangePassword(password))
                 },
                 onClickCancel = { openDialog = false }
             )
@@ -138,5 +181,5 @@ fun LandownerSettings(
 @Preview
 @Composable
 private fun LandownerSettingsPreview() {
-    LandownerSettings(navController = rememberNavController())
+    Settings(navController = rememberNavController())
 }

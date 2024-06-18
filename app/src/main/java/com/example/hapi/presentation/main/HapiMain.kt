@@ -14,8 +14,7 @@ import com.example.hapi.presentation.detection.cropselection.CropSelection
 import com.example.hapi.presentation.home.common.CustomNavigationBottom
 import com.example.hapi.presentation.home.farmer.FarmerHome
 import com.example.hapi.presentation.home.landowner.ui.LandownerHome
-import com.example.hapi.presentation.settings.farmer.ui.FarmerSettings
-import com.example.hapi.presentation.settings.landowner.ui.LandownerSettings
+import com.example.hapi.presentation.settings.general.ui.Settings
 import com.example.hapi.util.LANDOWNER
 import com.example.hapi.util.Tab
 
@@ -61,10 +60,7 @@ fun HapiMainScreen(
                 }
 
                 Tab.SETTINGS -> {
-                    if (role == LANDOWNER)
-                        LandownerSettings(navController = navController)
-                    else
-                        FarmerSettings(navController = navController)
+                    Settings(navController = navController)
                 }
             }
         }

@@ -83,7 +83,6 @@
     <string name="farmers">FARMERS</string>
     <string name="no_farmers_yet">NO FARMERS YET</string>
     <string name="no_farmers_yet_details">FARMERS CAN SIGN UP\nUSING YOUR LAND ID\nTO BE CONNECTED</string>
-    <string name="clear_detcetion_history">RESET DETECTION HISTORY</string>
     <string name="clear_land_history">RESET LAND HISTORY</string>
     <string name="change_crop">CHANGE CROP SELECTION</string>
     <string name="data_storage"><![CDATA[DATA & STORAGE]]></string>
@@ -110,7 +109,7 @@
     <string name="sugarcane">SUGARCANE</string>
     <string name="apple">APPLE</string>
     <string name="corn">CORN</string>
-    <string name="clear_detection_history">RESET DETECTION \\n HISTORY</string>
+    <string name="clear_detection_history">RESET DETECTION \n HISTORY</string>
     <string name="change_crop_warning">THIS WILL RESET ALL LAND HISTORY</string>
     <string name="irrigation">IRRIGATION</string>
     <string name="fertilization">FERTILIZATION</string>

@@ -23,12 +23,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.presentation.common.YellowBlackText
 
 @Composable
 fun DetectionDetailsData(
@@ -53,6 +53,9 @@ fun DetectionDetailsData(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            if (username.isBlank()) Box(modifier = Modifier
+                .fillMaxWidth()
+                .weight(.4f))
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -62,11 +65,12 @@ fun DetectionDetailsData(
                     .weight(1.2f)
 
             ) {
+
                 if (imageUrl.isNotBlank()) {
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxSize()
-                            .height(200.dp),
+                            .height(180.dp),
                         model = BASE_URL + imageUrl,
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
@@ -85,6 +89,7 @@ fun DetectionDetailsData(
                 }
 
             }
+            if (username.isBlank()) Box(modifier = Modifier.fillMaxWidth().weight(.4f))
             if (username.isNotBlank())
                 DetectionInfo(
                     modifier = Modifier

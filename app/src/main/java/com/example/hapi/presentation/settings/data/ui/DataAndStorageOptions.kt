@@ -42,7 +42,7 @@ fun DataAndStorageOptions(
         }
 
         SettingItem(
-            text = stringResource(id = R.string.clear_detcetion_history),
+            text = stringResource(id = R.string.clear_detecetion_history),
             iconInt = R.drawable.reset_icon,
             modifier = Modifier.padding(bottom = 5.dp)
         ) {

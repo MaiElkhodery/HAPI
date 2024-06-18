@@ -84,7 +84,7 @@
     <string name="farmers">المزارعين</string>
     <string name="no_farmers_yet">لا يوجد مزارعون بعد</string>
     <string name="no_farmers_yet_details">يمكن للمزارعين التسجيل \nباستخدام رقم المزرعة الخاص بك \nلتكون متصلًا</string>
-    <string name="clear_detcetion_history">إعادة تعيين سجل الكشف</string>
+    <string name="clear_detecetion_history">إعادة تعيين سجل الكشف</string>
     <string name="clear_land_history">إعادة تعيين سجل الأرض</string>
     <string name="change_crop">تغيير اختيار المحصول</string>
     <string name="data_storage"><![CDATA[البيانات والتخزين]]></string>

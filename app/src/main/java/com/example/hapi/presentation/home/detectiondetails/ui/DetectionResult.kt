@@ -104,7 +104,7 @@ fun CertaintyText(
             size = 10,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
-        YellowBlackText(size = 14, text = "$certainty%")
+        YellowBlackText(size = 14, text = " $certainty% ")
         YellowBoldText(
             text = stringResource(id = R.string.result_certainty),
             size = 10,

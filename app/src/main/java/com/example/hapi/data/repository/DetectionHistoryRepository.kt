@@ -25,30 +25,28 @@ class DetectionHistoryRepository @Inject constructor(
     suspend fun fetchDetectionHistory(
         id: Int
     ): Flow<State<Boolean>> {
-        return withContext(Dispatchers.IO) {
-            flow {
-                emit(State.Loading)
-                apiHandler.makeRequest(
-                    execute = { detectionApiService.getDetectionHistory(id) },
-                    onSuccess = { responseBody ->
-                        if (responseBody.isNotEmpty()) {
-                            cacheDetectionHistory(responseBody)
-                            Log.d("DetectionHistoryRepository", "fetchDetectionHistory: $responseBody")
-                            Log.d("DetectionHistoryRepository", "lastId : $id")
-                        }
+        return flow {
+            apiHandler.makeRequest(
+                execute = { detectionApiService.getDetectionHistory(id) },
+                onSuccess = { responseBody ->
+                    if (responseBody.isNotEmpty()) {
+                        cacheDetectionHistory(responseBody)
+                        Log.d("DetectionHistoryRepository", "fetchDetectionHistory: $responseBody")
+                        Log.d("DetectionHistoryRepository", "lastId : $id")
                     }
-                ).collect { state ->
-                    emit(
-                        when (state) {
-                            is State.Success -> State.Success(true)
-                            is State.Error -> State.Error(state.error)
-                            is State.Exception -> State.Exception(state.msg)
-                            State.Loading -> State.Loading
-                        }
-                    )
                 }
+            ).collect { state ->
+                emit(
+                    when (state) {
+                        is State.Success -> State.Success(true)
+                        is State.Error -> State.Error(state.error)
+                        is State.Exception -> State.Exception(state.msg)
+                        State.Loading -> State.Loading
+                    }
+                )
             }
         }
+
     }
 
 
@@ -59,8 +57,7 @@ class DetectionHistoryRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             apiHandler.makeRequest(
                 execute = {
-                    detectionApiService.getDetectionWithId(id).apply {
-                    }
+                    detectionApiService.getDetectionWithId(id)
                 }
             )
         }

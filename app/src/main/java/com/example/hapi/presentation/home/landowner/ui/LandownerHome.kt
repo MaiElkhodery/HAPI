@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.landowner.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -102,10 +103,10 @@ fun LandownerHome(
                 bottom.linkTo(content.top)
             },
             crop = crop,
-            waterTankLevel = waterLevel,
-            nTankLevel = nitrogen.toInt(),
-            pTankLevel = phosphorus.toInt(),
-            kTankLevel = potassium.toInt()
+            waterTankLevel = if (waterLevel.isNotBlank()) waterLevel.toInt() else 0,
+            nTankLevel = if (nitrogen.isNotBlank()) nitrogen.toInt() else 0,
+            pTankLevel = if (phosphorus.isNotBlank()) phosphorus.toInt() else 0,
+            kTankLevel = if (potassium.isNotBlank()) potassium.toInt() else 0
         )
         LandownerHomeLandData(
             modifier = Modifier

@@ -25,12 +25,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
+import com.example.hapi.presentation.common.YellowBoldText
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.WarningColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.presentation.common.YellowBoldText
 
 
 @Composable

@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.landowner.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -61,16 +60,16 @@ class LandownerHomeViewModel @Inject constructor(
     private val _landActionTime = MutableStateFlow("")
     val landActionTime = _landActionTime.asStateFlow()
 
-    private val _waterLevel = MutableStateFlow(0)
+    private val _waterLevel = MutableStateFlow("0")
     val waterLevel = _waterLevel.asStateFlow()
 
-    private var _nitrogen = MutableStateFlow("")
+    private var _nitrogen = MutableStateFlow("0")
     val nitrogen = _nitrogen.asStateFlow()
 
-    private var _phosphorus = MutableStateFlow("")
+    private var _phosphorus = MutableStateFlow("0")
     val phosphorus = _phosphorus.asStateFlow()
 
-    private var _potassium = MutableStateFlow("")
+    private var _potassium = MutableStateFlow("0")
     val potassium = _potassium.asStateFlow()
 
     private var _crop = MutableStateFlow("")
@@ -78,8 +77,10 @@ class LandownerHomeViewModel @Inject constructor(
 
     private val _lastFarmerUsername = MutableStateFlow("")
     val lastFarmerUsername = _lastFarmerUsername.asStateFlow()
+
     private val _lastFarmerDate = MutableStateFlow("")
     val lastFarmerDate = _lastFarmerDate.asStateFlow()
+
     private val _lastFarmerTime = MutableStateFlow("")
     val lastFarmerTime = _lastFarmerTime.asStateFlow()
 
@@ -91,17 +92,14 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME DetectionHistory", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME DetectionHistory", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME DetectionHistory", "LOADING")
                     }
 
                     is State.Success -> {
@@ -118,26 +116,21 @@ class LandownerHomeViewModel @Inject constructor(
             fetchLandHistoryUseCase(
                 userDataPreference.getLastLandDataHistoryId().toInt()
             ).collect { state ->
-                Log.d("LAST LAND ID", userDataPreference.getLastLandDataHistoryId())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME LAND HISTORY", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME LAND HISTORY", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME LAND HISTORY", "LAND:LOADING")
                     }
 
                     is State.Success -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME LAND HISTORY", "LAND:SUCCESS")
                     }
 
                 }
@@ -151,23 +144,19 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME TANKS DATA", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME TANKS DATA", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME TANKS DATA", "LAND DATA:LOADING")
                     }
 
                     is State.Success -> {
-                        Log.d("LANDOWNER HOME TANKS DATA", "LAND DATA:SUCCESS")
                         _loading.value = false
-                        _waterLevel.value = userDataPreference.getWaterLevel().toInt()
+                        _waterLevel.value = userDataPreference.getWaterLevel()
                         _nitrogen.value = userDataPreference.getNitrogenTankLevel()
                         _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
                         _potassium.value = userDataPreference.getPotassiumTankLevel()
@@ -178,13 +167,11 @@ class LandownerHomeViewModel @Inject constructor(
     }
 
     suspend fun getLastLandHistoryItem() {
-        viewModelScope.launch {
-            getLastLandHistoryItemUseCase()?.let { landData ->
-                userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
-                _landActionType.value = landData.action_type
-                _landActionDate.value = landData.date
-                _landActionTime.value = landData.time
-            }
+        getLastLandHistoryItemUseCase()?.let { landData ->
+            userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
+            _landActionType.value = landData.action_type
+            _landActionDate.value = landData.date
+            _landActionTime.value = landData.time
         }
     }
 
@@ -205,16 +192,14 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-
     fun getTanksData() {
         viewModelScope.launch {
-            _waterLevel.value = userDataPreference.getWaterLevel().toInt()
+            _waterLevel.value = userDataPreference.getWaterLevel()
             _nitrogen.value = userDataPreference.getNitrogenTankLevel()
             _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
             _potassium.value = userDataPreference.getPotassiumTankLevel()
         }
     }
-
 
     private fun getCrop() {
         viewModelScope.launch {

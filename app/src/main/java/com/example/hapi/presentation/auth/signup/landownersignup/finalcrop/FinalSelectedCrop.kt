@@ -58,8 +58,8 @@ fun FinalSelectedCrop(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.02f
-        val largePadding = screenHeight * 0.03f
+        val smallPadding = screenHeight * 0.018f
+        val largePadding = screenHeight * 0.028f
         val logoSize = if (screenHeight < 600.dp) 60.dp else 80.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 80
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
@@ -90,7 +90,7 @@ fun FinalSelectedCrop(
                 navController.popBackStack()
             }
 
-            Spacer(modifier = Modifier.size(largePadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             FinalSelectedCropContent(
                 crop = crop

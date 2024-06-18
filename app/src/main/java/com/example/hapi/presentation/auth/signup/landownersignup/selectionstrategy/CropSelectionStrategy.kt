@@ -58,10 +58,10 @@ fun CropSelectionStrategy(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
+        val smallPadding = screenHeight * 0.02f
+        val largePadding = screenHeight * 0.028f
         val logoSize = if (screenHeight < 600.dp) 60.dp else 75.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val backIconSize = if (screenHeight < 600.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
 
@@ -73,14 +73,14 @@ fun CropSelectionStrategy(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
 
             )
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(largePadding))
             NavHeader(
                 modifier = Modifier,
                 topText = stringResource(id = R.string.setting_up),
@@ -90,11 +90,11 @@ fun CropSelectionStrategy(
             ) {
                 navController.popBackStack()
             }
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             Title(title = stringResource(id = R.string.do_you))
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             CropSelectionStrategyContent(
                 onClickRecommendation = {
@@ -104,11 +104,11 @@ fun CropSelectionStrategy(
                     navController.navigateToSignupCropSelection()
                 }
             )
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
             LotusRow(
                 highlightedLotusPos = 1
             )
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(largePadding))
         }
     }
 }

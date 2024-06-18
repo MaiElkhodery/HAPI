@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,11 +57,11 @@ private fun RecommendationRaw(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 26.dp),
+            .padding(bottom = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RecommendationCard(
-            modifier = Modifier.weight(1.2f),
+            modifier = Modifier.weight(1f),
             text = cardText
         ) {
             onCardClick()
@@ -68,7 +69,7 @@ private fun RecommendationRaw(
         YellowBoldText(
             text = description,
             size = 13,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1.2f)
         )
 
     }
@@ -98,7 +99,8 @@ private fun RecommendationCard(
             text = text,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 2.dp, horizontal = 2.dp)
+                .fillMaxHeight()
+                .padding(vertical = 16.dp, horizontal = 2.dp)
         )
     }
 }

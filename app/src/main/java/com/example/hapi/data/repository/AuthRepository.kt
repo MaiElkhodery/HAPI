@@ -77,12 +77,10 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    suspend fun deleteAccount(password: String): Flow<State<Unit>> {
+    suspend fun deleteAccount(): Flow<State<Unit>> {
         return apiHandler.makeRequest(
             execute = {
-                authApiService.deleteAccount(
-                    PasswordRequest(password)
-                )
+                authApiService.deleteAccount()
             },
             onSuccess = {
                 clearUserDataPreference()

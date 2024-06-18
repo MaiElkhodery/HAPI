@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.home.common
+package com.example.hapi.presentation.home.farmer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -8,41 +8,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
+import com.example.hapi.presentation.home.common.HomeNotFoundWarning
 
 @Composable
-fun FarmerLastDetection(
+fun NoDetections(
     modifier: Modifier = Modifier,
-    username: String,
-    date: String,
-    time: String,
-    imageUrl: String = "",
-    onClick: () -> Unit
+    warning: String,
+    warningDetails: String
 ) {
-    Column(
+
+    Column (
         modifier = modifier
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
+    ){
         Image(
             modifier = Modifier
                 .size(70.dp),
             painter = painterResource(id = R.drawable.crop_profile),
             contentDescription = "home crop image"
         )
-        LastDetectionContent(username = username, date = date, time = time, imageUrl = imageUrl) {
-            onClick()
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun FarmerLastDetectionPreview() {
-    FarmerLastDetection(username = "ahmed", date = "9/1/2002", time = "12:00") {
-        
+        HomeNotFoundWarning(warning = warning, warningDetails = warningDetails)
     }
 }

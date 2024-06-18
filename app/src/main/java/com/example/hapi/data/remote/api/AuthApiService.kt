@@ -1,8 +1,8 @@
 package com.example.hapi.data.remote.api
 
-import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.FarmerSignupRequest
 import com.example.hapi.data.remote.request.LandownerSignupRequest
+import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
@@ -14,7 +14,7 @@ import com.example.hapi.util.PASSWORD_CHECK
 import com.example.hapi.util.SIGNIN
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 
 interface AuthApiService {
@@ -36,7 +36,7 @@ interface AuthApiService {
     @POST(LOGOUT)
     suspend fun logout(): Response<Unit>
 
-    @DELETE(DELETE_ACCOUNT)
+    @HTTP(method = "DELETE", path = DELETE_ACCOUNT, hasBody = true)
     suspend fun deleteAccount(
         @Body checkPasswordRequest: PasswordRequest
     ): Response<Unit>

@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
@@ -25,9 +26,22 @@ import com.example.hapi.util.ENGLISH
 @Composable
 fun LanguageOptions(
     modifier: Modifier = Modifier,
+    width: Dp,
     isEnglishSelected: Boolean,
     onLanguageSelected: (String) -> Unit
 ) {
+   val smallTextSize = when {
+        width <= 360.dp -> 16
+        width in 360.dp..400.dp -> 20
+        else -> 22
+    }
+
+    val largeTextSize = when {
+        width <= 360.dp -> 28
+        width in 360.dp..400.dp -> 32
+        else -> 34
+    }
+
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -35,7 +49,7 @@ fun LanguageOptions(
     ) {
         Text(
             color = YellowAppColor,
-            fontSize = 20.sp,
+            fontSize = smallTextSize.sp,
             fontFamily = FontFamily(
                 Font(
                     R.font.poppins_extrabold
@@ -47,7 +61,7 @@ fun LanguageOptions(
         )
         Text(
             color = YellowAppColor,
-            fontSize = 20.sp,
+            fontSize = smallTextSize.sp,
             fontFamily = FontFamily(
                 Font(
                     R.font.poppins_bold
@@ -65,7 +79,7 @@ fun LanguageOptions(
                 onLanguageSelected(ENGLISH)
             },
             color = if (isEnglishSelected) YellowAppColor else DarkGreenAppColor,
-            fontSize = if (isEnglishSelected) 32.sp else 20.sp,
+            fontSize = if (isEnglishSelected) largeTextSize.sp else smallTextSize.sp,
             fontFamily = FontFamily(
                 Font(
                     R.font.poppins_extrabold
@@ -80,7 +94,7 @@ fun LanguageOptions(
                 onLanguageSelected(ARABIC)
             },
             color = if (!isEnglishSelected) YellowAppColor else DarkGreenAppColor,
-            fontSize = if (!isEnglishSelected) 32.sp else 20.sp,
+            fontSize = if (!isEnglishSelected) largeTextSize.sp else smallTextSize.sp,
             fontFamily = FontFamily(
                 Font(
                     R.font.poppins_bold
@@ -97,6 +111,7 @@ fun LanguageOptions(
 @Composable
 private fun LanguageContentPreview() {
     LanguageOptions(
+        width = 300.dp,
         isEnglishSelected = true,
     ) { }
 }

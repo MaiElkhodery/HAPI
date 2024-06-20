@@ -6,6 +6,7 @@ import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
+import com.example.hapi.util.DELETE_ACCOUNT
 import com.example.hapi.util.FARMER_SIGNUP
 import com.example.hapi.util.LANDOWNER_SIGNUP
 import com.example.hapi.util.LOGOUT
@@ -35,7 +36,7 @@ interface AuthApiService {
     @POST(LOGOUT)
     suspend fun logout(): Response<Unit>
 
-    @DELETE
+    @DELETE(DELETE_ACCOUNT)
     suspend fun deleteAccount(): Response<Unit>
 
     @POST(PASSWORD_CHECK)

@@ -30,6 +30,7 @@ fun NavHeader(
     downText: String,
     imageId: Int = R.drawable.back_btn,
     imageSize: Int = 80,
+    fontSize:Int = 15,
     onClick: () -> Unit = {}
 ) {
     Row(
@@ -58,14 +59,14 @@ fun NavHeader(
             Text(
                 text = topText,
                 color = YellowAppColor,
-                fontSize = 15.sp,
+                fontSize = fontSize.sp,
                 fontFamily = FontFamily(
                     Font(
                         R.font.poppins_semibold
                     )
                 )
             )
-            YellowBlackText(size = 15, text = downText)
+            YellowBlackText(size = fontSize, text = downText)
         }
 
 

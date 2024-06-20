@@ -26,16 +26,21 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.common.AuthWarningBox
 import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.SignLabeledInputFields
-import com.example.hapi.presentation.common.SignWarningBox
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
+import com.example.hapi.util.ScreenSize.LARGE
+import com.example.hapi.util.ScreenSize.NORMAL
+import com.example.hapi.util.ScreenSize.SMALL
+import com.example.hapi.util.ScreenSize.XLARGE
+import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun FarmerSignup(
@@ -69,19 +74,25 @@ fun FarmerSignup(
         val screenWidth = maxWidth
 
 
-        val smallPadding = screenHeight * 0.04f
+        val smallPadding = screenHeight * 0.024f
         val largePadding = screenHeight * 0.03f
         val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
-
+        val fontSize = when (getScreenWidth(screenWidth)) {
+            SMALL -> 11
+            NORMAL -> 15
+            LARGE -> 17
+            XLARGE -> 19
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(horizontal = horizontalPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.height(smallPadding))
 
@@ -96,59 +107,71 @@ fun FarmerSignup(
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.navigateToIdentitySelection()
             }
 
             Spacer(modifier = Modifier.height(largePadding))
 
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-
-                SignLabeledInputFields(
-                    title = stringResource(id = R.string.phone_number),
-                    content = authViewModel.phoneNumber
-                ) { phoneNumber ->
-                    authViewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
-                }
-
-                SignWarningBox(warningText = phoneNumberError)
-
-                SignLabeledInputFields(
-                    title = stringResource(id = R.string.user_name),
-                    content = authViewModel.username
-                ) { username ->
-                    authViewModel.onEvent(AuthEvent.ChangeUserName(username))
-                }
-
-                SignWarningBox(warningText = usernameError)
-
-                SignLabeledInputFields(
-                    title = stringResource(id = R.string.password),
-                    content = authViewModel.password
-                ) { password ->
-                    authViewModel.onEvent(AuthEvent.ChangePassword(password))
-                }
-
-                SignWarningBox(warningText = passwordError)
-
-                SignLabeledInputFields(
-                    title = stringResource(id = R.string.farm_id),
-                    content = authViewModel.landId
-                ) { farmId ->
-                    authViewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
-                }
-
-                SignWarningBox(warningText = farmIdError)
-
+            LabeledInputFields(
+                height=screenHeight,
+                width = screenWidth,
+                title = stringResource(id = R.string.phone_number),
+                content = authViewModel.phoneNumber
+            ) { phoneNumber ->
+                authViewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
+
+            AuthWarningBox(
+                width = screenWidth, warningText = phoneNumberError
+            )
+
+            LabeledInputFields(
+                height=screenHeight,
+                width = screenWidth,
+                title = stringResource(id = R.string.user_name),
+                content = authViewModel.username
+            ) { username ->
+                authViewModel.onEvent(AuthEvent.ChangeUserName(username))
+            }
+
+            AuthWarningBox(
+                width = screenWidth, warningText = usernameError
+            )
+
+            LabeledInputFields(
+                height=screenHeight,
+                width = screenWidth,
+                title = stringResource(id = R.string.password),
+                content = authViewModel.password
+            ) { password ->
+                authViewModel.onEvent(AuthEvent.ChangePassword(password))
+            }
+
+            AuthWarningBox(
+                width = screenWidth, warningText = passwordError
+            )
+
+            LabeledInputFields(
+                height=screenHeight,
+                width = screenWidth,
+                title = stringResource(id = R.string.farm_id),
+                content = authViewModel.landId
+            ) { farmId ->
+                authViewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
+            }
+
+            AuthWarningBox(
+                width = screenWidth, warningText = farmIdError
+            )
+
+
             Spacer(modifier = Modifier.height(largePadding))
 
             ConfirmButton(
+                width = screenWidth,
                 isEnglish = isEnglish,
                 modifier = Modifier,
                 text = stringResource(id = R.string.confirm_signup)

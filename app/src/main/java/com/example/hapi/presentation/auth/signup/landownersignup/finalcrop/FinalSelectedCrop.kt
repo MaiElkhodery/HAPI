@@ -25,6 +25,7 @@ import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
+import com.example.hapi.presentation.home.common.getCrop
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -33,13 +34,15 @@ import com.example.hapi.util.ENGLISH
 @Composable
 fun FinalSelectedCrop(
     navController: NavController,
-    crop: String,
+    cropId: Int,
     viewModel: AuthViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val error = viewModel.errorMsg.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
     val cropIsUploaded = viewModel.cropIsUploaded.collectAsState().value
+
+    val selectedCrop = getCrop(cropId = cropId)
 
     LaunchedEffect(error, cropIsUploaded) {
         if (error.isNotEmpty()) {
@@ -58,9 +61,9 @@ fun FinalSelectedCrop(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.018f
-        val largePadding = screenHeight * 0.028f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 80.dp
+        val smallPadding = screenHeight * 0.02f
+        val largePadding = screenHeight * 0.03f
+        val logoSize = if (screenHeight < 600.dp) 60.dp else 75.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 80
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
@@ -93,9 +96,11 @@ fun FinalSelectedCrop(
             Spacer(modifier = Modifier.size(smallPadding))
 
             FinalSelectedCropContent(
-                crop = crop
+                width = screenWidth,
+                crop = cropId,
+                isEnglish = isEnglish
             ) {
-                viewModel.uploadSelectedCrop(crop.lowercase())
+                viewModel.uploadSelectedCrop(selectedCrop)
             }
             Spacer(modifier = Modifier.size(largePadding))
 
@@ -112,5 +117,5 @@ fun FinalSelectedCrop(
 @Preview
 @Composable
 private fun FinalCropScreenPreview() {
-    FinalSelectedCrop(rememberNavController(), crop = "WHEAT")
+    FinalSelectedCrop(rememberNavController(), cropId = 0)
 }

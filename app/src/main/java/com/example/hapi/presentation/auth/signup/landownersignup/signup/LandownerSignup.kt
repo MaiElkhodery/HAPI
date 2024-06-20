@@ -1,6 +1,7 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.signup
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,16 +27,18 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
+import com.example.hapi.presentation.common.AuthWarningBox
 import com.example.hapi.presentation.common.ConfirmButton
+import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.SignLabeledInputFields
-import com.example.hapi.presentation.common.SignWarningBox
 import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
+import com.example.hapi.util.ScreenSize
+import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun LandownerSignup(
@@ -48,11 +51,11 @@ fun LandownerSignup(
     val usernameError = viewModel.usernameError.collectAsState().value
     val passwordError = viewModel.passwordError.collectAsState().value
     val authenticated = viewModel.authenticated.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(authenticated){
+    LaunchedEffect(authenticated) {
         if (authenticated) {
             navController.navigateToCropSelectionStrategy()
         }
@@ -67,18 +70,25 @@ fun LandownerSignup(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.04f
-        val largePadding = screenHeight * 0.03f
+        val largePadding = screenHeight * 0.044f
+        val smallPadding = screenHeight * 0.034f
         val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
-        val horizontalPadding = if(screenWidth < 400.dp) 24.dp else 28.dp
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+        val fontSize = when (getScreenWidth(screenWidth)) {
+            ScreenSize.SMALL -> 11
+            ScreenSize.NORMAL -> 15
+            ScreenSize.LARGE -> 17
+            ScreenSize.XLARGE -> 19
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(horizontal = horizontalPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
 
             Spacer(modifier = Modifier.height(smallPadding))
@@ -96,45 +106,62 @@ fun LandownerSignup(
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.navigateToIdentitySelection()
             }
 
-            Spacer(modifier = Modifier.height(largePadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
 
-            SignLabeledInputFields(
+            LabeledInputFields(
+                width = screenWidth,
+                height=screenHeight,
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
             ) { phoneNumber ->
                 viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
-            SignWarningBox(warningText = phoneNumberError)
+            AuthWarningBox(
+                width = screenWidth,
+                warningText = phoneNumberError
+            )
 
-            SignLabeledInputFields(
+            LabeledInputFields(
+                width = screenWidth,
+                height=screenHeight,
                 title = stringResource(id = R.string.user_name),
                 content = viewModel.username
             ) { username ->
                 viewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
-            SignWarningBox(warningText = usernameError)
+            AuthWarningBox(
+                width = screenWidth,
+                warningText = usernameError
+            )
 
-            SignLabeledInputFields(
+            LabeledInputFields(
+                height=screenHeight,
+                width = screenWidth,
                 title = stringResource(id = R.string.password),
                 content = viewModel.password
             ) { password ->
                 viewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
-            SignWarningBox(warningText = passwordError)
+            AuthWarningBox(
+                width = screenWidth,
+                warningText = passwordError
+            )
 
             Spacer(modifier = Modifier.height(smallPadding))
-            
-            
+
+
             ConfirmButton(
+                width = screenWidth,
                 modifier = Modifier,
                 text = stringResource(id = R.string.confirm),
                 isEnglish = isEnglish
@@ -144,10 +171,7 @@ fun LandownerSignup(
 
             Spacer(modifier = Modifier.height(largePadding))
 
-            LotusRow(
-                highlightedLotusPos = 0,
-                modifier = Modifier
-            )
+            LotusRow(highlightedLotusPos = 0)
 
             Spacer(modifier = Modifier.height(largePadding))
         }

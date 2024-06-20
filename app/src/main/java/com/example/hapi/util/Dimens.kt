@@ -22,5 +22,4 @@ object Dimens {
 
     const val top_guideline_settings_options = 0.03f
 
-
 }

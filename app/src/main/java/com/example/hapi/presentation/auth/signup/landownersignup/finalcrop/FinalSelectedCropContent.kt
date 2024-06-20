@@ -12,27 +12,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.ConfirmButton
-import com.example.hapi.presentation.home.common.getCropIcon
-import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.presentation.common.YellowBlackText
+import com.example.hapi.presentation.home.common.getCropIcon
 
 @Composable
 fun FinalSelectedCropContent(
     modifier: Modifier = Modifier,
-    crop: String,
+    width: Dp,
+    isEnglish: Boolean,
+    crop: Int,
     onClick: () -> Unit
 ) {
-    val cropName = stringResource(id =  getCropName(crop.uppercase()))
+    val cropName = stringResource(id = crop)
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ChosenCrop(crop = cropName)
         Spacer(modifier = Modifier.padding(21.dp))
-        ConfirmButton(text = stringResource(id = R.string.confirm_signup)) {
+        ConfirmButton(
+            width = width,
+            text = stringResource(id = R.string.confirm_signup),
+            isEnglish = isEnglish
+        ) {
             onClick()
         }
     }
@@ -63,6 +69,6 @@ private fun ChosenCrop(
 @Composable
 private fun ChosenCropPreview() {
     FinalSelectedCropContent(
-        Modifier, "WHEAT"
+        Modifier, isEnglish = false, crop = 0, width = 500.dp
     ) {}
 }

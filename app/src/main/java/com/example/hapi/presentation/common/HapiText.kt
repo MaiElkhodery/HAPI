@@ -227,3 +227,23 @@ fun YellowBoldText(
         textAlign = textAlign
     )
 }
+@Composable
+fun YellowRegularText(
+    text: String,
+    modifier: Modifier=Modifier,
+    size: Int,
+    textAlign: TextAlign = TextAlign.Start
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        color = YellowAppColor,
+        fontSize = size.sp,
+        fontFamily = FontFamily(
+            Font(
+                R.font.poppins
+            )
+        ),
+        textAlign = textAlign
+    )
+}

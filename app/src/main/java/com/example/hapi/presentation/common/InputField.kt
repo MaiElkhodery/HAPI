@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,21 +41,32 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.ScreenSize
+import com.example.hapi.util.getScreenWidth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun SignLabeledInputFields(
+fun LabeledInputFields(
+    width: Dp,
+    height: Dp,
     title: String,
     content: StateFlow<String>,
     onChangeContent: (String) -> Unit
 ) {
+    val fontSize = when (getScreenWidth(width)) {
+        ScreenSize.SMALL -> 12
+        ScreenSize.NORMAL -> 16
+        ScreenSize.LARGE -> 18
+        ScreenSize.XLARGE -> 20
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -64,8 +74,10 @@ fun SignLabeledInputFields(
     ) {
         when (title) {
             stringResource(id = R.string.phone_number) -> {
-                YellowBlackText(size = 16, text = title)
+                YellowBlackText(size = fontSize, text = title)
                 InputField(
+                    width = width,
+                    height = height,
                     content = content,
                     imageId = R.drawable.phone
                 ) { phoneNumber ->
@@ -74,8 +86,10 @@ fun SignLabeledInputFields(
             }
 
             stringResource(id = R.string.user_name) -> {
-                YellowBlackText(size = 16, text = title)
+                YellowBlackText(size = fontSize, text = title)
                 InputField(
+                    width = width,
+                    height = height,
                     content = content,
                     imageId = R.drawable.user,
                 ) { username ->
@@ -84,8 +98,10 @@ fun SignLabeledInputFields(
             }
 
             stringResource(id = R.string.farm_id) -> {
-                YellowBlackText(size = 16, text = title)
+                YellowBlackText(size = fontSize, text = title)
                 InputField(
+                    width = width,
+                    height = height,
                     content = content,
                     imageId = R.drawable.farm,
                 ) { farmId ->
@@ -94,8 +110,10 @@ fun SignLabeledInputFields(
             }
 
             else -> {
-                YellowBlackText(size = 16, text = title)
+                YellowBlackText(size = fontSize, text = title)
                 InputField(
+                    width = width,
+                    height = height,
                     content = content,
                     imageId = R.drawable.password,
                     isPasswordField = true
@@ -110,6 +128,8 @@ fun SignLabeledInputFields(
 
 @Composable
 private fun InputField(
+    width: Dp,
+    height: Dp,
     content: StateFlow<String>,
     imageId: Int,
     isPasswordField: Boolean = false,
@@ -132,16 +152,31 @@ private fun InputField(
         mutableStateOf(GreenAppColor)
     }
     val layoutDirection = LocalLayoutDirection.current
-    val textAlign = if (layoutDirection == LayoutDirection.Rtl) TextAlign.End else TextAlign.Start
 
     CompositionLocalProvider(
         LocalLayoutDirection provides layoutDirection,
     ) {
+        val fontSize = when (getScreenWidth(width)) {
+            ScreenSize.SMALL -> 12.sp
+            ScreenSize.NORMAL -> 14.sp
+            ScreenSize.LARGE -> 16.sp
+            ScreenSize.XLARGE -> 18.sp
+        }
+        val iconSize = when (getScreenWidth(width)) {
+            ScreenSize.SMALL -> 24
+            ScreenSize.NORMAL -> 28
+            else -> 32
+        }
+        val inputFieldHeight = when {
+            height <= 600.dp -> 43.dp
+            height in 600.dp..855.dp -> 48.dp
+            else -> 52.dp
+        }
+
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(6.dp))
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min)
                 .background(backgroundColor),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
@@ -150,7 +185,7 @@ private fun InputField(
                 Icon(
                     modifier = Modifier
                         .weight(0.11f)
-                        .size(30.dp)
+                        .size(iconSize.dp)
                         .padding(start = 12.dp),
                     painter = painterResource(id = imageId),
                     contentDescription = null,
@@ -163,11 +198,12 @@ private fun InputField(
                 if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
             } else VisualTransformation.None
 
+
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
                     .background(backgroundColor)
+                    .height(inputFieldHeight)
                     .weight(1f)
                     .wrapContentHeight(Alignment.CenterVertically)
                     .border(width = 4.dp, color = YellowAppColor)
@@ -195,9 +231,9 @@ private fun InputField(
                             R.font.poppins_black
                         )
                     ),
-                    fontSize = 14.sp,
-                    lineHeight = 8.sp,
-                    textAlign = textAlign
+                    fontSize = fontSize,
+                    lineHeight = 10.sp,
+                    textAlign = TextAlign.Start
                 ),
                 visualTransformation = visualTransformation,
                 keyboardOptions = KeyboardOptions(
@@ -225,8 +261,10 @@ private fun InputField(
 @Preview
 @Composable
 private fun LabeledInputFieldPreview() {
-    SignLabeledInputFields(
+    LabeledInputFields(
+        width = 300.dp,
+        height = 500.dp,
         title = "FARM ID",
-        content = MutableStateFlow("1000BFRTQZP"),
+        content = MutableStateFlow("100988765"),
     ) {}
 }

@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
@@ -80,7 +81,9 @@ class AuthRepository @Inject constructor(
     suspend fun deleteAccount(): Flow<State<Unit>> {
         return apiHandler.makeRequest(
             execute = {
-                authApiService.deleteAccount()
+                authApiService.deleteAccount().apply {
+                    Log.d("DELETE",this.toString())
+                }
             },
             onSuccess = {
                 clearUserDataPreference()

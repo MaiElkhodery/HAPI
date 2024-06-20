@@ -23,17 +23,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.ContinueButton
-import com.example.hapi.presentation.home.common.getCropIcon
-import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.Crop
 import com.example.hapi.presentation.common.GreenBlackText
 import com.example.hapi.presentation.common.YellowBlackText
+import com.example.hapi.presentation.home.common.getCropIcon
+import com.example.hapi.presentation.home.common.getCropName
+import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.Crop
 
 @Composable
 fun RecommendedCropsList(
     modifier: Modifier = Modifier,
+    iconSize:Int,
+    isEnglish: Boolean,
     topCrops: List<Crop>,
-    onClick: (Crop) -> Unit
+    onClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -46,11 +49,17 @@ fun RecommendedCropsList(
             modifier = Modifier.padding(vertical = 9.dp)
         )
 
+        val cropNamesId: MutableList<Int> = mutableListOf()
+        topCrops.forEach { crop ->
+            cropNamesId.add(getCropName(crop = crop.name))
+        }
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 30.dp),
-            crop = topCrops[0]
+            isEnglish = isEnglish,
+            crop = cropNamesId[0],
+            iconSize = iconSize
         ) {
-            onClick(topCrops[0])
+            onClick(cropNamesId[0])
         }
         YellowBlackText(
             size = 13,
@@ -60,17 +69,21 @@ fun RecommendedCropsList(
 
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 58.dp),
+            isEnglish = isEnglish,
             textSize = 15,
-            crop = topCrops[1]
+            crop = cropNamesId[1],
+            iconSize = iconSize
         ) {
-            onClick(topCrops[1])
+            onClick(cropNamesId[1])
         }
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 58.dp, vertical = 10.dp),
+            isEnglish = isEnglish,
             textSize = 15,
-            crop = topCrops[2]
+            crop = cropNamesId[2],
+            iconSize = iconSize
         ) {
-            onClick(topCrops[2])
+            onClick(cropNamesId[2])
         }
     }
 }
@@ -78,8 +91,10 @@ fun RecommendedCropsList(
 @Composable
 fun RecommendedCrop(
     modifier: Modifier = Modifier,
+    isEnglish: Boolean,
+    iconSize: Int,
     textSize: Int = 20,
-    crop: Crop,
+    crop: Int,
     onClick: () -> Unit
 ) {
     Box(
@@ -94,11 +109,16 @@ fun RecommendedCrop(
                 .clip(RoundedCornerShape(6.dp)),
         ) {
 
-            CropRow(crop = crop, textSize = textSize, modifier = Modifier.weight(3f))
-            ContinueButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(.8f)
+            if(!isEnglish) ContinueButton(
+                modifier = Modifier.fillMaxWidth().weight(.8f),
+                isEnglish= false,
+                iconSize=iconSize
+            ) { onClick() }
+            CropRow(cropId = crop, textSize = textSize, modifier = Modifier.weight(3f))
+           if(isEnglish) ContinueButton(
+                modifier = Modifier.fillMaxWidth().weight(.8f),
+                isEnglish= true,
+                iconSize=iconSize
             ) { onClick() }
 
         }
@@ -108,10 +128,12 @@ fun RecommendedCrop(
 
 @Composable
 fun CropRow(
-    crop: Crop,
+    cropId: Int,
     textSize: Int,
     modifier: Modifier
 ) {
+
+    val cropName = stringResource(id = cropId)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -126,7 +148,7 @@ fun CropRow(
                     if (textSize == 20) 48.dp else 33.dp
                 )
                 .padding(end = 3.dp),
-            painter = painterResource(id = getCropIcon(crop.name)),
+            painter = painterResource(id = getCropIcon(cropName)),
             contentDescription = "crop image"
         )
 
@@ -134,7 +156,7 @@ fun CropRow(
             modifier = Modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
-            GreenBlackText(size = textSize, text = crop.name)
+            GreenBlackText(size = textSize, text = cropName)
 
         }
 
@@ -145,6 +167,8 @@ fun CropRow(
 @Composable
 private fun CropRecommendationContentPreview() {
     RecommendedCropsList(
+        isEnglish = true,
+        iconSize = 28,
         topCrops = listOf(
             Crop.APPLE,
             Crop.POTATO,

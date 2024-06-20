@@ -69,7 +69,7 @@ private fun RecommendationRaw(
         YellowBoldText(
             text = description,
             size = 13,
-            modifier = Modifier.weight(1.2f)
+            modifier = Modifier.weight(1.1f)
         )
 
     }
@@ -100,7 +100,7 @@ private fun RecommendationCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(vertical = 16.dp, horizontal = 2.dp)
+                .padding(vertical = 26.dp, horizontal = 2.dp)
         )
     }
 }

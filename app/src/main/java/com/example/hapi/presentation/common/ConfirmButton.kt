@@ -18,18 +18,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
+import com.example.hapi.util.ScreenSize
+import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun ConfirmButton(
     modifier: Modifier = Modifier,
+    width: Dp,
     isEnglish: Boolean = true,
     text: String,
     onClick: () -> Unit
 ) {
+    val fontSize = when (getScreenWidth(width)) {
+        ScreenSize.SMALL -> 12
+        ScreenSize.NORMAL -> 16
+        ScreenSize.LARGE -> 18
+        ScreenSize.XLARGE -> 20
+    }
+    val iconSize = when (getScreenWidth(width)) {
+        ScreenSize.SMALL -> 18
+        ScreenSize.NORMAL -> 22
+        ScreenSize.LARGE -> 28
+        ScreenSize.XLARGE -> 30
+    }
     Box(
         modifier = modifier
             .height(IntrinsicSize.Max)
@@ -41,11 +57,12 @@ fun ConfirmButton(
                 .clip(RoundedCornerShape(6.dp)),
         ) {
 
-            GreenTextBox(text = text)
-
-            ContinueButton(
-                isEnglish = isEnglish
-            ) { onClick() }
+            if (!isEnglish) ContinueButton(isEnglish = false, iconSize = iconSize) { onClick() }
+            GreenTextBox(
+                fontSize = fontSize,
+                text = text
+            )
+            if (isEnglish) ContinueButton(isEnglish = true, iconSize = iconSize) { onClick() }
 
         }
     }
@@ -54,17 +71,19 @@ fun ConfirmButton(
 
 @Composable
 private fun GreenTextBox(
+    fontSize: Int,
     text: String
 ) {
     Box(
         modifier = Modifier
             .background(YellowAppColor)
             .fillMaxHeight()
-            .padding(horizontal = 26.dp, vertical = 7.dp),
+            .padding(horizontal = 26.dp),
         contentAlignment = Alignment.Center
     ) {
 
-        GreenBlackText(size = 16, text = text)
+
+        GreenBlackText(size = fontSize, text = text)
 
     }
 
@@ -73,6 +92,7 @@ private fun GreenTextBox(
 @Composable
 fun ContinueButton(
     modifier: Modifier = Modifier,
+    iconSize: Int,
     isEnglish: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -80,16 +100,16 @@ fun ContinueButton(
     Box(
         modifier = modifier
             .background(DarkGreenAppColor)
-            .padding(11.dp)
+            .padding(8.dp)
             .fillMaxHeight()
             .clickable {
-                       onClick()
+                onClick()
             },
         contentAlignment = Alignment.Center
-        ) {
+    ) {
 
         Icon(
-            modifier = Modifier.size(22.dp),
+            modifier = Modifier.size(iconSize.dp),
             painter = painterResource(
                 id =
                 if (isEnglish) R.drawable.continue_icon
@@ -105,5 +125,9 @@ fun ContinueButton(
 @Preview
 @Composable
 private fun ConfirmButtonPreview() {
-    ConfirmButton(Modifier, text = "SIGNUP") {}
+    ConfirmButton(
+        Modifier,
+        width = 200.dp,
+        text = "CONFIRM"
+    ) {}
 }

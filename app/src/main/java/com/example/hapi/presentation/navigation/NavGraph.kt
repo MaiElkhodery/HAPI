@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.example.hapi.presentation.auth.signin.signinRoute
 import com.example.hapi.presentation.auth.signup.farmersignup.farmerSignupRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.cropselection.signupCropSelectionRoute
-import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.FinalSelectedCropRoute
+import com.example.hapi.presentation.auth.signup.landownersignup.finalcrop.finalSelectedCropRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.recommendedcrops.recommendedCropsRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.cropSelectionStrategyRoute
 import com.example.hapi.presentation.auth.signup.landownersignup.signup.landownerSignupRoute
@@ -44,7 +44,7 @@ fun NavGraph(navController: NavHostController, onLanguageSelected: (String) -> U
         cropSelectionStrategyRoute(navController)
         signupCropSelectionRoute(navController)
         recommendedCropsRoute(navController)
-        FinalSelectedCropRoute(navController)
+        finalSelectedCropRoute(navController)
         signinRoute(navController)
         welcomeRoute(navController)
         landownerHomeRoute(navController)

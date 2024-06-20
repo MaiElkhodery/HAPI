@@ -28,7 +28,7 @@ import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.Title
+import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -39,7 +39,6 @@ fun CropSelectionStrategy(
     viewModel: AuthViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
-    val isLoading = viewModel.loading.collectAsState().value
     val crops = viewModel.recommendedCrops.collectAsState().value
     val error = viewModel.errorMsg.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
@@ -59,8 +58,8 @@ fun CropSelectionStrategy(
         val screenWidth = maxWidth
 
         val smallPadding = screenHeight * 0.02f
-        val largePadding = screenHeight * 0.028f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 75.dp
+        val largePadding = screenHeight * 0.03f
+        val logoSize = if (screenHeight < 600.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
@@ -80,7 +79,7 @@ fun CropSelectionStrategy(
                     .size(logoSize)
 
             )
-            Spacer(modifier = Modifier.height(largePadding))
+            Spacer(modifier = Modifier.height(smallPadding))
             NavHeader(
                 modifier = Modifier,
                 topText = stringResource(id = R.string.setting_up),
@@ -90,9 +89,10 @@ fun CropSelectionStrategy(
             ) {
                 navController.popBackStack()
             }
-            Spacer(modifier = Modifier.height(smallPadding))
 
-            Title(title = stringResource(id = R.string.do_you))
+            Spacer(modifier = Modifier.height(largePadding))
+
+            YellowBlackText(size = 16, text = stringResource(id = R.string.do_you))
 
             Spacer(modifier = Modifier.height(smallPadding))
 
@@ -104,11 +104,13 @@ fun CropSelectionStrategy(
                     navController.navigateToSignupCropSelection()
                 }
             )
+
             Spacer(modifier = Modifier.height(smallPadding))
-            LotusRow(
-                highlightedLotusPos = 1
-            )
+
+            LotusRow( highlightedLotusPos = 1 )
+
             Spacer(modifier = Modifier.height(largePadding))
+
         }
     }
 }

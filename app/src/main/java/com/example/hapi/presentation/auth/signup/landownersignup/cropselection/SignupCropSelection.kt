@@ -27,6 +27,7 @@ import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.home.common.CropCollection
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -38,7 +39,7 @@ fun SignupCropSelection(
 ) {
 
     val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
-
+    
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +89,7 @@ fun SignupCropSelection(
             CropCollection(
                 modifier = Modifier
             ) { crop ->
-                navController.navigateToFinalSelectedCrop(crop.name)
+                navController.navigateToFinalSelectedCrop(getCropName(crop = crop.name))
             }
             Spacer(modifier = Modifier.size(largePadding))
 

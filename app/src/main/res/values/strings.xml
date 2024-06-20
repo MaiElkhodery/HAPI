@@ -4,7 +4,7 @@
     <string name="are_you">ARE YOU A....</string>
     <string name="landowner">LANDOWNER?</string>
     <string name="farmer">FARMER?</string>
-    <string name="setting_up">SETTING_UP</string>
+    <string name="setting_up">SETTING UP</string>
     <string name="your_account">YOUR ACCOUNT</string>
     <string name="phone_number">PHONE NUMBER</string>
     <string name="user_name">USERNAME</string>
@@ -130,5 +130,6 @@
     <string name="k_tank">POTASSIUM\nTANK</string>
     <string name="no_actions">NO ACTIONS YET</string>
     <string name="wait_for_the_device">WAIT FOR THE DEVICES\nTO START TO SEE RESULTS</string>
+    <string name="have_not_account">DON’T HAVE AN ACCOUNT?</string>
 
 </resources>

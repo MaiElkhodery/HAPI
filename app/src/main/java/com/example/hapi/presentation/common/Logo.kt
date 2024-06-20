@@ -12,7 +12,7 @@ import com.example.hapi.R
 
 @Composable
 fun Logo(
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ){
     Box(
         modifier = modifier,

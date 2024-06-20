@@ -31,6 +31,8 @@ import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.Crop
 import com.example.hapi.util.ENGLISH
+import com.example.hapi.util.ScreenSize
+import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun RecommendedCrops(
@@ -50,12 +52,19 @@ fun RecommendedCrops(
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
         val topPadding = screenHeight * 0.02f
         val contentPadding = screenHeight * 0.03f
         val bottomPadding = screenHeight * 0.04f
         val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val iconSize = when (getScreenWidth(screenWidth)) {
+            ScreenSize.SMALL -> 18
+            ScreenSize.NORMAL -> 22
+            ScreenSize.LARGE -> 28
+            ScreenSize.XLARGE -> 30
+        }
 
         Column(
             modifier = Modifier
@@ -85,9 +94,11 @@ fun RecommendedCrops(
             Spacer(modifier = Modifier.height(contentPadding))
 
             RecommendedCropsList(
-                topCrops = topRecommendedCropsList
-            ) { crop ->
-                navController.navigateToFinalSelectedCrop(crop.name)
+                topCrops = topRecommendedCropsList,
+                isEnglish = isEnglish,
+                iconSize = iconSize
+            ) { cropId ->
+                navController.navigateToFinalSelectedCrop(cropId)
             }
             Spacer(modifier = Modifier.height(bottomPadding))
 

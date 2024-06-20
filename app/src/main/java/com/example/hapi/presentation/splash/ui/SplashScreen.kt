@@ -31,6 +31,7 @@ import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.FARMER
 import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -59,6 +60,7 @@ fun Splash(
 
     }
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,10 +68,13 @@ fun Splash(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
+            modifier = Modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "logo"
         )
+
         Crossfade(targetState = state, label = "state") { state ->
             when (state) {
                 1 -> {
@@ -99,9 +104,9 @@ fun Splash(
                     } else {
                         navController.navigateToCropSelectionStrategy()
                     }
-                } else {
-                    navController.navigateToMainScreen(role!!)
-                }
+                } else if (role == FARMER) {
+                    navController.navigateToMainScreen(role)
+                } else navController.navigateToLanguageSetUp()
             } else navController.navigateToLanguageSetUp()
         }
 

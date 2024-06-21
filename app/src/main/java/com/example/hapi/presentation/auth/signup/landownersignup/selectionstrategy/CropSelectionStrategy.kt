@@ -28,7 +28,6 @@ import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -57,46 +56,46 @@ fun CropSelectionStrategy(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.02f
-        val largePadding = screenHeight * 0.03f
-        val logoSize = if (screenHeight < 600.dp) 55.dp else 75.dp
+        val padding = screenHeight * 0.034f
+        val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 75
-        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
-
+        val fontSize = when {
+            screenWidth <= 360.dp -> 12
+            screenWidth in 360.dp..400.dp -> 15
+            else -> 17
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = horizontalPadding),
+                .padding(horizontal = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
 
-            Spacer(modifier = Modifier.height(smallPadding))
+            Spacer(modifier = Modifier.height(padding))
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
 
             )
-            Spacer(modifier = Modifier.height(smallPadding))
+            Spacer(modifier = Modifier.height(padding))
             NavHeader(
                 modifier = Modifier,
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.popBackStack()
             }
 
-            Spacer(modifier = Modifier.height(largePadding))
+            Spacer(modifier = Modifier.height(padding))
 
-            YellowBlackText(size = 16, text = stringResource(id = R.string.do_you))
-
-            Spacer(modifier = Modifier.height(smallPadding))
-
-            CropSelectionStrategyContent(
+            CropStrategyOptions(
+                width = screenWidth,
                 onClickRecommendation = {
                     viewModel.getRecommendedCrops()
                 },
@@ -105,11 +104,11 @@ fun CropSelectionStrategy(
                 }
             )
 
-            Spacer(modifier = Modifier.height(smallPadding))
+            Spacer(modifier = Modifier.height(padding))
 
-            LotusRow( highlightedLotusPos = 1 )
+            LotusRow(highlightedLotusPos = 1)
 
-            Spacer(modifier = Modifier.height(largePadding))
+            Spacer(modifier = Modifier.height(padding))
 
         }
     }

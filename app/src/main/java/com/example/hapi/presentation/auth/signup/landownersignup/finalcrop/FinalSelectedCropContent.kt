@@ -20,47 +20,64 @@ import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.home.common.getCropIcon
 
 @Composable
-fun FinalSelectedCropContent(
+fun FinalSelectedCropBox(
     modifier: Modifier = Modifier,
     width: Dp,
+    height:Dp,
+    imageSize: Dp,
     isEnglish: Boolean,
     crop: Int,
     onClick: () -> Unit
 ) {
+
     val cropName = stringResource(id = crop)
+
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ChosenCrop(crop = cropName)
-        Spacer(modifier = Modifier.padding(21.dp))
+
+        FinalCrop(crop = cropName, width = width, imageSize = imageSize)
+
+        Spacer(modifier = Modifier.padding(24.dp))
+
         ConfirmButton(
             width = width,
+            height=height,
             text = stringResource(id = R.string.confirm_signup),
-            isEnglish = isEnglish
-        ) {
-            onClick()
-        }
+            isEnglish = isEnglish,
+            onClick = onClick
+        )
     }
 }
 
 @Composable
-private fun ChosenCrop(
-    crop: String
+private fun FinalCrop(
+    crop: String,
+    width: Dp,
+    imageSize: Dp
 ) {
+    val fontSize = when {
+        width <= 360.dp -> 18
+        width in 360.dp..400.dp -> 20
+        else -> 22
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        YellowBlackText(text = stringResource(id = R.string.your_crop), size = 20)
+
+        YellowBlackText(text = stringResource(id = R.string.your_crop), size = fontSize)
 
         Image(
             modifier = Modifier
-                .size(95.dp)
+                .size(imageSize)
                 .padding(vertical = 6.dp),
             painter = painterResource(id = getCropIcon(crop)),
             contentDescription = "crop image"
         )
-        YellowBlackText(size = 20, text = crop)
+
+        YellowBlackText(size = fontSize, text = crop)
 
     }
 }
@@ -68,7 +85,7 @@ private fun ChosenCrop(
 @Preview
 @Composable
 private fun ChosenCropPreview() {
-    FinalSelectedCropContent(
-        Modifier, isEnglish = false, crop = 0, width = 500.dp
+    FinalSelectedCropBox(
+        Modifier, isEnglish = false, crop = 0, width = 500.dp, imageSize = 90.dp, height = 800.dp
     ) {}
 }

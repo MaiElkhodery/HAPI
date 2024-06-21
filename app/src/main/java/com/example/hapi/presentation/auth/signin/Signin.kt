@@ -33,7 +33,7 @@ import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.common.YellowRegularText
-import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
+import com.example.hapi.presentation.role_selection.navigateToRoleSelection
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
@@ -150,6 +150,7 @@ fun Signin(
 
             ConfirmButton(
                 width = screenWidth,
+                height = screenHeight,
                 isEnglish = isEnglish,
                 text = stringResource(id = R.string.signin)
             ) {
@@ -169,7 +170,7 @@ fun Signin(
                 YellowBlackText(text = stringResource(id = R.string.signup),
                     size = fontSize,
                     modifier = Modifier.clickable {
-                        navController.navigateToIdentitySelection()
+                        navController.navigateToRoleSelection()
                     }
                 )
             }

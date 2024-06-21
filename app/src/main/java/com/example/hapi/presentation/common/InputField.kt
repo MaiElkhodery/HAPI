@@ -42,7 +42,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
@@ -156,21 +155,20 @@ private fun InputField(
     CompositionLocalProvider(
         LocalLayoutDirection provides layoutDirection,
     ) {
-        val fontSize = when (getScreenWidth(width)) {
-            ScreenSize.SMALL -> 12.sp
-            ScreenSize.NORMAL -> 14.sp
-            ScreenSize.LARGE -> 16.sp
-            ScreenSize.XLARGE -> 18.sp
+        val fontSize = when {
+            width <= 360.dp -> 12
+            width in 360.dp..400.dp -> 14
+            else -> 16
         }
-        val iconSize = when (getScreenWidth(width)) {
-            ScreenSize.SMALL -> 24
-            ScreenSize.NORMAL -> 28
-            else -> 32
+        val iconSize = when {
+            height <= 600.dp -> 24.dp
+            height in 600.dp..855.dp -> 28.dp
+            else -> 30.dp
         }
         val inputFieldHeight = when {
-            height <= 600.dp -> 43.dp
+            height <= 600.dp -> 46.dp
             height in 600.dp..855.dp -> 48.dp
-            else -> 52.dp
+            else -> 50.dp
         }
 
         Row(
@@ -185,7 +183,7 @@ private fun InputField(
                 Icon(
                     modifier = Modifier
                         .weight(0.11f)
-                        .size(iconSize.dp)
+                        .size(iconSize)
                         .padding(start = 12.dp),
                     painter = painterResource(id = imageId),
                     contentDescription = null,
@@ -231,7 +229,7 @@ private fun InputField(
                             R.font.poppins_black
                         )
                     ),
-                    fontSize = fontSize,
+                    fontSize = fontSize.sp,
                     lineHeight = 10.sp,
                     textAlign = TextAlign.Start
                 ),

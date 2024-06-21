@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NextButton
@@ -16,6 +17,8 @@ import com.example.hapi.presentation.common.YellowBlackText
 @Composable
 fun SetupMessage(
     message: String,
+    fontSize: Int,
+    iconSize: Dp,
     onlClickContinue: () -> Unit
 ) {
     Column(
@@ -24,9 +27,9 @@ fun SetupMessage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        YellowBlackText(size = 20, text = message, modifier = Modifier.padding(bottom = 8.dp))
+        YellowBlackText(size = fontSize, text = message, modifier = Modifier.padding(bottom = 8.dp))
 
-        NextButton(35.dp,onlClickContinue)
+        NextButton(iconSize, onlClickContinue)
     }
 }
 
@@ -34,5 +37,8 @@ fun SetupMessage(
 @Preview
 @Composable
 fun SetupMessagePreview() {
-    SetupMessage(stringResource(id = R.string.account_setup)) {}
+    SetupMessage(
+        stringResource(id = R.string.account_setup),
+        24, 24.dp
+    ) {}
 }

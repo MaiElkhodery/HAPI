@@ -72,22 +72,22 @@ fun LandHistory(
         val maxWidth = maxWidth
 
         val headerPadding = if (maxWidth > 300.dp) 22.dp else 16.dp
-        val contentHorizontalPadding = if (maxWidth > 300.dp) 32.dp else 22.dp
-        val backIconSize = if (maxHeight < 650.dp) 60 else 80
-        val verticalPadding = if (maxHeight < 650.dp) 14.dp else 22.dp
+        val contentHorizontalPadding = maxWidth* 0.09f
+        val backIconSize = if (maxHeight < 650.dp) 60 else 75
+        val verticalPadding = maxHeight*.053f
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = headerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(verticalPadding))
 
             NavHeader(
-                modifier = Modifier.padding(horizontal = headerPadding),
+                modifier = Modifier.padding(vertical = 12.dp),
                 imageId = if (isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar,
-                topText = stringResource(id = R.string.detection),
+                topText = stringResource(id = R.string.land),
                 downText = stringResource(id = R.string.history),
                 imageSize = backIconSize
             ) {
@@ -98,8 +98,6 @@ fun LandHistory(
             Spacer(modifier = Modifier.height(verticalPadding))
 
             LandHistoryFilters(
-                modifier = Modifier
-                    .padding(horizontal = contentHorizontalPadding),
                 onFilterSelected = { filterType ->
                     when (filterType) {
                         LandFilterType.All -> landHistoryViewmodel.modifyActionType("")
@@ -130,7 +128,7 @@ fun LandHistory(
                     items(landHistoryList.size) { index ->
                         val landData = landHistoryList[index]
                         LandActionCard(
-                            modifier = Modifier.padding(vertical = 8.dp),
+                            modifier = Modifier.padding(vertical = 10.dp),
                             action = LandAction.valueOf(landData.action_type.uppercase()),
                             date = landData.date,
                             time = landData.time

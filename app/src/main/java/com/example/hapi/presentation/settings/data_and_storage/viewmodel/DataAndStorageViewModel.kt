@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.data.viewmodel
+package com.example.hapi.presentation.settings.data_and_storage.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

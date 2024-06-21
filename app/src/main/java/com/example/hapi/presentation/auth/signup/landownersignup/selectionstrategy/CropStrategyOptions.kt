@@ -1,74 +1,102 @@
 package com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.presentation.common.GreenBlackText
+import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.common.YellowBoldText
+import com.example.hapi.ui.theme.YellowAppColor
 
 
 @Composable
-fun CropSelectionStrategyContent(
+fun CropStrategyOptions(
     modifier: Modifier = Modifier,
+    width: Dp,
     onClickRecommendation: () -> Unit,
     onClickHaveCrop: () -> Unit
 ) {
+
+    val largeFontSize = when {
+        width <= 360.dp -> 12
+        width in 360.dp..400.dp -> 15
+        else -> 17
+    }
+    val smallFontSize = when {
+        width <= 360.dp -> 11
+        width in 360.dp..400.dp -> 13
+        else -> 15
+    }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RecommendationRaw(
+
+        YellowBlackText(
+            size = largeFontSize,
+            text = stringResource(id = R.string.do_you),
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        StrategyOption(
+            smallFontSize = smallFontSize,
+            largeFontSize = largeFontSize,
             cardText = stringResource(id = R.string.recommend_crop),
-            description = stringResource(id = R.string.use_recommendation)
-        ) {
-            onClickRecommendation()
-        }
-        RecommendationRaw(
+            description = stringResource(id = R.string.use_recommendation),
+            onClick = onClickRecommendation
+        )
+        StrategyOption(
+            smallFontSize = smallFontSize,
+            largeFontSize = largeFontSize,
             cardText = stringResource(id = R.string.have_crop),
-            description = stringResource(id = R.string.choose_crop)
-        ) {
-            onClickHaveCrop()
-        }
+            description = stringResource(id = R.string.choose_crop),
+            onClick = onClickHaveCrop
+        )
     }
 }
 
 @Composable
-private fun RecommendationRaw(
+private fun StrategyOption(
+    smallFontSize: Int,
+    largeFontSize: Int,
     cardText: String,
     description: String,
-    onCardClick: () -> Unit
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp),
+            .padding(bottom = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RecommendationCard(
+        OptionCard(
             modifier = Modifier.weight(1f),
+            fontSize = largeFontSize,
             text = cardText
         ) {
-            onCardClick()
+            onClick()
         }
         YellowBoldText(
             text = description,
-            size = 13,
+            size = smallFontSize,
             modifier = Modifier.weight(1.1f)
         )
 
@@ -77,30 +105,28 @@ private fun RecommendationRaw(
 
 
 @Composable
-private fun RecommendationCard(
+private fun OptionCard(
     modifier: Modifier,
+    fontSize: Int,
     text: String,
     onClick: () -> Unit
 ) {
-    Card(
+    Box(
         modifier = modifier
             .padding(end = 11.dp)
-            .height(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .clip(RoundedCornerShape(5.dp))
+            .background(YellowAppColor)
             .clickable {
                 onClick()
-            },
-        shape = RoundedCornerShape(5.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = YellowAppColor
-        )
+            }
     ) {
         GreenBlackText(
-            size = 15,
+            size = fontSize,
             text = text,
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
                 .padding(vertical = 26.dp, horizontal = 2.dp)
+                .fillMaxSize()
         )
     }
 }
@@ -109,5 +135,7 @@ private fun RecommendationCard(
 @Preview
 @Composable
 private fun ContentPreview() {
-    CropSelectionStrategyContent(Modifier, {}) {}
+    CropStrategyOptions(Modifier,
+        width = 300.dp,
+        {}) {}
 }

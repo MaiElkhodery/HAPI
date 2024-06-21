@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.home.common.ORTextRow
+import com.example.hapi.presentation.common.TextWithIcon
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
 import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.presentation.main.MainViewModel
@@ -101,7 +101,6 @@ fun ImageSelection(
             uri?.let { selectedImageUri ->
                 coroutineScope.launch {
                     val byteArray = uriToByteArray(context.contentResolver, selectedImageUri)!!
-                    Log.d("GetPhoto", "onCaptureSuccess: ${byteArray.size}")
                     viewModel.detectDisease(
                         crop.name,
                         byteArray,
@@ -116,7 +115,7 @@ fun ImageSelection(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp, horizontal = 16.dp)
+            .padding(vertical = 16.dp, horizontal = 22.dp)
     ) {
 
 
@@ -153,7 +152,7 @@ fun ImageSelection(
             takePhotoAndDetectDisease()
         }
 
-        ORTextRow(
+        TextWithIcon(
             modifier = Modifier
                 .constrainAs(bottomText) {
                     bottom.linkTo(bottomGuideLine)

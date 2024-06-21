@@ -15,16 +15,14 @@ import com.example.hapi.presentation.detection.guest_cropselection.guestCropSele
 import com.example.hapi.presentation.detection.imageselection.imageCaptureRoute
 import com.example.hapi.presentation.home.detectiondetails.ui.detectionDetailsRoute
 import com.example.hapi.presentation.home.detectionhistory.ui.detectionHistoryRoute
-import com.example.hapi.presentation.home.farmer.farmerHomeRoute
 import com.example.hapi.presentation.home.landhistory.ui.landHistoryRoute
-import com.example.hapi.presentation.home.landowner.ui.landownerHomeRoute
-import com.example.hapi.presentation.identityselection.identitySelectionRoute
 import com.example.hapi.presentation.language_setup.languageSetUpRoute
 import com.example.hapi.presentation.main.mainRoute
 import com.example.hapi.presentation.progress.progressRoute
+import com.example.hapi.presentation.role_selection.roleSelectionRoute
 import com.example.hapi.presentation.settings.about.aboutUsRoute
-import com.example.hapi.presentation.settings.data.ui.dataAndStorageRoute
-import com.example.hapi.presentation.settings.farmerslist.ui.farmersRoute
+import com.example.hapi.presentation.settings.data_and_storage.ui.dataAndStorageRoute
+import com.example.hapi.presentation.settings.farmers.ui.farmersRoute
 import com.example.hapi.presentation.settings.general.ui.settingsRoute
 import com.example.hapi.presentation.settings.language.languageSettingsRoute
 import com.example.hapi.presentation.settings.support.helpAndSupportRoute
@@ -38,7 +36,7 @@ fun NavGraph(navController: NavHostController, onLanguageSelected: (String) -> U
         progressRoute(navController)
         splashOneRoute(navController)
         progressRoute(navController)
-        identitySelectionRoute(navController)
+        roleSelectionRoute(navController)
         farmerSignupRoute(navController)
         landownerSignupRoute(navController)
         cropSelectionStrategyRoute(navController)
@@ -47,8 +45,6 @@ fun NavGraph(navController: NavHostController, onLanguageSelected: (String) -> U
         finalSelectedCropRoute(navController)
         signinRoute(navController)
         welcomeRoute(navController)
-        landownerHomeRoute(navController)
-        farmerHomeRoute(navController)
         detectionHistoryRoute(navController)
         detectionDetailsRoute(navController)
         guestCropSelectionRoute(navController)

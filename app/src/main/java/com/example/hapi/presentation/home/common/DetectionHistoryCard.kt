@@ -64,7 +64,7 @@ fun DetectionHistoryCard(
             DetectionInfo(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(vertical = 16.dp, horizontal = 16.dp),
+                    .padding(vertical = 10.dp, horizontal = 12.dp),
                 username = username,
                 date = date,
                 time = time
@@ -72,7 +72,7 @@ fun DetectionHistoryCard(
 
             DetectionDetailsIcon(
                 modifier = Modifier
-                    .weight(.4f)
+                    .weight(.3f)
                     .fillMaxHeight()
             ) {
                 onClick()

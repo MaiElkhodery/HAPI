@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -61,54 +62,67 @@ fun FinalSelectedCrop(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.02f
-        val largePadding = screenHeight * 0.03f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 75.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
-        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+        val smallPadding = screenHeight * 0.034f
+        val largePadding = screenHeight * 0.044f
+        val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
+        val backIconSize = if (screenHeight < 600.dp) 60 else 75
+
+        val fontSize = when {
+            screenWidth <= 360.dp -> 12
+            screenWidth in 360.dp..400.dp -> 15
+            else -> 17
+        }
+        val imageSize = when {
+            screenHeight <= 600.dp -> 75.dp
+            screenHeight in 600.dp..855.dp -> 90.dp
+            else -> 95.dp
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = horizontalPadding),
+                .padding(horizontal = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            Spacer(modifier = Modifier.size(smallPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
             )
-            Spacer(modifier = Modifier.size(smallPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
             NavHeader(
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.popBackStack()
             }
 
-            Spacer(modifier = Modifier.size(smallPadding))
+            Spacer(modifier = Modifier.height(smallPadding))
 
-            FinalSelectedCropContent(
+            FinalSelectedCropBox(
                 width = screenWidth,
+                height=screenHeight,
+                imageSize=imageSize,
                 crop = cropId,
                 isEnglish = isEnglish
             ) {
                 viewModel.uploadSelectedCrop(selectedCrop)
             }
-            Spacer(modifier = Modifier.size(largePadding))
+            Spacer(modifier = Modifier.height(largePadding))
 
 
             LotusRow(
                 highlightedLotusPos = 3,
             )
-            Spacer(modifier = Modifier.size(largePadding))
+            Spacer(modifier = Modifier.height(largePadding))
 
         }
     }

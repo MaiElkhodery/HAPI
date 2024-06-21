@@ -2,6 +2,7 @@ package com.example.hapi.presentation.home.landowner.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -42,10 +43,10 @@ fun TanksData(
     pTankLevel: Int,
     kTankLevel: Int,
 ) {
-    val horizontalPadding = 4.dp
+    val horizontalPadding = 2.dp
 
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = horizontalPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (crop.isNotBlank())
@@ -53,9 +54,10 @@ fun TanksData(
         Row(
             modifier = Modifier
                 .padding(top = 8.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            LandDataItem(
+            TanksDataItem(
                 modifier = Modifier
                     .weight(1f)
                     .height(IntrinsicSize.Max)
@@ -63,7 +65,7 @@ fun TanksData(
                 data = waterTankLevel,
                 text = stringResource(id = R.string.water_tank)
             )
-            LandDataItem(
+            TanksDataItem(
                 modifier = Modifier
                     .weight(1f)
                     .height(IntrinsicSize.Max)
@@ -71,7 +73,7 @@ fun TanksData(
                 data = nTankLevel, text = stringResource(id = R.string.n_tank)
             )
 
-            LandDataItem(
+            TanksDataItem(
                 modifier = Modifier
                     .weight(1f)
                     .height(IntrinsicSize.Max)
@@ -79,7 +81,7 @@ fun TanksData(
                 data = pTankLevel,
                 text = stringResource(id = R.string.p_tank)
             )
-            LandDataItem(
+            TanksDataItem(
                 modifier = Modifier
                     .weight(1f)
                     .height(IntrinsicSize.Max)
@@ -116,7 +118,7 @@ private fun CropItem(
 }
 
 @Composable
-fun LandDataItem(
+fun TanksDataItem(
     modifier: Modifier = Modifier,
     data: Int,
     text: String,
@@ -127,7 +129,7 @@ fun LandDataItem(
             .background(
                 if (data == 0) WarningColor else DarkGreenAppColor
             )
-            .padding(5.dp),
+            .padding(3.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -142,7 +144,7 @@ fun LandDataItem(
             ),
             textAlign = TextAlign.Center,
             style = TextStyle(
-                lineHeight = 9.sp
+                lineHeight = 10.sp
             )
         )
 

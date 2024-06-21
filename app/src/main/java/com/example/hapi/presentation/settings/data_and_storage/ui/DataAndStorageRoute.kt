@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.data.ui
+package com.example.hapi.presentation.settings.data_and_storage.ui
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

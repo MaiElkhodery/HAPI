@@ -62,7 +62,7 @@ fun HistoryWarning(
             text = stringResource(id = downMsg),
             textAlign = TextAlign.Center,
             style = TextStyle(
-                lineHeight = 9.sp
+                lineHeight = 10.sp
             )
         )
     }

@@ -42,7 +42,7 @@ fun LandHistoryFilters(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         FilterBox(
             isSelected = selectedFilter == LandFilterType.All,
@@ -88,7 +88,7 @@ fun FilterBox(
             .fillMaxHeight()
             .clip(RoundedCornerShape(3.dp))
             .background(backgroundColor)
-            .padding(horizontal = 16.dp, vertical = 9.dp)
+            .padding(horizontal = 10.dp, vertical = 4.dp)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
@@ -117,7 +117,7 @@ fun FilterIconBox(
             .fillMaxHeight()
             .clip(RoundedCornerShape(3.dp))
             .background(backgroundColor)
-            .padding(horizontal = 12.dp)
+            .padding(horizontal = 8.dp)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {

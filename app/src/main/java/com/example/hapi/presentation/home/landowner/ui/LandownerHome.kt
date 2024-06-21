@@ -1,14 +1,10 @@
 package com.example.hapi.presentation.home.landowner.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.domain.model.LandAction
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.home.common.VerticalHistoryCard
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
 import com.example.hapi.presentation.home.detectionhistory.ui.navigateToDetectionHistory
 import com.example.hapi.presentation.home.landhistory.ui.navigateToLandHistory
@@ -82,7 +77,7 @@ fun LandownerHome(
             .background(GreenAppColor)
     ) {
 
-        val (welcomeHeader, dataHeader, content, historyCards) = createRefs()
+        val (welcomeHeader, dataHeader, content) = createRefs()
         val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_home)
 
         NavHeader(
@@ -99,7 +94,7 @@ fun LandownerHome(
 
         TanksData(
             modifier = Modifier.constrainAs(dataHeader) {
-                top.linkTo(welcomeHeader.bottom, margin = 16.dp)
+                top.linkTo(welcomeHeader.bottom, margin = 14.dp)
                 bottom.linkTo(content.top)
             },
             crop = crop,
@@ -110,13 +105,14 @@ fun LandownerHome(
         )
         LandownerHomeLandData(
             modifier = Modifier
-                .padding(horizontal = 35.dp)
+                .padding(horizontal = 40.dp)
                 .constrainAs(content) {
-                    top.linkTo(dataHeader.bottom,margin = 16.dp)
-                    bottom.linkTo(historyCards.top)
+                    top.linkTo(dataHeader.bottom, margin = 22.dp)
                 },
             lastLandAction = LandAction(
-                name = landActionType.uppercase(), date = landActionDate, time = landActionTime
+                name = landActionType.uppercase(),
+                date = landActionDate,
+                time = landActionTime
             ),
             detectionUsername = detectionUsername,
             detectionDate = detectionDate,
@@ -124,32 +120,16 @@ fun LandownerHome(
             imageUrl = if (isNetworkConnected) imageUrl else "",
             lastFarmerDate = lastFarmerDate,
             lastFarmerTime = lastFarmerTime,
-            lastFarmerUsername = lastFarmerUsername
-        ) {
-            navController.navigateToDetectionDetails(
-                id = detectionRemoteId.toString()
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 35.dp)
-                .constrainAs(historyCards) {
-                    top.linkTo(content.bottom)
-                    bottom.linkTo(parent.bottom, margin = 33.dp)
-                },
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            VerticalHistoryCard(
-                isLand = true,
-                modifier = Modifier.weight(1f)
-            ) { navController.navigateToLandHistory() }
-            Spacer(modifier = Modifier.width(10.dp).weight(0.2f))
-            VerticalHistoryCard(
-                isLand = false,
-                modifier = Modifier.weight(1f)
-            ) { navController.navigateToDetectionHistory() }
-        }
+            lastFarmerUsername = lastFarmerUsername,
+            onClickDetectionHistory = { navController.navigateToDetectionHistory() },
+            onClickLandHistory = { navController.navigateToLandHistory() },
+            onClickDetailsIcon = {
+                navController.navigateToDetectionDetails(
+                    id = detectionRemoteId.toString()
+                )
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.identityselection
+package com.example.hapi.presentation.role_selection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,7 +22,7 @@ import com.example.hapi.presentation.common.Logo
 import com.example.hapi.ui.theme.GreenAppColor
 
 @Composable
-fun IdentitySelection(navController: NavController) {
+fun RoleOptions(navController: NavController) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -31,11 +30,26 @@ fun IdentitySelection(navController: NavController) {
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxHeight
 
-        val topPadding = screenHeight * 0.06f
-        val logoSize = if (screenHeight < 600.dp) 140.dp else 180.dp
-        val cropImageHeight = if (screenHeight < 600.dp) 200.dp else 300.dp
+        val largePadding = screenHeight * 0.06f
+        val smallPadding = screenHeight * 0.03f
+        val logoSize = when {
+            screenHeight <= 600.dp -> 120.dp
+            screenHeight in 600.dp..855.dp -> 185.dp
+            else -> 200.dp
+        }
+        val roleImageSize = when {
+            screenHeight <= 600.dp -> 70.dp
+            screenHeight in 600.dp..855.dp -> 90.dp
+            else -> 95.dp
+        }
 
+        val fontSize = when {
+            screenWidth <= 360.dp -> 10
+            screenWidth in 360.dp..400.dp -> 16
+            else -> 18
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -43,18 +57,15 @@ fun IdentitySelection(navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(largePadding))
 
-            Logo(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(logoSize)
-            )
+            Logo(modifier = Modifier.size(logoSize))
 
-            IdentitySelection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
+            Spacer(modifier = Modifier.height(smallPadding))
+
+            RoleOptions(
+                fontSize = fontSize,
+                imageSize = roleImageSize,
                 onClickLandowner = {
                     navController.navToLandownerSignup()
                 },
@@ -63,11 +74,9 @@ fun IdentitySelection(navController: NavController) {
                 }
             )
 
-            CropImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cropImageHeight)
-            )
+            Spacer(modifier = Modifier.height(smallPadding))
+
+            CropImage(modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -75,5 +84,5 @@ fun IdentitySelection(navController: NavController) {
 @Preview
 @Composable
 private fun IdentitySelectionScreenPreview() {
-    IdentitySelection(rememberNavController())
+    RoleOptions(rememberNavController())
 }

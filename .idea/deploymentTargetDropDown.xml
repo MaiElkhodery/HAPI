@@ -55,7 +55,18 @@
       </entry>
       <entry key="app">
         <State>
-          <multipleDevicesSelectedInDropDown value="true" />
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-21T12:01:22.852088200Z" />
           <runningDeviceTargetsSelectedWithDialog>
             <Target>
               <type value="RUNNING_DEVICE_TARGET" />
@@ -66,15 +77,6 @@
                 </Key>
               </deviceKey>
             </Target>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Nexus_6P_API_24.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
           </runningDeviceTargetsSelectedWithDialog>
           <targetsSelectedWithDialog>
             <Target>
@@ -82,7 +84,7 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Nexus_S_API_24.avd" />
+                  <value value="C:\Users\maiel\.android\avd\Resizable_Experimental_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>

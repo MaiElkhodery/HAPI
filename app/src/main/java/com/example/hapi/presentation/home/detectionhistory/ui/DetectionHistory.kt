@@ -71,22 +71,20 @@ fun DetectionHistory(
         val maxHeight = maxHeight
         val maxWidth = maxWidth
 
-        val headerPadding = if (maxWidth > 300.dp) 22.dp else 16.dp
-        val contentHorizontalPadding = if (maxWidth > 300.dp) 32.dp else 22.dp
-        val backIconSize = if (maxHeight < 650.dp) 60 else 80
-        val verticalPadding = if (maxHeight < 650.dp) 14.dp else 22.dp
+        val padding = if (maxWidth > 300.dp) 16.dp else 12.dp
+        val contentHorizontalPadding = maxWidth* 0.06f
+        val backIconSize = if (maxHeight < 650.dp) 60 else 75
+        val verticalPadding = maxHeight*.053f
 
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize().padding(horizontal = padding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(verticalPadding))
-
             NavHeader(
-                modifier = Modifier.padding(horizontal = headerPadding),
+                modifier = Modifier.padding(vertical = 12.dp),
                 topText = stringResource(id = R.string.detection),
                 downText = stringResource(id = R.string.history),
                 imageId = if (isEnglish) R.drawable.back_home else R.drawable.home_back_btn_ar,
@@ -99,9 +97,6 @@ fun DetectionHistory(
             Spacer(modifier = Modifier.height(verticalPadding))
 
             DetectionHistoryFilters(
-                modifier = Modifier
-                    .padding(horizontal = contentHorizontalPadding)
-                    .fillMaxWidth(),
                 onAllDetectionsSelected = {
                     detectionHistoryViewmodel.modifyIsAllDetectionsSelected(true)
                 },
@@ -126,7 +121,7 @@ fun DetectionHistory(
                     items(detectionHistoryList.size) { index ->
                         val detection = detectionHistoryList[index]
                         DetectionHistoryCard(
-                            modifier = Modifier.padding(vertical = 8.dp),
+                            modifier = Modifier.padding(vertical = 10.dp),
                             username = detection.username,
                             date = detection.date,
                             time = detection.time,

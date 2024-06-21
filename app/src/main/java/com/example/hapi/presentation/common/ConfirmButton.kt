@@ -23,28 +23,25 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.ScreenSize
-import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun ConfirmButton(
     modifier: Modifier = Modifier,
     width: Dp,
+    height: Dp,
     isEnglish: Boolean = true,
     text: String,
     onClick: () -> Unit
 ) {
-    val fontSize = when (getScreenWidth(width)) {
-        ScreenSize.SMALL -> 12
-        ScreenSize.NORMAL -> 16
-        ScreenSize.LARGE -> 18
-        ScreenSize.XLARGE -> 20
+    val fontSize = when {
+        width <= 360.dp -> 14
+        width in 360.dp..400.dp -> 16
+        else -> 18
     }
-    val iconSize = when (getScreenWidth(width)) {
-        ScreenSize.SMALL -> 18
-        ScreenSize.NORMAL -> 22
-        ScreenSize.LARGE -> 28
-        ScreenSize.XLARGE -> 30
+    val iconSize = when {
+        height <= 600.dp -> 20
+        height in 600.dp..855.dp -> 22
+        else -> 24
     }
     Box(
         modifier = modifier
@@ -57,12 +54,12 @@ fun ConfirmButton(
                 .clip(RoundedCornerShape(6.dp)),
         ) {
 
-            if (!isEnglish) ContinueButton(isEnglish = false, iconSize = iconSize) { onClick() }
+            if (!isEnglish) ContinueButton(iconSize = iconSize) { onClick() }
             GreenTextBox(
                 fontSize = fontSize,
                 text = text
             )
-            if (isEnglish) ContinueButton(isEnglish = true, iconSize = iconSize) { onClick() }
+            if (isEnglish) ContinueButton(iconSize = iconSize) { onClick() }
 
         }
     }
@@ -93,7 +90,6 @@ private fun GreenTextBox(
 fun ContinueButton(
     modifier: Modifier = Modifier,
     iconSize: Int,
-    isEnglish: Boolean = true,
     onClick: () -> Unit
 ) {
 
@@ -112,8 +108,7 @@ fun ContinueButton(
             modifier = Modifier.size(iconSize.dp),
             painter = painterResource(
                 id =
-                if (isEnglish) R.drawable.continue_icon
-                else R.drawable.continue_icon_ar
+                R.drawable.continue_icon
             ),
             contentDescription = "next button",
             tint = YellowAppColor
@@ -128,6 +123,7 @@ private fun ConfirmButtonPreview() {
     ConfirmButton(
         Modifier,
         width = 200.dp,
+        height = 200.dp,
         text = "CONFIRM"
     ) {}
 }

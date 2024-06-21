@@ -31,7 +31,7 @@ import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
+import com.example.hapi.presentation.role_selection.navigateToRoleSelection
 import com.example.hapi.presentation.progress.navToProgress
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -110,7 +110,7 @@ fun FarmerSignup(
                 imageSize = backIconSize,
                 fontSize = fontSize
             ) {
-                navController.navigateToIdentitySelection()
+                navController.navigateToRoleSelection()
             }
 
             Spacer(modifier = Modifier.height(largePadding))
@@ -172,6 +172,7 @@ fun FarmerSignup(
 
             ConfirmButton(
                 width = screenWidth,
+                height=screenHeight,
                 isEnglish = isEnglish,
                 modifier = Modifier,
                 text = stringResource(id = R.string.confirm_signup)

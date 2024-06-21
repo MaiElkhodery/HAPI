@@ -1,6 +1,7 @@
 package com.example.hapi.presentation.home.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,13 +15,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
-import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.presentation.common.DarkGreenBlackText
+import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
 fun VerticalHistoryCard(
@@ -28,43 +30,39 @@ fun VerticalHistoryCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Card(
+
+    Column(
         modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(5.dp))
+            .background(YellowAppColor)
             .clickable {
                 onClick()
             },
-        shape = RoundedCornerShape(5.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = YellowAppColor
-        )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(55.dp),
-                painter = painterResource(
-                    id = if (isLand) {
-                        R.drawable.land_history
-                    } else {
-                        R.drawable.disease_history
-                    }
-                ),
-                contentDescription = null
-            )
-            DarkGreenBlackText(
-                size = 15,
-                text = if (isLand) stringResource(id = R.string.land_history)
-                else stringResource(id = R.string.disease_history),
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-        }
+        Image(
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .size(50.dp),
+            painter = painterResource(
+                id = if (isLand) {
+                    R.drawable.land_history
+                } else {
+                    R.drawable.disease_history
+                }
+            ),
+            contentDescription = null
+        )
+        DarkGreenBlackText(
+            size = 15,
+            text = if (isLand) stringResource(id = R.string.land_history)
+            else stringResource(id = R.string.disease_history),
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
     }
+
 }
 
 @Composable

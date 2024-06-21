@@ -48,19 +48,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.hapi.R
-import com.example.hapi.ui.theme.DarkGreenAppColor
-import com.example.hapi.ui.theme.WarningColor
-import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.presentation.common.DarkGreenBoldText
 import com.example.hapi.presentation.common.RedBlackText
 import com.example.hapi.presentation.common.YellowBlackText
+import com.example.hapi.ui.theme.DarkGreenAppColor
+import com.example.hapi.ui.theme.WarningColor
+import com.example.hapi.ui.theme.YellowAppColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun WarningDialogWithPassword(
     modifier: Modifier = Modifier,
-    isWithPassword: Boolean = true,
+    withPassword: Boolean = true,
     warningText: String,
     additionalWarningText: String,
     password: StateFlow<String>,
@@ -72,7 +72,7 @@ fun WarningDialogWithPassword(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(5.dp))
+                .clip(RoundedCornerShape(8.dp))
                 .background(YellowAppColor),
             verticalArrangement = Arrangement.Center
         ) {
@@ -101,7 +101,7 @@ fun WarningDialogWithPassword(
                     DarkGreenBoldText(size = 12, text = additionalWarningText)
                 }
             }
-            if (isWithPassword) {
+            if (withPassword) {
                 ConfirmPassword(content = password) { password ->
                     onChangePassword(password)
                 }
@@ -124,12 +124,13 @@ fun ConfirmButton(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(3.dp))
+            .clip(RoundedCornerShape(4.dp))
             .background(WarningColor)
-            .padding(horizontal = 22.dp)
+            .padding(horizontal = 24.dp)
             .clickable {
                 onClick()
-            }
+            },
+        contentAlignment = Alignment.Center
     ) {
         YellowBlackText(size = 20, text = stringResource(id = R.string.confirm))
     }
@@ -144,18 +145,18 @@ private fun WarningRow(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(start = 40.dp,end = 40.dp,bottom = 16.dp),
+            .padding(start = 40.dp, end = 40.dp, bottom = 12.dp),
         horizontalArrangement = Arrangement.Center
     ) {
 
         Image(
             painter = painterResource(id = R.drawable.warnning),
             contentDescription = null,
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp)
-                .weight(.5f)
+                .padding(vertical=14.dp, horizontal = 5.dp)
+                .weight(.4f)
         )
 
         Column(
@@ -182,7 +183,7 @@ fun CancelButton(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 24.dp, horizontal = 18.dp),
+            .padding(vertical = 18.dp, horizontal = 18.dp),
         horizontalArrangement = Arrangement.End
     ) {
         Icon(
@@ -190,7 +191,7 @@ fun CancelButton(
             contentDescription = null,
             tint = DarkGreenAppColor,
             modifier = modifier
-                .size(22.dp)
+                .size(26.dp)
                 .fillMaxHeight()
                 .clickable {
                     onClick()
@@ -207,11 +208,12 @@ private fun ConfirmPassword(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 26.dp),
+            .padding(start = 18.dp, end = 18.dp, top = 18.dp),
         verticalArrangement = Arrangement.Top
     ) {
         val text = content.collectAsState()
         var passwordVisible by remember { mutableStateOf(false) }
+
         DarkGreenBoldText(
             size = 12,
             text = stringResource(id = R.string.confirm_password)
@@ -226,7 +228,8 @@ private fun ConfirmPassword(
                 .fillMaxWidth()
                 .height(51.dp)
                 .wrapContentHeight(Alignment.CenterVertically)
-                .border(width = 3.dp, color = DarkGreenAppColor),
+                .border(width = 2.dp, color = DarkGreenAppColor)
+                .clip(RoundedCornerShape(7.dp)),
             maxLines = 1,
             value = text.value,
             onValueChange = {

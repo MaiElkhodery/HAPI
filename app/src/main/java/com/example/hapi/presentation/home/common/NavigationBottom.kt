@@ -61,7 +61,7 @@ fun CustomNavigationBottom(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 18.dp)
+                .padding(top = 22.dp)
         )
         ConstraintLayout(
             modifier = Modifier
@@ -72,7 +72,7 @@ fun CustomNavigationBottom(
 
             CameraIcon(
                 modifier = Modifier
-                    .padding(bottom = 25.dp)
+                    .padding(bottom = 22.dp)
                     .constrainAs(camera) {
                         bottom.linkTo(parent.bottom)
                         top.linkTo(parent.top)
@@ -125,7 +125,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 6.dp)
+            .padding(bottom = 4.dp)
             .clickable {
                 onClick()
             },
@@ -133,7 +133,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(29.dp),
+                .size(24.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -141,8 +141,8 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .padding(bottom = 4.dp)
-                    .size(13.dp),
+                    .padding(bottom = 3.dp)
+                    .size(12.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor
@@ -170,7 +170,7 @@ fun CameraIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(70.dp)
+                .size(65.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,

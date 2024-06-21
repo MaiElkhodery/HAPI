@@ -17,8 +17,6 @@ fun NavGraphBuilder.languageSetUpRoute(
 
 fun NavController.navigateToLanguageSetUp() {
     navigate(ROUTE){
-        popUpTo(0){
-            inclusive = true
-        }
+        popUpTo(0)
     }
 }

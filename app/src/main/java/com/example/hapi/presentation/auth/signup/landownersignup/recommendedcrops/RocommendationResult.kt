@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.presentation.common.ContinueButton
@@ -31,30 +32,60 @@ import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.Crop
 
 @Composable
-fun RecommendedCropsList(
+fun RecommendationResult(
     modifier: Modifier = Modifier,
-    iconSize:Int,
+    width: Dp,
     isEnglish: Boolean,
     topCrops: List<Crop>,
     onClick: (Int) -> Unit
 ) {
+
+    val smallFontSize = when {
+        width <= 360.dp -> 11
+        width in 360.dp..400.dp -> 13
+        else -> 15
+    }
+    val mediumFontSize = when {
+        width <= 360.dp -> 12
+        width in 360.dp..400.dp -> 15
+        else -> 17
+    }
+    val largeFontSize = when {
+        width <= 360.dp -> 18
+        width in 360.dp..400.dp -> 20
+        else -> 22
+    }
+
+    val iconSize = when {
+        width <= 360.dp -> 18
+        width in 360.dp..400.dp -> 22
+        else -> 24
+    }
+
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         YellowBlackText(
-            size = 13,
+            size = mediumFontSize,
+            text = stringResource(id = R.string.choose_recommedation),
+            modifier = Modifier.padding(bottom = 22.dp)
+        )
+        YellowBlackText(
+            size = smallFontSize,
             text = stringResource(id = R.string.top_recommendation),
-            modifier = Modifier.padding(vertical = 9.dp)
+            modifier = Modifier.padding(bottom = 9.dp)
         )
 
         val cropNamesId: MutableList<Int> = mutableListOf()
         topCrops.forEach { crop ->
             cropNamesId.add(getCropName(crop = crop.name))
         }
+
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 30.dp),
+            fontSize = largeFontSize,
             isEnglish = isEnglish,
             crop = cropNamesId[0],
             iconSize = iconSize
@@ -69,8 +100,8 @@ fun RecommendedCropsList(
 
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 58.dp),
+            fontSize=mediumFontSize,
             isEnglish = isEnglish,
-            textSize = 15,
             crop = cropNamesId[1],
             iconSize = iconSize
         ) {
@@ -78,8 +109,8 @@ fun RecommendedCropsList(
         }
         RecommendedCrop(
             modifier = Modifier.padding(horizontal = 58.dp, vertical = 10.dp),
+            fontSize=mediumFontSize,
             isEnglish = isEnglish,
-            textSize = 15,
             crop = cropNamesId[2],
             iconSize = iconSize
         ) {
@@ -91,9 +122,9 @@ fun RecommendedCropsList(
 @Composable
 fun RecommendedCrop(
     modifier: Modifier = Modifier,
+    fontSize:Int,
     isEnglish: Boolean,
     iconSize: Int,
-    textSize: Int = 20,
     crop: Int,
     onClick: () -> Unit
 ) {
@@ -111,13 +142,11 @@ fun RecommendedCrop(
 
             if(!isEnglish) ContinueButton(
                 modifier = Modifier.fillMaxWidth().weight(.8f),
-                isEnglish= false,
                 iconSize=iconSize
             ) { onClick() }
-            CropRow(cropId = crop, textSize = textSize, modifier = Modifier.weight(3f))
+            CropRow(cropId = crop, textSize = fontSize, modifier = Modifier.weight(3f))
            if(isEnglish) ContinueButton(
                 modifier = Modifier.fillMaxWidth().weight(.8f),
-                isEnglish= true,
                 iconSize=iconSize
             ) { onClick() }
 
@@ -166,9 +195,9 @@ fun CropRow(
 @Preview
 @Composable
 private fun CropRecommendationContentPreview() {
-    RecommendedCropsList(
+    RecommendationResult(
         isEnglish = true,
-        iconSize = 28,
+        width = 300.dp,
         topCrops = listOf(
             Crop.APPLE,
             Crop.POTATO,

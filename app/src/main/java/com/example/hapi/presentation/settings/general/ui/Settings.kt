@@ -2,7 +2,9 @@ package com.example.hapi.presentation.settings.general.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,9 +27,9 @@ import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
 import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
-import com.example.hapi.presentation.settings.data.ui.navigateToDataAndStorage
-import com.example.hapi.presentation.settings.data.viewmodel.DataAndStorageViewModel
-import com.example.hapi.presentation.settings.farmerslist.ui.navigateToLandFarmers
+import com.example.hapi.presentation.settings.data_and_storage.ui.navigateToDataAndStorage
+import com.example.hapi.presentation.settings.data_and_storage.viewmodel.DataAndStorageViewModel
+import com.example.hapi.presentation.settings.farmers.ui.navigateToFarmers
 import com.example.hapi.presentation.settings.general.viewmodel.SettingsEvent
 import com.example.hapi.presentation.settings.general.viewmodel.SettingsViewModel
 import com.example.hapi.presentation.settings.language.navigateToLanguageSettings
@@ -106,7 +108,7 @@ fun Settings(
                 LandownerSettingsOptions(
                     modifier = Modifier.padding(top = 22.dp),
                     onLanguageClick = { navController.navigateToLanguageSettings() },
-                    onFarmersListClick = { navController.navigateToLandFarmers() },
+                    onFarmersListClick = { navController.navigateToFarmers() },
                     onDataAndStorageClick = { navController.navigateToDataAndStorage() },
                     onHelpAndSupportClick = { navController.navigateToHelpAndSupport() },
                     onAboutUsClick = { navController.navigateToAboutUs() },
@@ -161,10 +163,11 @@ fun Settings(
                 )
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
 
         if (openDialog) {
             WarningDialogWithPassword(
-                isWithPassword = openDialogWithPassword,
+                withPassword = openDialogWithPassword,
                 warningText = warningText,
                 additionalWarningText = additionalWarningText,
                 password = viewModel.password,

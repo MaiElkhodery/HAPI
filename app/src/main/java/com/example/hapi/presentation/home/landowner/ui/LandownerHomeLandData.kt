@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,15 +35,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.domain.model.LandAction
+import com.example.hapi.presentation.common.DarkGreenBlackText
 import com.example.hapi.presentation.home.common.ActionInfo
-import com.example.hapi.presentation.home.common.LastDetectionContent
-import com.example.hapi.presentation.home.common.LandActionCard
 import com.example.hapi.presentation.home.common.HomeNotFoundWarning
+import com.example.hapi.presentation.home.common.LandActionCard
+import com.example.hapi.presentation.home.common.LastDetectionContent
+import com.example.hapi.presentation.home.common.VerticalHistoryCard
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.presentation.common.DarkGreenBlackText
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.FeatureInfo
 
@@ -56,7 +59,9 @@ fun LandownerHomeLandData(
     lastFarmerUsername: String,
     lastFarmerDate: String,
     lastFarmerTime: String,
-    onClickDetectionDetailsIcon: () -> Unit
+    onClickDetailsIcon: () -> Unit,
+    onClickLandHistory: () -> Unit,
+    onClickDetectionHistory: () -> Unit,
 ) {
     var isDetectionSelected by remember {
         mutableStateOf(false)
@@ -130,7 +135,7 @@ fun LandownerHomeLandData(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(170.dp)
             ) {
                 when {
                     isDetectionSelected -> {
@@ -143,9 +148,8 @@ fun LandownerHomeLandData(
                                 date = detectionDate,
                                 time = detectionTime,
                                 imageUrl = imageUrl,
-                            ) {
-                                onClickDetectionDetailsIcon()
-                            }
+                                onClick = onClickDetailsIcon
+                            )
                         } else {
                             HomeNotFoundWarning(
                                 modifier = Modifier.height(Dimens.home_box_height),
@@ -191,6 +195,25 @@ fun LandownerHomeLandData(
                     }
                 }
             }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            VerticalHistoryCard(
+                isLand = true,
+                modifier = Modifier.weight(1f),
+                onClick = onClickLandHistory
+            )
+            Spacer(modifier = Modifier
+                .width(10.dp)
+                .weight(0.2f))
+            VerticalHistoryCard(
+                isLand = false,
+                modifier = Modifier.weight(1f),
+                onClick = onClickDetectionHistory
+            )
         }
     }
 }
@@ -295,6 +318,9 @@ private fun HomeOperationsDisplayPreview() {
         lastFarmerTime = "12:00 PM",
         detectionUsername = "John Doe",
         detectionDate = "12/12/2021",
-        detectionTime = "12:00 PM"
-    ) {}
+        detectionTime = "12:00 PM",
+        onClickDetailsIcon = {},
+        onClickLandHistory = {},
+        onClickDetectionHistory = {}
+    )
 }

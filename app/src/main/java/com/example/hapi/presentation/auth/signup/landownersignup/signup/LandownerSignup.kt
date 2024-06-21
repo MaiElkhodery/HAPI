@@ -33,12 +33,10 @@ import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.identityselection.navigateToIdentitySelection
+import com.example.hapi.presentation.role_selection.navigateToRoleSelection
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
-import com.example.hapi.util.ScreenSize
-import com.example.hapi.util.getScreenWidth
 
 @Composable
 fun LandownerSignup(
@@ -75,11 +73,10 @@ fun LandownerSignup(
         val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
-        val fontSize = when (getScreenWidth(screenWidth)) {
-            ScreenSize.SMALL -> 11
-            ScreenSize.NORMAL -> 15
-            ScreenSize.LARGE -> 17
-            ScreenSize.XLARGE -> 19
+        val fontSize = when {
+            screenWidth <= 360.dp -> 13
+            screenWidth in 360.dp..400.dp -> 15
+            else -> 17
         }
 
         Column(
@@ -109,7 +106,7 @@ fun LandownerSignup(
                 imageSize = backIconSize,
                 fontSize = fontSize
             ) {
-                navController.navigateToIdentitySelection()
+                navController.navigateToRoleSelection()
             }
 
             Spacer(modifier = Modifier.height(smallPadding))
@@ -117,7 +114,7 @@ fun LandownerSignup(
 
             LabeledInputFields(
                 width = screenWidth,
-                height=screenHeight,
+                height = screenHeight,
                 title = stringResource(id = R.string.phone_number),
                 content = viewModel.phoneNumber
             ) { phoneNumber ->
@@ -131,7 +128,7 @@ fun LandownerSignup(
 
             LabeledInputFields(
                 width = screenWidth,
-                height=screenHeight,
+                height = screenHeight,
                 title = stringResource(id = R.string.user_name),
                 content = viewModel.username
             ) { username ->
@@ -144,7 +141,7 @@ fun LandownerSignup(
             )
 
             LabeledInputFields(
-                height=screenHeight,
+                height = screenHeight,
                 width = screenWidth,
                 title = stringResource(id = R.string.password),
                 content = viewModel.password
@@ -162,6 +159,7 @@ fun LandownerSignup(
 
             ConfirmButton(
                 width = screenWidth,
+                height = screenHeight,
                 modifier = Modifier,
                 text = stringResource(id = R.string.confirm),
                 isEnglish = isEnglish

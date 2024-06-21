@@ -27,10 +27,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
+import com.example.hapi.presentation.common.GreenBlackText
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.presentation.common.GreenBlackText
 
 @Composable
 fun DetectionHistoryFilters(
@@ -43,10 +43,10 @@ fun DetectionHistoryFilters(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Max)
+            .height(IntrinsicSize.Max),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         FilterOption(
-            modifier = Modifier.weight(1f),
             isSelected = isYourDetectionsSelected,
             iconResId = R.drawable.user,
             textResId = R.string.your_detections,
@@ -55,9 +55,7 @@ fun DetectionHistoryFilters(
                 onYourDetectionsSelected()
             }
         )
-        Spacer(modifier = Modifier.width(10.dp))
         FilterOption(
-            modifier = Modifier.weight(1f),
             isSelected = !isYourDetectionsSelected,
             iconResId = R.drawable.farmers,
             textResId = R.string.all_detections,
@@ -71,7 +69,6 @@ fun DetectionHistoryFilters(
 
 @Composable
 fun FilterOption(
-    modifier: Modifier = Modifier,
     isSelected: Boolean,
     iconResId: Int,
     textResId: Int,
@@ -80,12 +77,12 @@ fun FilterOption(
     val backgroundColor = if (isSelected) YellowAppColor else DarkGreenAppColor
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .clip(RoundedCornerShape(5.dp))
             .fillMaxHeight()
             .background(backgroundColor)
             .clickable { onClick() }
-            .padding(5.dp),
+            .padding(vertical = 5.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {

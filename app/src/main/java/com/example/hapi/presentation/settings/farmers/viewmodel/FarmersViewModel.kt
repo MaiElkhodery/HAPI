@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.farmerslist.viewmodel
+package com.example.hapi.presentation.settings.farmers.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class FarmersListViewModel @Inject constructor(
+class FarmersViewModel @Inject constructor(
     private val fetchFarmersUseCase: FetchFarmersUseCase,
     private val getFarmersUseCase: GetFarmersUseCase,
 ) : ViewModel() {

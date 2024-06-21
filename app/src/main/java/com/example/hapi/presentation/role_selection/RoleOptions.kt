@@ -1,6 +1,7 @@
 package com.example.hapi.presentation.role_selection
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,7 +49,7 @@ fun RoleOptions(
 
         Row(
             modifier = Modifier
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 18.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             RoleOptionCard(
@@ -61,7 +61,7 @@ fun RoleOptions(
             ) {
                 onClickLandowner()
             }
-            Spacer(modifier = Modifier.weight(.1f))
+            Spacer(modifier = Modifier.weight(.07f))
             RoleOptionCard(
                 fontSize = fontSize,
                 imageSize = imageSize,
@@ -78,39 +78,34 @@ fun RoleOptions(
 
 @Composable
 private fun RoleOptionCard(
+    modifier: Modifier = Modifier,
     identityName: String,
     fontSize: Int,
     imageSize: Dp,
     roleImageId: Int,
-    modifier: Modifier,
     onClick: () -> Unit
 ) {
-    Card(
+    Column(
         modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(5.dp))
+            .background(YellowAppColor)
+            .padding(12.dp)
             .clickable {
                 onClick()
             },
-        shape = RoundedCornerShape(5.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = YellowAppColor
-        )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
+        GreenBlackText(size = fontSize, text = identityName)
+        Image(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            GreenBlackText(size = fontSize, text = identityName)
-            Image(
-                modifier = Modifier
-                    .size(imageSize),
-                painter = painterResource(id = roleImageId),
-                contentDescription = null
-            )
-        }
+                .size(imageSize),
+            painter = painterResource(id = roleImageId),
+            contentDescription = null
+        )
     }
+
 }
 
 @Composable

@@ -107,6 +107,7 @@ fun WelcomeScreen(
 
             TextWithIcon(
                 text = stringResource(id = R.string.detect_now),
+                fontSize = fontSize,
                 iconId =
                 if (isEnglish) R.drawable.continue_icon
                 else R.drawable.continue_icon_ar

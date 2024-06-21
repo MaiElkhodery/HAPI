@@ -34,6 +34,7 @@ fun RoleOptions(navController: NavController) {
 
         val largePadding = screenHeight * 0.06f
         val smallPadding = screenHeight * 0.03f
+
         val logoSize = when {
             screenHeight <= 600.dp -> 120.dp
             screenHeight in 600.dp..855.dp -> 185.dp
@@ -47,8 +48,8 @@ fun RoleOptions(navController: NavController) {
 
         val fontSize = when {
             screenWidth <= 360.dp -> 10
-            screenWidth in 360.dp..400.dp -> 16
-            else -> 18
+            screenWidth in 360.dp..400.dp -> 12
+            else -> 14
         }
         Column(
             modifier = Modifier

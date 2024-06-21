@@ -68,6 +68,7 @@ fun DataAndStorageOptions(
 
         SettingItem(
             text = stringResource(id = R.string.clear_land_history),
+            fontSize = fontSize,
             iconInt = R.drawable.reset_icon,
             modifier = Modifier.padding(bottom = 5.dp),
             onClick = onClickClearLandHistory
@@ -75,6 +76,7 @@ fun DataAndStorageOptions(
 
         SettingItem(
             text = stringResource(id = R.string.change_crop),
+            fontSize = fontSize,
             iconInt = R.drawable.reset_icon,
             modifier = Modifier.padding(bottom = 5.dp),
             onClick = onClickChangeCrop

@@ -6,16 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,31 +32,49 @@ import com.example.hapi.util.Crop
 fun CropCollection(
     modifier: Modifier = Modifier,
     width: Dp,
-    onClick: (Crop) -> Unit
+    onClick: (String) -> Unit
 ) {
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(4),
-        userScrollEnabled = true,
+    Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(Crop.entries) { crop ->
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Crop.entries.take(4).forEach { crop ->
+                CropItem(
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    width = width,
+                    crop = crop.name,
+                    onClick = { onClick(crop.name) }
+                )
+            }
+        }
 
-            CropItem(
-                width = width,
-                crop = crop,
-                onClick = { onClick(crop) }
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+        ) {
+            Crop.entries.drop(4).take(3).forEach { crop ->
+                CropItem(
+                    modifier = Modifier,
+                    width = width,
+                    crop = crop.name,
+                    onClick = { onClick(crop.name) }
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun CropItem(
-    crop: Crop,
+    modifier: Modifier = Modifier,
+    crop: String,
     width: Dp,
     onClick: () -> Unit
 ) {
@@ -74,12 +89,10 @@ private fun CropItem(
         else -> 48.dp
     }
     Column(
-        modifier = Modifier
-            .padding(bottom = 21.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val cropName = stringResource(id = getCropName(crop = crop.name))
+        val cropName = stringResource(id = getCropName(crop = crop))
         CropImageCard(
             imageId = getCropIcon(cropName),
             imageSize = imageSize
@@ -87,10 +100,10 @@ private fun CropItem(
             onClick()
         }
         YellowBoldText(
-            text = stringResource(id = getCropName(crop = crop.name)),
+            text = stringResource(id = getCropName(crop = crop)),
             size = fontSize,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
+            modifier = Modifier.padding(top = 12.dp)
         )
     }
 }

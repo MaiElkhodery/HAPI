@@ -60,7 +60,7 @@ fun CropSelectionStrategy(
         val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
         val backIconSize = if (screenHeight < 600.dp) 60 else 75
         val fontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }

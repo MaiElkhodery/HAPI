@@ -68,7 +68,7 @@ fun FinalSelectedCrop(
         val backIconSize = if (screenHeight < 600.dp) 60 else 75
 
         val fontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }

@@ -22,7 +22,7 @@ class CropRecommendationUseCase @Inject constructor(
 
                     is State.Success -> {
                         val result = state.result
-                        var crops = listOf(
+                        val crops = listOf(
                             Crop.POTATO to result!!.potato,
                             Crop.COTTON to result.cotton,
                             Crop.TOMATO to result.tomato,
@@ -31,7 +31,6 @@ class CropRecommendationUseCase @Inject constructor(
                             Crop.WHEAT to result.wheat,
                             Crop.APPLE to result.apple
                         )
-                        crops = crops.sortedByDescending { it.second }
                         val topRecommendedCrops = crops.take(3).map { it.first }
                         emit(State.Success(topRecommendedCrops))
 

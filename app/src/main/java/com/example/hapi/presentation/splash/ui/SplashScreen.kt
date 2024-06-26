@@ -49,6 +49,7 @@ fun Splash(
     var state by remember {
         mutableStateOf(1)
     }
+
     LaunchedEffect(Unit) {
 
         launch {

@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.data_and_storage.ui
+package com.example.hapi.presentation.settings.data_and_storage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -27,7 +27,8 @@ import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrate
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
-import com.example.hapi.presentation.settings.data_and_storage.viewmodel.DataAndStorageViewModel
+import com.example.hapi.presentation.settings.general.viewmodel.SettingsEvent
+import com.example.hapi.presentation.settings.general.viewmodel.SettingsViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -36,32 +37,35 @@ import com.example.hapi.util.Tab
 @Composable
 fun DataAndStorage(
     mainViewModel: MainViewModel = hiltViewModel(),
-    dataAndStorageViewModel: DataAndStorageViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
-    val isPasswordCorrect = dataAndStorageViewModel.isPasswordCorrect.collectAsState().value
+    val isPasswordWrong = settingsViewModel.passwordError.collectAsState().value
 
     var warningText by remember { mutableStateOf("") }
     var additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
     var openDialog by remember { mutableStateOf(false) }
     var withPassword by remember { mutableStateOf(false) }
-    var passwordConfirmed by remember { mutableStateOf(false) }
+    var isConfirmPasswordClicked by remember {
+        mutableStateOf(false)
+    }
 
     val clearDetectionHistoryWarning = stringResource(id = R.string.clear_detection_history)
     val clearLandHistoryWarning = stringResource(id = R.string.clear_land_history)
     val changeCropWarning = stringResource(id = R.string.change_crop)
     val additionalWarningForChangeCrop = stringResource(id = R.string.change_crop_warning)
 
-    LaunchedEffect(passwordConfirmed, isPasswordCorrect) {
-        if (passwordConfirmed)
-            dataAndStorageViewModel.checkIfPasswordIsCorrect()
-
-        if (isPasswordCorrect)
+    LaunchedEffect(isPasswordWrong,isConfirmPasswordClicked) {
+        if (!isPasswordWrong && isConfirmPasswordClicked) {
+            openDialog = false
+            isConfirmPasswordClicked = false
+            settingsViewModel.onEvent(SettingsEvent.ResetPasswordError)
             navController.navigateToCropSelectionStrategy()
+        }
     }
     BoxWithConstraints(
         modifier = Modifier
@@ -75,7 +79,7 @@ fun DataAndStorage(
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val padding = screenHeight * 0.03f
         val headerFontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }
@@ -107,7 +111,7 @@ fun DataAndStorage(
                     withPassword = false
                     warningText = clearDetectionHistoryWarning
                     onClickConfirm = {
-                        dataAndStorageViewModel.deleteDetectionHistory()
+                        settingsViewModel.deleteDetectionHistory()
                         openDialog = false
                     }
                 },
@@ -116,7 +120,7 @@ fun DataAndStorage(
                     withPassword = false
                     warningText = clearLandHistoryWarning
                     onClickConfirm = {
-                        dataAndStorageViewModel.deleteLandHistory()
+                        settingsViewModel.deleteLandHistory()
                         openDialog = false
                     }
                 },
@@ -126,7 +130,9 @@ fun DataAndStorage(
                     warningText = changeCropWarning
                     additionalWarningText = additionalWarningForChangeCrop
                     onClickConfirm = {
-                        passwordConfirmed = true
+                        settingsViewModel.checkPassword().apply {
+                            isConfirmPasswordClicked = true
+                        }
                     }
                 }
             )
@@ -137,11 +143,12 @@ fun DataAndStorage(
                 WarningDialogWithPassword(
                     withPassword = withPassword,
                     warningText = warningText,
+                    isWrongPassword = isPasswordWrong,
                     additionalWarningText = additionalWarningText,
-                    password = dataAndStorageViewModel.password,
+                    password = settingsViewModel.password,
                     onClickConfirm = onClickConfirm,
                     onChangePassword = { password ->
-                        dataAndStorageViewModel.onChangePassword(password)
+                        settingsViewModel.onEvent(SettingsEvent.ChangePassword(password))
                     },
                     onClickCancel = { openDialog = false }
                 )

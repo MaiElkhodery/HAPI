@@ -41,23 +41,23 @@ fun RecommendationResult(
 ) {
 
     val smallFontSize = when {
-        width <= 360.dp -> 11
+        width < 360.dp -> 11
         width in 360.dp..400.dp -> 13
         else -> 15
     }
     val mediumFontSize = when {
-        width <= 360.dp -> 12
+        width < 360.dp -> 12
         width in 360.dp..400.dp -> 15
         else -> 17
     }
     val largeFontSize = when {
-        width <= 360.dp -> 18
+        width < 360.dp -> 18
         width in 360.dp..400.dp -> 20
         else -> 22
     }
 
     val iconSize = when {
-        width <= 360.dp -> 18
+        width < 360.dp -> 18
         width in 360.dp..400.dp -> 22
         else -> 24
     }

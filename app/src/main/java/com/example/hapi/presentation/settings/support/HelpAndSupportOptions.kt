@@ -155,6 +155,7 @@ fun ButtonWithEndIcon(
         Box(
             modifier = Modifier
                 .weight(.4f)
+                .fillMaxHeight()
                 .background(DarkGreenAppColor)
                 .clickable { onClick() },
             contentAlignment = Alignment.Center

@@ -108,7 +108,7 @@ fun LandownerHome(
                 .padding(horizontal = 40.dp)
                 .constrainAs(content) {
                     top.linkTo(dataHeader.bottom, margin = 22.dp)
-                    bottom.linkTo(parent.bottom, margin = 22.dp)
+                    bottom.linkTo(parent.bottom, margin = 24.dp)
                 },
             lastLandAction = LandAction(
                 name = landActionType.uppercase(),

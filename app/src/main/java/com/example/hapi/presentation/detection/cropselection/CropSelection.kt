@@ -70,7 +70,7 @@ fun CropSelection(
             CropCollection(
                 width = screenWidth
             ) { crop ->
-                navController.navigateToImageSelection(crop = crop.name)
+                navController.navigateToImageSelection(crop = crop)
             }
         }
     }

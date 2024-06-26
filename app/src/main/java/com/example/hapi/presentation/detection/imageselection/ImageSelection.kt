@@ -35,7 +35,6 @@ import com.example.hapi.presentation.home.loading.Loading
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.Crop
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 import com.example.hapi.util.uriToByteArray
@@ -44,14 +43,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun ImageSelection(
     navController: NavController,
-    crop: Crop,
+    crop: String,
     viewModel: ImageSelectionViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
 
     val isLoading = viewModel.loading.collectAsState().value
-    val errorMsg = viewModel.errorMsg.collectAsState().value
+    val error = viewModel.error.collectAsState().value
     val detectionId = viewModel.detectionId.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
@@ -80,7 +79,7 @@ fun ImageSelection(
                             uriToByteArray(context.contentResolver, outputFileResults.savedUri!!)!!
 
                         viewModel.detectDisease(
-                            crop.name,
+                            crop,
                             byteArray,
                             outputFileResults.savedUri.toString()
                         )
@@ -102,7 +101,7 @@ fun ImageSelection(
                 coroutineScope.launch {
                     val byteArray = uriToByteArray(context.contentResolver, selectedImageUri)!!
                     viewModel.detectDisease(
-                        crop.name,
+                        crop,
                         byteArray,
                         uri.toString()
                     )
@@ -115,7 +114,7 @@ fun ImageSelection(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp, horizontal = 22.dp)
+            .padding(vertical = 12.dp, horizontal = 24.dp)
     ) {
 
 
@@ -164,7 +163,7 @@ fun ImageSelection(
         if (isLoading) {
             Loading()
         }
-        if (errorMsg.isNotBlank()) {
+        if (error) {
             DetectionWarningDialog(
                 topWarningId = R.string.something_wrong,
                 downWarningId = R.string.another_img
@@ -173,6 +172,7 @@ fun ImageSelection(
             }
         }
         if (detectionId != null) {
+            viewModel.resetId()
             navController.navigateToDetectionDetails(
                 id = detectionId.toInt().toString(),
                 isCurrentDetection = "true"
@@ -188,6 +188,6 @@ fun ImageSelection(
 fun ImageCapturePreview() {
     ImageSelection(
         navController = rememberNavController(),
-        crop = Crop.POTATO
+        crop = "POTATO"
     )
 }

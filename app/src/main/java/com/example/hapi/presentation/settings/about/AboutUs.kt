@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -55,27 +54,27 @@ fun AboutUs(
 
         val horizontalPadding = if (screenWidth < 360.dp) 12.dp else 16.dp
 
-        val largePadding = screenHeight * 0.044f
+        val largePadding = screenHeight * 0.04f
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val headerFontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }
         val textFontSize = when {
-            screenWidth <= 360.dp -> 8
+            screenWidth < 360.dp -> 8
             screenWidth in 360.dp..400.dp -> 10
             else -> 12
         }
         val btnFontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 14
             else -> 16
         }
         val logoSize = when {
             screenHeight <= 600.dp -> 120.dp
-            screenHeight in 600.dp..855.dp -> 180.dp
-            else -> 200.dp
+            screenHeight in 600.dp..855.dp -> 150.dp
+            else -> 180.dp
         }
 
 
@@ -107,16 +106,12 @@ fun AboutUs(
                 verticalArrangement = Arrangement.Center
             ) {
 
-                Logo(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(logoSize)
-                )
+                Logo(modifier = Modifier.size(logoSize))
 
                 Spacer(modifier = Modifier.height(largePadding))
 
                 YellowBlackText(
-                    modifier = Modifier.padding(horizontal = screenWidth * .17f),
+                    modifier = Modifier.padding(horizontal = screenWidth * .1f),
                     size = textFontSize,
                     text = stringResource(id = R.string.about_us_text),
                 )

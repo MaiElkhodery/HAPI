@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,7 +31,8 @@ fun TextWithIcon(
             .clickable {
                 onClick()
             },
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         YellowMediumText(
             text = stringResource(id = R.string.or),
@@ -39,7 +41,7 @@ fun TextWithIcon(
         )
         YellowBlackText(size = fontSize, text = text)
         Icon(
-            modifier = Modifier.size(22.dp).padding(start = 3.dp),
+            modifier = Modifier.size(18.dp).padding(start = 4.dp),
             painter = painterResource(id = iconId),
             contentDescription = null,
             tint = YellowAppColor

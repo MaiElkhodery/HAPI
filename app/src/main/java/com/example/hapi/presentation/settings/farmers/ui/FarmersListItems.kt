@@ -37,7 +37,7 @@ fun NoFarmers(
     width:Dp
 ) {
     val imageSize = when {
-        width <= 360.dp -> 150
+        width < 360.dp -> 150
         width in 360.dp..400.dp -> 180
         else -> 200
     }
@@ -65,19 +65,19 @@ fun FarmersGridList(
     modifier: Modifier = Modifier
 ) {
     val fontSize = when {
-        width <= 360.dp -> 13
+        width < 360.dp -> 13
         width in 360.dp..400.dp -> 15
         else -> 17
     }
     val imageSize = when {
-        width <= 360.dp -> 150
-        width in 360.dp..400.dp -> 180
-        else -> 200
+        width < 360.dp -> 150
+        width in 360.dp..400.dp -> 170
+        else -> 190
     }
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         FarmersImage(imageSize)
         YellowExtraBoldText(size = fontSize,
@@ -108,9 +108,9 @@ fun FarmersListItem(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(2.dp))
+            .clip(RoundedCornerShape(3.dp))
             .background(YellowAppColor)
-            .padding(4.dp),
+            .padding(3.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.settings.farmers.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hapi.domain.model.State
 import com.example.hapi.domain.usecase.landowner.FetchFarmersUseCase
@@ -22,21 +21,12 @@ class FarmersViewModel @Inject constructor(
     suspend fun fetchFarmers() {
         fetchFarmersUseCase().collect { state ->
             when (state) {
-                is State.Error -> {
-                    Log.d("FarmersListViewModel", "Error")
-                }
-
-                is State.Exception -> {
-                    Log.d("FarmersListViewModel", "Exception")
-                }
-
-                State.Loading -> {
-                    Log.d("FarmersListViewModel", "Loading")
-                }
 
                 is State.Success -> {
                     _farmersList.value = state.result!!
-                    Log.d("FarmersListViewModel", "Success")
+                }
+
+                else -> {
                 }
             }
         }

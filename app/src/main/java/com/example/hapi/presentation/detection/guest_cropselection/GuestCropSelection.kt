@@ -73,7 +73,7 @@ fun GuestCropSelection(
             CropCollection(
                 width = screenWidth
             ) { crop ->
-                navController.navigateToImageSelection(crop = crop.name)
+                navController.navigateToImageSelection(crop = crop)
             }
         }
     }

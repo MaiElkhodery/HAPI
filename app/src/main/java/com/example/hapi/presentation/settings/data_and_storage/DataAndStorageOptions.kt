@@ -1,4 +1,4 @@
-package com.example.hapi.presentation.settings.data_and_storage.ui
+package com.example.hapi.presentation.settings.data_and_storage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,7 +30,7 @@ fun DataAndStorageOptions(
     onClickChangeCrop: () -> Unit
 ) {
     val fontSize = when {
-        width <= 360.dp -> 14
+        width < 360.dp -> 14
         width in 360.dp..400.dp -> 16
         else -> 18
     }

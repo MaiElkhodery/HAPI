@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
-import com.example.hapi.presentation.common.AuthWarningBox
+import com.example.hapi.presentation.common.RedWarningBox
 import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
@@ -124,7 +124,7 @@ fun FarmerSignup(
                 authViewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth, warningText = phoneNumberError
             )
 
@@ -137,7 +137,7 @@ fun FarmerSignup(
                 authViewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth, warningText = usernameError
             )
 
@@ -150,7 +150,7 @@ fun FarmerSignup(
                 authViewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth, warningText = passwordError
             )
 
@@ -163,7 +163,7 @@ fun FarmerSignup(
                 authViewModel.onEvent(AuthEvent.ChangeFarmId(farmId))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth, warningText = farmIdError
             )
 

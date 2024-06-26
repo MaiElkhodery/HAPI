@@ -49,7 +49,7 @@ fun WelcomeScreen(
         val smallPadding = screenHeight * .025f
         val horizontalPadding = 44.dp
         val iconSize = when {
-            screenWidth <= 360.dp -> 18.dp
+            screenWidth < 360.dp -> 18.dp
             else -> 24.dp
         }
         val imageSize = when {
@@ -58,7 +58,7 @@ fun WelcomeScreen(
             else -> 200.dp
         }
         val fontSize = when {
-            screenWidth <= 360.dp -> 12
+            screenWidth < 360.dp -> 12
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }

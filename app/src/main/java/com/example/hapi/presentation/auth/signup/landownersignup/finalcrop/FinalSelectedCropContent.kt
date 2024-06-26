@@ -58,7 +58,7 @@ private fun FinalCrop(
     imageSize: Dp
 ) {
     val fontSize = when {
-        width <= 360.dp -> 18
+        width < 360.dp -> 18
         width in 360.dp..400.dp -> 20
         else -> 22
     }

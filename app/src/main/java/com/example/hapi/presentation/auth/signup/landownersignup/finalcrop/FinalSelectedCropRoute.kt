@@ -15,9 +15,5 @@ fun NavGraphBuilder.finalSelectedCropRoute(navController: NavController) {
 
 fun NavController.navigateToFinalSelectedCrop(crop: Int) {
     val route = "final_crop/$crop"
-    navigate(route) {
-        popUpTo(route) {
-            inclusive = true
-        }
-    }
+    navigate(route)
 }

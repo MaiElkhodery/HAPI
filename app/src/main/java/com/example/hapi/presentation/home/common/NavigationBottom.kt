@@ -61,7 +61,7 @@ fun CustomNavigationBottom(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 22.dp)
+                .padding(top = 26.dp)
         )
         ConstraintLayout(
             modifier = Modifier
@@ -125,7 +125,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 4.dp)
+            .padding(bottom = 3.dp)
             .clickable {
                 onClick()
             },
@@ -133,7 +133,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(24.dp),
+                .size(26.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -141,8 +141,7 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .padding(bottom = 3.dp)
-                    .size(12.dp),
+                    .size(15.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor

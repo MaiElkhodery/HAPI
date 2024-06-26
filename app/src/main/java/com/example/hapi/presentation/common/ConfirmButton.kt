@@ -34,7 +34,7 @@ fun ConfirmButton(
     onClick: () -> Unit
 ) {
     val fontSize = when {
-        width <= 360.dp -> 14
+        width < 360.dp -> 14
         width in 360.dp..400.dp -> 16
         else -> 18
     }

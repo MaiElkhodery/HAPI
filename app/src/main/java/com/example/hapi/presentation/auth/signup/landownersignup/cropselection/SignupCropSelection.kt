@@ -56,7 +56,7 @@ fun SignupCropSelection(
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
         val fontSize = when {
-            screenWidth <= 360.dp -> 14
+            screenWidth < 360.dp -> 14
             screenWidth in 360.dp..400.dp -> 16
             else -> 18
         }
@@ -94,7 +94,7 @@ fun SignupCropSelection(
             CropCollection(
                 width=screenWidth,
             ) { crop ->
-                navController.navigateToFinalSelectedCrop(getCropName(crop = crop.name))
+                navController.navigateToFinalSelectedCrop(getCropName(crop = crop))
             }
             Spacer(modifier = Modifier.size(largePadding))
 

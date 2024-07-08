@@ -1,0 +1,15 @@
+package com.example.hapi.domain.usecase.detection
+
+import com.example.hapi.data.local.room.entities.DetectionOfHistory
+import com.example.hapi.data.repository.DetectionHistoryRepository
+import javax.inject.Inject
+
+class GetDetectionHistoryUseCase @Inject constructor(
+    private val detectionHistoryRepository: DetectionHistoryRepository
+) {
+    suspend operator fun invoke(
+    ): List<DetectionOfHistory>? {
+        return detectionHistoryRepository.getDetectionHistory()
+    }
+
+}

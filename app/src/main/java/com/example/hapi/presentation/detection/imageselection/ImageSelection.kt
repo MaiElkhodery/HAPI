@@ -1,9 +1,13 @@
 package com.example.hapi.presentation.detection.imageselection
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -23,39 +27,50 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.hapi.MainActivity
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.home.common.ORTextRow
+import com.example.hapi.presentation.common.TextWithIcon
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
-import com.example.hapi.presentation.home.loading.Loading
+import com.example.hapi.presentation.common.Loading
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.Crop
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun ImageSelection(
     navController: NavController,
-    crop: Crop,
+    crop: String,
     viewModel: ImageSelectionViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
 
     val isLoading = viewModel.loading.collectAsState().value
-    val errorMsg = viewModel.errorMsg.collectAsState().value
+    val error = viewModel.error.collectAsState().value
     val detectionId = viewModel.detectionId.collectAsState().value
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     val context = LocalContext.current
+
+
+    if (!hasRequiredPermissions(context)) {
+        ActivityCompat.requestPermissions(
+            context as MainActivity,
+            MainActivity.PERMISSIONS,
+            0
+        )
+    }
 
     val cameraController = remember {
         LifecycleCameraController(context).apply {
@@ -80,7 +95,7 @@ fun ImageSelection(
                             uriToByteArray(context.contentResolver, outputFileResults.savedUri!!)!!
 
                         viewModel.detectDisease(
-                            crop.name,
+                            crop,
                             byteArray,
                             outputFileResults.savedUri.toString()
                         )
@@ -101,9 +116,8 @@ fun ImageSelection(
             uri?.let { selectedImageUri ->
                 coroutineScope.launch {
                     val byteArray = uriToByteArray(context.contentResolver, selectedImageUri)!!
-                    Log.d("GetPhoto", "onCaptureSuccess: ${byteArray.size}")
                     viewModel.detectDisease(
-                        crop.name,
+                        crop,
                         byteArray,
                         uri.toString()
                     )
@@ -116,8 +130,10 @@ fun ImageSelection(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(vertical = 16.dp, horizontal = 16.dp)
+            .padding(vertical = 12.dp, horizontal = 24.dp)
     ) {
+
+
 
 
         val (header, camera, bottomText) = createRefs()
@@ -153,7 +169,7 @@ fun ImageSelection(
             takePhotoAndDetectDisease()
         }
 
-        ORTextRow(
+        TextWithIcon(
             modifier = Modifier
                 .constrainAs(bottomText) {
                     bottom.linkTo(bottomGuideLine)
@@ -165,7 +181,7 @@ fun ImageSelection(
         if (isLoading) {
             Loading()
         }
-        if (errorMsg.isNotBlank()) {
+        if (error) {
             DetectionWarningDialog(
                 topWarningId = R.string.something_wrong,
                 downWarningId = R.string.another_img
@@ -174,6 +190,7 @@ fun ImageSelection(
             }
         }
         if (detectionId != null) {
+            viewModel.resetId()
             navController.navigateToDetectionDetails(
                 id = detectionId.toInt().toString(),
                 isCurrentDetection = "true"
@@ -183,12 +200,29 @@ fun ImageSelection(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun hasRequiredPermissions(
+    context: Context
+): Boolean {
 
+    val permissions = arrayOf(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.READ_MEDIA_IMAGES
+    )
+    return permissions.all { permission ->
+        ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview
 @Composable
 fun ImageCapturePreview() {
     ImageSelection(
         navController = rememberNavController(),
-        crop = Crop.POTATO
+        crop = "POTATO"
     )
 }

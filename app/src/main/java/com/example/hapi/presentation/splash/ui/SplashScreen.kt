@@ -31,6 +31,7 @@ import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.splash.viewmodel.SplashViewModel
 import com.example.hapi.ui.theme.GreenAppColor
+import com.example.hapi.util.FARMER
 import com.example.hapi.util.LANDOWNER
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -48,17 +49,18 @@ fun Splash(
     var state by remember {
         mutableStateOf(1)
     }
+
     LaunchedEffect(Unit) {
+
         launch {
-            viewModel.getIsCropSelected()
-            viewModel.getRole()
-            viewModel.getToken()
             while (isActive && state < 5) {
                 delay(700)
                 state++
             }
         }
+
     }
+
 
     Column(
         modifier = Modifier
@@ -67,10 +69,13 @@ fun Splash(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
+            modifier = Modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "logo"
         )
+
         Crossfade(targetState = state, label = "state") { state ->
             when (state) {
                 1 -> {
@@ -89,25 +94,25 @@ fun Splash(
                     StateFour()
                 }
 
-                else -> {
-                    navController.navigateToLanguageSetUp()
-                }
             }
         }
-    }
-    if (state == 5) {
-        if (token != null) {
-            if (role == LANDOWNER) {
-                if (isCropSelected) {
+
+        if (state == 5) {
+            if (token != null) {
+                if (role == LANDOWNER) {
+                    if (isCropSelected) {
+                        navController.navigateToMainScreen(role)
+                    } else {
+                        navController.navigateToCropSelectionStrategy()
+                    }
+                } else if (role == FARMER) {
                     navController.navigateToMainScreen(role)
-                } else {
-                    navController.navigateToCropSelectionStrategy()
-                }
-            } else {
-                navController.navigateToMainScreen(role!!)
-            }
-        } else navController.navigateToLanguageSetUp()
+                } else navController.navigateToLanguageSetUp()
+            } else navController.navigateToLanguageSetUp()
+        }
+
     }
+
 }
 
 @Composable

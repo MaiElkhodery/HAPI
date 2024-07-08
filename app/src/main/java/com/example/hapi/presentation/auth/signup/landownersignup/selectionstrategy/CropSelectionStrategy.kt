@@ -28,7 +28,6 @@ import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
 import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
-import com.example.hapi.presentation.common.Title
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -39,10 +38,9 @@ fun CropSelectionStrategy(
     viewModel: AuthViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
-    val isLoading = viewModel.loading.collectAsState().value
     val crops = viewModel.recommendedCrops.collectAsState().value
     val error = viewModel.errorMsg.collectAsState().value
-    val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
+    val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     LaunchedEffect(crops) {
         if (crops.isNotEmpty()) {
@@ -53,48 +51,51 @@ fun CropSelectionStrategy(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 26.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val padding = screenHeight * 0.034f
+        val logoSize = if (screenHeight < 650.dp) 55.dp else 75.dp
+        val backIconSize = if (screenHeight < 600.dp) 60 else 75
+        val fontSize = when {
+            screenWidth < 360.dp -> 12
+            screenWidth in 360.dp..400.dp -> 15
+            else -> 17
+        }
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
 
-            Spacer(modifier = Modifier.height(topPadding))
+            Spacer(modifier = Modifier.height(padding))
             Logo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(logoSize)
 
             )
-            Spacer(modifier = Modifier.height(contentPadding))
+            Spacer(modifier = Modifier.height(padding))
             NavHeader(
                 modifier = Modifier,
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.popBackStack()
             }
-            Spacer(modifier = Modifier.height(contentPadding))
 
-            Title(title = stringResource(id = R.string.do_you))
+            Spacer(modifier = Modifier.height(padding))
 
-            Spacer(modifier = Modifier.height(topPadding))
-
-            CropSelectionStrategyContent(
+            CropStrategyOptions(
+                width = screenWidth,
                 onClickRecommendation = {
                     viewModel.getRecommendedCrops()
                 },
@@ -102,11 +103,13 @@ fun CropSelectionStrategy(
                     navController.navigateToSignupCropSelection()
                 }
             )
-            Spacer(modifier = Modifier.height(bottomPadding))
-            LotusRow(
-                highlightedLotusPos = 1
-            )
-            Spacer(modifier = Modifier.height(bottomPadding))
+
+            Spacer(modifier = Modifier.height(padding))
+
+            LotusRow(highlightedLotusPos = 1)
+
+            Spacer(modifier = Modifier.height(padding))
+
         }
     }
 }

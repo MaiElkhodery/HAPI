@@ -1,8 +1,8 @@
 package com.example.hapi.data.remote.api
 
-import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.FarmerSignupRequest
 import com.example.hapi.data.remote.request.LandownerSignupRequest
+import com.example.hapi.data.remote.request.PasswordRequest
 import com.example.hapi.data.remote.request.SigninRequest
 import com.example.hapi.data.remote.response.SigninResponse
 import com.example.hapi.data.remote.response.SignupResponse
@@ -37,9 +37,7 @@ interface AuthApiService {
     suspend fun logout(): Response<Unit>
 
     @DELETE(DELETE_ACCOUNT)
-    suspend fun deleteAccount(
-        @Body checkPasswordRequest: PasswordRequest
-    ): Response<Unit>
+    suspend fun deleteAccount(): Response<Unit>
 
     @POST(PASSWORD_CHECK)
     suspend fun checkPassword(

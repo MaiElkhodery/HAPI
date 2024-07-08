@@ -61,16 +61,16 @@ class LandownerHomeViewModel @Inject constructor(
     private val _landActionTime = MutableStateFlow("")
     val landActionTime = _landActionTime.asStateFlow()
 
-    private val _waterLevel = MutableStateFlow(0)
+    private val _waterLevel = MutableStateFlow("0")
     val waterLevel = _waterLevel.asStateFlow()
 
-    private var _nitrogen = MutableStateFlow("")
+    private var _nitrogen = MutableStateFlow("0")
     val nitrogen = _nitrogen.asStateFlow()
 
-    private var _phosphorus = MutableStateFlow("")
+    private var _phosphorus = MutableStateFlow("0")
     val phosphorus = _phosphorus.asStateFlow()
 
-    private var _potassium = MutableStateFlow("")
+    private var _potassium = MutableStateFlow("0")
     val potassium = _potassium.asStateFlow()
 
     private var _crop = MutableStateFlow("")
@@ -78,8 +78,10 @@ class LandownerHomeViewModel @Inject constructor(
 
     private val _lastFarmerUsername = MutableStateFlow("")
     val lastFarmerUsername = _lastFarmerUsername.asStateFlow()
+
     private val _lastFarmerDate = MutableStateFlow("")
     val lastFarmerDate = _lastFarmerDate.asStateFlow()
+
     private val _lastFarmerTime = MutableStateFlow("")
     val lastFarmerTime = _lastFarmerTime.asStateFlow()
 
@@ -91,23 +93,20 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LOADING")
                     }
 
                     is State.Success -> {
                         _loading.value = false
+                        getLastDetection()
                     }
-
                 }
             }
         }
@@ -117,30 +116,26 @@ class LandownerHomeViewModel @Inject constructor(
         viewModelScope.launch {
             fetchLandHistoryUseCase(
                 userDataPreference.getLastLandDataHistoryId().toInt()
-            ).collect { state ->
-                Log.d("LAST LAND ID", userDataPreference.getLastLandDataHistoryId())
-                when (state) {
+            ).collect {
+                when (it) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LAND:LOADING")
                     }
 
                     is State.Success -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", "LAND:LOADING")
+                        getLastLandHistoryItem()
                     }
-
                 }
+
             }
         }
     }
@@ -151,22 +146,19 @@ class LandownerHomeViewModel @Inject constructor(
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.error.toString())
                     }
 
                     is State.Exception -> {
                         _loading.value = false
-                        Log.d("LANDOWNER HOME", state.msg)
                     }
 
                     State.Loading -> {
                         _loading.value = true
-                        Log.d("LANDOWNER HOME", "LAND DATA:LOADING")
                     }
 
                     is State.Success -> {
                         _loading.value = false
-                        _waterLevel.value = userDataPreference.getWaterLevel().toInt()
+                        _waterLevel.value = userDataPreference.getWaterLevel()
                         _nitrogen.value = userDataPreference.getNitrogenTankLevel()
                         _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
                         _potassium.value = userDataPreference.getPotassiumTankLevel()
@@ -176,25 +168,40 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLastLandHistoryItem() {
+    fun getLastLandHistoryItem() {
         viewModelScope.launch {
-            getLastLandHistoryItemUseCase()?.let { landData ->
-                userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
-                _landActionType.value = landData.action_type
-                _landActionDate.value = landData.date
-                _landActionTime.value = landData.time
+            getLastLandHistoryItemUseCase().let { landData ->
+                if (landData != null) {
+                    _landActionType.value = landData.action_type
+                    _landActionDate.value = landData.date
+                    _landActionTime.value = landData.time
+                } else {
+                    _landActionType.value = ""
+                    _landActionDate.value = ""
+                    _landActionTime.value = ""
+                }
             }
         }
     }
 
-    suspend fun getLastDetection() {
-        getLastDetectionUseCase()?.let { detection ->
-            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-            _imageUrl.value = detection.imageUrl
-            _detectionUsername.value = detection.username
-            _detectionDate.value = detection.date
-            _detectionTime.value = detection.time
-            _detectionRemoteId.value = detection.remoteId
+    fun getLastDetection() {
+        viewModelScope.launch {
+            getLastDetectionUseCase().let { detection ->
+                Log.d("Detection", "getLastDetection: $detection")
+                if (detection != null) {
+                    _imageUrl.value = detection.imageUrl
+                    _detectionUsername.value = detection.username
+                    _detectionDate.value = detection.date
+                    _detectionTime.value = detection.time
+                    _detectionRemoteId.value = detection.remoteId
+                } else {
+                    _imageUrl.value = ""
+                    _detectionUsername.value = ""
+                    _detectionDate.value = ""
+                    _detectionTime.value = ""
+                    _detectionRemoteId.value = 0
+                }
+            }
         }
     }
 
@@ -204,16 +211,14 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-
     fun getTanksData() {
         viewModelScope.launch {
-            _waterLevel.value = userDataPreference.getWaterLevel().toInt()
+            _waterLevel.value = userDataPreference.getWaterLevel()
             _nitrogen.value = userDataPreference.getNitrogenTankLevel()
             _phosphorus.value = userDataPreference.getPhosphorusTankLevel()
             _potassium.value = userDataPreference.getPotassiumTankLevel()
         }
     }
-
 
     private fun getCrop() {
         viewModelScope.launch {
@@ -252,9 +257,8 @@ class LandownerHomeViewModel @Inject constructor(
         getCrop()
         getUsername()
         getTanksData()
-        viewModelScope.launch {
-            getLastDetection()
-            getLastLandHistoryItem()
-        }
+        getLastDetection()
+        getLastLandHistoryItem()
+
     }
 }

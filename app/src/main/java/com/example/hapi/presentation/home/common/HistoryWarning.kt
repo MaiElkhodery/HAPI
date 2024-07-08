@@ -1,7 +1,9 @@
 package com.example.hapi.presentation.home.common
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -20,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.YellowExtraBoldText
+import com.example.hapi.presentation.common.YellowExtraBoldText
 
 @Composable
 fun HistoryWarning(
@@ -29,8 +31,9 @@ fun HistoryWarning(
     downMsg: Int,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier
@@ -59,7 +62,7 @@ fun HistoryWarning(
             text = stringResource(id = downMsg),
             textAlign = TextAlign.Center,
             style = TextStyle(
-                lineHeight = 9.sp
+                lineHeight = 10.sp
             )
         )
     }

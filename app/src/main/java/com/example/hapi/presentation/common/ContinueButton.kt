@@ -12,12 +12,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 
 @Composable
-fun ContinueButtonWithYellowBackground(
+fun NextButton(
+    iconSize: Dp,
     onlClickContinue: () -> Unit
 ) {
     Box(
@@ -31,7 +33,7 @@ fun ContinueButtonWithYellowBackground(
         Icon(
             modifier = Modifier
                 .padding(horizontal = 18.dp)
-                .size(35.dp),
+                .size(iconSize),
             imageVector = Icons.Default.PlayArrow,
             contentDescription = null,
             tint = GreenAppColor

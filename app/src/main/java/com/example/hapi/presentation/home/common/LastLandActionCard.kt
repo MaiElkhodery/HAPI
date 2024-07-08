@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,10 +29,10 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.FeatureInfo
 import com.example.hapi.util.LandAction
-import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.presentation.common.DarkGreenBlackText
 
 @Composable
-fun LastLandActionCard(
+fun LandActionCard(
     modifier: Modifier = Modifier,
     action: LandAction,
     date: String,
@@ -38,6 +40,7 @@ fun LastLandActionCard(
 ) {
     Column(
         modifier = modifier
+            .clip(RoundedCornerShape(4.dp))
             .background(YellowAppColor)
             .padding(vertical = 10.dp)
             .fillMaxWidth(),
@@ -150,7 +153,7 @@ fun ActionInfo(
 @Preview
 @Composable
 private fun LandActionPreview() {
-    LastLandActionCard(
+    LandActionCard(
         action = LandAction.FERTILIZATION,
         date = "12/12/2021",
         time = "12:00"

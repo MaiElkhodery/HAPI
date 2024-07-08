@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -28,44 +31,49 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
 import com.example.hapi.domain.model.LandAction
+import com.example.hapi.presentation.common.DarkGreenBlackText
 import com.example.hapi.presentation.home.common.ActionInfo
-import com.example.hapi.presentation.home.common.LastDetectionContent
-import com.example.hapi.presentation.home.common.LastLandActionCard
 import com.example.hapi.presentation.home.common.HomeNotFoundWarning
+import com.example.hapi.presentation.home.common.LandActionCard
+import com.example.hapi.presentation.home.common.LastDetectionContent
+import com.example.hapi.presentation.home.common.VerticalHistoryCard
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.PurpleGrey40
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.DarkGreenBlackText
 import com.example.hapi.util.Dimens
 import com.example.hapi.util.FeatureInfo
 
 @Composable
 fun LandownerHomeLandData(
     modifier: Modifier = Modifier,
+    width: Dp,
+    height:Dp,
     detectionUsername: String,
     detectionDate: String,
     detectionTime: String,
-    byteArray: ByteArray? = null,
     imageUrl: String = "",
     lastLandAction: LandAction,
     lastFarmerUsername: String,
     lastFarmerDate: String,
     lastFarmerTime: String,
-    onClickDetectionDetailsIcon: () -> Unit
+    onClickDetailsIcon: () -> Unit,
+    onClickLandHistory: () -> Unit,
+    onClickDetectionHistory: () -> Unit,
 ) {
     var isDetectionSelected by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     var isLandSelected by remember {
         mutableStateOf(false)
     }
     var isFarmerSelected by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     Column(
         modifier = modifier
@@ -77,7 +85,8 @@ fun LandownerHomeLandData(
             modifier = Modifier
                 .size(70.dp),
             painter = painterResource(id = R.drawable.crop_profile),
-            contentDescription = "home crop image"
+            contentDescription = "home crop image",
+            contentScale = ContentScale.FillBounds
         )
         Column {
 
@@ -129,7 +138,7 @@ fun LandownerHomeLandData(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(170.dp)
             ) {
                 when {
                     isDetectionSelected -> {
@@ -141,11 +150,9 @@ fun LandownerHomeLandData(
                                 username = detectionUsername,
                                 date = detectionDate,
                                 time = detectionTime,
-                                byteArray = byteArray,
                                 imageUrl = imageUrl,
-                            ) {
-                                onClickDetectionDetailsIcon()
-                            }
+                                onClick = onClickDetailsIcon
+                            )
                         } else {
                             HomeNotFoundWarning(
                                 modifier = Modifier.height(Dimens.home_box_height),
@@ -157,7 +164,7 @@ fun LandownerHomeLandData(
 
                     isLandSelected -> {
                         if (lastLandAction.name.isNotBlank()) {
-                            LastLandActionCard(
+                            LandActionCard(
                                 modifier = Modifier.height(Dimens.home_box_height),
                                 action = com.example.hapi.util.LandAction.valueOf(lastLandAction.name),
                                 date = lastLandAction.date,
@@ -191,6 +198,25 @@ fun LandownerHomeLandData(
                     }
                 }
             }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            VerticalHistoryCard(
+                isLand = true,
+                modifier = Modifier.weight(1f),
+                onClick = onClickLandHistory
+            )
+            Spacer(modifier = Modifier
+                .width(10.dp)
+                .weight(0.2f))
+            VerticalHistoryCard(
+                isLand = false,
+                modifier = Modifier.weight(1f),
+                onClick = onClickDetectionHistory
+            )
         }
     }
 }
@@ -285,6 +311,8 @@ fun LastFarmerContent(
 @Composable
 private fun HomeOperationsDisplayPreview() {
     LandownerHomeLandData(
+        width = 300.dp,
+        height = 600.dp,
         lastLandAction = LandAction(
             name = com.example.hapi.util.LandAction.FERTILIZATION.name,
             date = "12/12/2021",
@@ -295,6 +323,9 @@ private fun HomeOperationsDisplayPreview() {
         lastFarmerTime = "12:00 PM",
         detectionUsername = "John Doe",
         detectionDate = "12/12/2021",
-        detectionTime = "12:00 PM"
-    ) {}
+        detectionTime = "12:00 PM",
+        onClickDetailsIcon = {},
+        onClickLandHistory = {},
+        onClickDetectionHistory = {}
+    )
 }

@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.common
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,12 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.hapi.R
+import com.example.hapi.presentation.common.DarkGreenBlackText
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.util.DarkGreenBlackText
 import com.example.hapi.util.FeatureInfo
-import com.example.hapi.util.toBitmap
 
 @Composable
 fun LastDetectionContent(
@@ -41,7 +38,6 @@ fun LastDetectionContent(
     username: String,
     date: String,
     time: String,
-    byteArray: ByteArray? = null,
     imageUrl: String = "",
     onClick: () -> Unit
 ) {
@@ -61,7 +57,6 @@ fun LastDetectionContent(
             username = username,
             date = date,
             time = time,
-            byteArray = byteArray,
             imageUrl = imageUrl
         ) {
             onClick()
@@ -76,7 +71,6 @@ private fun LastDetectionInfo(
     username: String,
     date: String,
     time: String,
-    byteArray: ByteArray? = null,
     imageUrl: String = "",
     onClick: () -> Unit
 ) {
@@ -84,27 +78,18 @@ private fun LastDetectionInfo(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(vertical = 6.dp, horizontal = 12.dp),
+            .padding(vertical = 10.dp, horizontal = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Box(
             modifier = modifier
-                .weight(.82f)
+                .weight(.8f)
                 .clip(RoundedCornerShape(5.dp))
                 .padding(end = 12.dp)
         ) {
-            if (byteArray != null && byteArray.isNotEmpty()) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(5.dp)),
-                    bitmap = byteArray.toBitmap().asImageBitmap(),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds
-                )
-            } else if (imageUrl.isNotBlank()) {
+            if (imageUrl.isNotBlank()) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxSize()
@@ -142,11 +127,11 @@ fun DetectionDetailsIcon(
                 onClick()
             }
             .background(DarkGreenAppColor)
-            .padding(horizontal = 4.dp, vertical = 16.dp),
+            .padding(horizontal = 4.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(27.dp),
+            modifier = Modifier.size(24.dp),
             painter = painterResource(id = R.drawable.details),
             contentDescription = "Details",
             tint = YellowAppColor

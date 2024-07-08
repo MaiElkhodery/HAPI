@@ -177,7 +177,9 @@ class AuthViewModel @Inject constructor(
 
                     }
 
-                    else -> {}
+                    else -> {
+                        Log.d("SIGNIN", state.toString())
+                    }
                 }
             }
         }
@@ -246,6 +248,7 @@ class AuthViewModel @Inject constructor(
                 phoneKey -> _phoneNumberError.value = list[0]
                 usernameKey -> _usernameError.value = list[0]
                 passwordKey -> _passwordError.value = list[0]
+                else -> _landIdError.value = list[0]
             }
 
         }

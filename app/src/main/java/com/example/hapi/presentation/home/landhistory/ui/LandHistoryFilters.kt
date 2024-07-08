@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.landhistory.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,108 +29,112 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.GreenBlackText
+import com.example.hapi.presentation.common.GreenBlackText
 
 @Composable
 fun LandHistoryFilters(
     modifier: Modifier = Modifier,
-    onAllActionsSelected: () -> Unit,
-    onFertilizationSelected: () -> Unit,
-    onIrrigationSelected: () -> Unit
+    onFilterSelected: (LandFilterType) -> Unit
 ) {
-    var isAllActionsSelected by remember { mutableStateOf(true) }
-    var isFertilizationSelected by remember { mutableStateOf(false) }
-    var isIrrigationSelected by remember { mutableStateOf(false) }
+    var selectedFilter by remember { mutableStateOf(LandFilterType.All) }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max),
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    if (isAllActionsSelected) YellowAppColor else DarkGreenAppColor
-                )
-                .padding(horizontal = 16.dp,vertical = 9.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .clickable {
-                    isFertilizationSelected = false
-                    isIrrigationSelected = false
-                    isAllActionsSelected = true
-                    onAllActionsSelected()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            GreenBlackText(
-                size = 10,
-                text = stringResource(id = R.string.all_actions),
-                modifier = Modifier.align(Alignment.Center).height(IntrinsicSize.Max)
-            )
-        }
+        FilterBox(
+            isSelected = selectedFilter == LandFilterType.All,
+            text = stringResource(id = R.string.all_actions),
+            onClick = {
+                selectedFilter = LandFilterType.All
+                onFilterSelected(LandFilterType.All)
+            }
+        )
 
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
-                .background(
-                    if (isFertilizationSelected) YellowAppColor else DarkGreenAppColor
-                )
-                .padding(horizontal = 12.dp)
-                .clickable {
-                    isFertilizationSelected = true
-                    isIrrigationSelected = false
-                    isAllActionsSelected = false
-                    onFertilizationSelected()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.fillMaxHeight().size(24.dp),
-                painter = painterResource(
-                    id =
-                    if (isFertilizationSelected) R.drawable.fertilization
-                    else R.drawable.unselected_fertilization
-                ),
-                contentDescription = null
-            )
-        }
+        FilterIconBox(
+            isSelected = selectedFilter == LandFilterType.Fertilization,
+            selectedIconResId = R.drawable.fertilization,
+            unselectedIconResId = R.drawable.unselected_fertilization,
+            onClick = {
+                selectedFilter = LandFilterType.Fertilization
+                onFilterSelected(LandFilterType.Fertilization)
+            }
+        )
 
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
-                .background(
-                    if (isIrrigationSelected) YellowAppColor else DarkGreenAppColor
-                )
-                .padding(horizontal = 12.dp)
-                .clickable {
-                    isFertilizationSelected = false
-                    isIrrigationSelected = true
-                    isAllActionsSelected = false
-                    onIrrigationSelected()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.fillMaxHeight().size(24.dp),
-                painter = painterResource(
-                    id =
-                    if (isIrrigationSelected) R.drawable.irrigation
-                    else R.drawable.unselected_irrigation
-                ),
-                contentDescription = null
-            )
-        }
-
+        FilterIconBox(
+            isSelected = selectedFilter == LandFilterType.Irrigation,
+            selectedIconResId = R.drawable.irrigation,
+            unselectedIconResId = R.drawable.unselected_irrigation,
+            onClick = {
+                selectedFilter = LandFilterType.Irrigation
+                onFilterSelected(LandFilterType.Irrigation)
+            }
+        )
     }
+}
+@Composable
+fun FilterBox(
+    isSelected: Boolean,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = if (isSelected) YellowAppColor else DarkGreenAppColor
+
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(3.dp))
+            .background(backgroundColor)
+            .padding(horizontal = 10.dp, vertical = 4.dp)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        GreenBlackText(
+            size = 10,
+            text = text,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .height(IntrinsicSize.Max)
+        )
+    }
+}
+
+@Composable
+fun FilterIconBox(
+    isSelected: Boolean,
+    @DrawableRes selectedIconResId: Int,
+    @DrawableRes unselectedIconResId: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = if (isSelected) YellowAppColor else DarkGreenAppColor
+
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(3.dp))
+            .background(backgroundColor)
+            .padding(horizontal = 8.dp)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = if (isSelected) selectedIconResId else unselectedIconResId),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+    }
+}
+
+enum class LandFilterType {
+    All, Fertilization, Irrigation
 }
 
 @Preview
 @Composable
 private fun LandHistoryFiltersPreview() {
-    LandHistoryFilters(
-        onAllActionsSelected = {},
-        onFertilizationSelected = {},
-        onIrrigationSelected = {}
-    )
+    LandHistoryFilters{}
 }

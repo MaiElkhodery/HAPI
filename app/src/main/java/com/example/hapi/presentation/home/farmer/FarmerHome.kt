@@ -82,7 +82,7 @@ fun FarmerHome(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (detectionDate.isBlank()) {
-                HomeNotFoundWarning(
+                NoDetections(
                     warning = stringResource(id = R.string.no_detection),
                     warningDetails = stringResource(id = R.string.no_detection_details)
                 )

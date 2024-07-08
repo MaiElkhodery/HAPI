@@ -23,18 +23,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.LifecycleOwner
 import com.example.hapi.R
+import com.example.hapi.presentation.common.YellowBoldText
 import com.example.hapi.presentation.home.common.CameraIcon
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.Crop
-import com.example.hapi.util.YellowBoldText
 
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    crop: Crop,
+    crop: String,
     cameraController: LifecycleCameraController,
     lifecycleOwner: LifecycleOwner,
     onCaptureClick: () -> Unit
@@ -54,9 +53,9 @@ fun CameraPreview(
 
 @Composable
 fun CropDetectionText(
-    crop: Crop
+    crop: String
 ) {
-    val cropName = stringResource(id = getCropName(crop = crop.name))
+    val cropName = stringResource(id = getCropName(crop = crop))
     Row(
         modifier = Modifier
             .fillMaxWidth()

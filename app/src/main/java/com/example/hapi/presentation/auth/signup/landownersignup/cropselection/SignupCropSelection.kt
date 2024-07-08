@@ -26,7 +26,8 @@ import com.example.hapi.presentation.common.Logo
 import com.example.hapi.presentation.common.LotusRow
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.Title
-import com.example.hapi.presentation.home.common.CropCollection
+import com.example.hapi.presentation.common.CropCollection
+import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
@@ -38,62 +39,69 @@ fun SignupCropSelection(
 ) {
 
     val isEnglish = languageViewModel.appLanguage.collectAsState().value== ENGLISH
-
+    
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
-            .padding(horizontal = 26.dp)
     ) {
 
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.02f
-        val contentPadding = screenHeight * 0.03f
-        val bottomPadding = screenHeight * 0.04f
-        val logoSize = if (screenHeight < 600.dp) 60.dp else 90.dp
-        val backIconSize = if (screenHeight < 600.dp) 60 else 80
+        val smallPadding = screenHeight * 0.034f
+        val largePadding = screenHeight * 0.044f
+        val logoSize = if (screenHeight < 600.dp) 55.dp else 75.dp
+        val backIconSize = if (screenHeight < 600.dp) 60 else 75
+        val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
+
+        val fontSize = when {
+            screenWidth < 360.dp -> 14
+            screenWidth in 360.dp..400.dp -> 16
+            else -> 18
+        }
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
 
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             Logo(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .size(logoSize)
             )
-            Spacer(modifier = Modifier.size(topPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             NavHeader(
                 topText = stringResource(id = R.string.setting_up),
                 downText = stringResource(id = R.string.your_account),
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
-                imageSize = backIconSize
+                imageSize = backIconSize,
+                fontSize = fontSize
             ) {
                 navController.navigateToCropSelectionStrategy()
             }
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             Title(title = stringResource(id = R.string.avilable_crop))
-            Spacer(modifier = Modifier.size(contentPadding))
+            Spacer(modifier = Modifier.size(smallPadding))
 
             CropCollection(
-                modifier = Modifier
+                width=screenWidth,
             ) { crop ->
-                navController.navigateToFinalSelectedCrop(crop.name)
+                navController.navigateToFinalSelectedCrop(getCropName(crop = crop))
             }
-            Spacer(modifier = Modifier.size(bottomPadding))
+            Spacer(modifier = Modifier.size(largePadding))
 
             LotusRow(
                 highlightedLotusPos = 2,
             )
-            Spacer(modifier = Modifier.size(bottomPadding))
+            Spacer(modifier = Modifier.size(largePadding))
             
         }
     }

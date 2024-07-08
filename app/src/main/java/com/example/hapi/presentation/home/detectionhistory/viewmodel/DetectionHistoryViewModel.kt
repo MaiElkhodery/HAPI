@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.detectionhistory.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.room.entities.DetectionOfHistory
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetectionHistoryViewModel @Inject constructor(
-    private val detectionHistoryUseCase: GetDetectionHistoryUseCase,
+    private val getDetectionHistoryUseCase: GetDetectionHistoryUseCase,
     private val detectionHistoryByUsernameUseCase: GetDetectionHistoryByUsernameUseCase,
 ) : ViewModel() {
 
@@ -29,7 +28,7 @@ class DetectionHistoryViewModel @Inject constructor(
 
     fun getDetectionHistory() {
         viewModelScope.launch {
-            detectionHistoryUseCase()?.let {
+            getDetectionHistoryUseCase()?.let {
                 _detectionList.value = it
             }
         }
@@ -39,7 +38,6 @@ class DetectionHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             detectionHistoryByUsernameUseCase()?.let {
                 _detectionList.value = it
-                Log.d("DetectionHistoryViewModel", detectionList.toString())
             }
         }
     }

@@ -21,7 +21,6 @@ fun getCropIcon(
     }
 }
 
-@Composable
 fun getCropName(crop: String): Int {
     return when (crop) {
         Crop.TOMATO.name -> R.string.tomato
@@ -32,5 +31,20 @@ fun getCropName(crop: String): Int {
         Crop.APPLE.name -> R.string.apple
         Crop.SUGARCANE.name -> R.string.sugarcane
         else -> 0
+    }
+}
+
+fun getCrop(
+    cropId: Int
+): String {
+    return when (cropId) {
+        R.string.tomato -> Crop.TOMATO.name
+        R.string.potato -> Crop.POTATO.name
+        R.string.wheat -> Crop.WHEAT.name
+        R.string.corn -> Crop.CORN.name
+        R.string.cotton -> Crop.COTTON.name
+        R.string.apple -> Crop.APPLE.name
+        R.string.sugarcane -> Crop.SUGARCANE.name
+        else -> ""
     }
 }

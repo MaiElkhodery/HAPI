@@ -82,8 +82,10 @@ object RepositoryModule {
     fun provideLandRepository(
         landApiService: LandApiService,
         landDataDao: LandDataDao,
+        userDataPreference: UserDataPreference
     ) = LandRepository(
         landApiService,
-        landDataDao
+        landDataDao,
+        userDataPreference
     )
 }

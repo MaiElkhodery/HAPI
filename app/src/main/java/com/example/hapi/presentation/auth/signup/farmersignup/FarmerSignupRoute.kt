@@ -12,9 +12,5 @@ fun NavGraphBuilder.farmerSignupRoute(navController: NavController) {
 }
 
 fun NavController.navToFarmerSignup(){
-    navigate(ROUTE){
-        popUpTo(ROUTE){
-            inclusive = true
-        }
-    }
+    navigate(ROUTE)
 }

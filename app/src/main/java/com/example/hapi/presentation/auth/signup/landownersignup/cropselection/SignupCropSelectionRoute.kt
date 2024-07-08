@@ -12,9 +12,5 @@ fun NavGraphBuilder.signupCropSelectionRoute(navController: NavController) {
 }
 
 fun NavController.navigateToSignupCropSelection() {
-    navigate(ROUTE){
-        popUpTo(ROUTE){
-            inclusive = true
-        }
-    }
+    navigate(ROUTE)
 }

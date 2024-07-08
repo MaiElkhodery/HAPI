@@ -2,27 +2,8 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AboutUsPreview">
-        <State />
-      </entry>
       <entry key="LandownerHomePreview">
         <State />
-      </entry>
-      <entry key="LandownerHomePreview (1)">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-12T09:01:27.555221400Z" />
-        </State>
       </entry>
       <entry key="LandownerSettingsPreview">
         <State>
@@ -38,6 +19,22 @@
             </Target>
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-05-31T16:21:40.597912900Z" />
+        </State>
+      </entry>
+      <entry key="LandownerSignupPreview">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_5_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-19T06:59:06.810027800Z" />
         </State>
       </entry>
       <entry key="LoadingPreview">
@@ -58,34 +55,24 @@
       </entry>
       <entry key="app">
         <State>
-          <targetSelectedWithDropDown>
+          <runningDeviceTargetsSelectedWithDialog>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
+                  <value value="C:\Users\maiel\.android\avd\Pixel_5_API_33.avd" />
                 </Key>
               </deviceKey>
             </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-16T10:48:28.426873300Z" />
+          </runningDeviceTargetsSelectedWithDialog>
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_7_API_28.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\maiel\.android\avd\Pixel_3a_API_28.avd" />
+                  <value value="C:\Users\maiel\.android\avd\Resizable_Experimental_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>

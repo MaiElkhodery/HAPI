@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 
@@ -35,5 +36,13 @@ fun FarmerLastDetection(
         LastDetectionContent(username = username, date = date, time = time, imageUrl = imageUrl) {
             onClick()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun FarmerLastDetectionPreview() {
+    FarmerLastDetection(username = "ahmed", date = "9/1/2002", time = "12:00") {
+        
     }
 }

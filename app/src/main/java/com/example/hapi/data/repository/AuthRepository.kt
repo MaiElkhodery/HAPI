@@ -1,5 +1,6 @@
 package com.example.hapi.data.repository
 
+import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.remote.ApiHandler
 import com.example.hapi.data.remote.api.AuthApiService
@@ -19,7 +20,7 @@ class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
     private val userDataPreference: UserDataPreference,
     private val apiHandler: ApiHandler
-)  {
+) {
     suspend fun signupLandowner(
         landownerSignupRequest: LandownerSignupRequest
     ): Flow<State<SignupResponse?>> {
@@ -77,12 +78,11 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    suspend fun deleteAccount(password: String): Flow<State<Unit>> {
+    suspend fun deleteAccount(): Flow<State<Unit>> {
         return apiHandler.makeRequest(
             execute = {
-                authApiService.deleteAccount(
-                    PasswordRequest(password)
-                ).apply {
+                authApiService.deleteAccount().apply {
+                    Log.d("DELETE",this.toString())
                 }
             },
             onSuccess = {
@@ -91,7 +91,7 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    suspend fun checkPassword(password:String): Flow<State<Unit>> {
+    suspend fun checkPassword(password: String): Flow<State<Unit>> {
         return apiHandler.makeRequest(
             execute = {
                 authApiService.checkPassword(
@@ -104,9 +104,10 @@ class AuthRepository @Inject constructor(
     private suspend fun clearUserDataPreference() {
         userDataPreference.saveUsername("")
         userDataPreference.saveLandId("")
-        userDataPreference.saveNitrogenTankLevel("")
-        userDataPreference.savePhosphorusTankLevel("")
-        userDataPreference.savePotassiumTankLevel("")
+        userDataPreference.saveNitrogenTankLevel("0")
+        userDataPreference.savePhosphorusTankLevel("0")
+        userDataPreference.savePotassiumTankLevel("0")
+        userDataPreference.saveWaterLevel(0)
         userDataPreference.saveCrop("")
         userDataPreference.saveAuthToken("")
         userDataPreference.saveLastDetectionHistoryId("1")

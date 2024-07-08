@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">hapi</string>
+    <string name="app_name">Hapi</string>
     <string name="account_setup">دعنا نقوم بإعداد حسابك!</string>
     <string name="are_you">هل أنت...</string>
     <string name="landowner">مالك أرض؟</string>
@@ -84,7 +84,7 @@
     <string name="farmers">المزارعين</string>
     <string name="no_farmers_yet">لا يوجد مزارعون بعد</string>
     <string name="no_farmers_yet_details">يمكن للمزارعين التسجيل \nباستخدام رقم المزرعة الخاص بك \nلتكون متصلًا</string>
-    <string name="clear_detcetion_history">إعادة تعيين سجل الكشف</string>
+    <string name="clear_detecetion_history">إعادة تعيين سجل الكشف</string>
     <string name="clear_land_history">إعادة تعيين سجل الأرض</string>
     <string name="change_crop">تغيير اختيار المحصول</string>
     <string name="data_storage"><![CDATA[البيانات والتخزين]]></string>
@@ -101,7 +101,7 @@
     <string name="all_actions">كل الإجراءات</string>
     <string name="your_detections">عمليات التحديد الخاصة بك</string>
     <string name="all_detections">كل عمليات التحديد</string>
-    <string name="clear_detection">مسح عمليات التحديد؟</string>
+    <string name="reset_detection">مسح عمليات التحديد؟</string>
     <string name="delete_your_account">هل تريد حذف الحساب الخاص بك؟</string>
     <string name="land_id">رقم الأرض</string>
     <string name="english">ENGLISH</string>
@@ -121,7 +121,7 @@
     <string name="with_a">"مع "</string>
     <string name="result_certainty">نتيجة مؤكدة</string>
     <string name="something_wrong">هناك خطأ ما!</string>
-    <string name="another_img">حاول مرة أخرى مع صورة أخرى</string>
+    <string name="another_img">"حاول مرة أخرى   "</string>
     <string name="not_detections">لم يتم اكتشاف أي شيء حتى الآن</string>
     <string name="click_on_camera">انقر على أيقونة الكاميرا\nلا ابدأ في الاكتشاف</string>
     <string name="choose_language">اختر لغة</string>
@@ -130,5 +130,9 @@
     <string name="n_tank">خزان\n النيتروجين</string>
     <string name="p_tank">خزان\n الفوسفور</string>
     <string name="k_tank">"خزان\nالبوتاسيوم "</string>
+    <string name="no_actions">لا توجد إجراءات حتى الآن</string>
+    <string name="wait_for_the_device">انتظر الأجهزة\nللبدء في رؤية النتائج</string>
+    <string name="have_not_account">ليس لديك حساب؟</string>
+    <string name="wrong_password">خطأ في كلمة المرور</string>
 
 </resources>

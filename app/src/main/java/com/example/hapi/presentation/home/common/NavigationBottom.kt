@@ -36,11 +36,13 @@ import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.DarkGreenBlackText
+import com.example.hapi.presentation.common.DarkGreenBlackText
+import com.example.hapi.util.Tab
 
 @Composable
 fun CustomNavigationBottom(
     modifier: Modifier = Modifier,
+    selectedTab: Tab,
     onHomeClick: () -> Unit,
     onCameraClick: () -> Unit,
     onSettingsClick: () -> Unit
@@ -59,7 +61,7 @@ fun CustomNavigationBottom(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 18.dp)
+                .padding(top = 22.dp)
         )
         ConstraintLayout(
             modifier = Modifier
@@ -70,7 +72,7 @@ fun CustomNavigationBottom(
 
             CameraIcon(
                 modifier = Modifier
-                    .padding(bottom = 25.dp)
+                    .padding(bottom = 18.dp)
                     .constrainAs(camera) {
                         bottom.linkTo(parent.bottom)
                         top.linkTo(parent.top)
@@ -87,7 +89,7 @@ fun CustomNavigationBottom(
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                 },
-                isSelected = isHomeSelected,
+                isSelected  = selectedTab == Tab.HOME,
                 text = stringResource(id = R.string.home),
                 icon = Icons.Default.Home
             ) {
@@ -100,7 +102,8 @@ fun CustomNavigationBottom(
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 },
-                isSelected = isSettingsSelected, text = stringResource(id = R.string.settings),
+                isSelected = selectedTab == Tab.SETTINGS,
+                text = stringResource(id = R.string.settings),
                 icon = Icons.Default.Settings
             ) {
                 isHomeSelected = false
@@ -122,7 +125,7 @@ private fun NavigationIcon(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 6.dp)
+            .padding(bottom = 2.dp)
             .clickable {
                 onClick()
             },
@@ -130,7 +133,7 @@ private fun NavigationIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(29.dp),
+                .size(27.dp),
             imageVector = icon,
             contentDescription = null,
             tint = DarkGreenAppColor
@@ -138,14 +141,13 @@ private fun NavigationIcon(
         if (isSelected) {
             Icon(
                 modifier = Modifier
-                    .padding(bottom = 4.dp)
-                    .size(13.dp),
+                    .size(16.dp),
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = DarkGreenAppColor
             )
         } else {
-            DarkGreenBlackText(size = 12, text = text)
+            DarkGreenBlackText(size = 11, text = text)
         }
     }
 }
@@ -167,7 +169,7 @@ fun CameraIcon(
     ) {
         Icon(
             modifier = Modifier
-                .size(70.dp)
+                .size(68.dp)
                 .padding(12.dp)
                 .fillMaxSize(),
             imageVector = Icons.Default.CameraAlt,
@@ -180,5 +182,5 @@ fun CameraIcon(
 @Preview
 @Composable
 private fun CustomNavigationBottomPreview() {
-    CustomNavigationBottom(Modifier, {}, {}) {}
+    CustomNavigationBottom(Modifier,selectedTab = Tab.HOME, {}, {},{})
 }

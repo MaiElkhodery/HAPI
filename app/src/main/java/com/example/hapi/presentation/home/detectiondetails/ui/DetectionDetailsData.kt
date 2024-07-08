@@ -23,12 +23,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.presentation.home.common.DetectionInfo
 import com.example.hapi.presentation.home.common.getCropIcon
 import com.example.hapi.presentation.home.common.getCropName
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.BASE_URL
-import com.example.hapi.util.YellowBlackText
 
 @Composable
 fun DetectionDetailsData(
@@ -45,27 +45,7 @@ fun DetectionDetailsData(
             .fillMaxWidth(),
     ) {
 
-        val cropName = stringResource(id = getCropName(crop = crop))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 12.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(31.dp),
-                painter = painterResource(
-                    id = getCropIcon(
-                        cropName
-                    )
-                ),
-                contentDescription = "crop icon"
-            )
-            YellowBlackText(size = 24, text = cropName)
-        }
-
+        CropData(crop = crop)
 
         Row(
             modifier = Modifier
@@ -73,20 +53,24 @@ fun DetectionDetailsData(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            if (username.isBlank()) Box(modifier = Modifier
+                .fillMaxWidth()
+                .weight(.4f))
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .border(width = 3.dp, color = YellowAppColor)
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
-                    .weight(1.1f)
+                    .weight(1.2f)
 
             ) {
+
                 if (imageUrl.isNotBlank()) {
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxSize()
-                            .height(200.dp),
+                            .height(180.dp),
                         model = BASE_URL + imageUrl,
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
@@ -105,6 +89,7 @@ fun DetectionDetailsData(
                 }
 
             }
+            if (username.isBlank()) Box(modifier = Modifier.fillMaxWidth().weight(.4f))
             if (username.isNotBlank())
                 DetectionInfo(
                     modifier = Modifier
@@ -118,5 +103,32 @@ fun DetectionDetailsData(
                     fontSize = 15
                 )
         }
+    }
+}
+
+@Composable
+private fun CropData(
+    crop: String
+) {
+    if (crop.isBlank()) return
+    val cropName = stringResource(id = getCropName(crop = crop))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 12.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .size(31.dp),
+            painter = painterResource(
+                id = getCropIcon(
+                    cropName
+                )
+            ),
+            contentDescription = "crop icon"
+        )
+        YellowBlackText(size = 24, text = cropName)
     }
 }

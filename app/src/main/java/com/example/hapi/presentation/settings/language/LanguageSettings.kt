@@ -3,6 +3,7 @@ package com.example.hapi.presentation.settings.language
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -31,7 +31,6 @@ import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.ARABIC
-import com.example.hapi.util.Dimens
 import com.example.hapi.util.ENGLISH
 import com.example.hapi.util.Tab
 
@@ -49,79 +48,95 @@ fun LanguageSettings(
         languageViewModel.getLanguage()
     }
 
-    ConstraintLayout(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(GreenAppColor)
     ) {
+        val screenWidth = maxWidth
+        val screenHeight = maxHeight
 
-        val (navHeader, content) = createRefs()
-        val topGuideLine = createGuidelineFromTop(Dimens.top_guideline_settings_options)
-        val bottomGuideLine = createGuidelineFromBottom(Dimens.top_guideline_settings_options)
-
-        NavHeader(
-            modifier = Modifier
-                .padding(horizontal = Dimens.small_horizontal_padding)
-                .constrainAs(navHeader) {
-                    top.linkTo(topGuideLine)
-                },
-            topText = stringResource(id = if (isEnglishIsSelected) R.string.language else R.string.settings),
-            downText = stringResource(id = if (isEnglishIsSelected) R.string.settings else R.string.language),
-            imageId = if (isEnglishIsSelected) R.drawable.settings_back_btn
-            else R.drawable.settings_back_btn_ar,
-            imageSize = 80
-        ) {
-            mainViewModel.setSelectedTab(Tab.SETTINGS)
-            navController.popBackStack()
+        val horizontalPadding = if (screenWidth < 360.dp) 12.dp else 16.dp
+        val backIconSize = if (screenHeight < 650.dp) 60 else 75
+        val padding = screenHeight * 0.03f
+        val headerFontSize = when {
+            screenWidth < 360.dp -> 12
+            screenWidth in 360.dp..400.dp -> 15
+            else -> 17
+        }
+        val imageSize = when {
+            screenHeight <= 600.dp -> 100.dp
+            screenHeight in 600.dp..855.dp -> 120.dp
+            else -> 150.dp
         }
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(content) {
-                    top.linkTo(navHeader.bottom)
-                    bottom.linkTo(bottomGuideLine)
-                },
-            verticalArrangement = Arrangement.Center,
+                .padding(horizontal = horizontalPadding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
+            NavHeader(
+                modifier = Modifier.padding(vertical = 12.dp),
+                topText = stringResource(id = if (isEnglishIsSelected) R.string.language else R.string.settings),
+                downText = stringResource(id = if (isEnglishIsSelected) R.string.settings else R.string.language),
+                imageId = if (isEnglishIsSelected) R.drawable.settings_back_btn
+                else R.drawable.settings_back_btn_ar,
+                imageSize = backIconSize,
+                fontSize = headerFontSize
+            ) {
+                mainViewModel.setSelectedTab(Tab.SETTINGS)
+                navController.popBackStack()
+            }
+
+            Spacer(modifier = Modifier.height(padding))
+
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.language_icon),
-                    contentDescription = null,
-                    tint = YellowAppColor,
-                    modifier = Modifier.size(130.dp)
-                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.language_icon),
+                        contentDescription = null,
+                        tint = YellowAppColor,
+                        modifier = Modifier.size(imageSize)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                LanguageOption(
+                    isSelected = isEnglishIsSelected,
+                    textId = R.string.english,
+                    selectedColor = YellowAppColor,
+                    unselectedColor = DarkGreenAppColor,
+                    selectedFontSize = 24,
+                    unselectedFontSize = 20
+                ) {
+                    onLanguageSelected(ENGLISH)
+                }
+
+                LanguageOption(
+                    isSelected = !isEnglishIsSelected,
+                    textId = R.string.arabic,
+                    selectedColor = YellowAppColor,
+                    unselectedColor = DarkGreenAppColor,
+                    selectedFontSize = 24,
+                    unselectedFontSize = 20
+                ) {
+                    onLanguageSelected(ARABIC)
+                }
+
+                Spacer(modifier = Modifier.height(padding))
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            LanguageOption(
-                isSelected = isEnglishIsSelected,
-                textId = R.string.english,
-                selectedColor = YellowAppColor,
-                unselectedColor = DarkGreenAppColor,
-                selectedFontSize = 24,
-                unselectedFontSize = 20
-            ) {
-                onLanguageSelected(ENGLISH)
-            }
-
-            LanguageOption(
-                isSelected = !isEnglishIsSelected,
-                textId = R.string.arabic,
-                selectedColor = YellowAppColor,
-                unselectedColor = DarkGreenAppColor,
-                selectedFontSize = 24,
-                unselectedFontSize = 20
-            ) {
-                onLanguageSelected(ARABIC)
-            }
-
         }
     }
 }

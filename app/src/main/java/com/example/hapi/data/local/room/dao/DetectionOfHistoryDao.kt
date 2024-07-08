@@ -22,8 +22,8 @@ interface DetectionOfHistoryDao {
     @Query("SELECT * FROM DetectionOfHistory")
     suspend fun getAllDetectionHistory(): List<DetectionOfHistory>?
 
-    @Query("SELECT * FROM DetectionOfHistory ORDER BY remoteId DESC LIMIT 1")
-    suspend fun getLastDetection(): DetectionOfHistory?
+    @Query("SELECT * FROM DetectionOfHistory WHERE remoteId = :id")
+    suspend fun getLastDetection(id: Int): DetectionOfHistory?
 
     @Query("SELECT * FROM DetectionOfHistory WHERE username = :username")
     suspend fun getDetectionByUsername(username: String): List<DetectionOfHistory>?

@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.detection.imageselection
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.domain.model.State
@@ -19,8 +18,8 @@ class ImageSelectionViewModel @Inject constructor(
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
-    private val _errorMsg = MutableStateFlow("")
-    val errorMsg = _errorMsg.asStateFlow()
+    private val _error = MutableStateFlow(false)
+    val error = _error.asStateFlow()
 
     private var _detectionId = MutableStateFlow(null as Long?)
     val detectionId = _detectionId.asStateFlow()
@@ -31,37 +30,32 @@ class ImageSelectionViewModel @Inject constructor(
         imageLocalUrl: String
     ) {
         viewModelScope.launch {
-            detectDiseaseUseCase(selectedCrop, byteArrayImage,imageLocalUrl).collect { state ->
+            detectDiseaseUseCase(selectedCrop, byteArrayImage, imageLocalUrl).collect { state ->
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true
-                        Log.d("DetectionViewModel", "loading")
                     }
 
                     is State.Success -> {
-                        Log.d("DetectionViewModel", "detectDisease: ${state.result}")
                         _loading.value = false
                         _detectionId.value = state.result!!
 
                     }
 
-                    is State.Error -> {
+                    else->{
                         _loading.value = false
-                        _errorMsg.value = state.error.message
-                        Log.d("DetectionViewModel", "detectDisease: ${state.error.message}")
-                    }
-
-                    is State.Exception -> {
-                        _loading.value = false
-                        _errorMsg.value = state.msg
-                        Log.d("DetectionViewModel", "detectDisease: ${state.msg}")
+                        _error.value = true
                     }
                 }
             }
         }
     }
 
-    fun resetError(){
-        _errorMsg.value = ""
+    fun resetId() {
+        _detectionId.value = null
+    }
+
+    fun resetError() {
+        _error.value = false
     }
 }

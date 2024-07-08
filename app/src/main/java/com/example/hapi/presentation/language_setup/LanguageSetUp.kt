@@ -1,15 +1,14 @@
 package com.example.hapi.presentation.language_setup
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,10 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.presentation.common.Logo
+import com.example.hapi.presentation.common.NextButton
 import com.example.hapi.presentation.settings.language.LanguageViewModel
+import com.example.hapi.presentation.welcome.SetUpBottomImage
 import com.example.hapi.presentation.welcome.navigateToWelcomeScreen
 import com.example.hapi.ui.theme.GreenAppColor
-import com.example.hapi.util.Dimens
 import com.example.hapi.util.ENGLISH
 
 @Composable
@@ -47,9 +47,19 @@ fun LanguageSetUp(
             .background(GreenAppColor)
     ) {
         val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        val topPadding = screenHeight * 0.1f
-        val contentMargin = if (screenHeight < 600.dp) 16.dp else Dimens.content_margin
+        val smallPadding = screenHeight * 0.04f
+        val largePadding = screenHeight * 0.05f
+        val logoSize = when {
+            screenHeight <= 600.dp -> 130.dp
+            screenHeight in 600.dp..855.dp -> 185.dp
+            else -> 200.dp
+        }
+        val iconSize = when {
+            screenWidth <= 360.dp -> 27.dp
+            else -> 35.dp
+        }
 
         Column(
             modifier = Modifier
@@ -58,30 +68,31 @@ fun LanguageSetUp(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Spacer(modifier = Modifier.height(topPadding))
 
-            Logo(
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            Spacer(modifier = Modifier.height(largePadding))
 
-            Spacer(modifier = Modifier.height(contentMargin))
+            Logo(modifier = Modifier.size(logoSize))
 
-            LanguageContent(
+            Spacer(modifier = Modifier.height(largePadding))
+
+            LanguageOptions(
+                width = screenWidth,
                 isEnglishSelected = appLanguage == ENGLISH
             ) { language ->
-                Log.d("LanguageSetUp", "Language selected: $language")
                 onLanguageSelected(language)
                 languageViewModel.getLanguage()
             }
 
-            Spacer(modifier = Modifier.height(contentMargin))
+            Spacer(modifier = Modifier.height(smallPadding))
 
-            BottomSection(
-                isLanguageSelected = appLanguage == ENGLISH
-            ) {
+            NextButton(iconSize) {
                 navController.navigateToWelcomeScreen()
             }
+
+            Spacer(modifier = Modifier.height(smallPadding))
+
+            SetUpBottomImage()
+
         }
     }
 }

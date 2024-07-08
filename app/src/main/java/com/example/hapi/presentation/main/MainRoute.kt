@@ -17,5 +17,9 @@ fun NavController.navigateToMainScreen(
     role: String = ""
 ) {
     val route = "main/$role"
-    navigate(route)
+    navigate(route){
+        popUpTo(0){
+            inclusive = true
+        }
+    }
 }

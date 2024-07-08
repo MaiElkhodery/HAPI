@@ -23,11 +23,12 @@ import androidx.compose.ui.unit.dp
 import com.example.hapi.R
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.YellowAppColor
-import com.example.hapi.util.GreenBlackText
+import com.example.hapi.presentation.common.GreenBlackText
 
 @Composable
 fun SettingItem(
     modifier: Modifier = Modifier,
+    fontSize:Int = 16,
     text: String,
     iconInt: Int,
     onClick: () -> Unit
@@ -50,7 +51,7 @@ fun SettingItem(
                 .weight(1f),
             contentAlignment = Alignment.CenterStart
         ) {
-            GreenBlackText(size = 16, text = text)
+            GreenBlackText(size = fontSize, text = text)
         }
         Box(
             modifier = Modifier
@@ -63,7 +64,7 @@ fun SettingItem(
             Icon(
                 modifier = Modifier
                     .padding(3.dp)
-                    .size(25.dp),
+                    .size(24.dp),
                 painter = painterResource(id = iconInt),
                 contentDescription = null,
                 tint = YellowAppColor,

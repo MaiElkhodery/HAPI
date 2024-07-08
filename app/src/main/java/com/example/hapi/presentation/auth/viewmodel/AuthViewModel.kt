@@ -1,12 +1,16 @@
 package com.example.hapi.presentation.auth.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hapi.data.model.SignupErrorInfo
-import com.example.hapi.data.model.State
-import com.example.hapi.domain.usecase.FarmerSignupUseCase
-import com.example.hapi.domain.usecase.LandownerSignupUseCase
-import com.example.hapi.domain.usecase.SigninUseCase
+import com.example.hapi.domain.model.SignupErrorInfo
+import com.example.hapi.domain.model.State
+import com.example.hapi.domain.usecase.landowner.CropRecommendationUseCase
+import com.example.hapi.domain.usecase.landowner.UploadSelectedCropUseCase
+import com.example.hapi.domain.usecase.sign.FarmerSignupUseCase
+import com.example.hapi.domain.usecase.sign.LandownerSignupUseCase
+import com.example.hapi.domain.usecase.sign.SigninUseCase
+import com.example.hapi.util.Crop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +21,9 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val signupFarmerUseCase: FarmerSignupUseCase,
     private val signupLandownerUseCase: LandownerSignupUseCase,
-    private val signinUseCase: SigninUseCase
+    private val signinUseCase: SigninUseCase,
+    private val cropRecommendationUseCase: CropRecommendationUseCase,
+    private val uploadSelectedCropUseCase: UploadSelectedCropUseCase
 ) : ViewModel() {
 
     private var _errorMsg = MutableStateFlow("")
@@ -56,6 +62,12 @@ class AuthViewModel @Inject constructor(
 
     private var _isLandowner = MutableStateFlow(false)
     var isLandowner = _isLandowner.asStateFlow()
+
+    private val _recommendedCrops = MutableStateFlow(emptyList<Crop>())
+    var recommendedCrops = _recommendedCrops.asStateFlow()
+
+    private val _cropIsUploaded = MutableStateFlow(false)
+    var cropIsUploaded = _cropIsUploaded.asStateFlow()
 
     fun onEvent(event: AuthEvent) {
         when (event) {
@@ -116,14 +128,17 @@ class AuthViewModel @Inject constructor(
                 when (state) {
                     is State.Loading -> {
                         _loading.value = true
+                        Log.d("SIGNUP", "loading")
                     }
 
                     is State.Success -> {
+                        Log.d("SIGNUP", "done")
                         _loading.value = false
                         _authenticated.value = true
                     }
 
                     is State.Error -> {
+                        Log.d("SIGNUP", "error")
                         _loading.value = false
                         resetErrors(state.error as SignupErrorInfo)
                     }
@@ -141,6 +156,7 @@ class AuthViewModel @Inject constructor(
                 phoneNumber = _phoneNumber.value,
                 password = _password.value
             ).collect { state ->
+                Log.d("SIGNIN", state.toString())
                 when (state) {
                     is State.Error -> {
                         _loading.value = false
@@ -157,6 +173,64 @@ class AuthViewModel @Inject constructor(
                         if (state.result!!.role == "landowner") {
                             _isLandowner.value = true
                         }
+                        Log.d("SIGNIN", "done")
+
+                    }
+
+                    else -> {
+                        Log.d("SIGNIN", state.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun getRecommendedCrops() {
+        viewModelScope.launch {
+            _errorMsg.value = ""
+            cropRecommendationUseCase().collect { state ->
+                when (state) {
+                    is State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _loading.value = false
+                        _recommendedCrops.value = state.result!!
+                        Log.d("viewmodel", "Crops: ${state.result}")
+                    }
+
+                    is State.Error -> {
+                        _loading.value = false
+                        _errorMsg.value = state.error.message
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun uploadSelectedCrop(
+        crop: String
+    ) {
+        viewModelScope.launch {
+            _errorMsg.value = ""
+            uploadSelectedCropUseCase(crop).collect { state ->
+                Log.d("UPLOAD", "$state")
+                when (state) {
+                    is State.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is State.Success -> {
+                        _cropIsUploaded.value = true
+                        _loading.value = false
+                    }
+
+                    is State.Error -> {
+                        _loading.value = false
+                        _errorMsg.value = state.error.message
                     }
 
                     else -> {}
@@ -174,6 +248,7 @@ class AuthViewModel @Inject constructor(
                 phoneKey -> _phoneNumberError.value = list[0]
                 usernameKey -> _usernameError.value = list[0]
                 passwordKey -> _passwordError.value = list[0]
+                else -> _landIdError.value = list[0]
             }
 
         }

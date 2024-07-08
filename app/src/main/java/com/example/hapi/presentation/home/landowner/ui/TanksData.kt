@@ -46,7 +46,7 @@ fun TanksData(
     val horizontalPadding = 2.dp
 
     Column(
-        modifier = modifier.padding(horizontal = horizontalPadding),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (crop.isNotBlank())

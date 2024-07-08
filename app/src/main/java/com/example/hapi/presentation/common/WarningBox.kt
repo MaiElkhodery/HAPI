@@ -31,7 +31,8 @@ import com.example.hapi.util.ScreenSize
 import com.example.hapi.util.getScreenWidth
 
 @Composable
-fun AuthWarningBox(
+fun RedWarningBox(
+    modifier: Modifier = Modifier,
     width: Dp,
     warningText: String
 ) {
@@ -52,7 +53,7 @@ fun AuthWarningBox(
         Box(modifier = Modifier.padding(10.dp))
     } else {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .padding(top = 2.dp, bottom = 5.dp, start = 1.dp, end = 1.dp)
                 .background(WarningColor)
                 .fillMaxWidth()
@@ -89,7 +90,7 @@ fun AuthWarningBox(
 @Preview
 @Composable
 fun WarningBoxPreview() {
-    AuthWarningBox(
+    RedWarningBox(
         width = 100.dp,
         warningText = "THIS USERNAME ALREADY EXISTS"
     )

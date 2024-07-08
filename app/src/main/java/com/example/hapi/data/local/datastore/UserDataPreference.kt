@@ -98,9 +98,9 @@ class UserDataPreference @Inject constructor(
         return preferences[AUTH_KEY]?.first()
     }
 
-    suspend fun getRole(): String? {
+    suspend fun getRole(): String {
         val preferences = dataStore.data.first()
-        return preferences[ROLE_KEY]?.first()
+        return preferences[ROLE_KEY]?.first() ?:""
     }
 
     suspend fun getUsername(): String {

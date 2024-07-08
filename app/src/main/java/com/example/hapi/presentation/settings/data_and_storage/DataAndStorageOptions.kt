@@ -59,7 +59,7 @@ fun DataAndStorageOptions(
         }
 
         SettingItem(
-            text = stringResource(id = R.string.clear_detection),
+            text = stringResource(id = R.string.reset_detection),
             fontSize = fontSize,
             iconInt = R.drawable.reset_icon,
             modifier = Modifier.padding(bottom = 5.dp),

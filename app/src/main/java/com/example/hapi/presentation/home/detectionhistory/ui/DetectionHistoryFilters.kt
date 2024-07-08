@@ -38,7 +38,7 @@ fun DetectionHistoryFilters(
     onAllDetectionsSelected: () -> Unit,
     onYourDetectionsSelected: () -> Unit
 ) {
-    var isYourDetectionsSelected by remember { mutableStateOf(true) }
+    var isYourDetectionsSelected by remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier

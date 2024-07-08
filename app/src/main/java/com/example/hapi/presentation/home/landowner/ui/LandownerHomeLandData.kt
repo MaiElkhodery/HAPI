@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hapi.R
@@ -51,6 +52,8 @@ import com.example.hapi.util.FeatureInfo
 @Composable
 fun LandownerHomeLandData(
     modifier: Modifier = Modifier,
+    width: Dp,
+    height:Dp,
     detectionUsername: String,
     detectionDate: String,
     detectionTime: String,
@@ -64,13 +67,13 @@ fun LandownerHomeLandData(
     onClickDetectionHistory: () -> Unit,
 ) {
     var isDetectionSelected by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     var isLandSelected by remember {
         mutableStateOf(false)
     }
     var isFarmerSelected by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     Column(
         modifier = modifier
@@ -308,6 +311,8 @@ fun LastFarmerContent(
 @Composable
 private fun HomeOperationsDisplayPreview() {
     LandownerHomeLandData(
+        width = 300.dp,
+        height = 600.dp,
         lastLandAction = LandAction(
             name = com.example.hapi.util.LandAction.FERTILIZATION.name,
             date = "12/12/2021",

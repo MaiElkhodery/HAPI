@@ -52,6 +52,7 @@ class DiseaseDetectionRepository @Inject constructor(
                         link = response.body()!!.info_link
                     )
                     emit(State.Success(detectionId))
+
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.string(),

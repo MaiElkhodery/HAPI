@@ -119,7 +119,7 @@ fun FarmerSettingsOptions(
         }
 
         SettingItem(
-            text = stringResource(id = R.string.clear_detection),
+            text = stringResource(id = R.string.reset_detection),
             iconInt = R.drawable.data_and_storage_icon
         ) {
             onClearDetectionClick()

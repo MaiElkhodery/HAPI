@@ -50,7 +50,6 @@ fun DetectionHistoryCard(
                 .fillMaxWidth()
                 .background(YellowAppColor)
                 .height(IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             DiseaseImage(
@@ -64,7 +63,8 @@ fun DetectionHistoryCard(
             DetectionInfo(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(vertical = 10.dp, horizontal = 12.dp),
+                    .padding(start = 4.dp)
+                    .fillMaxHeight(),
                 username = username,
                 date = date,
                 time = time

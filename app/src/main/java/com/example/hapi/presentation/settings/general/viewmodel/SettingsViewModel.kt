@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.settings.general.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -38,6 +37,8 @@ class SettingsViewModel @Inject constructor(
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut = _isLoggedOut.asStateFlow()
 
+    private val _passwordError = MutableStateFlow(false)
+    val passwordError = _passwordError.asStateFlow()
 
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
@@ -52,19 +53,24 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun getLandId() {
         _landId.value = userDataPreference.getLandId()!!
-
     }
 
     private suspend fun getRole() {
-        _role.value = userDataPreference.getRole()!!
+        _role.value = userDataPreference.getRole()
     }
 
-    private suspend fun checkPassword(action: suspend () -> Unit) {
-        checkPasswordUseCase(_password.value).collect { state ->
-            when (state) {
-                is State.Success -> action()
-                else -> {
+    fun checkPassword(action: suspend () -> Unit = {}) {
+        viewModelScope.launch {
+            checkPasswordUseCase(_password.value).collect { state ->
+                when (state) {
+                    is State.Success -> {
+                        action()
+                        _passwordError.value = false
+                    }
 
+                    else -> {
+                        _passwordError.value = true
+                    }
                 }
             }
         }
@@ -75,23 +81,12 @@ class SettingsViewModel @Inject constructor(
             checkPassword {
                 deleteAccountUseCase().collect { state ->
                     when (state) {
-                        is State.Error -> {
-                            Log.d("LandownerSettingsViewModel", "error")
-                        }
-
-                        is State.Exception -> {
-                            Log.d("LandownerSettingsViewModel", "exception, ${state.msg}")
-                        }
-
-                        State.Loading -> {
-                            Log.d("LandownerSettingsViewModel", "loading")
-                        }
-
                         is State.Success -> {
-                            Log.d("LandownerSettingsViewModel", "success")
                             clearDB()
                             _isLoggedOut.value = true
                         }
+
+                        else -> {}
                     }
                 }
             }
@@ -103,23 +98,13 @@ class SettingsViewModel @Inject constructor(
             checkPassword {
                 logoutUseCase().collect { state ->
                     when (state) {
-                        is State.Error -> {
-                            Log.d("LandownerSettingsViewModel", "error")
-                        }
-
-                        is State.Exception -> {
-                            Log.d("LandownerSettingsViewModel", "exception")
-                        }
-
-                        State.Loading -> {
-                            Log.d("LandownerSettingsViewModel", "loading")
-                        }
 
                         is State.Success -> {
-                            Log.d("LandownerSettingsViewModel", "success")
                             clearDB()
                             _isLoggedOut.value = true
                         }
+
+                        else -> {}
                     }
                 }
             }
@@ -137,6 +122,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun deleteLandHistory() {
+        viewModelScope.launch {
+            deleteLandHistoryUseCase()
+        }
+    }
+
+    fun deleteDetectionHistory() {
+        viewModelScope.launch {
+            deleteDetectionHistoryUseCase()
+        }
+    }
+
     fun onEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.ChangePassword -> {
@@ -149,6 +146,10 @@ class SettingsViewModel @Inject constructor(
 
             SettingsEvent.OnClickLogout -> {
                 logout()
+            }
+
+            SettingsEvent.ResetPasswordError->{
+                _passwordError.value = false
             }
         }
     }

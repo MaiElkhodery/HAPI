@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.hapi.R
-import com.example.hapi.presentation.home.loading.LoadingIcon
+import com.example.hapi.presentation.common.LoadingIcon
 import com.example.hapi.util.crossFadeAnimation
 import kotlinx.coroutines.delay
 

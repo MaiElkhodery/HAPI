@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
-import com.example.hapi.presentation.common.AuthWarningBox
+import com.example.hapi.presentation.common.RedWarningBox
 import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
@@ -121,7 +121,7 @@ fun Signin(
             }
 
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth,
                 warningText = errorMsg
             )

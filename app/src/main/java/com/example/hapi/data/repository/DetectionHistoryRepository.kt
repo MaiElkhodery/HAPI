@@ -1,6 +1,5 @@
 package com.example.hapi.data.repository
 
-import android.util.Log
 import com.example.hapi.data.local.datastore.UserDataPreference
 import com.example.hapi.data.local.room.dao.DetectionOfHistoryDao
 import com.example.hapi.data.local.room.entities.DetectionOfHistory
@@ -9,10 +8,8 @@ import com.example.hapi.data.remote.api.DetectionApiService
 import com.example.hapi.data.remote.response.DetectionHistoryResponse
 import com.example.hapi.data.remote.response.DetectionResponse
 import com.example.hapi.domain.model.State
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -31,8 +28,7 @@ class DetectionHistoryRepository @Inject constructor(
                 onSuccess = { responseBody ->
                     if (responseBody.isNotEmpty()) {
                         cacheDetectionHistory(responseBody)
-                        Log.d("DetectionHistoryRepository", "fetchDetectionHistory: $responseBody")
-                        Log.d("DetectionHistoryRepository", "lastId : $id")
+                        userDataPreference.saveLastDetectionHistoryId(responseBody.first().id.toString())
                     }
                 }
             ).collect { state ->
@@ -54,56 +50,46 @@ class DetectionHistoryRepository @Inject constructor(
         id: Int
     ): Flow<State<DetectionResponse>> {
 
-        return withContext(Dispatchers.IO) {
-            apiHandler.makeRequest(
-                execute = {
-                    detectionApiService.getDetectionWithId(id)
-                }
-            )
-        }
+        return apiHandler.makeRequest(
+            execute = {
+                detectionApiService.getDetectionWithId(id)
+            }
+        )
+
     }
 
 
     private suspend fun cacheDetectionHistory(detectionHistoryList: List<DetectionHistoryResponse>) {
 
-        withContext(Dispatchers.IO) {
-            detectionHistoryList.forEach { detectionHistory ->
-                detectionOfHistoryDao.insertDetection(
-                    DetectionOfHistory(
-                        remoteId = detectionHistory.id,
-                        username = detectionHistory.username,
-                        imageUrl = detectionHistory.image_url,
-                        time = detectionHistory.time,
-                        date = detectionHistory.date
-                    )
+        detectionHistoryList.forEach { detectionHistory ->
+            detectionOfHistoryDao.insertDetection(
+                DetectionOfHistory(
+                    remoteId = detectionHistory.id,
+                    username = detectionHistory.username,
+                    imageUrl = detectionHistory.image_url,
+                    time = detectionHistory.time,
+                    date = detectionHistory.date
                 )
-
-            }
+            )
         }
     }
 
     suspend fun getDetectionHistory(): List<DetectionOfHistory>? {
-        return withContext(Dispatchers.IO) {
-            detectionOfHistoryDao.getAllDetectionHistory()
-        }
+        return detectionOfHistoryDao.getAllDetectionHistory()
     }
 
     suspend fun getLastDetection(): DetectionOfHistory? {
-        return withContext(Dispatchers.IO) {
-            detectionOfHistoryDao.getLastDetection()
-        }
-
+        return detectionOfHistoryDao
+            .getLastDetection(
+                userDataPreference.getLastDetectionHistoryId().toInt()
+            )
     }
 
     suspend fun deleteDetectionHistory() {
-        withContext(Dispatchers.IO) {
-            detectionOfHistoryDao.deleteAll()
-        }
+        detectionOfHistoryDao.deleteAll()
     }
 
     suspend fun getDetectionByUsername(): List<DetectionOfHistory>? {
-        return withContext(Dispatchers.IO) {
-            detectionOfHistoryDao.getDetectionByUsername(userDataPreference.getUsername())
-        }
+        return detectionOfHistoryDao.getDetectionByUsername(userDataPreference.getUsername())
     }
 }

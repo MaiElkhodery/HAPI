@@ -9,6 +9,6 @@ data class SignupErrorInfo(
     val errors: Map<String, List<String>>
 ) : ErrorInfo()
 
-data class SigninErrorInfo(
+data class ApiErrorInfo(
     override val message: String
 ) : ErrorInfo()

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">hapi</string>
+    <string name="app_name">Hapi</string>
     <string name="account_setup">LET US GET YOUR \nACCOUNT SETUP!</string>
     <string name="are_you">ARE YOU A....</string>
     <string name="landowner">LANDOWNER?</string>
@@ -54,7 +54,7 @@
     <string name="select_crop">SELECT A CROP\nTO PROCEED\n</string>
     <string name="please_wait">PLEASE WAIT</string>
     <string name="processing">PROCESSING</string>
-    <string name="now_detecting">NOW DETECTION</string>
+    <string name="now_detecting">NOW DETECTING</string>
     <string name="choose_from_photos">CHOOSE FROM PHOTOS</string>
     <string name="water_level">WATER\nLEVELS</string>
     <string name="npk_ratio">N P K</string>
@@ -99,7 +99,7 @@
     <string name="all_actions">ALL ACTIONS</string>
     <string name="your_detections">YOUR DETECTIONS</string>
     <string name="all_detections">ALL DETECTIONS</string>
-    <string name="clear_detection">CLEAR DETECTION</string>
+    <string name="reset_detection">RESET DETECTION</string>
     <string name="delete_your_account">DELETE YOUR\nACCOUNT?</string>
     <string name="land_id">LAND ID</string>
     <string name="english">ENGLISH</string>
@@ -119,7 +119,7 @@
     <string name="with_a">WITH A</string>
     <string name="result_certainty">RESULT CERTAINTY</string>
     <string name="something_wrong">SOMETHING WENT WRONG!</string>
-    <string name="another_img">TRY AGAIN WITH ANOTHER IMAGE</string>
+    <string name="another_img">TRY AGAIN</string>
     <string name="not_detections">NO DETECTIONS YET</string>
     <string name="click_on_camera">CLICK ON THE CAMERA ICON\nTO START DETECTING</string>
     <string name="choose_language">CHOOSE A LANGUAGE</string>
@@ -131,5 +131,6 @@
     <string name="no_actions">NO ACTIONS YET</string>
     <string name="wait_for_the_device">WAIT FOR THE DEVICES\nTO START TO SEE RESULTS</string>
     <string name="have_not_account">DON’T HAVE AN ACCOUNT?</string>
+    <string name="wrong_password">WRONG PASSWORD</string>
 
 </resources>

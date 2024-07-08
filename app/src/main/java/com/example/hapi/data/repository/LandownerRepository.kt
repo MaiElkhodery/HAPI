@@ -11,10 +11,8 @@ import com.example.hapi.data.remote.response.LastFarmerResponse
 import com.example.hapi.domain.model.SignupErrorInfo
 import com.example.hapi.domain.model.State
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LandownerRepository @Inject constructor(
@@ -70,45 +68,36 @@ class LandownerRepository @Inject constructor(
     }
 
     suspend fun getLastFarmer(): Flow<State<LastFarmerResponse>> {
-        return withContext(Dispatchers.IO) {
-            apiHandler.makeRequest(
-                execute = {
-                    landownerApiService.getLastFarmer()
-                }
-            )
-        }
+        return apiHandler.makeRequest(
+            execute = {
+                landownerApiService.getLastFarmer()
+            }
+        )
+
     }
 
     suspend fun fetchFarmers(): Flow<State<List<String>>> {
-        return withContext(Dispatchers.IO) {
-            apiHandler.makeRequest(
-                execute = {
-                    landownerApiService.getFarmers()
-                },
-                onSuccess = {
-                    cacheFarmers(it)
-                }
-            )
-        }
+        return apiHandler.makeRequest(
+            execute = {
+                landownerApiService.getFarmers()
+            },
+            onSuccess = {
+                cacheFarmers(it)
+            }
+        )
     }
 
     private suspend fun cacheFarmers(farmers: List<String>) {
-        withContext(Dispatchers.IO) {
-            farmers.forEach {
-                farmerDao.addFarmer(Farmer(name = it))
-            }
+        farmers.forEach {
+            farmerDao.addFarmer(Farmer(name = it))
         }
     }
 
     suspend fun getFarmers(): List<Farmer> {
-        return withContext(Dispatchers.IO) {
-            farmerDao.getFarmers()
-        }
+        return farmerDao.getFarmers()
     }
 
     suspend fun deleteFarmers() {
-        withContext(Dispatchers.IO) {
-            farmerDao.deleteFarmers()
-        }
+        farmerDao.deleteFarmers()
     }
 }

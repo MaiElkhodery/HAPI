@@ -166,7 +166,6 @@ private fun InputField(
             else -> 30.dp
         }
         val inputFieldHeight = when {
-            height <= 600.dp -> 46.dp
             height in 600.dp..855.dp -> 48.dp
             else -> 50.dp
         }

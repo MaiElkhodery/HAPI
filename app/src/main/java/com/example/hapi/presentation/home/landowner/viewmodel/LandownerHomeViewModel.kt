@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.home.landowner.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -104,8 +105,8 @@ class LandownerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
+                        getLastDetection()
                     }
-
                 }
             }
         }
@@ -115,8 +116,8 @@ class LandownerHomeViewModel @Inject constructor(
         viewModelScope.launch {
             fetchLandHistoryUseCase(
                 userDataPreference.getLastLandDataHistoryId().toInt()
-            ).collect { state ->
-                when (state) {
+            ).collect {
+                when (it) {
                     is State.Error -> {
                         _loading.value = false
                     }
@@ -131,9 +132,10 @@ class LandownerHomeViewModel @Inject constructor(
 
                     is State.Success -> {
                         _loading.value = false
+                        getLastLandHistoryItem()
                     }
-
                 }
+
             }
         }
     }
@@ -166,23 +168,40 @@ class LandownerHomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLastLandHistoryItem() {
-        getLastLandHistoryItemUseCase()?.let { landData ->
-            userDataPreference.saveLastLandDataHistoryId(landData.remote_id.toString())
-            _landActionType.value = landData.action_type
-            _landActionDate.value = landData.date
-            _landActionTime.value = landData.time
+    fun getLastLandHistoryItem() {
+        viewModelScope.launch {
+            getLastLandHistoryItemUseCase().let { landData ->
+                if (landData != null) {
+                    _landActionType.value = landData.action_type
+                    _landActionDate.value = landData.date
+                    _landActionTime.value = landData.time
+                } else {
+                    _landActionType.value = ""
+                    _landActionDate.value = ""
+                    _landActionTime.value = ""
+                }
+            }
         }
     }
 
-    suspend fun getLastDetection() {
-        getLastDetectionUseCase()?.let { detection ->
-            userDataPreference.saveLastDetectionHistoryId(detection.remoteId.toString())
-            _imageUrl.value = detection.imageUrl
-            _detectionUsername.value = detection.username
-            _detectionDate.value = detection.date
-            _detectionTime.value = detection.time
-            _detectionRemoteId.value = detection.remoteId
+    fun getLastDetection() {
+        viewModelScope.launch {
+            getLastDetectionUseCase().let { detection ->
+                Log.d("Detection", "getLastDetection: $detection")
+                if (detection != null) {
+                    _imageUrl.value = detection.imageUrl
+                    _detectionUsername.value = detection.username
+                    _detectionDate.value = detection.date
+                    _detectionTime.value = detection.time
+                    _detectionRemoteId.value = detection.remoteId
+                } else {
+                    _imageUrl.value = ""
+                    _detectionUsername.value = ""
+                    _detectionDate.value = ""
+                    _detectionTime.value = ""
+                    _detectionRemoteId.value = 0
+                }
+            }
         }
     }
 
@@ -238,9 +257,8 @@ class LandownerHomeViewModel @Inject constructor(
         getCrop()
         getUsername()
         getTanksData()
-        viewModelScope.launch {
-            getLastDetection()
-            getLastLandHistoryItem()
-        }
+        getLastDetection()
+        getLastLandHistoryItem()
+
     }
 }

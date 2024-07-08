@@ -1,9 +1,13 @@
 package com.example.hapi.presentation.detection.imageselection
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -23,15 +27,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.hapi.MainActivity
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.common.TextWithIcon
 import com.example.hapi.presentation.home.detectiondetails.ui.navigateToDetectionDetails
-import com.example.hapi.presentation.home.loading.Loading
+import com.example.hapi.presentation.common.Loading
 import com.example.hapi.presentation.main.MainViewModel
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
@@ -40,6 +46,7 @@ import com.example.hapi.util.Tab
 import com.example.hapi.util.uriToByteArray
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun ImageSelection(
     navController: NavController,
@@ -55,6 +62,15 @@ fun ImageSelection(
     val isEnglish = languageViewModel.appLanguage.collectAsState().value == ENGLISH
 
     val context = LocalContext.current
+
+
+    if (!hasRequiredPermissions(context)) {
+        ActivityCompat.requestPermissions(
+            context as MainActivity,
+            MainActivity.PERMISSIONS,
+            0
+        )
+    }
 
     val cameraController = remember {
         LifecycleCameraController(context).apply {
@@ -116,6 +132,8 @@ fun ImageSelection(
             .background(GreenAppColor)
             .padding(vertical = 12.dp, horizontal = 24.dp)
     ) {
+
+
 
 
         val (header, camera, bottomText) = createRefs()
@@ -182,7 +200,24 @@ fun ImageSelection(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun hasRequiredPermissions(
+    context: Context
+): Boolean {
 
+    val permissions = arrayOf(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.READ_MEDIA_IMAGES
+    )
+    return permissions.all { permission ->
+        ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview
 @Composable
 fun ImageCapturePreview() {

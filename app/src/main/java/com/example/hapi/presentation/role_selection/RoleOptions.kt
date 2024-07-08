@@ -90,7 +90,7 @@ private fun RoleOptionCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(YellowAppColor)
-            .padding(12.dp)
+            .padding(vertical = 16.dp)
             .clickable {
                 onClick()
             },

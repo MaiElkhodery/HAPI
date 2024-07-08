@@ -78,7 +78,7 @@ private fun LastDetectionInfo(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(vertical = 12.dp, horizontal = 14.dp),
+            .padding(vertical = 10.dp, horizontal = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

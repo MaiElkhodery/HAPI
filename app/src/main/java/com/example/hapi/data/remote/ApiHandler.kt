@@ -40,7 +40,7 @@ open class ApiHandler @Inject constructor(private val gson: Gson) {
 
     private fun <T : Any> handleException(e: Exception): State<T> {
         return when (e) {
-            is IOException -> State.Exception("Network error occurred. Please check your internet connection.")
+            is IOException -> State.Exception("Please check your internet connection.")
             is HttpException -> State.Exception("Server error occurred. Please try again.")
             else -> State.Exception("Unknown error occurred.")
         }

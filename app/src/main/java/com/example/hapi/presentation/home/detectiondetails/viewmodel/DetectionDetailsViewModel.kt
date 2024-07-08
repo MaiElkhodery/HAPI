@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.detectiondetails.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.datastore.UserDataPreference
@@ -58,7 +57,7 @@ class DetectionDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _role.value = userDataPreference.getRole()!!
+            _role.value = userDataPreference.getRole()
         }
     }
 
@@ -71,12 +70,10 @@ class DetectionDetailsViewModel @Inject constructor(
                     is State.Error -> {
                         _loading.value = false
                         _errorMsg.value = state.error.message
-                        Log.d("DetectionViewModel", "detectDisease: ${state.error.message}")
                     }
 
                     is State.Loading -> {
                         _loading.value = true
-                        Log.d("DetectionViewModel", "loading")
                     }
 
                     is State.Success -> {
@@ -88,15 +85,12 @@ class DetectionDetailsViewModel @Inject constructor(
                         _username.value = state.result.username
                         _imageUrl.value = state.result.image_url
                         _diseaseName.value = state.result.disease_name
-
-                        Log.d("DetectionViewModel", "detectDisease: ${state.result}")
-                        Log.d("DetectionViewModel", "detectDisease: ${state.result.image_url}")
+                        _link.value = state.result.info_link
                     }
 
-                    is State.Exception->{
+                    is State.Exception -> {
                         _loading.value = false
                         _errorMsg.value = state.msg
-                        Log.d("DetectionViewModel", "detectDisease: ${state.msg}")
                     }
                 }
             }

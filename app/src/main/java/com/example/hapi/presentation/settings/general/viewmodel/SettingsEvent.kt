@@ -7,4 +7,6 @@ sealed class SettingsEvent {
     data class ChangePassword(
         val password: String
     ) : SettingsEvent()
+
+    data object ResetPasswordError:SettingsEvent()
 }

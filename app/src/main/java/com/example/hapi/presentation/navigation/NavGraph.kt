@@ -21,7 +21,7 @@ import com.example.hapi.presentation.main.mainRoute
 import com.example.hapi.presentation.progress.progressRoute
 import com.example.hapi.presentation.role_selection.roleSelectionRoute
 import com.example.hapi.presentation.settings.about.aboutUsRoute
-import com.example.hapi.presentation.settings.data_and_storage.ui.dataAndStorageRoute
+import com.example.hapi.presentation.settings.data_and_storage.dataAndStorageRoute
 import com.example.hapi.presentation.settings.farmers.ui.farmersRoute
 import com.example.hapi.presentation.settings.general.ui.settingsRoute
 import com.example.hapi.presentation.settings.language.languageSettingsRoute

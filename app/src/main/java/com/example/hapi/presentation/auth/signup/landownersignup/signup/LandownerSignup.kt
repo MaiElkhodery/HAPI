@@ -27,7 +27,7 @@ import com.example.hapi.R
 import com.example.hapi.presentation.auth.signup.landownersignup.selectionstrategy.navigateToCropSelectionStrategy
 import com.example.hapi.presentation.auth.viewmodel.AuthEvent
 import com.example.hapi.presentation.auth.viewmodel.AuthViewModel
-import com.example.hapi.presentation.common.AuthWarningBox
+import com.example.hapi.presentation.common.RedWarningBox
 import com.example.hapi.presentation.common.ConfirmButton
 import com.example.hapi.presentation.common.LabeledInputFields
 import com.example.hapi.presentation.common.Logo
@@ -74,7 +74,7 @@ fun LandownerSignup(
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
         val fontSize = when {
-            screenWidth <= 360.dp -> 13
+            screenWidth < 360.dp -> 13
             screenWidth in 360.dp..400.dp -> 15
             else -> 17
         }
@@ -121,7 +121,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangePhoneNumber(phoneNumber))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth,
                 warningText = phoneNumberError
             )
@@ -135,7 +135,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangeUserName(username))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth,
                 warningText = usernameError
             )
@@ -149,7 +149,7 @@ fun LandownerSignup(
                 viewModel.onEvent(AuthEvent.ChangePassword(password))
             }
 
-            AuthWarningBox(
+            RedWarningBox(
                 width = screenWidth,
                 warningText = passwordError
             )

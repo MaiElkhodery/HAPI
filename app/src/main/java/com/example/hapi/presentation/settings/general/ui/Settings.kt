@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.settings.general.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +28,7 @@ import com.example.hapi.presentation.language_setup.navigateToLanguageSetUp
 import com.example.hapi.presentation.settings.about.navigateToAboutUs
 import com.example.hapi.presentation.settings.common.LandIdRow
 import com.example.hapi.presentation.settings.common.WarningDialogWithPassword
-import com.example.hapi.presentation.settings.data_and_storage.ui.navigateToDataAndStorage
-import com.example.hapi.presentation.settings.data_and_storage.viewmodel.DataAndStorageViewModel
+import com.example.hapi.presentation.settings.data_and_storage.navigateToDataAndStorage
 import com.example.hapi.presentation.settings.farmers.ui.navigateToFarmers
 import com.example.hapi.presentation.settings.general.viewmodel.SettingsEvent
 import com.example.hapi.presentation.settings.general.viewmodel.SettingsViewModel
@@ -41,19 +41,19 @@ import com.example.hapi.util.LANDOWNER
 @Composable
 fun Settings(
     navController: NavController,
-    viewModel: SettingsViewModel = hiltViewModel(),
-    dataAndStorageViewModel: DataAndStorageViewModel = hiltViewModel()
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
 
-    val landId = viewModel.landId.collectAsState().value
-    val role = viewModel.role.collectAsState().value
-    val isLoggedOut = viewModel.isLoggedOut.collectAsState().value
+    val landId = settingsViewModel.landId.collectAsState().value
+    val role = settingsViewModel.role.collectAsState().value
+    val isLoggedOut = settingsViewModel.isLoggedOut.collectAsState().value
+    val isPasswordWrong = settingsViewModel.passwordError.collectAsState().value
 
     var openDialog by remember { mutableStateOf(false) }
     var openDialogWithPassword by remember { mutableStateOf(false) }
 
     var warningText by remember { mutableStateOf("") }
-    var additionalWarningText by remember { mutableStateOf("") }
+    val additionalWarningText by remember { mutableStateOf("") }
     var onClickConfirm by remember { mutableStateOf({}) }
 
     val logoutWarning = stringResource(id = R.string.logout)
@@ -61,8 +61,10 @@ fun Settings(
     val clearDetectionWarning = stringResource(id = R.string.clear_detection_history)
 
     LaunchedEffect(isLoggedOut) {
-        if (isLoggedOut)
+        if (isLoggedOut) {
+            openDialog = false
             navController.navigateToLanguageSetUp()
+        }
     }
 
     ConstraintLayout(
@@ -117,7 +119,7 @@ fun Settings(
                         openDialogWithPassword = true
                         warningText = deleteAccountWarning
                         onClickConfirm = {
-                            viewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
+                            settingsViewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
                         }
                     },
                     onLogoutClick = {
@@ -125,7 +127,7 @@ fun Settings(
                         openDialogWithPassword = true
                         warningText = logoutWarning
                         onClickConfirm = {
-                            viewModel.onEvent(SettingsEvent.OnClickLogout)
+                            settingsViewModel.onEvent(SettingsEvent.OnClickLogout)
                         }
                     }
                 )
@@ -138,7 +140,7 @@ fun Settings(
                         openDialogWithPassword = false
                         warningText = clearDetectionWarning
                         onClickConfirm = {
-                            dataAndStorageViewModel.deleteDetectionHistory()
+                            settingsViewModel.deleteDetectionHistory()
                             openDialog = false
                         }
                     },
@@ -149,7 +151,7 @@ fun Settings(
                         openDialogWithPassword = true
                         warningText = deleteAccountWarning
                         onClickConfirm = {
-                            viewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
+                            settingsViewModel.onEvent(SettingsEvent.OnClickDeleteAccount)
                         }
                     },
                     onLogoutClick = {
@@ -157,7 +159,7 @@ fun Settings(
                         openDialogWithPassword = true
                         warningText = logoutWarning
                         onClickConfirm = {
-                            viewModel.onEvent(SettingsEvent.OnClickLogout)
+                            settingsViewModel.onEvent(SettingsEvent.OnClickLogout)
                         }
                     }
                 )
@@ -169,11 +171,12 @@ fun Settings(
             WarningDialogWithPassword(
                 withPassword = openDialogWithPassword,
                 warningText = warningText,
+                isWrongPassword = settingsViewModel.passwordError,
                 additionalWarningText = additionalWarningText,
-                password = viewModel.password,
+                password = settingsViewModel.password,
                 onClickConfirm = onClickConfirm,
                 onChangePassword = { password ->
-                    viewModel.onEvent(SettingsEvent.ChangePassword(password))
+                    settingsViewModel.onEvent(SettingsEvent.ChangePassword(password))
                 },
                 onClickCancel = { openDialog = false }
             )

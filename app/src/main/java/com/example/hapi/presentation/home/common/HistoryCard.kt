@@ -44,7 +44,7 @@ fun VerticalHistoryCard(
     ) {
         Image(
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = 4.dp)
                 .size(50.dp),
             painter = painterResource(
                 id = if (isLand) {
@@ -56,10 +56,10 @@ fun VerticalHistoryCard(
             contentDescription = null
         )
         DarkGreenBlackText(
-            size = 15,
+            size = 14,
             text = if (isLand) stringResource(id = R.string.land_history)
             else stringResource(id = R.string.disease_history),
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 4.dp)
         )
     }
 
@@ -98,7 +98,7 @@ fun HorizontalHistoryCard(
                 contentDescription = null
             )
             DarkGreenBlackText(
-                size = 15,
+                size = 14,
                 text = stringResource(id = R.string.disease_history_horizontal),
                 modifier = Modifier.padding(bottom = 8.dp)
             )

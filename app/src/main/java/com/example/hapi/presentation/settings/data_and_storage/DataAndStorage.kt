@@ -143,7 +143,7 @@ fun DataAndStorage(
                 WarningDialogWithPassword(
                     withPassword = withPassword,
                     warningText = warningText,
-                    isWrongPassword = isPasswordWrong,
+                    isWrongPassword = settingsViewModel.passwordError,
                     additionalWarningText = additionalWarningText,
                     password = settingsViewModel.password,
                     onClickConfirm = onClickConfirm,

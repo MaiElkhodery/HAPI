@@ -1,7 +1,6 @@
 package com.example.hapi
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,17 +11,15 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.example.hapi.data.local.datastore.UserDataPreference
+import com.example.hapi.presentation.common.SetStatusBarColor
 import com.example.hapi.presentation.navigation.NavGraph
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.HapiTheme
 import com.example.hapi.ui.theme.YellowAppColor
 import com.example.hapi.util.LocaleHelper
-import com.example.hapi.presentation.common.SetStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -48,14 +45,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            if (!hasRequiredPermissions()) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS,
-                    0
-                )
-            }
-
 
             runBlocking {
                 initLanguage()
@@ -64,7 +53,7 @@ class MainActivity : ComponentActivity() {
             val languageViewModel: LanguageViewModel by lazy {
                 LanguageViewModel(datastore)
             }
-            
+
             val language = languageViewModel.appLanguage.collectAsState().value
             val isRtl = getRtlMode(language)
             val direction =
@@ -96,16 +85,6 @@ class MainActivity : ComponentActivity() {
             android.Manifest.permission.CAMERA,
             android.Manifest.permission.READ_MEDIA_IMAGES
         )
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun hasRequiredPermissions(): Boolean {
-        return PERMISSIONS.all { permission ->
-            ContextCompat.checkSelfPermission(
-                applicationContext,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
-        }
     }
 
     private suspend fun initLanguage() {

@@ -1,6 +1,5 @@
 package com.example.hapi.presentation.home.detectionhistory.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hapi.data.local.room.entities.DetectionOfHistory
@@ -31,11 +30,6 @@ class DetectionHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             getDetectionHistoryUseCase()?.let {
                 _detectionList.value = it
-                _detectionList.value.forEach {
-                    Log.d("DetectionHistoryViewModel", it.toString())
-
-                }
-                Log.d("DetectionHistoryViewModel", detectionList.value.size.toString())
             }
         }
     }
@@ -44,7 +38,6 @@ class DetectionHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             detectionHistoryByUsernameUseCase()?.let {
                 _detectionList.value = it
-                Log.d("DetectionHistoryViewModel", detectionList.toString())
             }
         }
     }

@@ -25,19 +25,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hapi.R
 import com.example.hapi.presentation.common.NavHeader
 import com.example.hapi.presentation.home.detectiondetails.viewmodel.DetectionDetailsViewModel
-import com.example.hapi.presentation.main.MainViewModel
-import com.example.hapi.presentation.main.navigateToMainScreen
 import com.example.hapi.presentation.settings.language.LanguageViewModel
 import com.example.hapi.ui.theme.GreenAppColor
 import com.example.hapi.util.ENGLISH
-import com.example.hapi.util.Tab
 
 @Composable
 fun DetectionDetails(
     navController: NavController,
     detectionDetailsViewModel: DetectionDetailsViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel(),
-    mainViewModel: MainViewModel = hiltViewModel(),
     id: Int,
     isCurrentDetection: Boolean
 ) {
@@ -50,7 +46,6 @@ fun DetectionDetails(
         }
     }
 
-    val role = detectionDetailsViewModel.role.collectAsState().value
     val imageLocalUri = detectionDetailsViewModel.imageLocalUri.collectAsState().value
     val username = detectionDetailsViewModel.username.collectAsState().value
     val date = detectionDetailsViewModel.date.collectAsState().value
@@ -72,8 +67,8 @@ fun DetectionDetails(
         val screenHeight = maxHeight
         val screenWidth = maxWidth
 
-        val smallPadding = screenHeight * 0.04f
-        val largePadding = screenHeight * 0.03f
+        val smallPadding = screenHeight * 0.03f
+        val largePadding = screenHeight * 0.05f
         val backIconSize = if (screenHeight < 650.dp) 60 else 75
         val horizontalPadding = if (screenWidth < 400.dp) 24.dp else 28.dp
 
@@ -95,49 +90,42 @@ fun DetectionDetails(
                 imageId = if (isEnglish) R.drawable.back_btn else R.drawable.sign_back_btn_ar,
                 imageSize = backIconSize
             ) {
-                if (role.isNotBlank()) {
-                    if (isCurrentDetection) {
-                        mainViewModel.setSelectedTab(Tab.CAMERA)
-                        navController.navigateToMainScreen(role)
-                    } else {
-                        navController.popBackStack()
+                navController.popBackStack()
+            }
+
+            Spacer(modifier = Modifier.height(largePadding))
+
+            if (crop.isNotBlank()) {
+                DetectionDetailsData(
+                    modifier = Modifier,
+                    crop = crop,
+                    imageUrl = imageUrl,
+                    imageLocalUri = imageLocalUri,
+                    username = username,
+                    date = date,
+                    time = time
+                )
+
+                Spacer(modifier = Modifier.height(largePadding))
+
+                if (diseaseName.isBlank()) {
+                    HealthyResult(certainty = certainty)
+
+                } else {
+
+                    DiseasedResult(
+                        diseaseName = diseaseName, certainty = certainty
+                    ) {
+                        ContextCompat.startActivity(
+                            context,
+                            Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                            null
+                        )
                     }
-                } else if (isCurrentDetection) {
-                    navController.popBackStack()
-                }
-            }
 
-            Spacer(modifier = Modifier.height(largePadding))
-
-            DetectionDetailsData(
-                modifier = Modifier,
-                crop = crop,
-                imageUrl = imageUrl,
-                imageLocalUri = imageLocalUri,
-                username = username,
-                date = date,
-                time = time
-            )
-
-            Spacer(modifier = Modifier.height(largePadding))
-
-            if (diseaseName.isBlank()) {
-                HealthyResult(certainty = certainty)
-
-            } else {
-
-                DiseasedResult(
-                    diseaseName = diseaseName, certainty = certainty
-                ) {
-                    ContextCompat.startActivity(
-                        context,
-                        Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                        null
-                    )
                 }
 
             }
-
         }
     }
 }

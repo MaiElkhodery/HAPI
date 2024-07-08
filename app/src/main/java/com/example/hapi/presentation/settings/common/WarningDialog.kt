@@ -1,5 +1,6 @@
 package com.example.hapi.presentation.settings.common
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,6 +51,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.hapi.R
 import com.example.hapi.presentation.common.DarkGreenBoldText
 import com.example.hapi.presentation.common.RedBlackText
+import com.example.hapi.presentation.common.RedWarningBox
 import com.example.hapi.presentation.common.YellowBlackText
 import com.example.hapi.ui.theme.DarkGreenAppColor
 import com.example.hapi.ui.theme.WarningColor
@@ -60,6 +62,7 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun WarningDialogWithPassword(
     modifier: Modifier = Modifier,
+    isWrongPassword: StateFlow<Boolean>,
     withPassword: Boolean = true,
     warningText: String,
     additionalWarningText: String,
@@ -68,7 +71,7 @@ fun WarningDialogWithPassword(
     onChangePassword: (String) -> Unit,
     onClickCancel: () -> Unit
 ) {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = { onClickCancel() }) {
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -79,7 +82,7 @@ fun WarningDialogWithPassword(
             CancelButton {
                 onClickCancel()
             }
-            WarningRow(
+            GreenWarningRow(
                 text = warningText
             )
             if (additionalWarningText.isNotBlank()) {
@@ -101,11 +104,21 @@ fun WarningDialogWithPassword(
                     DarkGreenBoldText(size = 12, text = additionalWarningText)
                 }
             }
-            if (withPassword) {
-                ConfirmPassword(content = password) { password ->
+
+            if (withPassword)
+                PasswordInputField(content = password) { password ->
                     onChangePassword(password)
                 }
-            }
+            Log.d(
+                "WarningDialogWithPassword",
+                "WarningDialogWithPassword: isWrongPassword.value: ${isWrongPassword.value}"
+            )
+            if (isWrongPassword.value)
+                RedWarningBox(
+                    modifier = Modifier.padding(horizontal = 18.dp),
+                    width = 300.dp,
+                    warningText = stringResource(id = R.string.wrong_password)
+                )
             ConfirmButton(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -137,7 +150,7 @@ fun ConfirmButton(
 }
 
 @Composable
-private fun WarningRow(
+private fun GreenWarningRow(
     modifier: Modifier = Modifier,
     text: String
 ) {
@@ -155,7 +168,7 @@ private fun WarningRow(
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical=14.dp, horizontal = 5.dp)
+                .padding(vertical = 14.dp, horizontal = 5.dp)
                 .weight(.4f)
         )
 
@@ -201,7 +214,7 @@ fun CancelButton(
 }
 
 @Composable
-private fun ConfirmPassword(
+private fun PasswordInputField(
     content: StateFlow<String>,
     onChangeText: (String) -> Unit
 ) {
@@ -274,6 +287,7 @@ private fun WarningDialogWithPasswordPreview() {
     WarningDialogWithPassword(
         warningText = stringResource(id = R.string.delete_account_warning),
         password = MutableStateFlow("098765"),
+        isWrongPassword = MutableStateFlow(false),
         additionalWarningText = "This action cannot be undone.",
         onClickConfirm = {},
         onChangePassword = {},

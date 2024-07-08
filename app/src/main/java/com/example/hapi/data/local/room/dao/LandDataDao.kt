@@ -19,8 +19,8 @@ interface LandDataDao {
     @Query("SELECT * FROM LandData")
     suspend fun getAllLandData(): List<LandData>?
 
-    @Query("SELECT * FROM LandData ORDER BY remote_id DESC LIMIT 1")
-    suspend fun getLastLandDataByRemoteId(): LandData?
+    @Query("SELECT * FROM LandData WHERE remote_id = :id")
+    suspend fun getLastLandDataByRemoteId(id:Int): LandData?
 
     @Query("SELECT * FROM LandData WHERE action_type = :actionType")
     suspend fun getLandDataByActionType(actionType: String): List<LandData>?
